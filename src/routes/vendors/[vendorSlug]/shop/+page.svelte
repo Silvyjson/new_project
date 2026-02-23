@@ -61,7 +61,7 @@
 
 <main class="min-h-screen bg-background-light">
     <!-- 🔷 SECTION 1: VENDOR SUMMARY STRIP -->
-    <section class="bg-surface border-b border-gray-200 py-6">
+    <section class="sticky top-0 z-50 bg-surface border-b border-gray-200 py-6">
         <div class="container max-w-7xl mx-auto px-4">
             <div
                 class="flex flex-col md:flex-row items-center justify-between gap-4"
@@ -153,7 +153,7 @@
 
     <!-- 🔷 SECTION 3: FILTER & SORT BAR -->
     <section
-        class="sticky top-20 z-40 bg-background-light border-b border-gray-200 py-6"
+        class="sticky top-25 z-40 bg-background-light border-b border-gray-200 py-6"
     >
         <div class="container max-w-7xl mx-auto px-4">
             <div
@@ -276,7 +276,7 @@
                         Try adjusting your filters to find what you're looking
                         for.
                     </p>
-                    <Button variant="outline" on:click={clearAllFilters}
+                    <Button variant="outline" onclick={clearAllFilters}
                         >Clear All Filters</Button
                     >
                 </Card>

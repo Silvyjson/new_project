@@ -204,6 +204,10 @@
           >Vendors</a
         >
         <a
+          href="/shops"
+          class="text-text-muted hover:text-primary transition-colors">Shops</a
+        >
+        <a
           href="/pricing"
           class="text-text-muted hover:text-primary transition-colors"
           >Pricing</a
@@ -499,7 +503,7 @@
             Try adjusting your filters or search terms to find what you're
             looking for.
           </p>
-          <Button variant="outline" on:click={clearAllFilters}
+          <Button variant="outline" onclick={clearAllFilters}
             >Clear All Filters</Button
           >
         </Card>

@@ -1,6 +1,7 @@
 // src/routes/shops/[shopSlug]/+page.ts
 import type { PageLoad } from './$types';
 import { error } from '@sveltejs/kit';
+import type { Product } from '$lib/types';
 
 // Mock shop data - Replace with real API
 const mockShop = {
@@ -14,6 +15,7 @@ const mockShop = {
     category: 'Footwear',
     vendorId: 'v_001',
     vendorName: 'Kicks NG',
+    vendorSlug: 'tech-deals-ng',
     vendorVerified: true,
     trustScore: 92,
     rating: 4.8,
@@ -42,7 +44,7 @@ const mockShop = {
 };
 
 // Mock products data
-const mockProducts = [
+const mockProducts: Product[] = [
     {
         id: 'p_001',
         code: 'UK-AJ1-001',
@@ -59,11 +61,12 @@ const mockProducts = [
         stockStatus: 'in-stock',
         stockCount: 12,
         rating: 4.9,
-        reviewCount: 45,
-        featured: true,
         new: false,
         sale: true,
-        preorder: false
+        preorder: false,
+        vendorId: 'v_001',
+        createdAt: new Date(),
+        reviewCount: 45
     },
     {
         id: 'p_002',
@@ -80,11 +83,12 @@ const mockProducts = [
         stockStatus: 'in-stock',
         stockCount: 8,
         rating: 4.7,
-        reviewCount: 32,
-        featured: true,
         new: true,
         sale: false,
-        preorder: false
+        preorder: false,
+        vendorId: 'v_001',
+        createdAt: new Date(),
+        reviewCount: 32
     },
     {
         id: 'p_003',
@@ -102,11 +106,12 @@ const mockProducts = [
         stockCount: null,
         preorderNote: 'Expected delivery: 14-21 days',
         rating: 4.8,
-        reviewCount: 67,
-        featured: true,
         new: false,
         sale: true,
-        preorder: true
+        preorder: true,
+        vendorId: 'v_001',
+        createdAt: new Date(),
+        reviewCount: 67
     },
     {
         id: 'p_004',
@@ -123,11 +128,12 @@ const mockProducts = [
         stockStatus: 'in-stock',
         stockCount: 20,
         rating: 4.6,
-        reviewCount: 89,
-        featured: false,
         new: false,
         sale: false,
-        preorder: false
+        preorder: false,
+        vendorId: 'v_001',
+        createdAt: new Date(),
+        reviewCount: 89
     },
     {
         id: 'p_005',
@@ -144,11 +150,12 @@ const mockProducts = [
         stockStatus: 'in-stock',
         stockCount: 15,
         rating: 4.5,
-        reviewCount: 54,
-        featured: false,
         new: false,
         sale: true,
-        preorder: false
+        preorder: false,
+        vendorId: 'v_001',
+        createdAt: new Date(),
+        reviewCount: 54
     },
     {
         id: 'p_006',
@@ -165,11 +172,12 @@ const mockProducts = [
         stockStatus: 'in-stock',
         stockCount: 25,
         rating: 4.7,
-        reviewCount: 76,
-        featured: false,
         new: true,
         sale: false,
-        preorder: false
+        preorder: false,
+        vendorId: 'v_001',
+        createdAt: new Date(),
+        reviewCount: 76
     },
     {
         id: 'p_007',
@@ -186,11 +194,12 @@ const mockProducts = [
         stockStatus: 'in-stock',
         stockCount: 10,
         rating: 4.4,
-        reviewCount: 28,
-        featured: false,
         new: false,
         sale: false,
-        preorder: false
+        preorder: false,
+        vendorId: 'v_001',
+        createdAt: new Date(),
+        reviewCount: 28
     },
     {
         id: 'p_008',
@@ -207,6 +216,8 @@ const mockProducts = [
         stockStatus: 'in-stock',
         stockCount: 18,
         rating: 4.6,
+        vendorId: 'v_001',
+        createdAt: new Date(),
         reviewCount: 41,
         featured: false,
         new: false,

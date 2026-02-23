@@ -20,11 +20,25 @@ export interface Product {
     new: boolean;
     rating: number;
     reviewCount: number;
-    oldPrice: number;
+    oldPrice?: number | null;
+    featured?: boolean;
     stockStatus: StockStatus;
-    stockCount?: number; // Optional: show "X left" for in-stock items
+    stockCount?: number | null; // Optional: show "X left" for in-stock items
     preorderNote?: string;
     category: string;
+    shipping?: {
+        price?: number;
+        freeShipping?: boolean;
+        estimatedDays?: string;
+        expressAvailable?: boolean;
+        expressDays?: string;
+        expressPrice?: number;
+    };
+    returns?: {
+        allowed?: boolean;
+        days?: number;
+        conditions?: string;
+    };
     createdAt: Date;
 }
 

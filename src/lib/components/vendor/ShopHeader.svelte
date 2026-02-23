@@ -82,7 +82,7 @@
                 <Button
                     variant="secondary"
                     size="sm"
-                    on:click={copyShopLink}
+                    onclick={copyShopLink}
                     title="Copy shop link to clipboard"
                     className="!bg-white/10 !text-white hover:!bg-white/20 border border-white/30"
                 >

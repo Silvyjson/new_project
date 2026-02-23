@@ -31,10 +31,7 @@
   };
 </script>
 
-<a
-  href="/shops/{shopSlug}/products/{product.code}"
-  class="block group {className}"
->
+<a href="/shops/{shopSlug}/{product.code}" class="block group {className}">
   <Card
     hover={true}
     padding="none"

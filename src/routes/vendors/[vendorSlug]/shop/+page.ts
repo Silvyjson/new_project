@@ -67,11 +67,11 @@ const mockVendors = [
 ];
 
 // Mock Shops per Vendor
-const mockShops = {
+const mockShops: Record<string, any[]> = {
   'v_001': [
     {
       id: 's_001',
-      slug: 'amina-fashion/main',
+      slug: 'amina-fashion-main',
       name: 'Amina Fashion Main',
       description: 'Our main store with premium handmade clothing & accessories.',
       category: 'Fashion',
@@ -85,7 +85,7 @@ const mockShops = {
     },
     {
       id: 's_002',
-      slug: 'amina-fashion/accessories',
+      slug: 'amina-fashion-accessories',
       name: 'Amina Accessories',
       description: 'Handmade accessories including bags, jewelry, and belts.',
       category: 'Accessories',
@@ -99,7 +99,7 @@ const mockShops = {
     },
     {
       id: 's_003',
-      slug: 'amina-fashion/handmade',
+      slug: 'amina-fashion-handmade',
       name: 'Amina Handmade',
       description: 'Exclusive handmade items with limited edition designs.',
       category: 'Accessories',
@@ -116,7 +116,7 @@ const mockShops = {
   'v_002': [
     {
       id: 's_004',
-      slug: 'tech-deals-ng/main',
+      slug: 'tech-deals-ng-main',
       name: 'Tech Deals Main',
       description: 'Authentic electronics and gadgets with warranty included.',
       category: 'Electronics',
@@ -130,7 +130,7 @@ const mockShops = {
     },
     {
       id: 's_005',
-      slug: 'tech-deals-ng/gadgets',
+      slug: 'tech-deals-ng-gadgets',
       name: 'Tech Gadgets',
       description: 'All kinds of gadgets, from smartphones to accessories.',
       category: 'Gadgets',
@@ -147,7 +147,7 @@ const mockShops = {
   'v_003': [
     {
       id: 's_006',
-      slug: 'beauty-box/main',
+      slug: 'beauty-box-main',
       name: 'Beauty Box Main',
       description: 'Organic skincare & makeup. Cruelty-free products only.',
       category: 'Beauty',
@@ -164,7 +164,7 @@ const mockShops = {
   'v_004': [
     {
       id: 's_007',
-      slug: 'home-essentials/main',
+      slug: 'home-essentials-main',
       name: 'Home Essentials Main',
       description: 'Quality home decor & kitchen items to make homes beautiful.',
       category: 'Home',
@@ -181,7 +181,7 @@ const mockShops = {
   'v_005': [
     {
       id: 's_008',
-      slug: 'fit-life-store/main',
+      slug: 'fit-life-store-main',
       name: 'Fit Life Main',
       description: 'Sports equipment, supplements & activewear.',
       category: 'Sports',
@@ -195,7 +195,7 @@ const mockShops = {
     },
     {
       id: 's_009',
-      slug: 'fit-life-store/activewear',
+      slug: 'fit-life-store-activewear',
       name: 'Fit Activewear',
       description: 'Activewear and supplements for a healthier lifestyle.',
       category: 'Health',
@@ -212,7 +212,7 @@ const mockShops = {
   'v_006': [
     {
       id: 's_010',
-      slug: 'kids-corner/main',
+      slug: 'kids-corner-main',
       name: 'Kids Corner Main',
       description: 'Toys, clothing & accessories for children. Safe & fun products.',
       category: 'Kids',

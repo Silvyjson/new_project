@@ -15,7 +15,7 @@
 {#if displayedProducts.length > 0}
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
         {#each displayedProducts as product (product.id)}
-            <ProductCard {product} {vendorSlug} />
+            <ProductCard {product} shopSlug={vendorSlug} />
         {/each}
     </div>
 {:else}

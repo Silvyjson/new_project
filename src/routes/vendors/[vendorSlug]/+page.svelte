@@ -699,7 +699,7 @@
   </section>
 
   <!-- 🔷 SECTION 8: TRUST & SAFETY REMINDER -->
-  <section class="py-16 bg-dark text-text-inverse">
+  <!-- <section class="py-16 bg-dark text-text-inverse">
     <div class="container max-w-4xl mx-auto px-4 text-center">
       <h2 class="text-h2 mb-6">Your Payment is Protected</h2>
       <p class="text-lg opacity-90 mb-8">
@@ -717,7 +717,7 @@
         {/each}
       </div>
     </div>
-  </section>
+  </section> -->
 
   <!-- 🔷 SECTION 9: FINAL CTA -->
   <section

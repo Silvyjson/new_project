@@ -281,6 +281,16 @@
                                     >
                                 {/if}
                             </div>
+
+                            <!-- Subtle Vendor Link (Small & Minimal) -->
+                            <p class="text-xs text-white/60 mb-4">
+                                by <a
+                                    href="/vendors/{shop.vendorSlug}"
+                                    class="text-white/80 hover:text-white underline decoration-white/30 hover:decoration-white transition-all"
+                                    >{shop.vendorName}</a
+                                >
+                            </p>
+
                             <div class="flex gap-3">
                                 <Button
                                     href="#products"
@@ -493,7 +503,7 @@
                         Try adjusting your filters to find what you're looking
                         for.
                     </p>
-                    <Button variant="outline" on:click={clearAllFilters}
+                    <Button variant="outline" onclick={clearAllFilters}
                         >Clear All Filters</Button
                     >
                 </Card>
@@ -641,7 +651,7 @@
                                 <div
                                     class="h-full bg-yellow-400"
                                     style="width: {(shop.ratingBreakdown[
-                                        stars
+                                        stars as keyof typeof shop.ratingBreakdown
                                     ] /
                                         shop.reviewCount) *
                                         100}%"
@@ -649,7 +659,9 @@
                             </div>
                             <span
                                 class="text-small text-text-muted w-12 text-right"
-                                >{shop.ratingBreakdown[stars]}</span
+                                >{shop.ratingBreakdown[
+                                    stars as keyof typeof shop.ratingBreakdown
+                                ]}</span
                             >
                         </div>
                     {/each}
