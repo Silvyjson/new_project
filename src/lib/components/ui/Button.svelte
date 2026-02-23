@@ -7,6 +7,8 @@
     export let type: "button" | "submit" | "reset" = "button";
     export let disabled = false;
     export let className: string = "";
+    export let title: string = "";
+    export let onClick: () => void = () => {};
 
     // Class composition
     $: baseClasses =
@@ -36,7 +38,7 @@
         <slot />
     </a>
 {:else}
-    <button {type} class={classes} {disabled}>
+    <button {type} class={classes} {disabled} title={title} on:click={onClick}>
         <slot />
     </button>
 {/if}

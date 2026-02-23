@@ -5,7 +5,7 @@
     import Card from "$lib/components/ui/Card.svelte";
 
     export let products: Product[];
-    export let vendorSlug: string;
+    export let vendorSlug: string = "";
     export let limit: number | null = null;
     export let emptyMessage: string = "No products found.";
 

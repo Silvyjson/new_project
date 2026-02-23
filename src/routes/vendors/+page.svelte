@@ -9,6 +9,7 @@
   import TrustScore from '$lib/components/ui/TrustScore.svelte';
   import TrustBadge from '$lib/components/ui/TrustBadge.svelte';
   import ProductGrid from '$lib/components/vendor/ProductGrid.svelte';
+  import Card from '$lib/components/ui/Card.svelte';
   
   export let data: {
     vendor: Vendor;
@@ -150,9 +151,9 @@
     </div>
 
     {#if products.length > 0}
-      <ProductGrid {products} limit={4} />
+      <ProductGrid {products}  limit={4} />
     {:else}
-      <Card class="p-8 text-center text-gray-muted">
+      <Card className="p-8 text-center text-gray-muted">
         <p>No products yet. Check back soon!</p>
       </Card>
     {/if}
@@ -161,7 +162,7 @@
   <!-- Trust & Safety Reminder -->
   <section class="py-8 px-4 bg-gray-light">
     <div class="max-w-7xl mx-auto">
-      <Card class="p-6 flex flex-col md:flex-row items-center gap-4">
+      <Card className="p-6 flex flex-col md:flex-row items-center gap-4">
         <div class="text-3xl">🛡️</div>
         <div class="flex-1 text-center md:text-left">
           <h3 class="font-bold text-dark">Shop with Confidence</h3>

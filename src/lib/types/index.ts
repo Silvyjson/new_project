@@ -27,6 +27,16 @@ export interface Vendor {
     name: string;
     bio: string;
     description: string;
+    stats: {
+        totalProducts: number;
+        totalSales: number;
+        products: number;
+        followers: number;
+        rating: number;
+        avgRating: number;
+        responseTimeHours: number;
+        
+    };
     logoUrl: string;
     coverUrl?: string;
     location?: string;

@@ -23,7 +23,7 @@
 </script>
 
 <a href={`/${vendorSlug}/item/${product.code}`} class="block group" aria-label="View {product.title}">
-  <Card hover={true} padding="none" class="overflow-hidden h-full flex flex-col">
+  <Card hover={true} padding="none" className="overflow-hidden h-full flex flex-col">
     <!-- Product Image -->
     <div class="relative aspect-square bg-gray-100 overflow-hidden">
       {#if product.images?.[0]}
@@ -47,7 +47,7 @@
       
       <!-- Quick Add (hover) -->
       <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-t from-black/60 to-transparent">
-        <Button variant="primary" size="sm" class="w-full" on:click={() => {}}>
+        <Button variant="primary" size="sm" className="w-full" on:click={() => {}}>
           Quick View
         </Button>
       </div>

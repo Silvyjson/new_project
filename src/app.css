@@ -1,51 +1,142 @@
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;600;700&family=Clash+Grotesk:wght@400;500;600&display=swap');
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* src/app.css */
+@import "tailwindcss";
 
-/* Custom utilities */
-@layer utilities {
-    .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
+/* 🎨 VendorHub Design Tokens - Tailwind v4 Format */
+@theme {
+  /* 🔵 Primary Brand Colors */
+  --color-primary: #1D4ED8;
+  --color-primary-hover: #1E3A8A;
+  --color-primary-light: #3B82F6;
+  
+  /* ⚫ Dark Sections */
+  --color-dark: #0F172A;
+  --color-dark-card: #1E293B;
+  
+  /* ⚪ Backgrounds */
+  --color-surface: #FFFFFF;
+  --color-background-light: #F8FAFC;
+  
+  /* 🧊 Text Colors */
+  --color-text-main: #0F172A;
+  --color-text-muted: #64748B;
+  --color-text-inverse: #FFFFFF;
+  
+  /* 🟢🔴 Status */
+  --color-success: #22C55E;
+  --color-error: #EF4444;
+  
+  /* 🔤 Typography */
+  --font-sans: "Inter", system-ui, sans-serif;
+  
+  /* Font sizes with line-height & weight */
+  --text-h1: 56px;
+  --text-h1--line-height: 1.2;
+  --text-h1--letter-spacing: -1px;
+  --text-h1--font-weight: 700;
+  
+  --text-h2: 40px;
+  --text-h2--line-height: 1.2;
+  --text-h2--font-weight: 700;
+  
+  --text-h3: 28px;
+  --text-h3--line-height: 1.3;
+  --text-h3--font-weight: 600;
+  
+  --text-h4: 20px;
+  --text-h4--line-height: 1.4;
+  --text-h4--font-weight: 500;
+  
+  --text-body: 16px;
+  --text-body--line-height: 1.6;
+  --text-body--font-weight: 400;
+  
+  --text-small: 14px;
+  --text-small--line-height: 1.5;
+  --text-small--font-weight: 400;
+  
+  /* 📐 Spacing (8px grid) */
+  --spacing-18: 4.5rem; /* 72px */
+  --spacing-24: 6rem;   /* 96px */
+  
+  /* 🎯 Border Radius */
+  --radius-btn: 8px;
+  --radius-card: 16px;
+  
+  /* 🌫 Shadows */
+  --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+  --shadow-card-hover: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+  --shadow-glow: 0 0 20px rgb(29 78 216 / 0.3);
+  
+  /* ✨ Animations */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-fade-in: fadeIn 0.8s ease-out forwards;
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
 }
 
-/* Focus visible for accessibility */
+/* 🎨 Utility Classes for VendorHub */
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white font-medium px-6 py-3 rounded-btn 
+           hover:bg-primary-hover transition-colors shadow-card hover:shadow-card-hover;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-primary text-primary font-medium px-6 py-3 rounded-btn 
+           hover:bg-primary/5 transition-colors;
+  }
+  
+  .card {
+    @apply bg-surface rounded-card shadow-card hover:shadow-card-hover 
+           transition-all duration-300;
+  }
+  
+  .section {
+    @apply py-24;
+  }
+  
+  .container {
+    @apply max-w-7xl mx-auto px-4;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent;
+  }
+}
+
+/* 📱 Base Styles */
+@layer base {
+  body {
+    @apply font-sans text-text-main bg-surface antialiased;
+  }
+  
+  h1 { @apply text-h1 font-bold tracking-[-1px]; }
+  h2 { @apply text-h2 font-bold; }
+  h3 { @apply text-h3 font-semibold; }
+  h4 { @apply text-h4 font-medium; }
+  p { @apply text-body; }
+  .text-muted { @apply text-text-muted; }
+}
+
+/* ♿ Accessibility */
 :focus-visible {
-    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-surface;
+  @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-surface;
 }
 
-/* Smooth scroll */
+/* 🔄 Smooth Scroll */
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
-
-/* Prevent FOUC */
-body {
-    @apply bg-surface text-dark antialiased;
-}
-
-body {
-    margin: 0;
-    /* font-family: 'Manrope', sans-serif; */
-    font-family: 'Sora', sans-serif;
-    /* font-family: 'Clash Grotesk', sans-serif; */
-    background-color: #000;
-    color: #fff;
-}
-
-/* h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-family: 'Clash Display', sans-serif;
-} */
 
 /* Define a general utility class for centering */
 .flex-s-start {
@@ -75,67 +166,6 @@ h6 {
 a,
 button {
     cursor: pointer;
-}
-
-.scroll-height {
-    height: 440px;
-    overflow-y: auto;
-}
-
-/* Increase height on small screens (sm and below) */
-@media (max-width: 640px) {
-    .scroll-height {
-        height: 600px;
-    }
-}
-
-.aside-scroll-height {
-    height: 520px;
-    overflow-y: auto;
-}
-
-.content-wrapper img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-
-.responsive-video {
-    width: 100%;
-    max-width: 560px;
-    height: auto;
-    aspect-ratio: 16 / 9;
-    display: block;
-}
-
-.responsive {
-    width: 100%;
-    max-width: 560px;
-}
-
-.responsive-video iframe {
-    width: 100%;
-    margin: 0 auto;
-}
-
-.input-field {
-    @apply w-full rounded-md border border-gray-700 bg-gray-800 px-4 py-2 focus:border-purple-600 focus:outline-none;
-}
-
-.btn-primary {
-    @apply rounded-md bg-purple-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-purple-700;
-}
-
-.btn-secondary {
-    @apply rounded-md bg-gray-800 px-4 py-2 text-sm transition hover:bg-gray-700;
-}
-
-.tag {
-    @apply inline-flex items-center gap-1 rounded-full bg-gray-800 px-2 py-1 text-sm;
-}
-
-.loader {
-    @apply mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-t-2 border-purple-200;
 }
 
 /* Hide scrollbar by default */
