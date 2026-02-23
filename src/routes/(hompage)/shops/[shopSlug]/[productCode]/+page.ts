@@ -19,6 +19,7 @@ const mockProduct = {
       <li>Padded collar for comfort</li>
     </ul>
   `,
+    vendorId: 'v_001',
     price: 85000,
     oldPrice: 95000,
     currency: 'NGN',
@@ -29,6 +30,9 @@ const mockProduct = {
         'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a'
     ],
     video: null,
+    preorder: false,
+    sale: true,
+    new: false,
     category: 'Sneakers',
     brand: 'Jordan',
     stockStatus: 'in-stock',
@@ -36,6 +40,7 @@ const mockProduct = {
     preorderNote: null,
     rating: 4.9,
     reviewCount: 45,
+    createdAt: new Date('2023-12-01'),
     shop: {
         id: 's_001',
         slug: 'urban-kicks-store',
