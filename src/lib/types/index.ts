@@ -9,11 +9,18 @@ export interface Product {
     id: string;
     code: string;
     vendorId: string;
-    title: string;
-    description: string;
+    name?: string;
+    title?: string;
+    description?: string;
     price: number;
     currency: string;
     images: string[];
+    preorder: boolean;
+    sale: boolean;
+    new: boolean;
+    rating: number;
+    reviewCount: number;
+    oldPrice: number;
     stockStatus: StockStatus;
     stockCount?: number; // Optional: show "X left" for in-stock items
     preorderNote?: string;
@@ -25,23 +32,46 @@ export interface Vendor {
     id: string;
     slug: string;
     name: string;
-    bio: string;
-    description: string;
+    bio?: string;
+    description?: string;
     stats: {
-        totalProducts: number;
-        totalSales: number;
-        products: number;
-        followers: number;
-        rating: number;
-        avgRating: number;
-        responseTimeHours: number;
-        
+        totalProducts?: number;
+        totalSales?: number;
+        products?: number;
+        followers?: number;
+        rating?: number;
+        avgRating?: number;
+        responseTimeHours?: number;
+        reviewCount?: number;
     };
-    logoUrl: string;
+    logoUrl?: string;
     coverUrl?: string;
     location?: string;
     trustScore: number;
     verified: boolean;
     socials?: { platform: string; handle: string; url: string }[];
-    createdAt: Date;
+    shopCount: number;
+    categories?: string[];
+    createdAt?: Date;
+}
+
+export interface Shop {
+    id: string;
+    vendorId?: string;
+    vendorSlug?: string;
+    slug?: string;
+    name: string;
+    description?: string;
+    category: string;
+    bannerUrl?: string;
+    logoUrl?: string;
+    rating: number;
+    reviewCount?: number;
+    productCount: number;
+    orderCount: number;
+    customers?: number;
+    trustScore: number;
+    verified?: boolean;
+    location?: string;
+    createdAt?: Date;
 }

@@ -19,7 +19,7 @@
         {/each}
     </div>
 {:else}
-    <Card padding="lg" className="text-center text-gray-muted">
+    <Card padding="lg" className="text-center text-muted">
         <p class="text-lg">📦</p>
         <p class="mt-2">{emptyMessage}</p>
     </Card>

@@ -1,28 +1,28 @@
 <!-- src/lib/components/vendor/ShopHeader.svelte -->
 <script lang="ts">
-  import { browser } from '$app/environment';
-  import type { Vendor } from '$lib/types';
-  import Button from '$lib/components/ui/Button.svelte';
-  import TrustBadge from '$lib/components/ui/TrustBadge.svelte';
-  import TrustScore from '$lib/components/ui/TrustScore.svelte';
-  
-  export let vendor: Vendor;
-  export let onCopyLink?: () => void;
-  
-  const socialIcons: Record<string, { icon: string; label: string }> = {
-    instagram: { icon: '📸', label: 'Instagram' },
-    whatsapp: { icon: '💬', label: 'WhatsApp' },
-    tiktok: { icon: '🎵', label: 'TikTok' },
-    facebook: { icon: '📘', label: 'Facebook' },
-    twitter: { icon: '🐦', label: 'Twitter' }
-  };
-  
-  const copyShopLink = () => {
-    if (!browser) return;
-    const url = `${window.location.origin}/${vendor.slug}/shop`;
-    navigator.clipboard.writeText(url);
-    onCopyLink?.();
-  };
+    import { browser } from "$app/environment";
+    import type { Vendor } from "$lib/types";
+    import Button from "$lib/components/ui/Button.svelte";
+    import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
+    import TrustScore from "$lib/components/ui/TrustScore.svelte";
+
+    export let vendor: Vendor;
+    export let onCopyLink: () => void = () => {};
+
+    const socialIcons: Record<string, { icon: string; label: string }> = {
+        instagram: { icon: "📸", label: "Instagram" },
+        whatsapp: { icon: "💬", label: "WhatsApp" },
+        tiktok: { icon: "🎵", label: "TikTok" },
+        facebook: { icon: "📘", label: "Facebook" },
+        twitter: { icon: "🐦", label: "Twitter" },
+    };
+
+    const copyShopLink = () => {
+        if (!browser) return;
+        const url = `${window.location.origin}/${vendor.slug}/shop`;
+        navigator.clipboard.writeText(url);
+        onCopyLink?.();
+    };
 </script>
 
 <header
@@ -36,7 +36,7 @@
         />
         <div
             class="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent"
-        />
+        ></div>
     {/if}
 
     <div class="relative max-w-7xl mx-auto px-4 pt-6 pb-4">
@@ -45,7 +45,7 @@
             <img
                 src={vendor.logoUrl}
                 alt={vendor.name}
-                class="w-20 h-20 md:w-24 md:h-24 rounded-2xl border-4 border-surface shadow-lg object-cover"
+                class="w-20 h-20 md:w-24 md:h-24 rounded-card border-4 border-surface shadow-lg object-cover"
             />
 
             <!-- Info -->
@@ -84,7 +84,7 @@
                     size="sm"
                     on:click={copyShopLink}
                     title="Copy shop link to clipboard"
-                    class="!bg-white/10 !text-white hover:!bg-white/20 border border-white/30"
+                    className="!bg-white/10 !text-white hover:!bg-white/20 border border-white/30"
                 >
                     🔗 Copy Link
                 </Button>
@@ -92,7 +92,7 @@
                     variant="primary"
                     size="sm"
                     href={`/${vendor.slug}/shop`}
-                    class="!bg-white !text-primary hover:!bg-gray-100"
+                    className="!bg-white !text-primary hover:!bg-gray-100"
                 >
                     Shop Now →
                 </Button>

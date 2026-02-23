@@ -13,7 +13,7 @@
 
     $: hoverClass = hover ? "hover:shadow-card-hover transition-shadow" : "";
     $: classes =
-        `bg-surface rounded-xl shadow-card ${paddingClass} ${hoverClass} ${className}`.trim();
+        `bg-surface rounded-card shadow-card ${paddingClass} ${hoverClass} ${className}`.trim();
 </script>
 
 <div class={classes}>
