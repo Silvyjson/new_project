@@ -1,0 +1,55 @@
+﻿node.exe : npm verbose cli C:\nvm4w\nodejs\node.exe 
+C:\nvm4w\nodejs\node_modules\npm\bin\npm-cli.js
+At line:1 char:1
++ & "C:\nvm4w\nodejs/node.exe" "C:\nvm4w\nodejs/node_modules/npm/bin/np ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (npm verbose cli...\bin\npm-cli.js 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+npm info using npm@11.6.2
+npm info using node@v24.13.0
+npm verbose title npm install
+npm verbose argv "install" "--loglevel" "verbose"
+npm verbose logfile logs-max:10 
+dir:C:\Users\USER\AppData\Local\npm-cache\_logs\2026-02-23T13_28_59_575Z-
+npm verbose logfile C:\Users\USER\AppData\Local\npm-cache\_logs\2026-02-23T13_2
+8_59_575Z-debug-0.log
+npm http fetch POST 200 
+https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 1364ms
+npm http fetch GET 200 https://registry.npmjs.org/cookie 314ms (cache 
+revalidated)
+npm http fetch GET 200 https://registry.npmjs.org/esbuild 936ms (cache 
+revalidated)
+npm http fetch GET 200 https://registry.npmjs.org/@sveltejs%2fkit 348ms (cache 
+revalidated)
+npm http fetch GET 200 https://registry.npmjs.org/vite 266ms (cache 
+revalidated)
+npm http fetch GET 200 https://registry.npmjs.org/@sveltejs%2fadapter-auto 
+328ms (cache revalidated)
+npm http fetch GET 200 
+https://registry.npmjs.org/@sveltejs%2fvite-plugin-svelte-inspector 347ms 
+(cache revalidated)
+npm http fetch GET 200 
+https://registry.npmjs.org/@sveltejs%2fvite-plugin-svelte 445ms (cache 
+revalidated)
+npm http fetch GET 200 https://registry.npmjs.org/vitefu 860ms (cache 
+revalidated)
+
+up to date, audited 67 packages in 13s
+
+11 packages are looking for funding
+  run `npm fund` for details
+
+7 vulnerabilities (3 low, 4 moderate)
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+npm verbose cwd C:\Users\USER\Documents\new project\new_project
+npm verbose os Windows_NT 10.0.22631
+npm verbose node v24.13.0
+npm verbose npm  v11.6.2
+npm verbose exit 0
+npm info ok

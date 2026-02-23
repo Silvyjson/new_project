@@ -14,7 +14,7 @@
     vendor: Vendor;
     products: Product[];
   };
-
+  
   const { vendor, products } = data;
   
   // Copy shop link to clipboard
@@ -47,7 +47,7 @@
   <header
     class="relative bg-gradient-to-r from-primary to-primary-light text-surface"
   >
-      {#if vendor.coverUrl}
+    {#if vendor.coverUrl}
       <img
         src={vendor.coverUrl}
         alt=""
