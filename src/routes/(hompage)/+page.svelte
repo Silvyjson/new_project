@@ -252,8 +252,8 @@
 
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
         {#each features as feature}
-          <Card
-            className="p-8 hover:-translate-y-2 hover:shadow-card-hover transition-all duration-300 border border-transparent hover:border-primary/20"
+          <div
+            class="bg-primary/7 backdrop-blur-md border border-white/10 rounded-2xl p-8 hover:-translate-y-2 hover:shadow-card-hover transition-all duration-300 border border-transparent hover:border-primary/20"
           >
             <div
               class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-2xl mb-6 mx-auto"
@@ -262,7 +262,7 @@
             </div>
             <h3 class="text-h4 text-dark mb-2">{feature.title}</h3>
             <p class="text-small text-text-muted">{feature.desc}</p>
-          </Card>
+          </div>
         {/each}
       </div>
     </div>
