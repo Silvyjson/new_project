@@ -4,7 +4,6 @@
     import Card from "$lib/components/ui/Card.svelte";
     import Badge from "$lib/components/ui/Badge.svelte";
     import Button from "$lib/components/ui/Button.svelte";
-    import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
 
     export let shop: Shop;
     export let vendorSlug: string;
@@ -25,10 +24,7 @@
     };
 </script>
 
-<a
-    href="/vendors/{vendorSlug}/shop/{shop.slug}"
-    class="block group {className}"
->
+<a href="/shops/{shop.slug}" class="block group {className}">
     <Card
         hover={true}
         padding="none"
@@ -129,14 +125,14 @@
                 <Button variant="primary" size="md" className="w-full">
                     Visit Shop →
                 </Button>
-                <Button
+                <!-- <Button
                     variant="outline"
                     size="sm"
-                    href="/vendors/{vendorSlug}/shop/{shop.slug}/products"
+                    href="/shops/{shop.slug}/products"
                     className="w-full"
                 >
                     View Products
-                </Button>
+                </Button> -->
             </div>
         </div>
     </Card>

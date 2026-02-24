@@ -216,13 +216,13 @@ const mockProducts: Product[] = [
         stockStatus: 'in-stock',
         stockCount: 18,
         rating: 4.6,
+        vendorId: 'v_001',
+        createdAt: new Date(),
         reviewCount: 41,
         featured: false,
         new: false,
         sale: true,
-        preorder: false,
-        vendorId: 'v_001',
-        createdAt: new Date()
+        preorder: false
     }
 ];
 

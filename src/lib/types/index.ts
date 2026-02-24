@@ -34,6 +34,7 @@ export interface Product {
         expressDays?: string;
         expressPrice?: number;
     };
+    trending?: boolean;
     returns?: {
         allowed?: boolean;
         days?: number;

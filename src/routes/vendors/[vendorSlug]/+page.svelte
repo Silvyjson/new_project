@@ -57,6 +57,62 @@
     navigator.clipboard.writeText(url);
     alert("Shop link copied to clipboard!");
   };
+
+  import { writable, derived } from "svelte/store";
+
+  // Pagination settings
+  const itemsPerPage = 6;
+
+  // Local reactive stores for search and filter
+  const searchTerm = writable("");
+  const selectedCategory = writable("all");
+  const currentPage = writable(1);
+
+  // Extract unique categories from shops for filtering
+  const categories = Array.from(
+    new Set(
+      vendor.shops.flatMap((shop) => (shop.category ? [shop.category] : [])),
+    ),
+  );
+
+  // Filtered shops based on search term and category
+  const filteredShops = derived(
+    [searchTerm, selectedCategory],
+    ([$searchTerm, $selectedCategory]) => {
+      return vendor.shops.filter((shop) => {
+        const matchesSearch = shop.name
+          .toLowerCase()
+          .includes($searchTerm.toLowerCase());
+
+        const matchesCategory =
+          $selectedCategory === "all" ||
+          (shop.category && shop.category === $selectedCategory);
+
+        return matchesSearch && matchesCategory;
+      });
+    },
+  );
+
+  // Paginated shops slice
+  const paginatedShops = derived(
+    [filteredShops, currentPage],
+    ([$filteredShops, $currentPage]) => {
+      const start = ($currentPage - 1) * itemsPerPage;
+      return $filteredShops.slice(start, start + itemsPerPage);
+    },
+  );
+
+  // Total pages based on filtered shops count
+  const totalPages = derived(filteredShops, ($filteredShops) =>
+    Math.ceil($filteredShops.length / itemsPerPage),
+  );
+
+  // Handlers for pagination controls
+  function goToPage(page: number) {
+    currentPage.set(page);
+    // Scroll up a bit when page changes, optional
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 </script>
 
 <svelte:head>
@@ -73,7 +129,7 @@
   <Nav />
 
   <!-- 🔷 SECTION 2: VENDOR HERO HEADER -->
-  <section class="pt-16 pb-12 bg-surface">
+  <section class="py-15 bg-surface">
     <div class="container max-w-7xl mx-auto px-4">
       <div class="grid md:grid-cols-3 gap-8">
         <!-- LEFT: Vendor Identity Block -->
@@ -286,7 +342,7 @@
   </section>
 
   <!-- 🔷 SECTION 3: TRUST SCORE BREAKDOWN -->
-  <section class="py-24 bg-background-light">
+  <section class="py-20 bg-background-light">
     <div class="container max-w-7xl mx-auto px-4">
       <div class="text-center mb-12">
         <h2 class="text-h2 text-text-main mb-4">
@@ -320,7 +376,7 @@
   </section>
 
   <!-- 🔷 SECTION 4: VENDOR OVERVIEW -->
-  <section class="py-24 bg-surface">
+  <section class="py-20 bg-surface">
     <div class="container max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12">
       <!-- Left: About Vendor -->
       <div class="animate-fade-in">
@@ -419,27 +475,93 @@
   </section>
 
   <!-- 🔷 SECTION 5: ACTIVE SHOPS (Multi-Shop Feature) -->
-  <section class="py-24 bg-background-light">
+  <section class="py-20 bg-background-light">
     <div class="container max-w-7xl mx-auto px-4">
-      <div class="flex items-center justify-between mb-8">
-        <h2 class="text-h2 text-text-main">
-          Active Shops ({vendor.shops.length})
-        </h2>
-        <Button variant="outline" href="/vendors/{vendor.slug}/shop"
-          >View All Shops →</Button
+      <h2 class="text-h2 text-text-main mb-8">
+        Active Shops ({vendor.shops.length})
+      </h2>
+
+      <!-- Search and filter - subtle and minimal -->
+      <div class="flex flex-wrap justify-between gap-4 mb-6 items-center">
+        <input
+          type="text"
+          placeholder="Search shops..."
+          class="px-4 py-2 border border-gray-300 rounded-md text-sm w-full max-w-xs focus:outline-none focus:ring-1 focus:ring-primary"
+          on:input={(e) => {
+            const target = e.target as HTMLInputElement;
+            searchTerm.set(target.value);
+            currentPage.set(1);
+          }}
+          aria-label="Search shops"
+        />
+
+        <select
+          class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+          on:change={(e) => {
+            const target = e.target as HTMLSelectElement;
+            selectedCategory.set(target.value);
+            currentPage.set(1);
+          }}
+          aria-label="Filter shops by category"
         >
+          <option value="all">All Categories</option>
+          {#each categories as category}
+            <option value={category}>{category}</option>
+          {/each}
+        </select>
       </div>
 
+      <!-- Shops grid -->
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {#each vendor.shops as shop, i}
-          <ShopCard {shop} vendorSlug={vendor.slug} />
-        {/each}
+        {#if $paginatedShops.length === 0}
+          <p class="text-text-muted">No shops found matching your criteria.</p>
+        {:else}
+          {#each $paginatedShops as shop}
+            <ShopCard {shop} vendorSlug={vendor.slug} />
+          {/each}
+        {/if}
       </div>
+
+      <!-- Pagination controls -->
+      {#if $totalPages > 1}
+        <div
+          class="flex justify-center mt-10 space-x-3 text-sm text-text-muted select-none"
+        >
+          <button
+            class="px-3 py-1 rounded-md border border-gray-300 hover:border-primary disabled:opacity-50"
+            on:click={() => goToPage($currentPage - 1)}
+            disabled={$currentPage === 1}
+            aria-label="Previous page"
+          >
+            ← Prev
+          </button>
+
+          {#each Array($totalPages) as _, i}
+            <button
+              class="px-3 py-1 rounded-md border border-gray-300 hover:border-primary disabled:opacity-75"
+              class:selected={$currentPage === i + 1}
+              on:click={() => goToPage(i + 1)}
+              aria-label={`Go to page ${i + 1}`}
+            >
+              {i + 1}
+            </button>
+          {/each}
+
+          <button
+            class="px-3 py-1 rounded-md border border-gray-300 hover:border-primary disabled:opacity-50"
+            on:click={() => goToPage($currentPage + 1)}
+            disabled={$currentPage === $totalPages}
+            aria-label="Next page"
+          >
+            Next →
+          </button>
+        </div>
+      {/if}
     </div>
   </section>
 
   <!-- 🔷 SECTION 6: REVIEWS -->
-  <section class="py-24 bg-surface">
+  <section class="py-20 bg-surface">
     <div class="container max-w-7xl mx-auto px-4">
       <div class="flex items-center justify-between mb-8">
         <div>
@@ -530,7 +652,7 @@
                 {#each review.images as image}
                   <img
                     src={image}
-                    alt="Review image"
+                    alt="Customer review"
                     class="w-16 h-16 rounded-lg object-cover cursor-pointer hover:opacity-80 transition-opacity"
                   />
                 {/each}
@@ -549,7 +671,7 @@
   </section>
 
   <!-- 🔷 SECTION 7: SOCIAL & CONTACT -->
-  <section class="py-24 bg-background-light">
+  <section class="py-20 bg-background-light">
     <div class="container max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12">
       <!-- Left: Social Links -->
       <div class="animate-fade-in">
@@ -636,7 +758,7 @@
 
   <!-- 🔷 SECTION 9: FINAL CTA -->
   <section
-    class="py-24 bg-gradient-to-r from-primary to-primary-hover text-text-inverse text-center"
+    class="py-20 bg-gradient-to-r from-primary to-primary-hover text-text-inverse text-center"
   >
     <div class="container max-w-3xl mx-auto px-4">
       <h2 class="text-h2 mb-6">Ready to Shop with Confidence?</h2>
@@ -658,6 +780,13 @@
 </main>
 
 <style>
+  button.selected {
+    background-color: var(--color-primary, #2563eb);
+    color: white;
+    border-color: var(--color-primary, #2563eb);
+    cursor: default;
+  }
+
   @keyframes fade-in {
     from {
       opacity: 0;

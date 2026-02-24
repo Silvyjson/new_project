@@ -1,9 +1,8 @@
-// src/routes/shops/[shopSlug]/+page.ts
-import type { PageLoad } from './$types';
-import { error } from '@sveltejs/kit';
+// src/routes/shops/[shopSlug]/products/+page.ts
 import type { Product } from '$lib/types';
+import type { PageLoad } from './$types';
 
-// Mock shop data - Replace with real API
+// Mock shop data
 const mockShop = {
     id: 's_001',
     slug: 'urban-kicks-store',
@@ -21,6 +20,7 @@ const mockShop = {
     rating: 4.8,
     reviewCount: 320,
     orderCount: 3200,
+    productCount: 124,
     followers: 2300,
     location: 'Lagos, Nigeria',
     joinedAt: new Date('2024-03-15'),
@@ -43,6 +43,7 @@ const mockShop = {
     }
 };
 
+// Mock products data
 // Mock products data
 const mockProducts: Product[] = [
     {
@@ -216,107 +217,87 @@ const mockProducts: Product[] = [
         stockStatus: 'in-stock',
         stockCount: 18,
         rating: 4.6,
-        vendorId: 'v_001',
-        createdAt: new Date(),
         reviewCount: 41,
         featured: false,
         new: false,
         sale: true,
-        preorder: false
-    }
-];
-
-// Mock reviews data
-const mockReviews = [
-    {
-        id: 'r_001',
-        customerName: 'Chidi O.',
-        customerAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=CO',
-        rating: 5,
-        text: 'Amazing quality! The sneakers arrived exactly as pictured. Delivery was fast and the packaging was secure. Will definitely order again.',
-        date: new Date('2025-06-10'),
-        verified: true,
-        productPurchased: 'Air Jordan 1 Retro High',
-        images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff']
-    },
-    {
-        id: 'r_002',
-        customerName: 'Amina K.',
-        customerAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=AK',
-        rating: 5,
-        text: 'Best sneaker shop on VendorHub! Authentic products and great customer service. Highly recommend.',
-        date: new Date('2025-06-08'),
-        verified: true,
-        productPurchased: 'New Balance 550 White',
-        images: []
-    },
-    {
-        id: 'r_003',
-        customerName: 'Tunde M.',
-        customerAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=TM',
-        rating: 4,
-        text: 'Good quality but delivery took a bit longer than expected. Overall satisfied with my purchase.',
-        date: new Date('2025-06-05'),
-        verified: true,
-        productPurchased: 'Nike Air Force 1 White',
-        images: []
+        preorder: false,
+        vendorId: 'v_001',
+        createdAt: new Date()
     }
 ];
 
 export const load: PageLoad = async ({ params, url }) => {
     const shop = mockShop;
-
-    if (!shop) {
-        throw error(404, 'Shop not found');
-    }
+    let products = mockProducts;
 
     // Get query params for filtering
+    const search = url.searchParams.get('search') || '';
     const category = url.searchParams.get('category') || '';
     const minPrice = url.searchParams.get('minPrice') || '';
     const maxPrice = url.searchParams.get('maxPrice') || '';
+    const minRating = url.searchParams.get('minRating') || '';
     const availability = url.searchParams.get('availability') || '';
     const sortBy = url.searchParams.get('sort') || 'newest';
+    const viewMode = url.searchParams.get('view') || 'grid';
 
     // Filter products
-    let products = mockProducts.filter((product) => {
-        const matchesCategory = category ? product.category === category : true;
-        const matchesMinPrice = minPrice ? product.price >= parseInt(minPrice) : true;
-        const matchesMaxPrice = maxPrice ? product.price <= parseInt(maxPrice) : true;
-        const matchesAvailability = availability === 'in-stock' ? product.stockStatus === 'in-stock' :
-            availability === 'preorder' ? product.stockStatus === 'preorder' : true;
-        return matchesCategory && matchesMinPrice && matchesMaxPrice && matchesAvailability;
+    products = products.filter((product) => {
+        const matchesSearch =
+            search === '' ||
+            product?.name?.toLowerCase().includes(search.toLowerCase()) ||
+            product?.description?.toLowerCase().includes(search.toLowerCase());
+        const matchesCategory = category === '' || product.category === category;
+        const matchesMinPrice = minPrice === '' || product.price >= parseInt(minPrice);
+        const matchesMaxPrice = maxPrice === '' || product.price <= parseInt(maxPrice);
+        const matchesMinRating = minRating === '' || product.rating >= parseFloat(minRating);
+        const matchesAvailability =
+            availability === '' ||
+            (availability === 'in-stock' && product.stockStatus === 'in-stock') ||
+            (availability === 'preorder' && product.stockStatus === 'preorder') ||
+            (availability === 'sale' && product.sale);
+        return matchesSearch && matchesCategory && matchesMinPrice && matchesMaxPrice && matchesMinRating && matchesAvailability;
     });
 
     // Sort products
     products.sort((a, b) => {
         switch (sortBy) {
-            case 'price-asc': return a.price - b.price;
-            case 'price-desc': return b.price - a.price;
-            case 'rating': return b.rating - a.rating;
-            case 'newest': return new Date(b.id).getTime() - new Date(a.id).getTime();
-            default: return 0;
+            case 'price-asc':
+                return a.price - b.price;
+            case 'price-desc':
+                return b.price - a.price;
+            case 'rating':
+                return b.rating - a.rating;
+            case 'newest':
+                return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+            case 'popular':
+                return b.reviewCount - a.reviewCount;
+            case 'sale':
+                return (b.sale ? 1 : 0) - (a.sale ? 1 : 0);
+            default:
+                return 0;
         }
     });
 
-    // Get featured products
-    const featuredProducts = mockProducts.filter((p) => p.featured).slice(0, 6);
-
     // Get unique categories
-    const categories = Array.from(
-        new Set(mockProducts.map((p) => p.category))
-    );
+    const categories = Array.from(new Set(mockProducts.map((p) => p.category))).sort();
+
+    // Pagination
+    const page = parseInt(url.searchParams.get('page') || '1');
+    const perPage = 12;
+    const totalPages = Math.ceil(products.length / perPage);
+    const paginatedProducts = products.slice((page - 1) * perPage, page * perPage);
 
     return {
         shop,
-        products,
-        featuredProducts,
+        products: paginatedProducts,
+        totalProducts: products.length,
         categories,
-        reviews: mockReviews,
-        filters: { category, minPrice, maxPrice, availability, sortBy },
+        filters: { search, category, minPrice, maxPrice, minRating, availability, sortBy, viewMode },
+        pagination: { page, perPage, totalPages },
         meta: {
-            title: `${shop.name} | VendorHub`,
-            description: shop.description,
-            ogImage: shop.bannerUrl
+            title: `All Products | ${shop.name}`,
+            description: `Browse ${shop.productCount} products from ${shop.name}`
         }
     };
 };

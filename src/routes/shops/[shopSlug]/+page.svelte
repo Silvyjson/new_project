@@ -86,7 +86,7 @@
 
     // Navigation tabs
     const navTabs = [
-        { id: "all", label: "All Products" },
+        { id: "trending", label: "Trending" },
         { id: "featured", label: "Featured" },
         { id: "new", label: "New Arrivals" },
         { id: "bestsellers", label: "Best Sellers" },
@@ -96,6 +96,8 @@
     // Filter products by tab
     const getFilteredProducts = () => {
         switch (activeTab) {
+            case "trending":
+                return products.filter((p) => p.trending);
             case "featured":
                 return products.filter((p) => p.featured);
             case "new":
@@ -105,7 +107,7 @@
             case "sale":
                 return products.filter((p) => p.sale);
             default:
-                return products;
+                return products.slice(0, 10);
         }
     };
 
@@ -370,7 +372,9 @@
 
     <!-- 🔷 SECTION 3: SHOP NAVIGATION TABS (Sticky) -->
     <section class="sticky top-[70px] z-40 bg-surface border-b border-gray-200">
-        <div class="container max-w-7xl mx-auto px-4">
+        <div
+            class="container flex items-center justify-between max-w-7xl mx-auto px-4"
+        >
             <div class="flex items-center gap-8 overflow-x-auto py-4">
                 {#each navTabs as tab}
                     <button
@@ -384,6 +388,12 @@
                     </button>
                 {/each}
             </div>
+            <a
+                href={`/shops/${shop.slug}/products`}
+                class="text-primary font-medium hover:underline"
+            >
+                View All Products
+            </a>
         </div>
     </section>
 
