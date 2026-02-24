@@ -12,6 +12,8 @@
   import Card from "$lib/components/ui/Card.svelte";
   import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
   import Nav from "$lib/components/homepage/Nav.svelte";
+  import Footer from "$lib/components/homepage/Footer.svelte";
+  import ShopCard from "$lib/components/vendor/ShopCard.svelte";
 
   // Data from load function
   export let data: PageData;
@@ -428,52 +430,9 @@
         >
       </div>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
         {#each vendor.shops as shop, i}
-          <Card
-            className="overflow-hidden border border-gray-200 hover:border-primary/50 hover:shadow-card-hover transition-all group animate-fade-in transition-delay: {i *
-              100}ms"
-          >
-            <!-- Shop Banner -->
-            <div
-              class="h-40 bg-gradient-to-r from-primary to-primary-light overflow-hidden"
-            >
-              <img
-                src={shop.bannerUrl}
-                alt={shop.name}
-                class="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-
-            <div class="p-6">
-              <div class="flex items-center justify-between mb-2">
-                <h3 class="text-h4 font-bold text-text-main">{shop.name}</h3>
-                <span
-                  class="text-small font-medium {getTrustScoreColor(
-                    shop.trustScore,
-                  )}">{shop.trustScore}%</span
-                >
-              </div>
-
-              <p class="text-small text-text-muted mb-4">{shop.category}</p>
-
-              <div
-                class="flex items-center justify-between mb-4 text-small text-text-muted"
-              >
-                <span>{shop.productCount} Products</span>
-                <span>{shop.customers.toLocaleString()} Customers</span>
-              </div>
-
-              <Button
-                href="/vendors/{vendor.slug}/shop/{shop.slug}"
-                variant="primary"
-                size="md"
-                className="w-full"
-              >
-                Visit Shop →
-              </Button>
-            </div>
-          </Card>
+          <ShopCard {shop} vendorSlug={vendor.slug} />
         {/each}
       </div>
     </div>
@@ -687,7 +646,7 @@
       </p>
       <Button
         href="/vendors/{vendor.slug}/shop"
-        className="bg-white text-primary hover:bg-gray-100 shadow-lg px-8 py-4 text-lg font-semibold"
+        className="text-primary hover:bg-gray-100 shadow-lg px-8 py-4 text-lg font-semibold"
       >
         Explore Vendor Shops →
       </Button>
@@ -695,119 +654,7 @@
   </section>
 
   <!-- 🔷 SECTION 10: FOOTER -->
-  <footer class="bg-dark text-text-inverse py-16 border-t border-gray-800">
-    <div class="container">
-      <div class="grid md:grid-cols-4 gap-8 mb-12">
-        <div>
-          <h4 class="font-bold mb-4">Product</h4>
-          <ul class="space-y-2 text-small text-gray-400">
-            <li>
-              <a href="/features" class="hover:text-white transition-colors"
-                >Features</a
-              >
-            </li>
-            <li>
-              <a href="/pricing" class="hover:text-white transition-colors"
-                >Pricing</a
-              >
-            </li>
-            <li>
-              <a href="/vendors" class="hover:text-white transition-colors"
-                >Vendor Directory</a
-              >
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-bold mb-4">For Vendors</h4>
-          <ul class="space-y-2 text-small text-gray-400">
-            <li>
-              <a
-                href="/auth/register"
-                class="hover:text-white transition-colors">Become a Vendor</a
-              >
-            </li>
-            <li>
-              <a href="/dashboard" class="hover:text-white transition-colors"
-                >Dashboard</a
-              >
-            </li>
-            <li>
-              <a href="/resources" class="hover:text-white transition-colors"
-                >Resources</a
-              >
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-bold mb-4">Company</h4>
-          <ul class="space-y-2 text-small text-gray-400">
-            <li>
-              <a href="/about" class="hover:text-white transition-colors"
-                >About Us</a
-              >
-            </li>
-            <li>
-              <a href="/contact" class="hover:text-white transition-colors"
-                >Contact</a
-              >
-            </li>
-            <li>
-              <a href="/blog" class="hover:text-white transition-colors">Blog</a
-              >
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-bold mb-4">Legal</h4>
-          <ul class="space-y-2 text-small text-gray-400">
-            <li>
-              <a href="/privacy" class="hover:text-white transition-colors"
-                >Privacy</a
-              >
-            </li>
-            <li>
-              <a href="/terms" class="hover:text-white transition-colors"
-                >Terms</a
-              >
-            </li>
-            <li>
-              <a href="/refund" class="hover:text-white transition-colors"
-                >Refund Policy</a
-              >
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div
-        class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4"
-      >
-        <div class="flex items-center gap-2">
-          <div
-            class="w-6 h-6 bg-primary rounded flex items-center justify-center text-xs font-bold"
-          >
-            V
-          </div>
-          <span class="font-bold">VendorHub</span>
-        </div>
-        <p class="text-small text-gray-500">
-          © {new Date().getFullYear()} VendorHub. All rights reserved.
-        </p>
-        <div class="flex gap-4">
-          <a href="#" class="text-gray-400 hover:text-white transition-colors"
-            >𝕏</a
-          >
-          <a href="#" class="text-gray-400 hover:text-white transition-colors"
-            >📸</a
-          >
-          <a href="#" class="text-gray-400 hover:text-white transition-colors"
-            >in</a
-          >
-        </div>
-      </div>
-    </div>
-  </footer>
+  <Footer />
 </main>
 
 <style>

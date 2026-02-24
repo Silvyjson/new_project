@@ -121,9 +121,7 @@
 
 <main class="min-h-screen bg-surface">
     <!-- 🔷 SECTION 2: HERO (Mission-Focused) -->
-    <section
-        class="pt-32 pb-20 md:pt-40 md:pb-32 bg-surface text-center animate-fade-in"
-    >
+    <section class="py-20 bg-surface text-center animate-fade-in">
         <div class="container max-w-4xl mx-auto px-4">
             <h1
                 class="text-[48px] md:text-[56px] font-bold text-text-main leading-tight mb-6"

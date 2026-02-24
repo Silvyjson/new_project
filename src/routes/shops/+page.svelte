@@ -10,10 +10,9 @@
     // Components
     import Button from "$lib/components/ui/Button.svelte";
     import Card from "$lib/components/ui/Card.svelte";
-    import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
-    import Badge from "$lib/components/ui/Badge.svelte";
     import ShopCard from "$lib/components/vendor/ShopCard.svelte";
     import Nav from "$lib/components/homepage/Nav.svelte";
+    import Footer from "$lib/components/homepage/Footer.svelte";
 
     // Data from load function
     export let data: PageData;
@@ -145,7 +144,7 @@
     <Nav />
 
     <!-- 🔷 SECTION 2: HERO SEARCH SECTION -->
-    <section class="pt-24 pb-20 bg-surface text-center animate-fade-in">
+    <section class="py-20 bg-surface text-center animate-fade-in">
         <div class="container max-w-4xl mx-auto px-4">
             <h1
                 class="text-[48px] md:text-[56px] font-bold text-text-main leading-tight mb-6"
@@ -486,7 +485,7 @@
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
                     href="/auth/register"
-                    className="bg-white text-primary hover:bg-gray-100 shadow-lg px-8 py-4 text-lg font-semibold"
+                    className="text-primary hover:bg-gray-100 shadow-lg px-8 py-4 text-lg font-semibold"
                 >
                     Create Your Shop
                 </Button>
@@ -502,156 +501,7 @@
     </section>
 
     <!-- 🔷 SECTION 8: FOOTER -->
-    <footer class="bg-dark text-text-inverse py-16 border-t border-gray-800">
-        <div class="container">
-            <div class="grid md:grid-cols-4 gap-8 mb-12">
-                <div>
-                    <h4 class="font-bold mb-4">Product</h4>
-                    <ul class="space-y-2 text-small text-gray-400">
-                        <li>
-                            <a
-                                href="/features"
-                                class="hover:text-white transition-colors"
-                                >Features</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="/pricing"
-                                class="hover:text-white transition-colors"
-                                >Pricing</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="/shops"
-                                class="hover:text-white transition-colors"
-                                >Shops</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="/vendors"
-                                class="hover:text-white transition-colors"
-                                >Vendors</a
-                            >
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4">For Vendors</h4>
-                    <ul class="space-y-2 text-small text-gray-400">
-                        <li>
-                            <a
-                                href="/auth/register"
-                                class="hover:text-white transition-colors"
-                                >Become a Vendor</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="/dashboard"
-                                class="hover:text-white transition-colors"
-                                >Dashboard</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="/resources"
-                                class="hover:text-white transition-colors"
-                                >Resources</a
-                            >
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4">Company</h4>
-                    <ul class="space-y-2 text-small text-gray-400">
-                        <li>
-                            <a
-                                href="/about"
-                                class="hover:text-white transition-colors"
-                                >About Us</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="/contact"
-                                class="hover:text-white transition-colors"
-                                >Contact</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="/blog"
-                                class="hover:text-white transition-colors"
-                                >Blog</a
-                            >
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4">Legal</h4>
-                    <ul class="space-y-2 text-small text-gray-400">
-                        <li>
-                            <a
-                                href="/privacy"
-                                class="hover:text-white transition-colors"
-                                >Privacy</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="/terms"
-                                class="hover:text-white transition-colors"
-                                >Terms</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="/refund"
-                                class="hover:text-white transition-colors"
-                                >Refund Policy</a
-                            >
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div
-                class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4"
-            >
-                <div class="flex items-center gap-2">
-                    <div
-                        class="w-6 h-6 bg-primary rounded flex items-center justify-center text-xs font-bold"
-                    >
-                        V
-                    </div>
-                    <span class="font-bold">VendorHub</span>
-                </div>
-                <p class="text-small text-gray-500">
-                    © {new Date().getFullYear()} VendorHub. All rights reserved.
-                </p>
-                <div class="flex gap-4">
-                    <a
-                        href="#"
-                        class="text-gray-400 hover:text-white transition-colors"
-                        aria-label="Twitter">𝕏</a
-                    >
-                    <a
-                        href="#"
-                        class="text-gray-400 hover:text-white transition-colors"
-                        aria-label="Instagram">📸</a
-                    >
-                    <a
-                        href="#"
-                        class="text-gray-400 hover:text-white transition-colors"
-                        aria-label="LinkedIn">in</a
-                    >
-                </div>
-            </div>
-        </div>
-    </footer>
+    <Footer />
 </main>
 
 <style>
