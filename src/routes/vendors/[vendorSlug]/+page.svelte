@@ -11,6 +11,7 @@
   import Button from "$lib/components/ui/Button.svelte";
   import Card from "$lib/components/ui/Card.svelte";
   import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
+  import Nav from "$lib/components/homepage/Nav.svelte";
 
   // Data from load function
   export let data: PageData;
@@ -67,52 +68,7 @@
 
 <main class="min-h-screen bg-background-light">
   <!-- 🔷 SECTION 1: STICKY NAVBAR -->
-  <nav
-    class="sticky top-0 z-50 bg-surface border-b border-gray-200 h-20 shadow-sm"
-  >
-    <div
-      class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between"
-    >
-      <a href="/" class="flex items-center gap-2">
-        <div
-          class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold"
-        >
-          V
-        </div>
-        <span class="text-xl font-bold text-text-main">VendorHub</span>
-      </a>
-
-      <div class="hidden md:flex items-center gap-8 text-sm font-medium">
-        <a
-          href="/#how-it-works"
-          class="text-text-muted hover:text-primary transition-colors"
-          >How it Works</a
-        >
-        <a
-          href="/vendors"
-          class="text-text-muted hover:text-primary transition-colors"
-          >Vendors</a
-        >
-        <a
-          href="/shops"
-          class="text-text-muted hover:text-primary transition-colors">Shops</a
-        >
-        <a
-          href="/pricing"
-          class="text-text-muted hover:text-primary transition-colors"
-          >Pricing</a
-        >
-      </div>
-
-      <div class="flex items-center gap-4">
-        <a
-          href="/auth/login"
-          class="text-sm font-medium text-text-main hover:text-primary">Login</a
-        >
-        <Button href="/auth/register" size="md">Become a Vendor</Button>
-      </div>
-    </div>
-  </nav>
+  <Nav />
 
   <!-- 🔷 SECTION 2: VENDOR HERO HEADER -->
   <section class="pt-16 pb-12 bg-surface">

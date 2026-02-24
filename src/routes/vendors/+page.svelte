@@ -14,6 +14,7 @@
   import Card from "$lib/components/ui/Card.svelte";
   import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
   import VendorCard from "$lib/components/vendor/VendorCard.svelte";
+  import Nav from "$lib/components/homepage/Nav.svelte";
 
   // Data from load function
   export let data: PageData;
@@ -177,70 +178,7 @@
 
 <main class="min-h-screen bg-background-light">
   <!-- 🔷 SECTION 1: NAVBAR (Sticky) -->
-  <nav
-    class="sticky top-0 z-50 bg-surface border-b border-gray-200 h-20 shadow-sm"
-  >
-    <div
-      class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between"
-    >
-      <!-- Logo -->
-      <a href="/" class="flex items-center gap-2">
-        <div
-          class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold"
-        >
-          V
-        </div>
-        <span class="text-xl font-bold text-text-main">VendorHub</span>
-      </a>
-
-      <!-- Desktop Nav -->
-      <div class="hidden md:flex items-center gap-8 text-sm font-medium">
-        <a
-          href="/#how-it-works"
-          class="text-text-muted hover:text-primary transition-colors"
-          >How it Works</a
-        >
-        <a href="/vendors" class="text-primary border-b-2 border-primary pb-1"
-          >Vendors</a
-        >
-        <a
-          href="/shops"
-          class="text-text-muted hover:text-primary transition-colors">Shops</a
-        >
-        <a
-          href="/pricing"
-          class="text-text-muted hover:text-primary transition-colors"
-          >Pricing</a
-        >
-      </div>
-
-      <!-- Auth Buttons -->
-      <div class="hidden md:flex items-center gap-4">
-        <a
-          href="/auth/login"
-          class="text-sm font-medium text-text-main hover:text-primary">Login</a
-        >
-        <Button href="/auth/register" size="md">Become a Vendor</Button>
-      </div>
-
-      <!-- Mobile Menu Button -->
-      <button class="md:hidden text-text-main" aria-label="Toggle menu">
-        <svg
-          class="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
-      </button>
-    </div>
-  </nav>
+  <Nav />
 
   <!-- 🔷 SECTION 2: HERO HEADER -->
   <section class="pt-24 pb-16 bg-surface text-center animate-fade-in">
@@ -457,7 +395,7 @@
 
       <!-- Vendor Cards Grid -->
       {#if vendors.length > 0}
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {#each vendors as vendor, i}
             <div
               in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}

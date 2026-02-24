@@ -7,7 +7,6 @@
 
   export let vendor: Vendor;
 
-  // Get trust score color class
   const getTrustScoreColor = (score: number) => {
     if (score >= 80) return "bg-success";
     if (score >= 60) return "bg-primary";
@@ -15,7 +14,6 @@
     return "bg-error";
   };
 
-  // Get trust score label
   const getTrustScoreLabel = (score: number) => {
     if (score >= 90) return "Excellent";
     if (score >= 80) return "Great";
@@ -33,28 +31,56 @@
   <Card
     hover={true}
     padding="none"
-    className="overflow-hidden border border-gray-200 hover:border-primary/50 h-full flex flex-col"
+    className="relative overflow-hidden border border-gray-200 hover:border-primary/50 h-full flex flex-col"
   >
     <!-- Cover Image -->
     {#if vendor.coverUrl}
       <div
-        class="h-32 bg-gradient-to-r from-primary to-primary-light overflow-hidden"
+        class="h-32 bg-gradient-to-r from-primary to-primary-light overflow-hidden relative"
       >
         <img
           src={vendor.coverUrl}
           alt=""
           class="w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-500"
         />
+
+        <!-- Floating Multi-Shop Indicator -->
+        {#if vendor?.shopCount > 1}
+          <div
+            class="absolute top-4 right-4 z-20
+                   flex items-center gap-2
+                   text-small text-white
+                   bg-black/60 backdrop-blur-md
+                   px-3 py-1.5 rounded-btn shadow-lg"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+              />
+            </svg>
+            <span class="font-medium">
+              {vendor.shopCount} Shops
+            </span>
+          </div>
+        {/if}
       </div>
     {/if}
 
     <div class="p-6 flex-1 flex flex-col">
       <!-- Top: Avatar + Name + Verified -->
-      <div class="flex items-start gap-4 mb-4">
+      <div class="flex flex-col items-start gap-4 mb-4">
         <img
           src={vendor.logoUrl}
           alt="{vendor.name} logo"
-          class="w-20 h-20 rounded-xl object-cover border-4 border-surface shadow-md -mt-12 relative z-10"
+          class="w-20 h-20 rounded-xl object-cover border-4 border-surface shadow-md -mt-18 relative z-10"
         />
         <div class="flex-1 min-w-0 pt-2">
           <div class="flex items-center gap-2 flex-wrap">
@@ -76,7 +102,9 @@
       <!-- Trust Score Progress Bar -->
       <div class="mb-4">
         <div class="flex items-center justify-between mb-2">
-          <span class="text-small font-medium text-text-main">Trust Score</span>
+          <span class="text-small font-medium text-text-main">
+            Trust Score
+          </span>
           <span
             class="text-small font-bold {vendor.trustScore >= 80
               ? 'text-success'
@@ -85,6 +113,7 @@
             {vendor.trustScore}% • {getTrustScoreLabel(vendor.trustScore)}
           </span>
         </div>
+
         <div class="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
           <div
             class="h-full {getTrustScoreColor(
@@ -94,29 +123,6 @@
           ></div>
         </div>
       </div>
-
-      <!-- Multi-Shop Indicator -->
-      {#if vendor?.shopCount > 1}
-        <div
-          class="mb-4 flex items-center gap-2 text-small text-primary bg-primary/10 px-3 py-1.5 rounded-btn w-fit"
-        >
-          <svg
-            class="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-            />
-          </svg>
-          <span class="font-medium">{vendor.shopCount} Active Shops</span>
-          <span class="text-xs opacity-75">(Multi-Brand Vendor)</span>
-        </div>
-      {/if}
 
       <!-- Category Tags -->
       {#if vendor.categories?.length}

@@ -1,9 +1,7 @@
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import { onMount } from "svelte";
   import Button from "$lib/components/ui/Button.svelte";
   import Card from "$lib/components/ui/Card.svelte";
-  import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
 
   const problems = [
     {
@@ -47,7 +45,7 @@
     },
     {
       step: "02",
-      title: "Create Store",
+      title: "Create Shop",
       desc: "Create a shop and get your unique link.",
     },
     {
@@ -135,13 +133,10 @@
   const toggle = (index: number) => {
     openIndex = openIndex === index ? null : index;
   };
-
-  // Mobile Menu State
-  let mobileMenuOpen = false;
 </script>
 
 <svelte:head>
-  <title>VendorHub — Build Your Online Store. Get Verified. Get Paid.</title>
+  <title>VendorHub — Build Your Online Shop. Get Verified. Get Paid.</title>
   <meta
     name="description"
     content="The trusted platform for social media vendors. Secure payments, unique shop links, and zero tech skills required."
@@ -152,92 +147,14 @@
   />
 </svelte:head>
 
-<div class="font-sans text-text-main antialiased">
-  <!-- 🔷 SECTION 1: NAVIGATION -->
-  <nav
-    class="fixed w-full z-50 bg-surface/90 backdrop-blur-md border-b border-gray-100 h-20"
-  >
-    <div
-      class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between"
-    >
-      <!-- Logo -->
-      <a href="/" class="flex items-center gap-2">
-        <div
-          class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold"
-        >
-          V
-        </div>
-        <span class="text-xl font-bold text-dark">VendorHub</span>
-      </a>
-
-      <!-- Desktop Links -->
-      <div
-        class="hidden md:flex items-center gap-8 text-sm font-medium text-text-muted"
-      >
-        <a href="#how-it-works" class="hover:text-primary transition-colors"
-          >How It Works</a
-        >
-        <a href="#features" class="hover:text-primary transition-colors"
-          >Features</a
-        >
-        <a href="/vendors" class="hover:text-primary transition-colors"
-          >Vendors</a
-        >
-        <a href="/shops" class="hover:text-primary transition-colors">Shops</a>
-      </div>
-
-      <!-- Auth Buttons -->
-      <div class="hidden md:flex items-center gap-4">
-        <Button href="/auth/login" variant="outline">Login</Button>
-        <Button href="/auth/register" size="md">Get Started</Button>
-      </div>
-
-      <!-- Mobile Toggle -->
-      <button
-        class="md:hidden text-dark"
-        on:click={() => (mobileMenuOpen = !mobileMenuOpen)}
-      >
-        <svg
-          class="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          ><path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16"
-          /></svg
-        >
-      </button>
-    </div>
-
-    <!-- Mobile Menu -->
-    {#if mobileMenuOpen}
-      <div
-        class="md:hidden absolute top-20 left-0 w-full bg-surface border-b border-gray-100 p-4 flex flex-col gap-4 shadow-lg"
-      >
-        <a href="#how-it-works" class="text-text-main font-medium"
-          >How It Works</a
-        >
-        <a href="#features" class="text-text-main font-medium">Features</a>
-        <a href="/vendors" class="text-primary font-bold">Vendors</a>
-        <a href="/vendors/shops" class="text-primary font-bold">Shops</a>
-        <div>
-          <Button href="/auth/login" variant="outline">Login</Button>
-          <Button href="/auth/register" size="md">Get Started</Button>
-        </div>
-      </div>
-    {/if}
-  </nav>
-
+<main class="font-sans text-text-main antialiased">
   <!-- 🔷 SECTION 2: HERO SECTION -->
-  <section class="pt-32 pb-20 md:pt-40 md:pb-32 bg-surface overflow-hidden">
+  <section class="py-20 bg-surface overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
       <!-- Left: Copy -->
       <div class="animate-fade-in">
         <h1 class="text-h1 text-dark mb-6">
-          Build Your Online Store.<br />
+          Build Your Online Shop.<br />
           <span class="text-primary">Get Verified.</span> Get Paid.
         </h1>
         <p class="text-body text-text-muted mb-8 max-w-lg">
@@ -246,7 +163,7 @@
         </p>
         <div class="flex flex-col sm:flex-row gap-4">
           <Button href="/auth/register" size="lg" className="shadow-glow"
-            >Create Free Store</Button
+            >Create Free Shop</Button
           >
           <Button href="/vendors" variant="outline" size="lg"
             >Explore Vendors</Button
@@ -287,18 +204,38 @@
     </div>
   </section>
 
-  <section class="py-24 bg-dark text-white">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-      <h2 class="text-h2 mb-16">Why Small Vendors Struggle Online</h2>
+  <!-- 🔷 SECTION 3: PROBLEMS SECTION -->
+  <section
+    class="relative py-28 bg-gradient-to-b from-dark to-[#0f172a] text-white overflow-hidden"
+  >
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <h2 class="text-4xl md:text-5xl font-semibold mb-4">
+        Why Small Vendors Struggle Online
+      </h2>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <p class="text-text-muted max-w-2xl mx-auto mb-20 text-lg">
+        Going digital sounds simple — but small vendors face real challenges
+        that make it harder to compete in today’s online marketplace.
+      </p>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
         {#each problems as item}
           <Card
-            className="bg-dark-card border border-gray-700 p-8 text-left hover:border-primary/50 transition-colors"
+            className="group bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 text-left transition-all duration-300 hover:-translate-y-2 hover:border-primary/40"
           >
-            <div class="text-4xl mb-4">{item.icon}</div>
-            <h3 class="text-h4 text-white mb-2">{item.title}</h3>
-            <p class="text-text-muted">{item.desc}</p>
+            <div
+              class="w-14 h-14 flex items-center justify-center rounded-xl bg-primary/10 text-primary text-2xl mb-6 group-hover:bg-primary/20 transition-colors"
+            >
+              {item.icon}
+            </div>
+
+            <h3 class="text-xl font-semibold mb-3">
+              {item.title}
+            </h3>
+
+            <p class="text-text-muted leading-relaxed text-sm">
+              {item.desc}
+            </p>
           </Card>
         {/each}
       </div>
@@ -571,7 +508,7 @@
     class="py-24 bg-gradient-to-r from-primary to-primary-hover text-white text-center"
   >
     <div class="max-w-3xl mx-auto px-4">
-      <h2 class="text-h2 mb-6">Start Your Free Vendor Store Today</h2>
+      <h2 class="text-h2 mb-6">Start Your Free Vendor Shop Today</h2>
       <p class="text-lg opacity-90 mb-8">
         No credit card. No tech skills. Launch in 3 minutes.
       </p>
@@ -582,57 +519,4 @@
       >
     </div>
   </section>
-
-  <!-- 🔷 SECTION 10: FOOTER -->
-  <footer class="bg-dark text-white py-16 border-t border-gray-800">
-    <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-8 mb-12">
-      <div>
-        <div class="flex items-center gap-2 mb-4">
-          <div
-            class="w-6 h-6 bg-primary rounded flex items-center justify-center text-xs font-bold"
-          >
-            V
-          </div>
-          <span class="font-bold text-lg">VendorHub</span>
-        </div>
-        <p class="text-small text-gray-400">
-          Empowering small vendors to sell online with trust and security.
-        </p>
-      </div>
-
-      <div>
-        <h4 class="font-bold mb-4">Product</h4>
-        <ul class="space-y-2 text-small text-gray-400">
-          <li><a href="/about" class="hover:text-white">About Us</a></li>
-          <li><a href="/vendors" class="hover:text-white">Vendors</a></li>
-          <li><a href="/shops" class="hover:text-white">Shops</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h4 class="font-bold mb-4">Company</h4>
-        <ul class="space-y-2 text-small text-gray-400">
-          <li>
-            <a href="/dispute" class="hover:text-white">Dispute center</a>
-          </li>
-          <li><a href="/contact" class="hover:text-white">Contact</a></li>
-          <li><a href="/blog" class="hover:text-white">Blog</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h4 class="font-bold mb-4">Legal</h4>
-        <ul class="space-y-2 text-small text-gray-400">
-          <li><a href="/privacy" class="hover:text-white">Privacy</a></li>
-          <li><a href="/terms" class="hover:text-white">Terms</a></li>
-          <li><a href="/security" class="hover:text-white">Security</a></li>
-        </ul>
-      </div>
-    </div>
-    <div
-      class="max-w-7xl mx-auto px-4 pt-8 border-t border-gray-800 text-center text-small text-gray-500"
-    >
-      © {new Date().getFullYear()} VendorHub. All rights reserved.
-    </div>
-  </footer>
-</div>
+</main>
