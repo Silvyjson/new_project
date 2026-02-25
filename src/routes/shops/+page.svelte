@@ -360,7 +360,7 @@
                                 easing: cubicOut,
                             }}
                         >
-                            <ShopCard {shop} vendorSlug={shop.vendorId} />
+                            <ShopCard {shop} />
                         </div>
                     {/each}
                 </div>

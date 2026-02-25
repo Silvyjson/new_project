@@ -38,9 +38,9 @@ const mockVendors = [
             { platform: 'tiktok', url: 'https://tiktok.com/@aminafashion', handle: '@aminafashion' }
         ],
         shops: [
-            { id: 's_001', slug: 'amina-fashion-main', name: 'Amina Fashion Main', category: 'Fashion', trustScore: 94, productCount: 89, customers: 2340, orderCount: 1450, rating: 4.8, bannerUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8' },
-            { id: 's_002', slug: 'amina-fashion-accessories', name: 'Amina Accessories', category: 'Accessories', trustScore: 91, productCount: 45, customers: 1200, orderCount: 4500, rating: 4.7, bannerUrl: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c' },
-            { id: 's_003', slug: 'amina-fashion-handmade', name: 'Amina Handmade', category: 'Accessories', trustScore: 96, productCount: 22, customers: 890, orderCount: 4520, rating: 4.9, bannerUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8' }
+            { id: 's_001', slug: 'amina-fashion-main', name: 'Amina Fashion Main', category: 'Fashion', trustScore: 94, productCount: 89, customers: 2340, orderCount: 1450, rating: 4.8, reviewCount: 450, bannerUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8' },
+            { id: 's_002', slug: 'amina-fashion-accessories', name: 'Amina Accessories', category: 'Accessories', trustScore: 91, productCount: 45, customers: 1200, orderCount: 4500, rating: 4.7, reviewCount: 380, bannerUrl: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c' },
+            { id: 's_003', slug: 'amina-fashion-handmade', name: 'Amina Handmade', category: 'Accessories', trustScore: 96, productCount: 22, customers: 890, orderCount: 4520, rating: 4.9, reviewCount: 240, bannerUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8' }
         ],
         reviews: [
             { id: 'r_001', customerName: 'Chioma O.', customerAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=CO', orderCount: 2450, rating: 5, text: 'Absolutely love my purchase! Quality is amazing.', date: new Date('2023-07-10'), verified: true, images: ['https://images.unsplash.com/photo-1434389677669-e08b4cac3105'] },
@@ -82,8 +82,8 @@ const mockVendors = [
             { platform: 'twitter', url: 'https://twitter.com/techdealsng', handle: '@techdealsng' }
         ],
         shops: [
-            { id: 's_004', slug: 'tech-deals-ng-main', name: 'Tech Deals Main', category: 'Electronics', trustScore: 89, productCount: 50, customers: 1500, orderCount: 1150, rating: 4.6, bannerUrl: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c' },
-            { id: 's_005', slug: 'tech-deals-ng-gadgets', name: 'Tech Gadgets', category: 'Gadgets', trustScore: 87, productCount: 39, customers: 800, orderCount: 2250, rating: 4.5, bannerUrl: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c' }
+            { id: 's_004', slug: 'tech-deals-ng-main', name: 'Tech Deals Main', category: 'Electronics', trustScore: 89, productCount: 50, customers: 1500, orderCount: 1150, rating: 4.6, reviewCount: 150, bannerUrl: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c' },
+            { id: 's_005', slug: 'tech-deals-ng-gadgets', name: 'Tech Gadgets', category: 'Gadgets', trustScore: 87, productCount: 39, customers: 800, orderCount: 2250, rating: 4.5, reviewCount: 120, bannerUrl: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c' }
         ],
         reviews: [
             { id: 'r_003', customerName: 'Binta L.', customerAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=BL', orderCount: 2150, rating: 5, text: 'Amazing gadgets! Fast shipping.', date: new Date('2023-09-01'), verified: true, images: [] },
@@ -125,7 +125,7 @@ const mockVendors = [
             { platform: 'twitter', url: 'https://twitter.com/beautybox', handle: '@beautybox' }
         ],
         shops: [
-            { id: 's_006', slug: 'beauty-box-main', name: 'Beauty Box Main', category: 'Beauty', trustScore: 96, productCount: 67, customers: 2100, orderCount: 750, rating: 4.9, bannerUrl: 'https://images.unsplash.com/photo-1596462502278-27bfdd403348' }
+            { id: 's_006', slug: 'beauty-box-main', name: 'Beauty Box Main', category: 'Beauty', trustScore: 96, productCount: 67, customers: 2100, orderCount: 750, rating: 4.9, reviewCount: 180, bannerUrl: 'https://images.unsplash.com/photo-1596462502278-27bfdd403348' }
         ],
         reviews: [
             { id: 'r_005', customerName: 'Blessing M.', customerAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=BM', orderCount: 1150, rating: 5, text: 'Love the skincare products!', date: new Date('2023-05-01'), verified: true, images: [] }
@@ -165,7 +165,7 @@ const mockVendors = [
             { platform: 'whatsapp', url: 'https://wa.me/2348012345678', handle: '+234 801 234 5678' }
         ],
         shops: [
-            { id: 's_007', slug: 'home-essentials-main', name: 'Home Essentials Main', category: 'Home', trustScore: 72, productCount: 45, customers: 650, orderCount: 450, rating: 4.3, bannerUrl: 'https://images.unsplash.com/photo-1556911220-bff31c812dba' }
+            { id: 's_007', slug: 'home-essentials-main', name: 'Home Essentials Main', category: 'Home', trustScore: 72, productCount: 45, customers: 650, orderCount: 450, rating: 4.3, reviewCount: 210, bannerUrl: 'https://images.unsplash.com/photo-1556911220-bff31c812dba' }
         ],
         reviews: [
             { id: 'r_006', customerName: 'Fatima S.', customerAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=FS', orderCount: 1850, rating: 4, text: 'Good home items, delivery was okay.', date: new Date('2024-01-20'), verified: true, images: [] }
@@ -206,8 +206,8 @@ const mockVendors = [
             { platform: 'twitter', url: 'https://twitter.com/fitlifestore', handle: '@fitlifestore' }
         ],
         shops: [
-            { id: 's_008', slug: 'fit-life-store-main', name: 'Fit Life Main', category: 'Sports', trustScore: 87, productCount: 60, customers: 1300, orderCount: 2450, rating: 4.5, bannerUrl: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438' },
-            { id: 's_009', slug: 'fit-life-store-activewear', name: 'Fit Activewear', category: 'Health', trustScore: 85, productCount: 52, customers: 950, orderCount: 450, rating: 4.7, bannerUrl: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438' }
+            { id: 's_008', slug: 'fit-life-store-main', name: 'Fit Life Main', category: 'Sports', trustScore: 87, productCount: 60, customers: 1300, orderCount: 2450, rating: 4.5, reviewCount: 320, bannerUrl: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438' },
+            { id: 's_009', slug: 'fit-life-store-activewear', name: 'Fit Activewear', category: 'Health', trustScore: 85, productCount: 52, customers: 950, orderCount: 450, rating: 4.7, reviewCount: 240, bannerUrl: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438' }
         ],
         reviews: [
             { id: 'r_007', customerName: 'Emeka T.', customerAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=ET', orderCount: 1250, rating: 5, text: 'Great sports gear!', date: new Date('2023-10-01'), verified: true, images: [] }
@@ -247,7 +247,7 @@ const mockVendors = [
             { platform: 'whatsapp', url: 'https://wa.me/2348012345678', handle: '+234 801 234 5678' }
         ],
         shops: [
-            { id: 's_010', slug: 'kids-corner-main', name: 'Kids Corner Main', category: 'Kids', trustScore: 91, productCount: 78, customers: 1400, orderCount: 1250, rating: 4.7, bannerUrl: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9' }
+            { id: 's_010', slug: 'kids-corner-main', name: 'Kids Corner Main', category: 'Kids', trustScore: 91, productCount: 78, customers: 1400, orderCount: 1250, rating: 4.7, reviewCount: 150, bannerUrl: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9' }
         ],
         reviews: [
             { id: 'r_008', customerName: 'Adaeze U.', customerAvatar: 'https://api.dicebear.com/7.x/initials/svg?seed=AU', orderCount: 1450, rating: 5, text: 'Kids love the toys! Excellent service.', date: new Date('2023-08-01'), verified: true, images: [] }

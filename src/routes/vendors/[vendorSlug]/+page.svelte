@@ -517,7 +517,7 @@
           <p class="text-text-muted">No shops found matching your criteria.</p>
         {:else}
           {#each $paginatedShops as shop}
-            <ShopCard {shop} vendorSlug={vendor.slug} />
+            <ShopCard {shop} />
           {/each}
         {/if}
       </div>

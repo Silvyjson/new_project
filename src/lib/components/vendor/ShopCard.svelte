@@ -6,7 +6,6 @@
     import Button from "$lib/components/ui/Button.svelte";
 
     export let shop: Shop;
-    export let vendorSlug: string;
     export let className: string = "";
 
     const getTrustScoreColor = (score: number) => {

@@ -10,6 +10,7 @@
         { name: "About", href: "/about" },
         { name: "Vendors", href: "/vendors" },
         { name: "Shops", href: "/shops" },
+        { name: "Blog", href: "/blog" },
         { name: "Support", href: "/support" },
     ];
 
@@ -56,7 +57,7 @@
                     <span
                         class="absolute left-0 -bottom-1 h-0.5 bg-primary transition-all duration-300
             {isActive(item) ? 'w-full' : 'w-0 group-hover:w-full'}"
-                    />
+                    ></span>
                 </a>
             {/each}
         </div>

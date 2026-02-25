@@ -654,10 +654,12 @@
     {#if showCartDrawer}
         <div class="fixed inset-0 z-[100]" role="dialog" aria-modal="true">
             <!-- Overlay -->
-            <div
-                class="absolute inset-0 bg-dark/50"
+            <button
+                class="absolute inset-0 bg-dark/50 w-full h-full border-none cursor-default"
                 on:click={() => (showCartDrawer = false)}
-            ></div>
+                aria-label="Close cart"
+                type="button"
+            ></button>
 
             <!-- Drawer -->
             <div

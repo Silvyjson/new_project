@@ -57,6 +57,19 @@
   --color-danger/20: rgb(239 68 68 / 0.2);
   --color-danger/30: rgb(239 68 68 / 0.3);
 
+  /* Blog Category Colors */
+  --color-indigo-100: rgb(224 231 255);
+  --color-indigo-700: rgb(67 56 202);
+  --color-purple-100: rgb(243 232 255);
+  --color-purple-700: rgb(126 34 206);
+  --color-blue-100: rgb(219 234 254);
+  --color-blue-700: rgb(29 78 216);
+
+  /* Prose Typography */
+  --text-prose-body: 17px;
+  --text-prose-heading: 22px;
+  --leading-prose: 1.9;
+
   /* 🔤 Typography */
   --font-sans: "Inter", system-ui, sans-serif;
 

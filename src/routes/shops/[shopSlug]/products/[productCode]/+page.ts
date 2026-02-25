@@ -1,6 +1,6 @@
-// src/routes/shops/[shopSlug]/products/[productCode]/+page.ts
 import type { PageLoad } from './$types';
 import { error } from '@sveltejs/kit';
+import type { StockStatus } from '$lib/types';
 
 // Mock product data
 const mockProduct = {
@@ -35,7 +35,7 @@ const mockProduct = {
     new: false,
     category: 'Sneakers',
     brand: 'Jordan',
-    stockStatus: 'in-stock',
+    stockStatus: 'in-stock' as StockStatus,
     stockCount: 12,
     preorderNote: null,
     rating: 4.9,
@@ -61,6 +61,7 @@ const mockProduct = {
         ]
     },
     shipping: {
+        price: 1500,
         freeShipping: true,
         estimatedDays: '2-5 business days',
         expressAvailable: true,
@@ -78,6 +79,7 @@ const mockProduct = {
             code: 'UK-NB550-002',
             vendorId: 'v_001',
             name: 'New Balance 550 White',
+            description: 'Classic New Balance sneakers in white.',
             price: 72000,
             currency: 'NGN',
             images: ['https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2'],
@@ -86,7 +88,7 @@ const mockProduct = {
             new: true,
             rating: 4.7,
             reviewCount: 28,
-            stockStatus: 'in-stock',
+            stockStatus: 'in-stock' as StockStatus,
             category: 'Sneakers',
             createdAt: new Date('2024-01-01')
         },
@@ -95,6 +97,7 @@ const mockProduct = {
             code: 'UK-ADY90-003',
             vendorId: 'v_001',
             name: 'Adidas Yeezy Boost 350',
+            description: 'Popular Adidas Yeezy Boost 350 in high demand.',
             price: 120000,
             currency: 'NGN',
             images: ['https://images.unsplash.com/photo-1584735175315-9d5df23860e6'],
@@ -103,7 +106,7 @@ const mockProduct = {
             new: false,
             rating: 4.8,
             reviewCount: 56,
-            stockStatus: 'in-stock',
+            stockStatus: 'in-stock' as StockStatus,
             category: 'Sneakers',
             createdAt: new Date('2023-12-15')
         }

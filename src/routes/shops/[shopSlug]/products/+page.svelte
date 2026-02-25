@@ -114,8 +114,6 @@
             return { text: "Free Shipping", variant: "default" as const };
         return null;
     };
-
-    const badge = getStockBadge(products);
 </script>
 
 <svelte:head>
@@ -395,6 +393,7 @@
                     <!-- List View -->
                     <div class="space-y-4">
                         {#each products as product, i}
+                            {@const badge = getStockBadge(product)}
                             <div
                                 in:fly={{
                                     y: 20,

@@ -21,7 +21,9 @@
             </p>
             <div class="flex mt-4 gap-4">
                 <a
-                    href="#"
+                    href="https://x.com/vendorhub"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     class="text-gray-400 hover:text-white transition-colors"
                     aria-label="X (Twitter)"
                 >
@@ -29,7 +31,9 @@
                 </a>
 
                 <a
-                    href="#"
+                    href="https://instagram.com/vendorhub"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     class="text-gray-400 hover:text-white transition-colors"
                     aria-label="Instagram"
                 >
@@ -37,7 +41,9 @@
                 </a>
 
                 <a
-                    href="#"
+                    href="https://tiktok.com/@vendorhub"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     class="text-gray-400 hover:text-white transition-colors"
                     aria-label="TikTok"
                 >
