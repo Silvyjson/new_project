@@ -57,8 +57,12 @@
             <h4 class="font-bold mb-4">Company</h4>
             <ul class="space-y-2 text-small text-gray-400">
                 <li><a href="/about" class="hover:text-white">About Us</a></li>
-                <li><a href="/pricing" class="hover:text-white">Pricing</a></li>
-                <li><a href="/blog" class="hover:text-white">Blog</a></li>
+                <li>
+                    <a href="/#pricing" class="hover:text-white">Pricing</a>
+                </li>
+                <li>
+                    <a href="/#features" class="hover:text-white">Features</a>
+                </li>
                 <!-- <li>
                     <a href="/careers" class="hover:text-white">Careers</a>
                 </li> -->
@@ -71,11 +75,7 @@
             <ul class="space-y-2 text-small text-gray-400">
                 <li><a href="/vendors" class="hover:text-white">Vendors</a></li>
                 <li><a href="/shops" class="hover:text-white">Shops</a></li>
-                <li>
-                    <a href="/auth/register" class="hover:text-white"
-                        >Become a Vendor</a
-                    >
-                </li>
+                <li><a href="/blog" class="hover:text-white">Blog</a></li>
             </ul>
         </div>
 

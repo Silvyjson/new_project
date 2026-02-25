@@ -84,7 +84,7 @@
         <div class="container max-w-7xl mx-auto px-4">
             <div class="text-center mb-10 animate-fade-in">
                 <h1
-                    class="text-[40px] md:text-[50px] font-bold text-text-main mb-4"
+                    class="text-[36px] md:text-[40px] font-bold text-text-main mb-4"
                 >
                     Discover insights and ideas
                 </h1>
@@ -111,7 +111,7 @@
                 <input
                     type="text"
                     placeholder="Search blog articles..."
-                    class="w-full pl-12 pr-4 h-[48px] rounded-xl border border-gray-200 focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none transition-all text-body"
+                    class="w-full pl-12 pr-4 h-[50px] rounded-xl border border-gray-200 focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none transition-all text-body shadow-sm"
                     bind:value={searchQuery}
                     on:input={handleSearch}
                 />
@@ -315,7 +315,7 @@
                 <!-- Blog Grid -->
                 <div class="lg:col-span-3">
                     {#if posts.length > 0}
-                        <div class="grid md:grid-cols-2 gap-6">
+                        <div class="grid md:grid-cols-3 gap-6">
                             {#each posts as post, i}
                                 <Card
                                     hover={true}
@@ -482,27 +482,6 @@
                         </Card>
                     {/if}
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 🔷 SECTION 4: CTA — START A BLOG -->
-    <section class="py-16 bg-surface">
-        <div class="container max-w-4xl mx-auto px-4 text-center">
-            <h2 class="text-h2 text-text-main mb-4">Are You a Vendor?</h2>
-            <p class="text-body text-text-muted mb-8 max-w-2xl mx-auto">
-                Share your story, announce new products, and connect with
-                customers through the VendorHub Blog.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button
-                    href="/auth/register?plan=pro"
-                    variant="primary"
-                    size="lg">Start Blogging</Button
-                >
-                <Button href="/dashboard/blog" variant="outline" size="lg"
-                    >Go to Dashboard</Button
-                >
             </div>
         </div>
     </section>

@@ -20,6 +20,7 @@
     // Animation state for counters
     let countersVisible = false;
     let vendorCount = 0;
+    let shopCount = 0;
     let customerCount = 0;
     let securedAmount = 0;
 
@@ -29,9 +30,10 @@
         const steps = 60;
         const interval = duration / steps;
 
-        const vendorTarget = 10000;
-        const customerTarget = 100000;
-        const securedTarget = 500000000;
+        const vendorTarget = 1000;
+        const shopTarget = 5000;
+        const customerTarget = 98;
+        const securedTarget = 10000000;
 
         let step = 0;
         const timer = setInterval(() => {
@@ -40,12 +42,14 @@
             const ease = cubicOut(progress);
 
             vendorCount = Math.floor(vendorTarget * ease);
+            shopCount = Math.floor(shopTarget * ease);
             customerCount = Math.floor(customerTarget * ease);
             securedAmount = Math.floor(securedTarget * ease);
 
             if (step >= steps) {
                 clearInterval(timer);
                 vendorCount = vendorTarget;
+                shopCount = shopTarget;
                 customerCount = customerTarget;
                 securedAmount = securedTarget;
             }
@@ -626,35 +630,45 @@
     <!-- 🔷 SECTION 8: IMPACT (Animated Counters) -->
     <section id="impact-section" class="py-24 bg-surface">
         <div class="container">
-            <div class="grid md:grid-cols-3 gap-8 text-center">
+            <div class="grid md:grid-cols-4 gap-8 text-center">
                 <!-- Vendors Counter -->
                 <div class="animate-fade-in" style="transition-delay: 0ms">
                     <div class="text-[48px] font-bold text-primary mb-2">
                         {countersVisible
                             ? `${vendorCount.toLocaleString()}+`
-                            : "10,000+"}
+                            : "1,000+"}
                     </div>
                     <div class="text-body text-text-muted">
                         Verified Vendors
                     </div>
                 </div>
 
+                <!-- Shops Counter -->
+                <div class="animate-fade-in" style="transition-delay: 100ms">
+                    <div class="text-[48px] font-bold text-primary mb-2">
+                        {countersVisible
+                            ? `${shopCount.toLocaleString()}+`
+                            : "5,000+"}
+                    </div>
+                    <div class="text-body text-text-muted">Active Shops</div>
+                </div>
+
                 <!-- Customers Counter -->
                 <div class="animate-fade-in" style="transition-delay: 150ms">
                     <div class="text-[48px] font-bold text-primary mb-2">
                         {countersVisible
-                            ? `${customerCount.toLocaleString()}+`
-                            : "100,000+"}
+                            ? `${customerCount.toLocaleString()}%`
+                            : "98%"}
                     </div>
-                    <div class="text-body text-text-muted">Happy Customers</div>
+                    <div class="text-body text-text-muted">
+                        Successful Deliveries
+                    </div>
                 </div>
 
                 <!-- Secured Payments Counter -->
                 <div class="animate-fade-in" style="transition-delay: 300ms">
                     <div class="text-[48px] font-bold text-primary mb-2">
-                        {countersVisible
-                            ? formatNaira(securedAmount)
-                            : "₦500M+"}
+                        {countersVisible ? formatNaira(securedAmount) : "₦10M+"}
                     </div>
                     <div class="text-body text-text-muted">
                         Secured Payments

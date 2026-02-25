@@ -329,6 +329,21 @@
 
                 <!-- Menu -->
                 <div class="flex-1 overflow-y-auto p-6 space-y-6 text-sm">
+                    <div>
+                        <ul class="space-y-3">
+                            <li>
+                                <a href="/home" class="hover:text-primary"
+                                    >Home</a
+                                >
+                            </li>
+                            <li>
+                                <a href="/blog" class="hover:text-primary"
+                                    >Blog</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+
                     <!-- Orders -->
                     <div>
                         <p class="text-xs text-text-muted mb-3 uppercase">
@@ -370,6 +385,12 @@
                                     class="hover:text-primary">Saved Shops</a
                                 >
                             </li>
+                            <li>
+                                <a
+                                    href="/saved-vendors"
+                                    class="hover:text-primary">Saved Vendors</a
+                                >
+                            </li>
                         </ul>
                     </div>
 
@@ -391,8 +412,8 @@
                                 >
                             </li>
                             <li>
-                                <a href="/security" class="hover:text-primary"
-                                    >Security</a
+                                <a href="/support" class="hover:text-primary"
+                                    >Support</a
                                 >
                             </li>
                         </ul>

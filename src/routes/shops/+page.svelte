@@ -149,7 +149,9 @@
             <h1
                 class="text-[48px] md:text-[56px] font-bold text-text-main leading-tight mb-6"
             >
-                Discover Trusted Shops
+                Discover <span class="text-primary border-b-4 border-primary/30"
+                    >Trusted</span
+                > Shops on VendorHub
             </h1>
             <p
                 class="text-[18px] text-text-muted max-w-[650px] mx-auto mb-10 leading-relaxed"
@@ -191,7 +193,7 @@
     </section>
 
     <!-- 🔷 SECTION 3: QUICK CATEGORY STRIP -->
-    <section
+    <!-- <section
         class="py-6 bg-background-light border-b border-gray-200 overflow-x-auto"
     >
         <div class="container max-w-7xl mx-auto px-4">
@@ -213,7 +215,11 @@
                 {/each}
             </div>
         </div>
-    </section>
+    </section> -->
+
+    <section
+        class="py-1 bg-background-light border-b border-gray-200 overflow-x-auto"
+    ></section>
 
     <!-- 🔷 SECTION 4: ADVANCED FILTER BAR -->
     <section

@@ -113,6 +113,17 @@
     // Scroll up a bit when page changes, optional
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+
+  let isFollowing = false;
+
+  function toggleFollow() {
+    isFollowing = !isFollowing;
+  }
+
+  function contactVendor() {
+    // open modal OR navigate
+    console.log("Open contact modal");
+  }
 </script>
 
 <svelte:head>
@@ -134,58 +145,73 @@
       <div class="grid md:grid-cols-3 gap-8">
         <!-- LEFT: Vendor Identity Block -->
         <div class="md:col-span-2 animate-fade-in">
-          <div class="flex items-start gap-6">
-            <!-- Avatar -->
+          <!-- 🔷 COVER PHOTO -->
+          <div class="relative mb-16">
             <img
-              src={vendor.logoUrl}
-              alt={vendor.name}
-              class="w-[120px] h-[120px] rounded-full object-cover border-4 {vendor.verified
-                ? 'border-primary'
-                : 'border-gray-200'} shadow-card"
+              src={vendor.coverUrl}
+              alt="{vendor.name} cover"
+              class="w-full h-[220px] md:h-[260px] object-cover rounded-2xl"
             />
 
-            <!-- Info -->
-            <div class="flex-1 pt-2">
+            <!-- Overlay gradient (optional premium feel) -->
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-2xl"
+            ></div>
+
+            <!-- Avatar (overlapping) -->
+            <div class="absolute -bottom-12 left-8">
+              <img
+                src={vendor.logoUrl}
+                alt={vendor.name}
+                class="w-[120px] h-[120px] rounded-full object-cover border-4 {vendor.verified
+                  ? 'border-primary'
+                  : 'border-white'} shadow-xl bg-white"
+              />
+            </div>
+          </div>
+
+          <!-- 🔷 INFO SECTION -->
+          <div
+            class="flex flex-col md:flex-row md:items-start md:justify-between gap-8 px-4 md:px-8"
+          >
+            <!-- LEFT SIDE -->
+            <div class="flex-1 pt-4 md:pt-0 md:ml-[140px]">
+              <!-- Name + Badges -->
               <div class="flex items-center gap-3 flex-wrap mb-2">
                 <h1 class="text-[36px] font-bold text-text-main">
                   {vendor.name}
                 </h1>
+
                 {#if vendor.verified}
                   <TrustBadge size="md" />
                 {/if}
+
                 {#if vendor.eliteVendor}
                   <span
                     class="inline-flex items-center gap-1.5 bg-yellow-100 text-yellow-700 text-sm px-3 py-1 rounded-full font-medium"
                   >
-                    <span>⭐</span>
-                    <span>Top 1% Vendor</span>
+                    ⭐ Top 1% Vendor
                   </span>
                 {/if}
               </div>
 
-              <!-- Meta Information -->
+              <!-- Meta Info -->
               <div class="flex flex-wrap gap-4 text-body text-text-muted mb-4">
                 <span class="flex items-center gap-1.5">
-                  <span>📍</span>
-                  <span>{vendor.location}</span>
+                  📍 {vendor.location}
                 </span>
                 <span class="flex items-center gap-1.5">
-                  <span>🗓</span>
-                  <span>Member since {formatDate(vendor.joinedAt)}</span>
+                  🗓 Member since {formatDate(vendor.joinedAt)}
                 </span>
                 <span class="flex items-center gap-1.5">
-                  <span>🏬</span>
-                  <span>{vendor.shopCount} Active Shops</span>
+                  🏬 {vendor.shopCount} Active Shops
                 </span>
                 <span class="flex items-center gap-1.5">
-                  <span>📦</span>
-                  <span
-                    >{vendor.totalOrders.toLocaleString()}+ Orders Completed</span
-                  >
+                  📦 {vendor.totalOrders.toLocaleString()}+ Orders Completed
                 </span>
               </div>
 
-              <!-- Category Tags -->
+              <!-- Categories -->
               <div class="flex flex-wrap gap-2 mb-4">
                 {#each vendor.categories as category}
                   <span
@@ -196,7 +222,7 @@
                 {/each}
               </div>
 
-              <!-- Social Links -->
+              <!-- Socials -->
               <div class="flex items-center gap-3">
                 {#each vendor.socials as social}
                   <a
@@ -204,12 +230,38 @@
                     target="_blank"
                     rel="noopener noreferrer"
                     class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-xl hover:bg-primary hover:text-white transition-colors"
-                    aria-label="Visit {vendor.name} on {social.platform}"
                   >
                     {socialIcons[social.platform]}
                   </a>
                 {/each}
               </div>
+            </div>
+
+            <!-- 🔷 RIGHT SIDE (ACTIONS) -->
+            <div class="flex flex-col gap-3 w-full md:w-auto">
+              <!-- Follow -->
+              <button
+                class="px-6 py-3 bg-primary text-white rounded-xl font-medium hover:opacity-90 transition"
+                on:click={toggleFollow}
+              >
+                {isFollowing ? "Following" : "Follow Vendor"}
+              </button>
+
+              <!-- View Active Shop -->
+              <button
+                on:click={() => copyProfileLink()}
+                class="px-6 py-3 border border-gray-300 rounded-xl text-center font-medium hover:border-primary hover:text-primary transition"
+              >
+                Copy Link
+              </button>
+
+              <!-- Contact Vendor -->
+              <button
+                class="px-6 py-3 border border-gray-300 rounded-xl font-medium hover:border-primary hover:text-primary transition"
+                on:click={contactVendor}
+              >
+                Report Vendor
+              </button>
             </div>
           </div>
         </div>

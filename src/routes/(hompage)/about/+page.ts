@@ -9,9 +9,10 @@ export const load: PageLoad = async () => {
             ogImage: '/images/about-og.jpg'
         },
         stats: {
-            vendors: '10,000+',
-            customers: '100,000+',
-            secured: '₦500M+'
+            vendors: '1,000+',
+            shops: '5,000+',
+            customers: '98%',
+            secured: '₦10M+'
         }
     };
 };

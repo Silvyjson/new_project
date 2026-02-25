@@ -191,22 +191,51 @@
         > Vendors on VendorHub
       </h1>
       <p
-        class="text-[18px] text-text-muted max-w-[650px] mx-auto leading-relaxed"
+        class="text-[18px] text-text-muted max-w-[650px] mx-auto mb-10 leading-relaxed"
       >
         Find verified sellers with transparent trust scores and secure payments
         — all in one trusted marketplace.
       </p>
+
+      <!-- Large Search Bar -->
+      <div class="relative max-w-[600px] mx-auto">
+        <svg
+          class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-text-muted"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+        <input
+          type="text"
+          placeholder="Search vendors, categories, or products..."
+          class="w-full pl-14 pr-32 py-4 rounded-xl border border-gray-200 focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none transition-all text-body shadow-card"
+          bind:value={searchQuery}
+          on:input={handleSearch}
+        />
+        <button
+          on:click={updateFilters}
+          class="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-white px-6 py-2.5 rounded-btn font-medium hover:bg-primary-hover transition-colors"
+        >
+          Search
+        </button>
+      </div>
     </div>
   </section>
 
   <!-- 🔷 SECTION 3: LIVE STATS STRIP -->
-  <section
+  <!-- <section
     id="stats-section"
     class="py-10 bg-background-light border-y border-gray-200"
   >
     <div class="container">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-        <!-- Stat 1 -->
         <div class="text-center animate-fade-in" style="transition-delay: 0ms">
           <div class="text-[32px] font-bold text-primary mb-1">
             {countersVisible
@@ -216,7 +245,6 @@
           <div class="text-small text-text-muted">Verified Vendors</div>
         </div>
 
-        <!-- Stat 2 -->
         <div
           class="text-center animate-fade-in"
           style="transition-delay: 100ms"
@@ -229,7 +257,6 @@
           <div class="text-small text-text-muted">Active Shops</div>
         </div>
 
-        <!-- Stat 3 -->
         <div
           class="text-center animate-fade-in"
           style="transition-delay: 200ms"
@@ -240,7 +267,6 @@
           <div class="text-small text-text-muted">Successful Deliveries</div>
         </div>
 
-        <!-- Stat 4 -->
         <div
           class="text-center animate-fade-in"
           style="transition-delay: 300ms"
@@ -252,7 +278,11 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
+
+  <section
+    class="py-1 bg-background-light border-b border-gray-200 overflow-x-auto"
+  ></section>
 
   <!-- 🔷 SECTION 4: SEARCH + FILTER BAR (Sticky) -->
   <section
@@ -260,28 +290,12 @@
   >
     <div class="container max-w-[1200px] mx-auto px-4">
       <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
-        <!-- Search Input -->
-        <div class="relative w-full md:w-[320px]">
-          <svg
-            class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        <!-- Results Count -->
+        <div class="text-body text-text-muted">
+          Showing <span class="font-semibold text-text-main"
+            >{vendors.length}</span
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-          <input
-            type="text"
-            placeholder="Search vendors, products..."
-            class="w-full pl-10 pr-4 py-2.5 rounded-btn border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body"
-            bind:value={searchQuery}
-            on:input={handleSearch}
-          />
+          of <span class="font-semibold text-text-main">{totalVendors}</span> vendors
         </div>
 
         <!-- Filters -->
@@ -382,17 +396,7 @@
 
   <!-- 🔷 SECTION 5: VENDOR GRID -->
   <section class="py-16 bg-background-light">
-    <div class="container">
-      <!-- Results Count -->
-      <div class="flex items-center justify-between mb-8">
-        <p class="text-body text-text-muted">
-          Showing <span class="font-semibold text-text-main"
-            >{vendors.length}</span
-          >
-          of <span class="font-semibold text-text-main">{totalVendors}</span> vendors
-        </p>
-      </div>
-
+    <div class="container max-w-7xl mx-auto px-4">
       <!-- Vendor Cards Grid -->
       {#if vendors.length > 0}
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
