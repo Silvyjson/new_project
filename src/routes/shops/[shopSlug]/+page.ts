@@ -309,6 +309,7 @@ export const load: PageLoad = async ({ params, url }) => {
     return {
         shop,
         products,
+        totalProducts: products.length,
         featuredProducts,
         categories,
         reviews: mockReviews,

@@ -52,10 +52,10 @@
   };
 
   // Copy shop link
-  const copyShopLink = () => {
-    const url = `${window.location.origin}/vendors/${vendor.slug}/shop`;
+  const copyProfileLink = () => {
+    const url = `${window.location.origin}/vendors/${vendor.slug}`;
     navigator.clipboard.writeText(url);
-    alert("Shop link copied to clipboard!");
+    alert("Profile link copied to clipboard!");
   };
 
   import { writable, derived } from "svelte/store";
@@ -319,7 +319,7 @@
             <!-- CTA Buttons -->
             <div class="space-y-3">
               <Button
-                href="/vendors/{vendor.slug}/shop"
+                href="/vendors/{vendor.slug}#shop"
                 variant="primary"
                 size="lg"
                 className="w-full"
@@ -475,7 +475,7 @@
   </section>
 
   <!-- 🔷 SECTION 5: ACTIVE SHOPS (Multi-Shop Feature) -->
-  <section class="py-20 bg-background-light">
+  <section id="shop" class="py-20 bg-background-light">
     <div class="container max-w-7xl mx-auto px-4">
       <h2 class="text-h2 text-text-main mb-8">
         Active Shops ({vendor.shops.length})
@@ -724,10 +724,10 @@
               🚩 Report Vendor
             </Button>
             <button
-              on:click={copyShopLink}
+              on:click={copyProfileLink}
               class="w-full px-6 py-4 rounded-btn border border-gray-200 text-text-muted hover:border-primary hover:text-primary transition-colors text-body font-medium"
             >
-              🔗 Copy Shop Link
+              🔗 Copy Profile Link
             </button>
           </div>
         </Card>

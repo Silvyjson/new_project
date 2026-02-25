@@ -536,31 +536,39 @@
     </section>
 
     <!-- 🔷 SECTION 6: TRUST & SAFETY -->
-    <section class="py-24 bg-surface">
-        <div class="container max-w-4xl mx-auto text-center">
+    <section class="py-28 bg-surface">
+        <div class="container max-w-6xl mx-auto px-6 text-center">
             <h2 class="text-h2 text-text-main mb-4">Built on Trust</h2>
-            <p class="text-body text-text-muted mb-12 max-w-2xl mx-auto">
+
+            <p class="text-body text-text-muted mb-16 max-w-2xl mx-auto">
                 Every feature is designed to protect honest vendors and
                 confident buyers.
             </p>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Cards -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {#each features as item}
                     <Card
-                        className="p-6 border border-gray-100 hover:border-primary/30 transition-colors"
+                        className="p-8 rounded-2xl border border-gray-100 bg-white
+                     hover:shadow-xl hover:-translate-y-1
+                     transition-all duration-300 text-left"
                     >
-                        <div class="text-3xl mb-4">{item.icon}</div>
-                        <h3 class="text-h4 text-text-main mb-2">
+                        <div class="text-4xl mb-6">{item.icon}</div>
+
+                        <h3 class="text-lg font-semibold text-text-main mb-3">
                             {item.title}
                         </h3>
-                        <p class="text-small text-text-muted">{item.desc}</p>
+
+                        <p class="text-sm text-text-muted leading-relaxed">
+                            {item.desc}
+                        </p>
                     </Card>
                 {/each}
             </div>
 
             <!-- Security Badge -->
             <div
-                class="mt-12 flex items-center justify-center gap-3 text-sm text-text-muted"
+                class="mt-16 flex items-center justify-center gap-3 text-sm text-text-muted"
             >
                 <svg
                     class="w-5 h-5 text-success"
@@ -575,9 +583,9 @@
                         d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
                     />
                 </svg>
-                <span
-                    >PCI-DSS Compliant • 256-bit SSL Encryption • GDPR Ready</span
-                >
+                <span>
+                    PCI-DSS Compliant • 256-bit SSL Encryption • GDPR Ready
+                </span>
             </div>
         </div>
     </section>

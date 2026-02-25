@@ -10,7 +10,7 @@
         { name: "About", href: "/about" },
         { name: "Vendors", href: "/vendors" },
         { name: "Shops", href: "/shops" },
-        { name: "Contact", href: "/contact" },
+        { name: "Support", href: "/support" },
     ];
 
     function isActive(item) {

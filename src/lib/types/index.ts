@@ -81,8 +81,8 @@ export interface Shop {
     bannerUrl?: string;
     logoUrl?: string;
     rating: number;
-    reviewCount?: number;
-    productCount: number;
+    reviewCount: number;
+    productCount?: number;
     orderCount: number;
     customers?: number;
     trustScore: number;

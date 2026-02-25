@@ -120,6 +120,12 @@
         isFollowing = !isFollowing;
         // In real app: API call to follow/unfollow
     };
+
+    const copyShopLink = () => {
+        const url = `${window.location.origin}/shops/${shop.slug}`;
+        navigator.clipboard.writeText(url);
+        alert("Shop link copied to clipboard!");
+    };
 </script>
 
 <svelte:head>
@@ -154,7 +160,7 @@
                         {/if}
                     </div>
                     <p class="text-xs text-text-muted">
-                        Verified Shop on VendorHub ✓
+                        Verified Shop on VendorHub
                     </p>
                 </div>
             </a>
@@ -774,6 +780,12 @@
                         >
                             🚩 Report Shop
                         </Button>
+                        <button
+                            on:click={copyShopLink}
+                            class="w-full px-6 py-4 rounded-btn border border-gray-200 text-text-muted hover:border-primary hover:text-primary transition-colors text-body font-medium"
+                        >
+                            🔗 Copy Shop Link
+                        </button>
                     </div>
                 </div>
 
@@ -817,40 +829,6 @@
             </div>
         </div>
     </section>
-
-    <!-- 🔷 SECTION 9: VENDORHUB TRUST STRIP (Subtle Platform Reinforcement) -->
-    <section class="py-12 bg-dark text-text-inverse">
-        <div class="container max-w-4xl mx-auto px-4 text-center">
-            <p class="text-lg font-medium mb-6">
-                This shop is verified and secured by VendorHub
-            </p>
-            <div class="grid md:grid-cols-3 gap-6">
-                {#each [{ icon: "🔒", title: "Secure Payments", desc: "Funds held until delivery" }, { icon: "✓", title: "Trust Score", desc: "Transparent performance metrics" }, { icon: "⚖️", title: "Dispute Protection", desc: "Fair resolution guaranteed" }] as item}
-                    <div class="flex flex-col items-center">
-                        <div class="text-3xl mb-2">{item.icon}</div>
-                        <h3 class="font-semibold mb-1">{item.title}</h3>
-                        <p class="text-small opacity-80">{item.desc}</p>
-                    </div>
-                {/each}
-            </div>
-        </div>
-    </section>
-
-    <!-- 🔷 SECTION 10: MINIMAL POWERED BY FOOTER -->
-    <footer class="bg-surface border-t border-gray-200 py-8">
-        <div class="container max-w-7xl mx-auto px-4 text-center">
-            <p class="text-small text-text-muted">
-                Powered by <a
-                    href="/"
-                    class="text-primary font-medium hover:underline"
-                    >VendorHub</a
-                >
-            </p>
-            <p class="text-small text-text-muted mt-2">
-                Build your own trusted shop today →
-            </p>
-        </div>
-    </footer>
 </main>
 
 <style>

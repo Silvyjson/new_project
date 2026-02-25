@@ -35,6 +35,28 @@
   --color-error: #EF4444;
   --color-error-light: #FEF2F2;
 
+  --color-whatsapp: #25D366;
+  --color-whatsapp-hover: #1EBE5D;
+
+  /* Accents for Trust Pillars */
+  --color-info: #8B5CF6;
+  --color-info/10: rgb(139 92 246 / 0.1);
+  --color-info/20: rgb(139 92 246 / 0.2);
+
+  /* Warning/Alert Colors */
+  --color-warning: #F59E0B;
+  --color-warning/5: rgb(245 158 11 / 0.05);
+  --color-warning/10: rgb(245 158 11 / 0.1);
+  --color-warning/20: rgb(245 158 11 / 0.2);
+  --color-warning/30: rgb(245 158 11 / 0.3);
+
+  /* Danger/Security Colors */
+  --color-danger: #EF4444;
+  --color-danger/5: rgb(239 68 68 / 0.05);
+  --color-danger/10: rgb(239 68 68 / 0.1);
+  --color-danger/20: rgb(239 68 68 / 0.2);
+  --color-danger/30: rgb(239 68 68 / 0.3);
+
   /* 🔤 Typography */
   --font-sans: "Inter", system-ui, sans-serif;
 

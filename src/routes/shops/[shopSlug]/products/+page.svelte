@@ -1,6 +1,8 @@
 <!-- src/routes/shops/[shopSlug]/products/+page.svelte -->
 <script lang="ts">
     import { goto } from "$app/navigation";
+    import { page } from "$app/stores";
+    import { onMount, tick } from "svelte";
     import { fade, fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
 
@@ -28,6 +30,7 @@
 
     // Local filter state
     let searchQuery = filters.search;
+    let searchInput: HTMLInputElement;
     let selectedCategory = filters.category;
     let minPrice = filters.minPrice;
     let maxPrice = filters.maxPrice;
@@ -39,6 +42,13 @@
     // Cart state
     let cartItemCount = 0;
     let showCartNotification = false;
+
+    onMount(async () => {
+        if ($page.url.searchParams.get("focus") === "search") {
+            await tick();
+            searchInput?.focus();
+        }
+    });
 
     // Debounced search
     let searchTimeout: ReturnType<typeof setTimeout>;
@@ -200,6 +210,7 @@
                         />
                     </svg>
                     <input
+                        bind:this={searchInput}
                         type="text"
                         placeholder="Search in this shop..."
                         class="w-full pl-10 pr-4 h-11 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-soft-background"
@@ -574,100 +585,6 @@
             {/if}
         </div>
     </section>
-
-    <!-- 🔷 SECTION 4: MINIMAL FOOTER (VendorHub Light) -->
-    <footer class="bg-dark text-text-inverse py-12 border-t border-gray-800">
-        <div class="container max-w-7xl mx-auto px-4">
-            <div class="grid md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <h4 class="font-bold mb-4 text-white">About VendorHub</h4>
-                    <p class="text-sm text-gray-400">
-                        Secure marketplace for trusted vendors. Shop with
-                        confidence.
-                    </p>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4 text-white">Buyer Protection</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li>
-                            <a
-                                href="/trust"
-                                class="hover:text-white transition-colors"
-                                >How It Works</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="/dispute"
-                                class="hover:text-white transition-colors"
-                                >Dispute Resolution</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="/refund"
-                                class="hover:text-white transition-colors"
-                                >Refund Policy</a
-                            >
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4 text-white">Support</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li>
-                            <a
-                                href="/contact"
-                                class="hover:text-white transition-colors"
-                                >Contact Us</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="/faq"
-                                class="hover:text-white transition-colors"
-                                >FAQ</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="/help"
-                                class="hover:text-white transition-colors"
-                                >Help Center</a
-                            >
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4 text-white">Legal</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li>
-                            <a
-                                href="/privacy"
-                                class="hover:text-white transition-colors"
-                                >Privacy Policy</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                href="/terms"
-                                class="hover:text-white transition-colors"
-                                >Terms of Service</a
-                            >
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div
-                class="pt-8 border-t border-gray-800 text-center text-sm text-gray-500"
-            >
-                <p>
-                    © {new Date().getFullYear()} VendorHub. All rights reserved.
-                </p>
-                <p class="mt-2">🔒 Secure checkout powered by VendorHub</p>
-            </div>
-        </div>
-    </footer>
 
     <!-- 🔷 CART NOTIFICATION (Toast) -->
     {#if showCartNotification}

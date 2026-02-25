@@ -295,34 +295,84 @@
   </section>
 
   <!-- 🔷 SECTION 6: TRUST & SECURITY -->
-  <section class="py-24 bg-surface">
-    <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
-      <div class="order-2 md:order-1">
-        <div
-          class="bg-primary/5 rounded-2xl h-full p-8 flex items-center justify-center"
-        >
-          <span class="text-9xl">🛡️</span>
+  <section
+    class="relative py-24 bg-gradient-to-b from-surface to-surface/60 overflow-hidden"
+  >
+    <!-- Subtle background glow -->
+    <div
+      class="absolute -top-32 -right-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
+    ></div>
+
+    <div
+      class="container relative z-10 grid lg:grid-cols-2 gap-16 items-center"
+    >
+      <!-- LEFT: Premium Visual Card -->
+      <div class="animate-fade-in">
+        <div class="relative bg-dark rounded-3xl p-12 text-center shadow-2xl">
+          <span
+            class="absolute right-3 top-4 bg-success/10 text-success px-4 py-1 rounded-full text-sm font-medium mb-6"
+          >
+            Bank-Grade Security
+          </span>
+          <!-- Glow ring -->
+          <div class="absolute inset-0 rounded-3xl ring-1 ring-white/10"></div>
+
+          <div class="text-7xl mb-6">🛡️</div>
+
+          <h3 class="text-2xl font-semibold text-white mb-4">
+            Your Payment is Fully Protected
+          </h3>
+
+          <p class="text-white/70 mb-10 max-w-sm mx-auto">
+            Every transaction is secured with escrow protection and real vendor
+            verification.
+          </p>
+
+          <div class="grid grid-cols-3 gap-6 text-white">
+            <div>
+              <div class="text-3xl mb-2">🔒</div>
+              <p class="text-sm text-white/70">Funds Secured</p>
+            </div>
+            <div>
+              <div class="text-3xl mb-2">⚖️</div>
+              <p class="text-sm text-white/70">Disputes Resolved</p>
+            </div>
+            <div>
+              <div class="text-3xl mb-2">✓</div>
+              <p class="text-sm text-white/70">Verified Vendors</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="order-1 md:order-2">
-        <h2 class="text-h2 text-dark mb-6">Bank-Grade Security</h2>
+      <!-- RIGHT: Trust Breakdown -->
+      <div class="animate-fade-in" style="transition-delay: 100ms">
+        <h2 class="text-h3 text-text-main mb-8 leading-tight">
+          Why Buyers Trust VendorHub
+        </h2>
 
-        <ul class="space-y-4">
-          {#each securityPoints as item}
-            <li class="flex items-center gap-3 text-body text-dark">
-              <span
-                class="w-6 h-6 rounded-full bg-success/20 text-success flex items-center justify-center text-sm"
+        <div class="space-y-6">
+          {#each [{ title: "Identity Verified Vendors", desc: "Every vendor undergoes ID verification and manual approval before receiving a verified badge." }, { title: "Transparent Trust Score", desc: "Scores calculated from delivery rate, response time, reviews, and order completion." }, { title: "Secure Escrow Payments", desc: "Funds are safely held until you confirm delivery — eliminating scam risks." }, { title: "Fast Dispute Resolution", desc: "Our neutral resolution team reviews evidence and settles disputes within 48 hours." }] as item}
+            <div class="flex items-start gap-4">
+              <div
+                class="w-8 h-8 rounded-full bg-success/15 text-success flex items-center justify-center flex-shrink-0 mt-1"
               >
                 ✓
-              </span>
-              {item}
-            </li>
+              </div>
+              <div>
+                <h3 class="font-semibold text-sm mb-1">
+                  {item.title}
+                </h3>
+                <p class="text-text-muted text-xs">
+                  {item.desc}
+                </p>
+              </div>
+            </div>
           {/each}
-        </ul>
+        </div>
 
-        <Button href="/about" variant="outline" className="mt-8">
-          Learn More About Us
+        <Button href="/support#trust" variant="outline" className="mt-10">
+          Learn More About Safety
         </Button>
       </div>
     </div>
@@ -336,8 +386,9 @@
         <h2 class="text-h2 text-text-main mb-4">Frequently Asked Questions</h2>
         <p class="text-body text-text-muted">
           Everything you need to know about selling with VendorHub. Still have
-          questions? <a href="/contact" class="text-primary hover:underline"
-            >Contact us</a
+          questions? <a
+            href="/support#contact"
+            class="text-primary hover:underline">Contact us</a
           >.
         </p>
       </div>
@@ -407,8 +458,8 @@
           Still can't find what you're looking for?
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="/contact" class="btn-outline">Contact Support</a>
-          <a href="/trust" class="btn-primary">Learn About Safety</a>
+          <a href="/support#contact" class="btn-outline">Contact Support</a>
+          <a href="/support#faq" class="btn-primary">Learn More</a>
         </div>
       </div>
     </div>

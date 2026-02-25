@@ -205,7 +205,7 @@
                         class="px-6 py-2.5 rounded-full border border-gray-200 bg-surface text-body font-medium whitespace-nowrap transition-all
                    {selectedCategory === cat ||
                         (cat === 'All' && !selectedCategory)
-                            ? 'bg-primary text-white border-primary'
+                            ? 'bg-primary text-black border-primary'
                             : 'text-text-main hover:border-primary hover:text-primary'}"
                     >
                         {cat}

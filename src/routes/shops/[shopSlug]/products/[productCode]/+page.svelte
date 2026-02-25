@@ -113,6 +113,9 @@
                             <TrustBadge size="sm" showText={false} />
                         {/if}
                     </div>
+                    <p class="text-xs text-text-muted">
+                        Verified Shop on VendorHub
+                    </p>
                 </div>
             </a>
 
@@ -161,11 +164,6 @@
                     {/if}
                 </button>
             </div>
-        </div>
-        <div class="bg-background-light border-t border-gray-200 py-2">
-            <p class="text-xs text-text-muted text-center">
-                🔒 Secure checkout powered by VendorHub
-            </p>
         </div>
     </nav>
 
@@ -648,25 +646,6 @@
                         />
                     </div>
                 {/each}
-            </div>
-        </div>
-    </section>
-
-    <!-- 🔷 SECTION 6: VENDORHUB TRUST STRIP -->
-    <section class="py-8 bg-dark text-text-inverse">
-        <div class="container max-w-4xl mx-auto px-4 text-center">
-            <p class="text-body font-medium mb-4">
-                Protected by VendorHub Secure Checkout
-            </p>
-            <div
-                class="flex flex-wrap justify-center gap-6 text-small opacity-80"
-            >
-                <span class="flex items-center gap-2">🔒 Encrypted Payment</span
-                >
-                <span class="flex items-center gap-2">✓ Verified Seller</span>
-                <span class="flex items-center gap-2"
-                    >⚖️ Dispute Resolution</span
-                >
             </div>
         </div>
     </section>
