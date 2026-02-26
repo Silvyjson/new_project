@@ -183,6 +183,11 @@ export const load: PageLoad = async ({ url }) => {
             verifiedOnly,
             sortBy
         },
+        pagination: {
+            page: parseInt(url.searchParams.get('page') || '1'),
+            totalPages: Math.ceil(filteredVendors.length / 12),
+            totalItems: filteredVendors.length
+        },
         stats: {
             verifiedVendors: mockVendors.filter((v) => v.verified).length,
             activeShops: mockVendors.reduce((acc, v) => acc + v.shopCount, 0),

@@ -233,6 +233,11 @@ export const load: PageLoad = async ({ url }) => {
             verifiedOnly,
             sortBy
         },
+        pagination: {
+            page: parseInt(url.searchParams.get('page') || '1'),
+            totalPages: Math.ceil(filteredShops.length / 12),
+            totalItems: filteredShops.length
+        },
         trendingShops: mockShops.slice(0, 4), // Top 4 for trending section
         meta: {
             title: 'Discover Trusted Shops | VendorHub',

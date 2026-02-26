@@ -11,6 +11,7 @@
     import Button from "$lib/components/ui/Button.svelte";
     import Card from "$lib/components/ui/Card.svelte";
     import Badge from "$lib/components/ui/Badge.svelte";
+    import ReviewCard from "$lib/components/ui/ReviewCard.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
     import ProductCard from "$lib/components/vendor/ProductCard.svelte";
 
@@ -686,68 +687,15 @@
 
             <!-- Review Cards -->
             <div
-                class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto"
+                class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
             >
                 {#each reviews as review, i}
-                    <Card
-                        className="p-6 border border-gray-200 animate-fade-in transition-delay: {i *
-                            100}ms"
+                    <div
+                        class="animate-fade-in"
+                        style="animation-delay: {i * 100}ms"
                     >
-                        <div class="flex items-center gap-3 mb-4">
-                            <img
-                                src={review.customerAvatar}
-                                alt={review.customerName}
-                                class="w-12 h-12 rounded-full object-cover"
-                            />
-                            <div>
-                                <div class="flex items-center gap-2">
-                                    <span class="font-semibold text-text-main"
-                                        >{review.customerName}</span
-                                    >
-                                    {#if review.verified}
-                                        <Badge variant="success"
-                                            >Verified Purchase</Badge
-                                        >
-                                    {/if}
-                                </div>
-                                <div class="text-small text-text-muted">
-                                    {formatDate(review.date)}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-1 mb-3">
-                            {#each Array(5) as _, index}
-                                <span
-                                    class={index < review.rating
-                                        ? "text-yellow-400"
-                                        : "text-gray-300"}>★</span
-                                >
-                            {/each}
-                        </div>
-
-                        <p class="text-body text-text-muted mb-4">
-                            {review.text}
-                        </p>
-
-                        {#if review.productPurchased}
-                            <p class="text-small text-text-muted mb-3">
-                                Purchased: {review.productPurchased}
-                            </p>
-                        {/if}
-
-                        {#if review.images?.length}
-                            <div class="flex gap-2">
-                                {#each review.images as image}
-                                    <img
-                                        src={image}
-                                        alt="Review"
-                                        class="w-16 h-16 rounded-lg object-cover"
-                                    />
-                                {/each}
-                            </div>
-                        {/if}
-                    </Card>
+                        <ReviewCard {review} />
+                    </div>
                 {/each}
             </div>
         </div>

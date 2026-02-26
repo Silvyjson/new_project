@@ -15,6 +15,7 @@
     import Badge from "$lib/components/ui/Badge.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
     import ProductCard from "$lib/components/vendor/ProductCard.svelte";
+    import Pagination from "$lib/components/ui/Pagination.svelte";
 
     // Data from load function
     export let data: PageData;
@@ -86,6 +87,15 @@
         availability = "";
         sortBy = "newest";
         updateFilters();
+    };
+
+    // Handle page change
+    const handlePageChange = (e: CustomEvent) => {
+        const params = new URLSearchParams($page.url.searchParams);
+        params.set("page", e.detail.page.toString());
+        goto(`/shops/${shop.slug}/products?${params.toString()}`, {
+            replaceState: true,
+        });
     };
 
     // Add to cart notification
@@ -502,71 +512,11 @@
                 {/if}
 
                 <!-- Pagination -->
-                {#if pagination.totalPages > 1}
-                    <div class="mt-12 flex justify-center">
-                        <div class="flex items-center gap-2">
-                            <a
-                                href="?page={pagination.page - 1}"
-                                class="w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center text-text-muted hover:border-primary hover:text-primary transition-colors {pagination.page ===
-                                1
-                                    ? 'opacity-50 pointer-events-none'
-                                    : ''}"
-                                aria-label="Previous page"
-                            >
-                                <svg
-                                    class="w-5 h-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M15 19l-7-7 7-7"
-                                    />
-                                </svg>
-                            </a>
-                            {#each Array(pagination.totalPages) as _, i}
-                                {#if i === 0 || i === pagination.totalPages - 1 || (i >= pagination.page - 2 && i <= pagination.page)}
-                                    <a
-                                        href="?page={i + 1}"
-                                        class="w-9 h-9 rounded-lg flex items-center justify-center font-medium transition-colors {pagination.page ===
-                                        i + 1
-                                            ? 'bg-primary text-white'
-                                            : 'border border-gray-200 text-text-main hover:border-primary'}"
-                                    >
-                                        {i + 1}
-                                    </a>
-                                {:else if i === pagination.page - 3 || i === pagination.page + 1}
-                                    <span class="text-text-muted">...</span>
-                                {/if}
-                            {/each}
-                            <a
-                                href="?page={pagination.page + 1}"
-                                class="w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center text-text-muted hover:border-primary hover:text-primary transition-colors {pagination.page ===
-                                pagination.totalPages
-                                    ? 'opacity-50 pointer-events-none'
-                                    : ''}"
-                                aria-label="Next page"
-                            >
-                                <svg
-                                    class="w-5 h-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M9 5l7 7-7 7"
-                                    />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                {/if}
+                <Pagination
+                    currentPage={pagination.page}
+                    totalPages={pagination.totalPages}
+                    on:pageChange={handlePageChange}
+                />
             {:else}
                 <!-- Empty State -->
                 <Card className="py-16 text-center">

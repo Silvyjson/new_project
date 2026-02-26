@@ -110,6 +110,23 @@ const mockProduct = {
             category: 'Sneakers',
             createdAt: new Date('2023-12-15')
         }
+    ],
+    reviews: [
+        {
+            userName: 'Chidi O.',
+            rating: 5,
+            date: '2024-05-20',
+            content: 'Absolutely love these shoes! The quality is top-notch and they are very comfortable. Delivery was also very fast.',
+            verifiedMatch: true
+        },
+        {
+            userName: 'Bukola A.',
+            rating: 4,
+            date: '2024-05-15',
+            content: 'Great product, looks exactly like the pictures. Subtracted one star because the box was slightly dented during shipping.',
+            verifiedMatch: true,
+            images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff']
+        }
     ]
 };
 

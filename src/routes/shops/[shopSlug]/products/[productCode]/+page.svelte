@@ -12,6 +12,7 @@
     import Badge from "$lib/components/ui/Badge.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
     import ProductCard from "$lib/components/vendor/ProductCard.svelte";
+    import ReviewCard from "$lib/components/ui/ReviewCard.svelte";
 
     // Data from load function
     export let data: PageData;
@@ -295,12 +296,12 @@
                         <!-- Color Selector -->
                         {#if product.variants?.colors?.length}
                             <div>
-                                <label
+                                <span
                                     class="block text-body font-medium text-text-main mb-2"
                                     >Color: <span
                                         class="font-normal text-text-muted"
                                         >{selectedColor}</span
-                                    ></label
+                                    ></span
                                 >
                                 <div class="flex gap-3">
                                     {#each product.variants.colors as color}
@@ -322,12 +323,12 @@
                         <!-- Size Selector -->
                         {#if product.variants?.sizes?.length}
                             <div>
-                                <label
+                                <span
                                     class="block text-body font-medium text-text-main mb-2"
                                     >Size: <span
                                         class="font-normal text-text-muted"
                                         >{selectedSize || "Select"}</span
-                                    ></label
+                                    ></span
                                 >
                                 <div class="flex flex-wrap gap-2">
                                     {#each product.variants.sizes as size}
@@ -348,9 +349,9 @@
 
                         <!-- Quantity -->
                         <div>
-                            <label
+                            <span
                                 class="block text-body font-medium text-text-main mb-2"
-                                >Quantity</label
+                                >Quantity</span
                             >
                             <div class="flex items-center gap-3">
                                 <button
@@ -616,11 +617,17 @@
                     </div>
                 </div>
 
-                <!-- Review Cards Placeholder -->
+                <!-- Review Cards -->
                 <div class="space-y-4">
-                    <p class="text-body text-text-muted text-center py-8">
-                        Reviews loading...
-                    </p>
+                    {#if product.reviews && product.reviews.length > 0}
+                        {#each product.reviews as review}
+                            <ReviewCard {review} />
+                        {/each}
+                    {:else}
+                        <p class="text-body text-text-muted text-center py-8">
+                            No reviews yet for this product.
+                        </p>
+                    {/if}
                 </div>
             </div>
         </div>
@@ -676,6 +683,7 @@
                         <button
                             on:click={() => (showCartDrawer = false)}
                             class="text-text-muted hover:text-text-main"
+                            aria-label="Close cart drawer"
                         >
                             <svg
                                 class="w-6 h-6"

@@ -1,6 +1,6 @@
 <!-- src/routes/vendors/+page.svelte -->
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
   import { fly, fade } from "svelte/transition";
   import { cubicOut } from "svelte/easing";
   import { goto } from "$app/navigation";
@@ -159,6 +159,31 @@
     return () => observer.disconnect();
   });
 
+  // Sort options
+  const sortOptions = [
+    { value: "trustScore", label: "Highest Trust Score" },
+    { value: "rating", label: "Top Rated" },
+    { value: "sales", label: "Most Sales" },
+    { value: "newest", label: "Recently Joined" },
+  ];
+
+  // Handle filter change
+  const handleFilterChange = (e: CustomEvent) => {
+    const detail = e.detail;
+    searchQuery = detail.searchQuery;
+    selectedCategory = detail.selectedCategory;
+    minTrustScore = detail.minTrustScore;
+    verifiedOnly = detail.verifiedOnly;
+    sortBy = detail.sortBy;
+    updateFilters();
+  };
+
+  const handlePageChange = (e: CustomEvent) => {
+    const params = new URLSearchParams($page.url.searchParams);
+    params.set("page", e.detail.page.toString());
+    goto(`/vendors?${params.toString()}`, { replaceState: true });
+  };
+
   // Get trust score color
   const getTrustScoreColor = (score: number) => {
     if (score >= 80) return "bg-success";
@@ -166,6 +191,9 @@
     if (score >= 40) return "bg-yellow-500";
     return "bg-error";
   };
+
+  import Filter from "$lib/components/ui/Filter.svelte";
+  import Pagination from "$lib/components/ui/Pagination.svelte";
 </script>
 
 <svelte:head>
@@ -229,57 +257,7 @@
     </div>
   </section>
 
-  <!-- 🔷 SECTION 3: LIVE STATS STRIP -->
-  <!-- <section
-    id="stats-section"
-    class="py-10 bg-background-light border-y border-gray-200"
-  >
-    <div class="container">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-        <div class="text-center animate-fade-in" style="transition-delay: 0ms">
-          <div class="text-[32px] font-bold text-primary mb-1">
-            {countersVisible
-              ? `${Math.floor(statValues.vendors / 100)}+`
-              : "2,500+"}
-          </div>
-          <div class="text-small text-text-muted">Verified Vendors</div>
-        </div>
-
-        <div
-          class="text-center animate-fade-in"
-          style="transition-delay: 100ms"
-        >
-          <div class="text-[32px] font-bold text-primary mb-1">
-            {countersVisible
-              ? `${Math.floor(statValues.shops / 100)}+`
-              : "7,800+"}
-          </div>
-          <div class="text-small text-text-muted">Active Shops</div>
-        </div>
-
-        <div
-          class="text-center animate-fade-in"
-          style="transition-delay: 200ms"
-        >
-          <div class="text-[32px] font-bold text-primary mb-1">
-            {countersVisible ? `${statValues.successRate}%` : "98%"}
-          </div>
-          <div class="text-small text-text-muted">Successful Deliveries</div>
-        </div>
-
-        <div
-          class="text-center animate-fade-in"
-          style="transition-delay: 300ms"
-        >
-          <div class="text-[32px] font-bold text-primary mb-1">
-            {countersVisible ? `₦${statValues.secured}M+` : "₦150M+"}
-          </div>
-          <div class="text-small text-text-muted">Secured Transactions</div>
-        </div>
-      </div>
-    </div>
-  </section> -->
-
+  <!-- 🔷 SECTION 3: STAND IN -->
   <section
     class="py-1 bg-background-light border-b border-gray-200 overflow-x-auto"
   ></section>
@@ -289,108 +267,20 @@
     class="sticky top-20 z-40 bg-surface border-b border-gray-200 py-4 shadow-sm"
   >
     <div class="container max-w-[1200px] mx-auto px-4">
-      <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
-        <!-- Results Count -->
-        <div class="text-body text-text-muted">
-          Showing <span class="font-semibold text-text-main"
-            >{vendors.length}</span
-          >
-          of <span class="font-semibold text-text-main">{totalVendors}</span> vendors
-        </div>
-
-        <!-- Filters -->
-        <div class="flex flex-wrap gap-3 w-full md:w-auto">
-          <!-- Category Dropdown -->
-          <select
-            class="px-4 py-2.5 rounded-btn border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
-            bind:value={selectedCategory}
-            on:change={updateFilters}
-          >
-            <option value="">All Categories</option>
-            {#each categories as category}
-              <option value={category}>{category}</option>
-            {/each}
-          </select>
-
-          <!-- Trust Score Filter -->
-          <select
-            class="px-4 py-2.5 rounded-btn border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
-            bind:value={minTrustScore}
-            on:change={updateFilters}
-          >
-            <option value="">Any Trust Score</option>
-            <option value="90">90+ Excellent</option>
-            <option value="80">80+ Great</option>
-            <option value="70">70+ Good</option>
-            <option value="60">60+ Fair</option>
-          </select>
-
-          <!-- Verified Only Toggle -->
-          <label
-            class="flex items-center gap-2 px-4 py-2.5 rounded-btn border border-gray-200 cursor-pointer hover:border-primary transition-colors"
-          >
-            <input
-              type="checkbox"
-              class="w-4 h-4 text-primary rounded focus:ring-primary"
-              bind:checked={verifiedOnly}
-              on:change={updateFilters}
-            />
-            <span class="text-body text-text-main whitespace-nowrap"
-              >Verified Only</span
-            >
-          </label>
-
-          <!-- Sort Dropdown -->
-          <select
-            class="px-4 py-2.5 rounded-btn border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
-            bind:value={sortBy}
-            on:change={updateFilters}
-          >
-            <option value="trustScore">Highest Trust Score</option>
-            <option value="rating">Top Rated</option>
-            <option value="sales">Most Sales</option>
-            <option value="newest">Recently Joined</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Filter Chips -->
-      {#if activeChips.length > 0}
-        <div class="mt-4 flex flex-wrap items-center gap-2">
-          {#each activeChips as chip}
-            <span
-              class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 text-primary text-small rounded-btn"
-            >
-              {chip.label}
-              <button
-                on:click={() => removeChip(chip)}
-                class="hover:text-primary-hover transition-colors"
-                aria-label="Remove {chip.label} filter"
-              >
-                <svg
-                  class="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </span>
-          {/each}
-          <button
-            on:click={clearAllFilters}
-            class="text-small text-text-muted hover:text-primary transition-colors underline"
-          >
-            Clear All
-          </button>
-        </div>
-      {/if}
+      <Filter
+        {searchQuery}
+        {selectedCategory}
+        {categories}
+        {minTrustScore}
+        {verifiedOnly}
+        {sortBy}
+        {sortOptions}
+        resultsCount={vendors.length}
+        totalCount={totalVendors}
+        entityName="vendors"
+        on:change={handleFilterChange}
+        on:clear={clearAllFilters}
+      />
     </div>
   </section>
 
@@ -409,33 +299,12 @@
           {/each}
         </div>
 
-        <!-- Pagination (Placeholder) -->
-        <div class="mt-12 flex justify-center">
-          <div class="flex items-center gap-2">
-            <button
-              class="px-4 py-2 rounded-btn border border-gray-200 text-text-muted hover:border-primary hover:text-primary transition-colors disabled:opacity-50"
-              disabled
-            >
-              Previous
-            </button>
-            <button class="px-4 py-2 rounded-btn bg-primary text-white"
-              >1</button
-            >
-            <button
-              class="px-4 py-2 rounded-btn border border-gray-200 text-text-main hover:border-primary transition-colors"
-              >2</button
-            >
-            <button
-              class="px-4 py-2 rounded-btn border border-gray-200 text-text-main hover:border-primary transition-colors"
-              >3</button
-            >
-            <span class="text-text-muted">...</span>
-            <button
-              class="px-4 py-2 rounded-btn border border-gray-200 text-text-main hover:border-primary transition-colors"
-              >Next</button
-            >
-          </div>
-        </div>
+        <!-- Pagination -->
+        <Pagination
+          currentPage={data.pagination?.page || 1}
+          totalPages={data.pagination?.totalPages || 1}
+          on:pageChange={handlePageChange}
+        />
       {:else}
         <!-- Empty State -->
         <Card className="py-16 text-center">
@@ -453,61 +322,7 @@
     </div>
   </section>
 
-  <!-- 🔷 SECTION 6: TRUST EXPLANATION -->
-  <!-- <section class="py-24 bg-surface">
-    <div class="container grid md:grid-cols-2 gap-12 items-center">
-      <div class="order-2 md:order-1 animate-fade-in">
-        <div
-          class="bg-primary/5 rounded-2xl p-8 flex items-center justify-center"
-        >
-          <svg
-            class="w-48 h-48 text-primary"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.5"
-              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-            />
-          </svg>
-        </div>
-      </div>
-
-      <div
-        class="order-1 md:order-2 animate-fade-in"
-        style="transition-delay: 100ms"
-      >
-        <h2 class="text-h2 text-text-main mb-6">
-          Why Trust VendorHub Vendors?
-        </h2>
-        <div class="space-y-4">
-          {#each [{ icon: "✓", title: "Identity Verified", desc: "Every vendor undergoes ID verification and manual review before getting verified badge." }, { icon: "✓", title: "Trust Score Calculated Transparently", desc: "Scores based on real performance: delivery rate, reviews, response time, and order completion." }, { icon: "✓", title: "Secure Payment Holding", desc: "Payments held in escrow until you confirm delivery. No risk of scams or lost money." }, { icon: "✓", title: "Dispute Resolution System", desc: "Neutral team reviews evidence and resolves issues fairly within 48 hours." }] as item}
-            <div class="flex items-start gap-4">
-              <div
-                class="w-6 h-6 rounded-full bg-success/20 text-success flex items-center justify-center flex-shrink-0 mt-0.5"
-              >
-                <span class="text-xs font-bold">{item.icon}</span>
-              </div>
-              <div>
-                <h3 class="text-h4 font-semibold text-text-main mb-1">
-                  {item.title}
-                </h3>
-                <p class="text-body text-text-muted">{item.desc}</p>
-              </div>
-            </div>
-          {/each}
-        </div>
-        <Button href="/trust" variant="outline" className="mt-8"
-          >Learn More About Safety</Button
-        >
-      </div>
-    </div>
-  </section> -->
-
-  <!-- 🔷 SECTION 7: CTA SECTION -->
+  <!-- 🔷 SECTION 6: CTA SECTION -->
   <section
     class="py-24 bg-gradient-to-r from-primary to-primary-hover text-text-inverse text-center"
   >
@@ -535,7 +350,7 @@
     </div>
   </section>
 
-  <!-- 🔷 SECTION 8: FOOTER -->
+  <!-- 🔷 SECTION 7: FOOTER -->
   <Footer />
 </main>
 

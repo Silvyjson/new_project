@@ -7,7 +7,9 @@
             | "outline"
             | "ghost"
             | "white"
-            | "black";
+            | "black"
+            | "danger"
+            | "ivory";
         size?: "sm" | "md" | "lg" | "xl";
         href?: string | null;
         type?: "button" | "submit" | "reset";
@@ -43,6 +45,8 @@
             secondary: "bg-dark text-white hover:bg-gray-800",
             outline: "border-2 border-primary text-primary hover:bg-primary/5",
             ghost: "text-primary hover:bg-primary/5",
+            danger: "bg-red-500 text-white hover:bg-red-600",
+            ivory: "bg-primary/5 text-primary hover:bg-primary/5",
         }[variant],
     );
 
