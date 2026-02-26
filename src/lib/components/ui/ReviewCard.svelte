@@ -21,7 +21,7 @@
     };
 </script>
 
-<Card padding="md" className="border border-gray-100 shadow-sm animate-fade-in">
+<Card padding="md" className="border border-gray-100 shadow-sm animate-fade-in h-full flex flex-col">
     <div class="flex items-start justify-between mb-4">
         <div class="flex items-center gap-3">
             <div

@@ -618,10 +618,12 @@
                 </div>
 
                 <!-- Review Cards -->
-                <div class="flex gap-4">
+                <div class="flex gap-4 overflow-x-auto pb-4 snap-x">
                     {#if product.reviews && product.reviews.length > 0}
                         {#each product.reviews as review}
-                            <ReviewCard {review} />
+                            <div class="flex-shrink-0 w-80 h-full snap-start">
+                                <ReviewCard {review} />
+                            </div>
                         {/each}
                     {:else}
                         <p class="text-body text-text-muted text-center py-8">

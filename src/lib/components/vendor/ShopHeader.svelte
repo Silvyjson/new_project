@@ -6,7 +6,7 @@
     import Button from "$lib/components/ui/Button.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
 
-    export let shop: Shop;
+    export let shop: Shop | null = null;
     export let product: Product | undefined = undefined;
     export let totalProducts: number = 0;
 
@@ -42,6 +42,7 @@
     console.log("isProductPage", isProductPage);
 </script>
 
+{#if shop}
 <header class="sticky top-0 z-50 bg-surface border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 py-4">
         <div class="flex items-center justify-between">
@@ -174,6 +175,7 @@
         </div>
     </div>
 </header>
+{/if}
 
 <!-- 🔷 CART DRAWER (Slide from Right) -->
 {#if showCartDrawer}
@@ -258,7 +260,7 @@
                                 className="mt-6"
                                 onclick={() => {
                                     showCartDrawer = false;
-                                    goto(`/shops/${shop.slug}/products`);
+                                    if (shop?.slug) goto(`/shops/${shop.slug}/products`);
                                 }}
                             >
                                 Browse Products

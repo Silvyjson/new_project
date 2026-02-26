@@ -479,8 +479,8 @@
           <h3 class="text-h4 text-dark mb-2">Free</h3>
           <div class="text-4xl font-bold text-dark mb-6">$0</div>
           <ul class="space-y-3 text-small text-text-muted mb-8 text-left">
-            <li>✓ 20 Products</li>
-            <li>✓ Basic Trust Score</li>
+            <li>✓ 30 Products</li>
+            <li>✓ 1 Shop</li>
             <li>✓ 5% Transaction Fee</li>
           </ul>
           <Button variant="outline" className="w-full">Get Started</Button>
@@ -504,10 +504,10 @@
               <span class="text-success">✓</span> Unlimited Products
             </li>
             <li class="flex gap-2">
-              <span class="text-success">✓</span> Priority Verification
+              <span class="text-success">✓</span> 5 Shops
             </li>
             <li class="flex gap-2">
-              <span class="text-success">✓</span> 3% Transaction Fee
+              <span class="text-success">✓</span> 5% Transaction Fee
             </li>
           </ul>
           <Button variant="primary" className="w-full">Start Pro Trial</Button>
@@ -532,23 +532,25 @@
   <section class="py-24 bg-background-light">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <h2 class="text-h2 text-dark mb-16">Trusted by Growing Vendors</h2>
-      <div class="grid md:grid-cols-3 gap-8">
+      <div class="flex gap-8 overflow-x-auto pb-4 snap-x">
         {#each testimonials as t}
-          <Card className="p-8 text-left bg-white">
-            <div class="text-primary text-4xl mb-4">"</div>
-            <p class="text-body text-dark mb-6">{t.text}</p>
-            <div class="flex items-center gap-3">
-              <div
-                class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-xl"
-              >
-                {t.avatar}
+          <div class="flex-shrink-0 w-72 snap-start">
+            <Card className="p-8 text-left bg-white">
+              <div class="text-primary text-4xl mb-4">"</div>
+              <p class="text-body text-dark mb-6">{t.text}</p>
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-xl"
+                >
+                  {t.avatar}
+                </div>
+                <div>
+                  <div class="font-bold text-dark">{t.name}</div>
+                  <div class="text-small text-text-muted">{t.role}</div>
+                </div>
               </div>
-              <div>
-                <div class="font-bold text-dark">{t.name}</div>
-                <div class="text-small text-text-muted">{t.role}</div>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          </div>
         {/each}
       </div>
     </div>

@@ -5,14 +5,15 @@
     import type { PageData } from "./$types";
 
     export let data: PageData;
-    // Use reactive destructuring for layout data
-    $: ({ shop, products, totalProducts } = data);
-    // Get product from child page data
-    $: product = $page.data.product;
+    // Use reactive destructuring for layout data; guard against undefined
+    $: ({ shop, products, totalProducts } = data || {} as any);
+    // Get product from child page data (may be undefined)
+    $: product = $page.data?.product;
+
 </script>
 
 <main>
-    <!-- <ShopHeader {shop} {totalProducts} {product} /> -->
+    <ShopHeader {shop} {totalProducts} {product} />
     <slot />
     <ShopFooter />
 </main>

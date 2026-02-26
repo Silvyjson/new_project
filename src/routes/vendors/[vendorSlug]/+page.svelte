@@ -459,7 +459,7 @@
       </div>
 
       <!-- Shops Grid -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {#if paginatedShops.length === 0}
           <p class="col-span-full text-center text-text-muted py-8">
             No shops found matching your criteria.
@@ -495,18 +495,12 @@
         </p>
       </div>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="flex gap-6 overflow-x-auto pb-4 snap-x">
         {#each vendor.reviews as review, i}
-          <div class="animate-fade-in" style="animation-delay: {i * 100}ms">
+          <div class="flex-shrink-0 w-80 h-full animate-fade-in snap-start" style="animation-delay: {i * 100}ms">
             <ReviewCard {review} />
           </div>
         {/each}
-      </div>
-
-      <div class="text-center mt-8">
-        <Button variant="outline" href="/vendors/{vendor.slug}/reviews"
-          >View All Reviews →</Button
-        >
       </div>
     </div>
   </section>

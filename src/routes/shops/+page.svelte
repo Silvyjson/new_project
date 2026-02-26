@@ -244,7 +244,7 @@
         <div class="container max-w-7xl mx-auto px-4">
             {#if shops.length > 0}
                 <div
-                    class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+                    class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
                 >
                     {#each shops as shop, i}
                         <div

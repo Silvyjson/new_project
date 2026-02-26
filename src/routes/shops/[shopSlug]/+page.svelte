@@ -384,7 +384,7 @@
 
             {#if displayProducts.length > 0}
                 <div
-                    class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                    class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
                 >
                     {#each displayProducts as product, i}
                         <div
@@ -526,26 +526,13 @@
                 </div>
             </div>
 
-            <div
-                class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
-            >
-                {#each reviews.slice(0, 6) as review, i}
-                    <div
-                        class="animate-fade-in"
-                        style="animation-delay: {i * 100}ms"
-                    >
+            <div class="flex gap-6 overflow-x-auto pb-4 snap-x max-w-6xl mx-auto">
+                {#each reviews as review, i}
+                    <div class="flex-shrink-0 w-80 h-full animate-fade-in snap-start" style="animation-delay: {i * 100}ms">
                         <ReviewCard {review} />
                     </div>
                 {/each}
             </div>
-
-            {#if reviews.length > 6}
-                <div class="text-center mt-8">
-                    <Button variant="outline" href="/shops/{shop.slug}/reviews"
-                        >View All Reviews →</Button
-                    >
-                </div>
-            {/if}
         </div>
     </section>
 </main>

@@ -400,7 +400,7 @@
                         <div class="flex items-center justify-between text-sm">
                             <span>Pro Plan</span>
                             <span class="font-medium text-success"
-                                >✓ 3 Shops</span
+                                >✓ 5 Shops</span
                             >
                         </div>
                         <div class="flex items-center justify-between text-sm">
