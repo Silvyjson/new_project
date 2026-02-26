@@ -28,13 +28,18 @@
         }).format(amount);
     };
 
-    $: currentPath = $page.url.pathname;
+    $: currentPath = $page?.url?.pathname ?? "";
 
     $: isShopProfile = currentPath === `/shops/${shop?.slug}`;
     $: isShopProducts = currentPath === `/shops/${shop?.slug}/products`;
     $: isProductPage =
         product &&
         currentPath === `/shops/${shop?.slug}/products/${product?.code}`;
+
+    console.log(currentPath);
+    console.log("isShopProfile", isShopProfile);
+    console.log("isShopProducts", isShopProducts);
+    console.log("isProductPage", isProductPage);
 </script>
 
 <header class="sticky top-0 z-50 bg-surface border-b border-gray-100">
@@ -52,8 +57,8 @@
                         <h1 class="text-xl font-semibold text-text-main">
                             {shop?.name}
                         </h1>
-                        {#if shop?.verified}
-                            <TrustBadge size="sm" showText={false} />
+                        {#if !isShopProfile && shop?.verified}
+                            <TrustBadge size="sm" showText={true} />
                         {/if}
                     </div>
 
@@ -81,19 +86,15 @@
                         >Products</a
                     >
                     <a
-                        href="#reviews"
-                        class="text-text-muted hover:text-primary transition-colors"
-                        >Reviews</a
-                    >
-                    <a
                         href="#about"
                         class="text-text-muted hover:text-primary transition-colors"
                         >About</a
                     >
+
                     <a
-                        href="#contact"
+                        href="#reviews"
                         class="text-text-muted hover:text-primary transition-colors"
-                        >Contact</a
+                        >Reviews</a
                     >
                 </div>
             {/if}

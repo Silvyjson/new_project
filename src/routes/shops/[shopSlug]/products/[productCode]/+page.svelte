@@ -618,7 +618,7 @@
                 </div>
 
                 <!-- Review Cards -->
-                <div class="space-y-4">
+                <div class="flex gap-4">
                     {#if product.reviews && product.reviews.length > 0}
                         {#each product.reviews as review}
                             <ReviewCard {review} />
