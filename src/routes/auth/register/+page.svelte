@@ -28,8 +28,8 @@
 </script>
 
 <AuthLayout
-  title="Join VendorHub"
-  subtitle="Choose how you want to use VendorHub"
+  title=""
+  subtitle=""
 >
   <div class="space-y-4">
     {#each roles as role}
@@ -52,7 +52,7 @@
               {role.title}
             </h3>
             <p class="text-body text-text-muted mb-4">{role.description}</p>
-            <Button variant="outline" size="md" className="w-full sm:w-auto">
+            <Button variant="outline" size="md" className="w-full sm:w-auto" onclick={() => goto(role.href)}>
               {role.cta}
             </Button>
           </div>

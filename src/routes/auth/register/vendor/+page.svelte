@@ -177,5 +177,14 @@
                 {loading ? "Saving..." : "Continue to ID Verification"}
             </Button>
         </form>
+        <svelte:fragment slot="footer">
+            <p class="text-center text-sm text-text-muted">
+                Already have an account?
+                <a
+                    href="/auth/login"
+                    class="text-primary font-medium hover:underline">Sign in</a
+                >
+            </p>
+        </svelte:fragment>
     </AuthForm>
 </AuthLayout>
