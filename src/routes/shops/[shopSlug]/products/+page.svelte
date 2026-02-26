@@ -2,7 +2,7 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { page } from "$app/stores";
-    import { onMount, tick } from "svelte";
+    import { onMount, tick, onDestroy } from "svelte";
     import { fade, fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
 
@@ -44,11 +44,82 @@
     let cartItemCount = 0;
     let showCartNotification = false;
 
-    onMount(async () => {
-        if ($page.url.searchParams.get("focus") === "search") {
-            await tick();
-            searchInput?.focus();
+    // Mobile filter drawer state & inactivity timer
+    let showMobileFilters = false;
+    let inactivityTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const INACTIVITY_MS = 5000;
+    const MOBILE_BREAKPOINT = 768;
+
+    function clearInactivityTimer() {
+        if (inactivityTimer) {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = null;
         }
+    }
+
+    function startInactivityTimer() {
+        clearInactivityTimer();
+        inactivityTimer = setTimeout(() => {
+            showMobileFilters = false;
+        }, INACTIVITY_MS);
+    }
+
+    function resetInactivityTimer() {
+        if (showMobileFilters) startInactivityTimer();
+    }
+
+    function closeFilters() {
+        showMobileFilters = false;
+        clearInactivityTimer();
+    }
+
+    function handleFocusSearchParam() {
+        if ($page.url.searchParams.get("focus") === "search") {
+            const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+
+            if (isMobile) {
+                // On mobile: open the bottom sheet filter drawer
+                showMobileFilters = true;
+                startInactivityTimer();
+            } else {
+                // On desktop: focus the top sticky search input
+                searchInput?.focus();
+            }
+        }
+    }
+
+    onMount(async () => {
+        await tick();
+        handleFocusSearchParam();
+
+        // Re-check focus param and viewport on window resize
+        const onResize = () => {
+            handleFocusSearchParam();
+        };
+        window.addEventListener("resize", onResize);
+
+        // Event listeners for mobile filter drawer
+        const onFocus = () => resetInactivityTimer();
+        const onInput = () => resetInactivityTimer();
+        const onBlur = () => closeFilters();
+        searchInput?.addEventListener("focus", onFocus);
+        searchInput?.addEventListener("input", onInput);
+        searchInput?.addEventListener("blur", onBlur);
+
+        // Close on scroll
+        const onScroll = () => closeFilters();
+        window.addEventListener("scroll", onScroll, { passive: true });
+
+        // cleanup when component destroyed
+        onDestroy(() => {
+            clearInactivityTimer();
+            window.removeEventListener("resize", onResize);
+            searchInput?.removeEventListener("focus", onFocus);
+            searchInput?.removeEventListener("input", onInput);
+            searchInput?.removeEventListener("blur", onBlur);
+            window.removeEventListener("scroll", onScroll);
+        });
     });
 
     // Debounced search
@@ -134,69 +205,9 @@
 </svelte:head>
 
 <main class="min-h-screen bg-surface">
-    <!-- 🔷 SECTION 1: SHOP MINI HEADER (Compact Branding) -->
-    <header class="sticky top-0 z-50 bg-surface border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 py-4">
-            <div class="flex items-center justify-between">
-                <!-- Left: Shop Info -->
-                <a href={`/shops/${shop.slug}`} class="flex items-center gap-4">
-                    <img
-                        src={shop.logoUrl}
-                        alt={shop.name}
-                        class="w-12 h-12 rounded-xl object-cover border border-gray-200"
-                    />
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <h1 class="text-xl font-semibold text-text-main">
-                                {shop.name}
-                            </h1>
-                            {#if shop.vendorVerified}
-                                <TrustBadge size="sm" showText={false} />
-                            {/if}
-                        </div>
-                        <p class="text-sm text-text-muted">
-                            {shop.category} • {totalProducts} Products • ★ {shop.rating}
-                            ({(shop.reviewCount / 1000).toFixed(1)}k reviews)
-                        </p>
-                    </div>
-                </a>
-
-                <!-- Right: Actions -->
-                <div class="hidden md:flex items-center gap-3">
-                    <Button variant="outline" size="sm">Follow Shop</Button>
-                    <Button variant="ghost" size="sm">Message Shop</Button>
-                    <button
-                        class="relative text-text-muted hover:text-primary transition-colors"
-                        aria-label="Cart"
-                    >
-                        <svg
-                            class="w-6 h-6"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                            />
-                        </svg>
-                        {#if cartItemCount > 0}
-                            <span
-                                class="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-xs rounded-full flex items-center justify-center font-medium"
-                                >{cartItemCount}</span
-                            >
-                        {/if}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- 🔷 SECTION 2: FILTER + SEARCH BAR (Sticky) -->
+    <!-- 🔷 SECTION 2: FILTER + SEARCH BAR (Sticky, Desktop Only) -->
     <section
-        class="sticky top-20 z-40 bg-surface/95 backdrop-blur-sm border-b border-gray-100"
+        class="hidden md:block sticky top-20 z-40 bg-surface/95 backdrop-blur-sm border-b border-gray-100"
     >
         <div class="max-w-7xl mx-auto px-4 py-4">
             <div
@@ -373,6 +384,130 @@
         </div>
     </section>
 
+    <!-- Mobile Filter Drawer (opened when ?focus=search or via other triggers, Mobile Only) -->
+    {#if showMobileFilters}
+        <div class="md:hidden fixed inset-0 z-[90]">
+            <div
+                class="absolute inset-0 bg-black/40"
+                on:click={() => closeFilters()}
+            ></div>
+
+            <div
+                class="absolute bottom-0 left-0 right-0 bg-surface rounded-t-2xl p-6 max-h-[85vh] overflow-y-auto animate-slide-up"
+            >
+                <div class="flex items-center justify-between mb-4">
+                    <div class="relative flex-1">
+                        <svg
+                            class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                            />
+                        </svg>
+                        <input
+                            type="text"
+                            placeholder="Search in this shop..."
+                            class="w-full pl-10 pr-4 h-11 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-soft-background"
+                            bind:value={searchQuery}
+                            on:input={() => {
+                                handleSearch();
+                                resetInactivityTimer();
+                            }}
+                        />
+                    </div>
+                    <button class="ml-4" on:click={() => closeFilters()}>✕</button>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Category -->
+                    <select
+                        class="w-full px-4 py-3 rounded-btn border border-gray-200"
+                        bind:value={selectedCategory}
+                        on:change={() => {
+                            updateFilters();
+                            resetInactivityTimer();
+                        }}
+                    >
+                        <option value="">All Categories</option>
+                        {#each categories as category}
+                            <option value={category}>{category}</option>
+                        {/each}
+                    </select>
+
+                    <!-- Price -->
+                    <select
+                        class="w-full px-4 py-3 rounded-btn border border-gray-200"
+                        bind:value={maxPrice}
+                        on:change={() => {
+                            updateFilters();
+                            resetInactivityTimer();
+                        }}
+                    >
+                        <option value="">Any Price</option>
+                        <option value="50000">Under ₦50,000</option>
+                        <option value="100000">Under ₦100,000</option>
+                        <option value="150000">Under ₦150,000</option>
+                        <option value="200000">Under ₦200,000</option>
+                    </select>
+
+                    <!-- Rating -->
+                    <select
+                        class="w-full px-4 py-3 rounded-btn border border-gray-200"
+                        bind:value={minRating}
+                        on:change={() => {
+                            updateFilters();
+                            resetInactivityTimer();
+                        }}
+                    >
+                        <option value="">Any Rating</option>
+                        <option value="4.5">4.5+ Stars</option>
+                        <option value="4.0">4.0+ Stars</option>
+                        <option value="3.5">3.5+ Stars</option>
+                    </select>
+
+                    <div class="flex items-center gap-3">
+                        <button
+                            on:click={() => {
+                                viewMode = "grid";
+                                updateFilters();
+                                resetInactivityTimer();
+                            }}
+                            class="px-4 py-2 rounded-btn border border-gray-200"
+                        >
+                            Grid
+                        </button>
+                        <button
+                            on:click={() => {
+                                viewMode = "list";
+                                updateFilters();
+                                resetInactivityTimer();
+                            }}
+                            class="px-4 py-2 rounded-btn border border-gray-200"
+                        >
+                            List
+                        </button>
+                    </div>
+
+                    <button
+                        on:click={() => {
+                            clearAllFilters();
+                            resetInactivityTimer();
+                        }}
+                        class="w-full mt-4 text-primary underline"
+                    >
+                        Clear All Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+    {/if}
+
     <!-- 🔷 SECTION 3: PRODUCT GRID -->
     <section class="py-8 bg-soft-background">
         <div class="container max-w-7xl mx-auto px-4">
@@ -395,6 +530,10 @@
                                     {product}
                                     shopSlug={shop.slug}
                                     on:addToCart={() => addToCart(product)}
+                                    on:wishlist={(e: CustomEvent) => {
+                                        console.log('wishlist:', e.detail);
+                                        // TODO: sync with backend or update UI state
+                                    }}
                                 />
                             </div>
                         {/each}

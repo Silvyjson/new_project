@@ -79,6 +79,22 @@
     // Image gallery
     let mainImage = product.images[0];
     let selectedImageIndex = 0;
+
+    // Wishlist state
+    let isWishlisted = false;
+
+    const toggleWishlist = () => {
+        isWishlisted = !isWishlisted;
+    };
+
+    // Go back
+    const goBack = () => {
+        if (history.length > 1) {
+            history.back();
+        } else {
+            window.location.href = `/shops/${product.shop.slug}/products`;
+        }
+    };
 </script>
 
 <svelte:head>
@@ -91,39 +107,16 @@
 </svelte:head>
 
 <main class="min-h-screen bg-surface">
-    <!-- 🔷 SECTION 1: MINIMAL SHOP HEADER -->
-    <nav class="sticky top-0 z-50 bg-surface border-b border-gray-200 h-[70px]">
-        <div
-            class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between"
-        >
-            <a
-                href="/shops/{product.shop.slug}"
-                class="flex items-center gap-3"
-            >
-                <img
-                    src={product.shop.logoUrl}
-                    alt={product.shop.name}
-                    class="w-10 h-10 rounded-lg object-cover"
-                />
-                <div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-lg font-bold text-text-main"
-                            >{product.shop.name}</span
-                        >
-                        {#if product.shop.vendorVerified}
-                            <TrustBadge size="sm" showText={false} />
-                        {/if}
-                    </div>
-                    <p class="text-xs text-text-muted">
-                        Verified Shop on VendorHub
-                    </p>
-                </div>
-            </a>
-
-            <div class="flex items-center gap-4">
+    <!-- 🔷 SECTION 2: PRODUCT MAIN SECTION -->
+    <section class="py-8">
+        <div class="container max-w-7xl mx-auto px-4">
+            <!-- Top Action Row -->
+            <div class="flex items-center justify-between mb-4">
+                <!-- Back Arrow -->
                 <button
-                    class="text-text-muted hover:text-primary transition-colors"
-                    aria-label="Search"
+                    on:click={goBack}
+                    class="flex items-center gap-2 text-text-muted hover:text-primary transition-colors"
+                    aria-label="Go back"
                 >
                     <svg
                         class="w-5 h-5"
@@ -135,18 +128,24 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                            d="M15 19l-7-7 7-7"
                         />
                     </svg>
+                    <span class="text-sm font-medium">Back</span>
                 </button>
+
+                <!-- Wishlist Heart -->
                 <button
-                    class="text-text-muted hover:text-primary transition-colors relative"
-                    aria-label="Cart"
-                    on:click={() => (showCartDrawer = true)}
+                    on:click={toggleWishlist}
+                    class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center transition-all
+        {isWishlisted
+                        ? 'bg-red-50 border-red-500 text-red-500'
+                        : 'text-text-muted hover:text-red-500 hover:border-red-300'}"
+                    aria-label="Add to wishlist"
                 >
                     <svg
                         class="w-5 h-5"
-                        fill="none"
+                        fill={isWishlisted ? "currentColor" : "none"}
                         stroke="currentColor"
                         viewBox="0 0 24 24"
                     >
@@ -154,24 +153,13 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             stroke-width="2"
-                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                         />
                     </svg>
-                    {#if cartItemCount > 0}
-                        <span
-                            class="absolute -top-1 -right-1 w-4 h-4 bg-primary text-white text-xs rounded-full flex items-center justify-center"
-                            >{cartItemCount}</span
-                        >
-                    {/if}
                 </button>
             </div>
-        </div>
-    </nav>
 
-    <!-- 🔷 SECTION 2: PRODUCT MAIN SECTION -->
-    <section class="py-8 md:py-12">
-        <div class="container max-w-7xl mx-auto px-4">
-            <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+            <div class="grid md:grid-cols-2 gap-8 lg:gap-12 pt-3">
                 <!-- Left: Image Gallery -->
                 <div class="animate-fade-in">
                     <!-- Main Image -->

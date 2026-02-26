@@ -98,81 +98,6 @@
 </svelte:head>
 
 <main class="min-h-screen bg-surface">
-    <!-- 🔷 SECTION 1: MINIMAL NAVBAR (Shop-Focused) -->
-    <nav class="sticky top-0 z-50 bg-surface border-b border-gray-200 h-[70px]">
-        <div
-            class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between"
-        >
-            <!-- Left: Shop Logo & Name -->
-            <a href="/shops/{shop.slug}" class="flex items-center gap-3">
-                <img
-                    src={shop.logoUrl}
-                    alt={shop.name}
-                    class="w-10 h-10 rounded-lg object-cover"
-                />
-                <div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-lg font-bold text-text-main"
-                            >{shop.name}</span
-                        >
-                        {#if shop.vendorVerified}
-                            <TrustBadge size="sm" showText={false} />
-                        {/if}
-                    </div>
-                    <p class="text-xs text-text-muted">
-                        Verified Shop on VendorHub
-                    </p>
-                </div>
-            </a>
-
-            <!-- Center: Navigation -->
-            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
-                <a
-                    href="#products"
-                    class="text-text-main hover:text-primary transition-colors"
-                    >Products</a
-                >
-                <a
-                    href="#about"
-                    class="text-text-muted hover:text-primary transition-colors"
-                    >About</a
-                >
-                <a
-                    href="#reviews"
-                    class="text-text-muted hover:text-primary transition-colors"
-                    >Reviews</a
-                >
-            </div>
-
-            <!-- Right: Actions (Consolidated) -->
-            <div class="flex items-center gap-3">
-                <!-- Cart -->
-                <button
-                    class="relative p-2 text-text-muted hover:text-primary transition-colors"
-                    aria-label="Cart"
-                >
-                    <svg
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                        />
-                    </svg>
-                    <span
-                        class="absolute -top-1 -right-1 w-4 h-4 bg-primary text-white text-xs rounded-full flex items-center justify-center"
-                        >0</span
-                    >
-                </button>
-            </div>
-        </div>
-    </nav>
-
     <!-- 🔷 SECTION 2: SHOP HERO (Brand Identity) -->
     <section class="relative h-[320px] md:h-[400px]">
         <!-- Banner Image -->
@@ -245,13 +170,13 @@
                             <!-- Primary Actions -->
                             <div class="flex gap-3">
                                 <Button
-                                    href="#products"
+                                    href="/shops/{shop.slug}/products"
                                     variant="primary"
                                     size="md">Shop Now</Button
                                 >
                                 <button
                                     on:click={toggleFollow}
-                                    class="px-6 py-3 rounded-btn border-2 border-white text-white font-medium hover:bg-white hover:text-dark transition-colors"
+                                    class="px-6 py-3 rounded-btn hidden md:flex border-2 border-white text-white font-medium hover:bg-white hover:text-dark transition-colors"
                                 >
                                     {isFollowing
                                         ? "✓ Following"
@@ -369,18 +294,19 @@
         </div>
     </section>
 
+    <!-- Mobile: View All CTA -->
+    <div class="md:hidden my-2 text-right px-4">
+         <a
+            href="/shops/{shop.slug}/products"
+            class="inline-flex items-center gap-2 text-primary font-medium hover:underline"
+        >
+            View All {products.length} Products →
+        </a>
+    </div>
+
     <!-- 🔷 SECTION 4: PRODUCT GRID (Filtered by Tab) -->
     <section id="products" class="py-16 bg-background-light">
         <div class="container max-w-7xl mx-auto px-4">
-            <!-- Mobile: View All CTA -->
-            <div class="md:hidden mb-6 text-center">
-                <a
-                    href="/shops/{shop.slug}/products"
-                    class="inline-flex items-center gap-2 text-primary font-medium hover:underline"
-                >
-                    View All {products.length} Products →
-                </a>
-            </div>
 
             {#if displayProducts.length > 0}
                 <div

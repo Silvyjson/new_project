@@ -10,16 +10,17 @@
     export let product: Product | undefined = undefined;
     export let totalProducts: number = 0;
 
-    // Selected variants
+    const fallbackCategory = (product as any)?.shop?.category ?? "—";
+    const fallbackTotalProducts =
+        totalProducts ?? (product as any)?.shop?.totalProducts ?? 0;
+
     let selectedSize = "";
     let quantity = 1;
 
-    // Cart state
     let cartItemCount = 0;
     let showCartDrawer = false;
     let showProfileDrawer = false;
 
-    // Format currency
     const formatNaira = (amount: number) => {
         return new Intl.NumberFormat("en-NG", {
             style: "currency",
@@ -29,37 +30,38 @@
     };
 
     $: currentPath = $page?.url?.pathname ?? "";
-
     $: isShopProfile = currentPath === `/shops/${shop?.slug}`;
     $: isShopProducts = currentPath === `/shops/${shop?.slug}/products`;
     $: isProductPage =
         product &&
         currentPath === `/shops/${shop?.slug}/products/${product?.code}`;
-
-    console.log(currentPath);
-    console.log("isShopProfile", isShopProfile);
-    console.log("isShopProducts", isShopProducts);
-    console.log("isProductPage", isProductPage);
 </script>
 
-{#if shop}
-<header class="sticky top-0 z-50 bg-surface border-b border-gray-100">
+<header class="sticky top-0 z-50 bg-surface border-b border-gray-100 backdrop-blur-sm">
     <div class="max-w-7xl mx-auto px-4 py-4">
-        <div class="flex items-center justify-between">
-            <!-- Left: Shop Info -->
-            <a href={`/shops/${shop?.slug}`} class="flex items-center gap-4">
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+
+            <!-- 🔹 Shop Info -->
+            <a
+                href={`/shops/${shop?.slug}`}
+                class="flex items-center gap-3 md:gap-4"
+            >
                 <img
                     src={shop?.logoUrl}
                     alt={shop?.name}
-                    class="w-12 h-12 rounded-xl object-cover border border-gray-200"
+                    class="w-11 h-11 md:w-12 md:h-12 rounded-xl object-cover border border-gray-200 shrink-0"
                 />
-                <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="text-xl font-semibold text-text-main">
+
+                <div class="min-w-0">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <h1 class="text-lg md:text-xl font-semibold text-text-main truncate">
                             {shop?.name}
                         </h1>
-                        {#if !isShopProfile && shop?.verified}
+
+                        {#if isShopProducts || isProductPage}
+                        { #if shop?.verified}
                             <TrustBadge size="sm" showText={true} />
+                            {/if}
                         {/if}
                     </div>
 
@@ -68,114 +70,90 @@
                             Verified Shop on VendorHub
                         </p>
                     {:else}
-                        <p class="text-sm text-text-muted">
-                            {shop?.category} • {totalProducts} Products • ★ {shop?.rating}
-                            ({(shop?.reviewCount / 1000).toFixed(1)}k reviews)
+                        <p class="text-xs md:text-sm text-text-muted truncate">
+                            {shop?.category ?? fallbackCategory}
+                            • {fallbackTotalProducts} Products
+                            • ★ {shop?.rating ?? 0}
+                            ({(((shop?.reviewCount ?? 0) / 1000)).toFixed(1)}k reviews)
                         </p>
                     {/if}
                 </div>
             </a>
 
+            <!-- 🔹 Navigation (Visible on Mobile) -->
             {#if isShopProfile}
-                <!-- Center: Navigation -->
-                <div
-                    class="hidden md:flex items-center gap-8 text-sm font-medium"
-                >
-                    <a
-                        href="#products"
-                        class="text-text-main hover:text-primary transition-colors"
-                        >Products</a
-                    >
-                    <a
-                        href="#about"
-                        class="text-text-muted hover:text-primary transition-colors"
-                        >About</a
-                    >
-
-                    <a
-                        href="#reviews"
-                        class="text-text-muted hover:text-primary transition-colors"
-                        >Reviews</a
-                    >
+                <div class="hidden md:flex flex-wrap gap-6 text-sm font-medium border-t border-gray-100 pt-3 md:border-0 md:pt-0">
+                    <a href="#products" class="text-text-main hover:text-primary transition-colors">
+                        Products
+                    </a>
+                    <a href="#about" class="text-text-muted hover:text-primary transition-colors">
+                        About
+                    </a>
+                    <a href="#reviews" class="text-text-muted hover:text-primary transition-colors">
+                        Reviews
+                    </a>
                 </div>
             {/if}
 
-            <!-- Right: Actions -->
-            <div class="hidden md:flex items-center gap-3">
-                {#if isShopProducts}
-                    <Button variant="outline" size="sm">Follow Shop</Button>
-                    <Button variant="primary" size="sm">Message Shop</Button>
-                {/if}
+            <!-- 🔹 Actions (Visible on Mobile) -->
+            <div class="flex items-center justify-between md:justify-end gap-5 border-t border-gray-100 pt-3 md:border-0 md:pt-0">
+
+                <!-- {#if isShopProducts} -->
+                    <div class="gap-2 {isShopProfile? "flex md:hidden" : "flex"}">
+                        <Button variant="outline" size="sm">Follow</Button>
+                        <Button variant="primary" size="sm">Message</Button>
+                    </div>
+                <!-- {/if} -->
+
+                <!-- Search -->
                 <button
                     class="text-text-muted hover:text-primary transition-colors"
                     aria-label="Search"
-                    on:click={() =>
-                        goto(`/shops/${shop.slug}/products?focus=search`)}
+                    on:click={() => {
+                        const slug = shop?.slug ?? (product as any)?.shop?.slug;
+                        if (slug) goto(`/shops/${slug}/products?focus=search`);
+                    }}
                 >
-                    <svg
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
                 </button>
+
+                <!-- Cart -->
                 <button
                     class="relative text-text-muted hover:text-primary transition-colors"
                     aria-label="Cart"
                     on:click={() => (showCartDrawer = true)}
                 >
-                    <svg
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                        />
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                     </svg>
+
                     {#if cartItemCount > 0}
-                        <span
-                            class="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-xs rounded-full flex items-center justify-center font-medium"
-                            >{cartItemCount}</span
-                        >
+                        <span class="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-xs rounded-full flex items-center justify-center font-medium">
+                            {cartItemCount}
+                        </span>
                     {/if}
                 </button>
 
+                <!-- Profile -->
                 <button
                     class="text-text-muted hover:text-primary transition-colors"
                     aria-label="Profile"
                     on:click={() => (showProfileDrawer = true)}
                 >
-                    <svg
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                        />
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                     </svg>
                 </button>
+
             </div>
         </div>
     </div>
 </header>
-{/if}
 
 <!-- 🔷 CART DRAWER (Slide from Right) -->
 {#if showCartDrawer}
