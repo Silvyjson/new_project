@@ -15,6 +15,7 @@
         type?: "button" | "submit" | "reset";
         disabled?: boolean;
         className?: string;
+        class?: string;
         title?: string;
         onclick?: (e: MouseEvent) => void;
         children?: any;
@@ -27,6 +28,7 @@
         type = "button",
         disabled = false,
         className = "",
+        class: classProp = "",
         title = "",
         onclick = () => {},
         children,
@@ -60,7 +62,7 @@
     );
 
     const classes = $derived(
-        `${baseClasses} ${variantClasses} ${sizeClasses} ${className}`.trim(),
+        `${baseClasses} ${variantClasses} ${sizeClasses} ${className} ${classProp}`.trim(),
     );
 </script>
 
