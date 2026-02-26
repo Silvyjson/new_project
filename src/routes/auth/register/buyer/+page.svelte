@@ -3,6 +3,7 @@
     import { goto } from "$app/navigation";
     import AuthLayout from "$lib/components/auth/AuthLayout.svelte";
     import AuthForm from "$lib/components/auth/AuthForm.svelte";
+    import RoleSelector from "$lib/components/auth/RoleSelector.svelte";
     import Input from "$lib/components/ui/Input.svelte";
     import PasswordInput from "$lib/components/auth/PasswordInput.svelte";
     import Button from "$lib/components/ui/Button.svelte";
@@ -74,6 +75,7 @@
     title="Create Buyer Account"
     subtitle="Start shopping with confidence"
 >
+    <RoleSelector />
     <AuthForm {loading} {error} {success}>
         <form on:submit={handleSubmit} class="space-y-5">
             <Input

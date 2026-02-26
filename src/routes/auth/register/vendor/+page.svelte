@@ -3,6 +3,7 @@
     import { goto } from "$app/navigation";
     import AuthLayout from "$lib/components/auth/AuthLayout.svelte";
     import AuthForm from "$lib/components/auth/AuthForm.svelte";
+    import RoleSelector from "$lib/components/auth/RoleSelector.svelte";
     import Input from "$lib/components/ui/Input.svelte";
     import PasswordInput from "$lib/components/auth/PasswordInput.svelte";
     import Button from "$lib/components/ui/Button.svelte";
@@ -84,6 +85,8 @@
     title="Create Vendor Account"
     subtitle="Step 1 of 3: Account Information"
 >
+    <RoleSelector />
+
     <div class="mb-6">
         <!-- Progress Bar -->
         <div class="flex items-center gap-2 mb-4">
