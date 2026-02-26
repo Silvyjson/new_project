@@ -1,0 +1,9 @@
+{
+  "name": "VendorHub",
+  "short_name": "VendorHub",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2165d2",
+  "icons": []
+}
