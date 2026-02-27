@@ -63,7 +63,7 @@
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each followedShops as shop, i}
         <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
-          <Card hover={true} padding="none" class="overflow-hidden border border-gray-200">
+          <Card hover={true} padding="none" className="overflow-hidden border border-gray-200">
             <div class="h-32 {shop.banner} relative">
               <div class="absolute -bottom-10 left-6">
                 <div class="w-20 h-20 rounded-full bg-surface border-4 border-surface flex items-center justify-center text-4xl shadow-card">
@@ -71,7 +71,7 @@
                 </div>
               </div>
               {#if shop.verified}
-                <Badge variant="success" class="absolute top-4 right-4">Verified</Badge>
+                <Badge variant="success" className="absolute top-4 right-4">Verified</Badge>
               {/if}
             </div>
             <div class="pt-12 pb-4 px-6">
@@ -86,10 +86,10 @@
               </div>
               
               <div class="flex gap-2">
-                <Button href="/shops/{shop.name.toLowerCase().replace(' ', '-')}" variant="primary" size="sm" class="flex-1">
+                <Button href="/shop/{shop.name.toLowerCase().replace(' ', '-')}" variant="primary" size="sm" className="flex-1">
                   Visit Shop
                 </Button>
-                <Button variant="outline" size="sm" on:click={() => handleUnfollow('shop', shop.id)}>
+                <Button variant="outline" size="sm" onclick={() => handleUnfollow('shop', shop.id)}>
                   Unfollow
                 </Button>
               </div>
@@ -105,7 +105,7 @@
     <div class="space-y-4">
       {#each followedVendors as vendor, i}
         <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
-          <Card class="border border-gray-200 p-6">
+          <Card className="border border-gray-200 p-6">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-4">
                 <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-3xl">
@@ -124,10 +124,10 @@
                 </div>
               </div>
               <div class="flex gap-2">
-                <Button href="/vendors/{vendor.name.toLowerCase().replace(' ', '-')}" variant="outline" size="sm">
+                <Button href="/vendor/{vendor.name.toLowerCase().replace(' ', '-')}" variant="outline" size="sm">
                   View Profile
                 </Button>
-                <Button variant="ghost" size="sm" class="text-error hover:bg-error/5" on:click={() => handleUnfollow('vendor', vendor.id)}>
+                <Button variant="ghost" size="sm" className="text-error hover:bg-error/5" onclick={() => handleUnfollow('vendor', vendor.id)}>
                   Unfollow
                 </Button>
               </div>

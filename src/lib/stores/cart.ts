@@ -38,12 +38,14 @@ export const cartActions = {
         state.items.push(item);
       }
       
-      return { ...state, loading: false };
+      const newState = { ...state, loading: false };
+      
+      if (browser) {
+        localStorage.setItem('cart', JSON.stringify(newState.items));
+      }
+      
+      return newState;
     });
-    
-    if (browser) {
-      localStorage.setItem('cart', JSON.stringify(state.items));
-    }
   },
   
   removeItem: (itemId: string) => {

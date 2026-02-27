@@ -4,13 +4,13 @@
   import { cubicOut } from 'svelte/easing';
   import Card from '$lib/components/ui/Card.svelte';
   import Button from '$lib/components/ui/Button.svelte';
-  import ProductCard from '$lib/components/shop/ProductCard.svelte';
+  import ProductCard from '$lib/components/vendor/ProductCard.svelte';
   
   // Active tab
   let activeTab = 'products';
   
   // Mock data
-  const wishlistProducts = Array.from({ length: 6 }, (_, i) => ({
+  const wishlistProducts: any = Array.from({ length: 6 }, (_, i) => ({
     id: i + 1,
     name: `Wishlist Product ${i + 1}`,
     price: (i + 1) * 8000,
@@ -67,11 +67,11 @@
   <!-- Products Tab -->
   {#if activeTab === 'products'}
     {#if wishlistProducts.length === 0}
-      <Card class="py-16 text-center">
+      <Card className="py-16 text-center">
         <div class="text-6xl mb-4">❤️</div>
         <h2 class="text-h2 text-text-main mb-2">Your wishlist is empty</h2>
         <p class="text-body text-text-muted mb-6">Start saving products you love.</p>
-        <Button href="/shops" variant="primary" size="lg">Browse Products</Button>
+        <Button href="/shop" variant="primary" size="lg">Browse Products</Button>
       </Card>
     {:else}
       <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -98,7 +98,7 @@
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each wishlistShops as shop, i}
         <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
-          <Card hover={true} padding="none" class="overflow-hidden border border-gray-200">
+          <Card hover={true} padding="none" className="overflow-hidden border border-gray-200">
             <div class="h-32 {shop.banner} relative">
               <div class="absolute -bottom-10 left-6">
                 <div class="w-20 h-20 rounded-full bg-surface border-4 border-surface flex items-center justify-center text-4xl shadow-card">
@@ -118,7 +118,7 @@
             <div class="pt-12 pb-4 px-6">
               <h3 class="text-lg font-bold text-text-main mb-1">{shop.name}</h3>
               <p class="text-sm text-text-muted mb-3">{shop.products} products • ★ {shop.trustScore}%</p>
-              <Button href="/shops/{shop.name.toLowerCase().replace(' ', '-')}" variant="primary" size="sm" class="w-full">
+              <Button href="/shop/{shop.name.toLowerCase().replace(' ', '-')}" variant="primary" size="sm" class="w-full">
                 Visit Shop
               </Button>
             </div>

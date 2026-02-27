@@ -59,7 +59,7 @@
   
   <h1 class="text-3xl font-bold text-text-main mb-8">Change Password</h1>
   
-  <Card class="border border-gray-200 p-6">
+  <Card className="border border-gray-200 p-6">
     <form on:submit={handleChange} class="space-y-6">
       <PasswordInput
         label="Current Password"

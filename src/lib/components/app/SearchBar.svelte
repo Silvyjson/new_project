@@ -47,7 +47,7 @@
         <div class="p-2">
           <p class="text-xs font-medium text-text-muted mb-2">Products</p>
           {#each [1, 2, 3] as i}
-            <a href="#" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors">
+            <a href="/" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors">
               <div class="w-10 h-10 bg-gray-100 rounded-lg"></div>
               <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-text-main truncate">Product Name {i}</p>
@@ -62,7 +62,7 @@
         <div class="p-2 border-t border-gray-100">
           <p class="text-xs font-medium text-text-muted mb-2">Shops</p>
           {#each [1, 2] as i}
-            <a href="#" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors">
+            <a href="/" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors">
               <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary font-semibold">
                 {String.fromCharCode(64 + i)}
               </div>

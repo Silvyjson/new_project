@@ -3,6 +3,7 @@
   import Card from '$lib/components/ui/Card.svelte';
   import Button from '$lib/components/ui/Button.svelte';
   import Badge from '$lib/components/ui/Badge.svelte';
+  import Input from '$lib/components/ui/Input.svelte';
   
   // Mock addresses
   let addresses = [
@@ -58,26 +59,26 @@
       </div>
       <h1 class="text-3xl font-bold text-text-main">Shipping Addresses</h1>
     </div>
-    <Button variant="primary" size="lg" on:click={() => showAddModal = true}>
+    <Button variant="primary" size="lg" onclick={() => showAddModal = true}>
       + Add New Address
     </Button>
   </div>
   
   {#if addresses.length === 0}
-    <Card class="py-16 text-center">
+    <Card className="py-16 text-center">
       <div class="text-6xl mb-4">📍</div>
       <h2 class="text-h2 text-text-main mb-2">No addresses yet</h2>
       <p class="text-body text-text-muted mb-6">Add your first shipping address.</p>
-      <Button variant="primary" size="lg" on:click={() => showAddModal = true}>
+      <Button variant="primary" size="lg" onclick={() => showAddModal = true}>
         Add Address
       </Button>
     </Card>
   {:else}
     <div class="grid md:grid-cols-2 gap-6">
       {#each addresses as address}
-        <Card class="border border-gray-200 p-6 relative">
+        <Card className="border border-gray-200 p-6 relative">
           {#if address.default}
-            <Badge variant="success" class="absolute top-4 right-4">Default</Badge>
+            <Badge variant="success" className="absolute top-4 right-4">Default</Badge>
           {/if}
           
           <h3 class="text-lg font-bold text-text-main mb-4">{address.label}</h3>
@@ -91,11 +92,11 @@
           
           <div class="flex gap-2">
             {#if !address.default}
-              <Button variant="outline" size="sm" on:click={() => setDefault(address.id)}>
+              <Button variant="outline" size="sm" onclick={() => setDefault(address.id)}>
                 Set as Default
               </Button>
             {/if}
-            <Button variant="ghost" size="sm" class="text-error hover:bg-error/5" on:click={() => deleteAddress(address.id)}>
+            <Button variant="ghost" size="sm" className="text-error hover:bg-error/5" onclick={() => deleteAddress(address.id)}>
               Delete
             </Button>
           </div>
@@ -108,8 +109,8 @@
 <!-- Add Address Modal (simplified) -->
 {#if showAddModal}
   <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
-    <div class="absolute inset-0 bg-dark/45" on:click={() => showAddModal = false}></div>
-    <Card class="relative bg-surface p-6 w-full max-w-lg">
+      <button type="button" class="absolute inset-0 bg-dark/45" onclick={() => showAddModal = false}></button>
+    <Card className="relative bg-surface p-6 w-full max-w-lg">
       <h2 class="text-xl font-bold text-text-main mb-6">Add New Address</h2>
       <form class="space-y-4">
         <Input label="Label" name="label" placeholder="Home, Work, etc." required />
@@ -121,8 +122,8 @@
           <Input label="State" name="state" required />
         </div>
         <div class="flex gap-3 pt-4">
-          <Button type="submit" variant="primary" size="lg" class="flex-1">Save Address</Button>
-          <Button type="button" variant="outline" size="lg" class="flex-1" on:click={() => showAddModal = false}>Cancel</Button>
+          <Button type="submit" variant="primary" size="lg" className="flex-1">Save Address</Button>
+          <Button type="button" variant="outline" size="lg" className="flex-1" onclick={() => showAddModal = false}>Cancel</Button>
         </div>
       </form>
     </Card>

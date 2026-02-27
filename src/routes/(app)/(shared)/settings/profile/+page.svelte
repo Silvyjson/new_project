@@ -52,7 +52,7 @@
   
   <h1 class="text-3xl font-bold text-text-main mb-8">Profile Settings</h1>
   
-  <Card class="border border-gray-200 p-6">
+  <Card className="border border-gray-200 p-6">
     <form on:submit={handleUpdate} class="space-y-6">
       <!-- Avatar Upload -->
       <div class="flex items-center gap-6">

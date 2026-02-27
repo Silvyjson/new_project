@@ -4,6 +4,7 @@
   import Card from '$lib/components/ui/Card.svelte';
   import Button from '$lib/components/ui/Button.svelte';
   import Input from '$lib/components/ui/Input.svelte';
+  import Badge from '$lib/components/ui/Badge.svelte';
   
   // Mock checkout data
   let checkoutData = {
@@ -70,7 +71,7 @@
     <div class="lg:col-span-2 space-y-6">
       
       <!-- Shipping Address -->
-      <Card class="border border-gray-200 p-6">
+      <Card className="border border-gray-200 p-6">
         <h2 class="text-xl font-bold text-text-main mb-4">Shipping Address</h2>
         <div class="space-y-3">
           {#each addresses as addr}
@@ -103,7 +104,7 @@
       </Card>
       
       <!-- Payment Method -->
-      <Card class="border border-gray-200 p-6">
+      <Card className="border border-gray-200 p-6">
         <h2 class="text-xl font-bold text-text-main mb-4">Payment Method</h2>
         <div class="space-y-3">
           <label class="flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer transition-colors
@@ -146,7 +147,7 @@
       </Card>
       
       <!-- Order Notes -->
-      <Card class="border border-gray-200 p-6">
+      <Card className="border border-gray-200 p-6">
         <h2 class="text-xl font-bold text-text-main mb-4">Order Notes (Optional)</h2>
         <textarea
           placeholder="Any special instructions for your order?"
@@ -158,7 +159,7 @@
     
     <!-- Order Summary -->
     <div class="lg:col-span-1">
-      <Card class="border border-gray-200 p-6 sticky top-24">
+      <Card className="border border-gray-200 p-6 sticky top-24">
         <h2 class="text-xl font-bold text-text-main mb-6">Order Summary</h2>
         
         <!-- Items -->

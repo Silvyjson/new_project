@@ -15,7 +15,7 @@
   };
 </script>
 
-<Card class="border border-gray-200 p-6">
+<Card className="border border-gray-200 p-6">
   <h3 class="text-lg font-bold text-text-main mb-4">Order Details</h3>
   
   <div class="space-y-4">

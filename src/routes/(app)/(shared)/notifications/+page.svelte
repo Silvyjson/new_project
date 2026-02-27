@@ -51,7 +51,7 @@
 <div class="max-w-[800px] mx-auto px-4 py-8">
   <div class="flex items-center justify-between mb-8">
     <h1 class="text-3xl font-bold text-text-main">Notifications</h1>
-    <Button variant="outline" size="sm" on:click={markAllAsRead}>
+    <Button variant="outline" size="sm" onclick={markAllAsRead}>
       Mark All as Read
     </Button>
   </div>
@@ -67,7 +67,7 @@
             class="relative"
           >
             <Card
-              class="border border-gray-200 p-4 transition-colors
+              className="border border-gray-200 p-4 transition-colors
                      {notification.unread ? 'bg-blue-50 border-blue-200' : 'bg-surface'}"
             >
               <div class="flex items-start gap-4">
@@ -104,7 +104,7 @@
             class="relative"
           >
             <Card
-              class="border border-gray-200 p-4 transition-colors
+              className="border border-gray-200 p-4 transition-colors
                      {notification.unread ? 'bg-blue-50 border-blue-200' : 'bg-surface'}"
             >
               <div class="flex items-start gap-4">
@@ -141,7 +141,7 @@
             class="relative"
           >
             <Card
-              class="border border-gray-200 p-4 transition-colors
+              className="border border-gray-200 p-4 transition-colors
                      {notification.unread ? 'bg-blue-50 border-blue-200' : 'bg-surface'}"
             >
               <div class="flex items-start gap-4">
@@ -169,7 +169,7 @@
   
   <!-- Empty State -->
   {#if notifications.today.length === 0 && notifications.thisWeek.length === 0 && notifications.earlier.length === 0}
-    <Card class="py-16 text-center">
+    <Card className="py-16 text-center">
       <div class="text-6xl mb-4">🔔</div>
       <h2 class="text-h2 text-text-main mb-2">No notifications</h2>
       <p class="text-body text-text-muted">You're all caught up!</p>

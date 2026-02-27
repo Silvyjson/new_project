@@ -24,14 +24,15 @@
       minimumFractionDigits: 0
     }).format(amount);
   };
+  
+  $: badge = getStatusBadge(order.status);
 </script>
 
-<Card class="border border-gray-200 p-6">
+<Card className="border border-gray-200 p-6">
   <div class="flex items-start justify-between mb-4">
     <div>
       <div class="flex items-center gap-3 mb-2">
         <span class="font-semibold text-text-main">{order.id}</span>
-        {@const badge = getStatusBadge(order.status)}
         <Badge variant={badge.variant}>{badge.label}</Badge>
       </div>
       <p class="text-sm text-text-muted">{new Date(order.date).toLocaleDateString()} • {order.vendor}</p>
@@ -51,7 +52,7 @@
   <div class="flex items-center gap-3">
     <Button variant="outline" size="sm" href="/orders/{order.id}">View Details</Button>
     {#if order.status === 'delivered'}
-      <Button variant="outline" size="sm" href="/shops/{order.vendor.toLowerCase().replace(' ', '-')}">Reorder</Button>
+      <Button variant="outline" size="sm" href="/shop/{order.vendor.toLowerCase().replace(' ', '-')}">Reorder</Button>
     {/if}
   </div>
 </Card>

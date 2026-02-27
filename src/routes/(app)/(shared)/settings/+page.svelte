@@ -44,7 +44,7 @@
         <div class="space-y-3">
           {#each section.items as item}
             <a href={item.href} class="block">
-              <Card class="border border-gray-200 p-4 hover:border-primary hover:shadow-card-hover transition-all cursor-pointer">
+              <Card className="border border-gray-200 p-4 hover:border-primary hover:shadow-card-hover transition-all cursor-pointer">
                 <div class="flex items-center gap-4">
                   <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-2xl flex-shrink-0">
                     {item.icon}

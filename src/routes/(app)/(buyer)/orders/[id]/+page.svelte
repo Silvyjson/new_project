@@ -7,8 +7,8 @@
   
   // Get order ID from URL
   let orderId = '';
-  $: if ($page.params.orderId) {
-    orderId = $page.params.orderId;
+  $: if ($page.params.id) {
+    orderId = $page.params.id;
   }
   
   // Mock order details
@@ -42,14 +42,14 @@
   };
   
   const getStatusBadge = (status: string) => {
-    const badges = {
+    const badges: Record<string, { variant: 'warning' | 'info' | 'success' | 'danger'; label: string }> = {
       pending: { variant: 'warning', label: 'Pending' },
       confirmed: { variant: 'info', label: 'Confirmed' },
       shipped: { variant: 'info', label: 'Shipped' },
       delivered: { variant: 'success', label: 'Delivered' },
       cancelled: { variant: 'danger', label: 'Cancelled' }
     };
-    return badges[status as keyof typeof badges] || badges.pending;
+    return badges[status] || badges.pending;
   };
   
   const formatDate = (date: Date) => {
@@ -67,6 +67,8 @@
       minimumFractionDigits: 0
     }).format(amount);
   };
+  
+  $: statusBadge = getStatusBadge(order.status);
 </script>
 
 <svelte:head>
@@ -88,15 +90,14 @@
       <h1 class="text-3xl font-bold text-text-main mb-2">Order {order.id}</h1>
       <p class="text-body text-text-muted">{formatDate(order.date)} • {order.vendor}</p>
     </div>
-    {@const statusBadge = getStatusBadge(order.status)}
-    <Badge variant={statusBadge.variant} size="lg">{statusBadge.label}</Badge>
+    <Badge variant={statusBadge.variant} size="md">{statusBadge.label}</Badge>
   </div>
   
   <div class="grid lg:grid-cols-3 gap-8">
     <!-- Order Details -->
     <div class="lg:col-span-2 space-y-6">
       <!-- Items -->
-      <Card class="border border-gray-200 p-6">
+      <Card className="border border-gray-200 p-6">
         <h2 class="text-xl font-bold text-text-main mb-6">Order Items</h2>
         <div class="space-y-4">
           {#each order.items as item}
@@ -114,7 +115,7 @@
       </Card>
       
       <!-- Tracking Timeline -->
-      <Card class="border border-gray-200 p-6">
+      <Card className="border border-gray-200 p-6">
         <h2 class="text-xl font-bold text-text-main mb-6">Order Tracking</h2>
         <div class="space-y-4">
           {#each order.tracking as step, i}
@@ -143,7 +144,7 @@
       </Card>
       
       <!-- Shipping Address -->
-      <Card class="border border-gray-200 p-6">
+      <Card className="border border-gray-200 p-6">
         <h2 class="text-xl font-bold text-text-main mb-6">Shipping Address</h2>
         <div class="text-body text-text-muted space-y-1">
           <p class="font-semibold text-text-main">{order.shippingAddress.name}</p>
@@ -156,7 +157,7 @@
     
     <!-- Order Summary -->
     <div class="lg:col-span-1">
-      <Card class="border border-gray-200 p-6 sticky top-24">
+      <Card className="border border-gray-200 p-6 sticky top-24">
         <h2 class="text-xl font-bold text-text-main mb-6">Order Summary</h2>
         
         <div class="space-y-3 mb-6">
@@ -181,7 +182,7 @@
         
         <div class="space-y-3">
           {#if order.status === 'delivered'}
-            <Button href="/shops/{order.vendorSlug}" variant="primary" size="lg" class="w-full">
+            <Button href="/shop/{order.vendorSlug}" variant="primary" size="lg" class="w-full">
               Reorder
             </Button>
             <Button variant="outline" size="lg" class="w-full">

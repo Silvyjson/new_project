@@ -90,3 +90,37 @@ export interface Shop {
     location?: string;
     createdAt?: Date;
 }
+
+export interface OrderItem {
+    id: number;
+    name: string;
+    image: string;
+    price: number;
+    quantity: number;
+    variant: string;
+}
+
+export interface Order {
+    id: string;
+    date: Date | string;
+    status: 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
+    vendor: string;
+    vendorSlug?: string;
+    items: OrderItem[];
+    subtotal: number;
+    shipping: number;
+    tax: number;
+    total: number;
+    shippingAddress?: {
+        name: string;
+        phone: string;
+        address: string;
+        city: string;
+        state: string;
+    };
+    tracking?: Array<{
+        status: string;
+        date: string;
+        completed: boolean;
+    }>;
+}
