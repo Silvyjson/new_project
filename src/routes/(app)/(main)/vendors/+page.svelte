@@ -205,9 +205,6 @@
 </svelte:head>
 
 <main class="min-h-screen bg-background-light">
-  <!-- 🔷 SECTION 1: NAVBAR (Sticky) -->
-  <Nav />
-
   <!-- 🔷 SECTION 2: HERO HEADER -->
   <section class="py-20 bg-surface text-center animate-fade-in">
     <div class="container max-w-4xl mx-auto px-4">
@@ -349,9 +346,6 @@
       </div>
     </div>
   </section>
-
-  <!-- 🔷 SECTION 7: FOOTER -->
-  <Footer />
 </main>
 
 <style>
