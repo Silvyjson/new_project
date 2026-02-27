@@ -15,6 +15,7 @@
     import Badge from "$lib/components/ui/Badge.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
     import ProductCard from "$lib/components/vendor/ProductCard.svelte";
+    import ProductCardList from "$lib/components/vendor/ProductCardList.svelte";
     import Pagination from "$lib/components/ui/Pagination.svelte";
 
     // Data from load function
@@ -387,10 +388,12 @@
     <!-- Mobile Filter Drawer (opened when ?focus=search or via other triggers, Mobile Only) -->
     {#if showMobileFilters}
         <div class="md:hidden fixed inset-0 z-[90]">
-            <div
+            <button
+                type="button"
                 class="absolute inset-0 bg-black/40"
                 on:click={() => closeFilters()}
-            ></div>
+                aria-label="Close filters"
+            ></button>
 
             <div
                 class="absolute bottom-0 left-0 right-0 bg-surface rounded-t-2xl p-6 max-h-[85vh] overflow-y-auto animate-slide-up"
@@ -539,8 +542,7 @@
                         {/each}
                     </div>
                 {:else}
-                    <!-- List View -->
-                    <div class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {#each products as product, i}
                             {@const badge = getStockBadge(product)}
                             <div
@@ -551,100 +553,13 @@
                                     easing: cubicOut,
                                 }}
                             >
-                                <Card
-                                    hover={true}
-                                    padding="none"
-                                    className="overflow-hidden border border-gray-200 flex flex-col md:flex-row"
-                                >
-                                    <!-- Image -->
-                                    <div
-                                        class="relative w-full md:w-48 h-48 md:h-36 bg-gray-100 flex-shrink-0"
-                                    >
-                                        {#if product.images?.[0]}
-                                            <img
-                                                src={product.images[0]}
-                                                alt={product.name}
-                                                class="w-full h-full object-cover"
-                                            />
-                                        {/if}
-                                        {#if badge}
-                                            <Badge
-                                                variant={badge.variant}
-                                                className="absolute top-3 left-3"
-                                                >{badge.text}</Badge
-                                            >
-                                        {/if}
-                                    </div>
-
-                                    <!-- Content -->
-                                    <div
-                                        class="flex-1 p-4 flex flex-col justify-between"
-                                    >
-                                        <div>
-                                            <h3
-                                                class="text-body font-semibold text-text-main mb-1"
-                                            >
-                                                {product.name}
-                                            </h3>
-                                            <p
-                                                class="text-small text-text-muted mb-2 line-clamp-2"
-                                            >
-                                                {product.description}
-                                            </p>
-                                            <div
-                                                class="flex items-center gap-1 mb-2"
-                                            >
-                                                {#each Array(5) as _, index}
-                                                    <span
-                                                        class="text-sm {index <
-                                                        Math.floor(
-                                                            product.rating,
-                                                        )
-                                                            ? 'text-yellow-400'
-                                                            : 'text-gray-300'}"
-                                                        >★</span
-                                                    >
-                                                {/each}
-                                                <span
-                                                    class="text-small text-text-muted"
-                                                    >({product.reviewCount})</span
-                                                >
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="flex items-center justify-between"
-                                        >
-                                            <div
-                                                class="flex items-center gap-2"
-                                            >
-                                                <span
-                                                    class="text-lg font-bold text-primary"
-                                                    >{formatNaira(
-                                                        product.price,
-                                                    )}</span
-                                                >
-                                                {#if product.oldPrice}
-                                                    <span
-                                                        class="text-small text-text-muted line-through"
-                                                        >{formatNaira(
-                                                            product.oldPrice,
-                                                        )}</span
-                                                    >
-                                                {/if}
-                                            </div>
-                                            <Button
-                                                variant="primary"
-                                                size="sm"
-                                                onclick={(e) => {
-                                                    e.stopPropagation();
-                                                    addToCart(product);
-                                                }}
-                                            >
-                                                Add to Cart
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </Card>
+                                <!-- List View (componentized) -->
+                                <ProductCardList
+                                    {product}
+                                    shopSlug={shop.slug}
+                                    {addToCart}
+                                    {formatNaira}
+                                />
                             </div>
                         {/each}
                     </div>

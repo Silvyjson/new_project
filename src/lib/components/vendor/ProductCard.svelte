@@ -1,24 +1,21 @@
-<!-- src/lib/components/shop/ProductCard.svelte -->
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import { goto } from "$app/navigation";
   import type { Product } from "$lib/types";
   import Card from "$lib/components/ui/Card.svelte";
   import Badge from "$lib/components/ui/Badge.svelte";
-  import Button from "$lib/components/ui/Button.svelte";
 
   const dispatch = createEventDispatcher<{
     wishlist: { wishlisted: boolean; product: Product };
+    addToCart: { product: Product };
   }>();
 
   export let product: Product;
   export let shopSlug: string;
   export let compact: boolean = false;
   export let className: string = "";
-  // allow parent to initialize
   export let wishlisted: boolean = false;
 
-  // local state
   let isWishlisted = wishlisted;
 
   const toggleWishlist = (e: MouseEvent) => {
@@ -26,6 +23,12 @@
     e.stopPropagation();
     isWishlisted = !isWishlisted;
     dispatch("wishlist", { wishlisted: isWishlisted, product });
+  };
+
+  const handleAddToCart = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch("addToCart", { product });
   };
 
   const formatNaira = (amount: number) => {
@@ -49,11 +52,10 @@
   };
 </script>
 
-<!-- card wrapper without link; navigation happens via Quick View button -->
 <Card
   hover={true}
   padding="none"
-  className="overflow-hidden border border-gray-200 h-full flex flex-col {className}"
+  className="group overflow-hidden border border-gray-200 h-full flex flex-col {className}"
 >
   <!-- Product Image -->
   <div class="relative aspect-square bg-gray-100 overflow-hidden">
@@ -61,7 +63,7 @@
       <img
         src={product.images[0]}
         alt={product.name}
-        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
       />
     {/if}
 
@@ -81,60 +83,50 @@
     <!-- Stock Status -->
     <div class="absolute top-3 right-3">
       <span
-        class="px-2 py-1 rounded-btn text-xs font-medium {getStockStatusColor(
-          product.stockStatus,
+        class="px-2 py-1 rounded-full text-xs font-medium {getStockStatusColor(
+          product.stockStatus
         )}"
       >
         {getStockStatusLabel(product.stockStatus)}
       </span>
     </div>
 
-    <!-- Hover Overlay (quick actions) -->
+    <!-- Hover Overlay -->
     <div
-      class="absolute inset-0 bg-dark/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 relative"
+      class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
     >
-      <Button
-        variant="primary"
-        size="sm"
-        onclick={(e) => {
+      <button
+        class="px-4 py-2 bg-white text-sm font-semibold rounded-lg shadow hover:bg-gray-100 transition"
+        on:click={(e) => {
           e.preventDefault();
           e.stopPropagation();
           goto(`/shops/${shopSlug}/products/${product.code}`);
         }}
       >
         Quick View
-      </Button>
-      <Button
-        variant="secondary"
-        size="sm"
-        onclick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          // Handle add to cart logic here
-        }}
-      >
-        Add to Cart
-      </Button>
+      </button>
     </div>
   </div>
 
   <!-- Content -->
   <div class="p-4 flex-1 flex flex-col">
-    <div class="flex items-center justify-between gap-4 mb-1">
-      <!-- Product Name -->
-      <h3
-        class="text-body font-semibold text-text-main line-clamp-2 group-hover:text-primary transition-colors"
+    <!-- Title + Wishlist -->
+    <div class="flex items-start justify-between gap-3 mb-2">
+      <a
+        href={`/shops/${shopSlug}/products/${product.code}`}
+        class="hover:underline flex-1"
       >
-        {product.name}
-      </h3>
+        <h3 class="text-body font-semibold text-text-main line-clamp-2 hover:text-primary transition-colors">
+          {product.name}
+        </h3>
+      </a>
 
-      <!-- wishlist inside overlay to avoid conflict with badges -->
       <button
         on:click={toggleWishlist}
-        class="w-8 h-8 rounded-full flex items-center justify-center transition-colors
-            ${isWishlisted
-          ? 'bg-red-50 text-red-500'
-          : 'text-white hover:text-red-500'}"
+        class="w-8 h-8 rounded-full flex items-center justify-center transition
+          {isWishlisted
+            ? 'bg-red-50 text-red-500'
+            : 'text-gray-400 hover:text-red-500'}"
         aria-label="Toggle wishlist"
       >
         <svg
@@ -165,23 +157,47 @@
         <span
           class="text-sm {index < Math.floor(product.rating)
             ? 'text-yellow-400'
-            : 'text-gray-300'}">★</span
-        >
+            : 'text-gray-300'}"
+        >★</span>
       {/each}
-      <span class="text-small text-text-muted ml-1"
-        >({product.reviewCount})</span
-      >
+      <span class="text-small text-text-muted ml-1">
+        ({product.reviewCount})
+      </span>
     </div>
 
-    <!-- Price -->
-    <div class="mt-auto flex items-center gap-2">
-      <span class="text-lg font-bold text-primary"
-        >{formatNaira(product.price)}</span
-      >
-      {#if product.oldPrice}
-        <span class="text-small text-text-muted line-through"
-          >{formatNaira(product.oldPrice)}</span
+    <!-- Price + Add to Cart -->
+    <div class="mt-auto flex items-center justify-between gap-3">
+      <div>
+        <span class="text-lg font-bold text-primary">
+          {formatNaira(product.price)}
+        </span>
+        {#if product.oldPrice}
+          <span class="text-small text-text-muted line-through ml-2">
+            {formatNaira(product.oldPrice)}
+          </span>
+        {/if}
+      </div>
+
+      {#if product.stockStatus === "in-stock"}
+        <button
+          on:click={handleAddToCart}
+          class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-hover transition shadow-sm"
+          aria-label="Add to cart"
         >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1 5h12m-6-5v5"
+            />
+          </svg>
+        </button>
       {/if}
     </div>
 
@@ -192,7 +208,9 @@
     {/if}
 
     {#if product.preorder && product.preorderNote}
-      <p class="text-xs text-primary mt-2">{product.preorderNote}</p>
+      <p class="text-xs text-primary mt-2">
+        {product.preorderNote}
+      </p>
     {/if}
   </div>
 </Card>
