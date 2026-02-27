@@ -532,7 +532,7 @@
                         More shops = more opportunities = more growth.
                     </p>
                 </div>
-                <Button href="/pricing" variant="primary" className="mt-8">
+                <Button href="/#pricing" variant="primary" className="mt-8">
                     Upgrade Your Vendor Plan →
                 </Button>
             </div>
