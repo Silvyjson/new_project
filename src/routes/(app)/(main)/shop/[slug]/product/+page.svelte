@@ -1,4 +1,4 @@
-<!-- src/routes/shops/[shopSlug]/products/+page.svelte -->
+<!-- src/routes/shop/[shopSlug]/product/+page.svelte -->
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { page } from "$app/stores";
@@ -144,7 +144,7 @@
         if (availability) params.set("availability", availability);
         if (sortBy && sortBy !== "newest") params.set("sort", sortBy);
         if (viewMode && viewMode !== "grid") params.set("view", viewMode);
-        goto(`/shops/${shop.slug}/products?${params.toString()}`, {
+        goto(`/shop/${shop.slug}/product?${params.toString()}`, {
             replaceState: true,
         });
     };
@@ -165,7 +165,7 @@
     const handlePageChange = (e: CustomEvent) => {
         const params = new URLSearchParams($page.url.searchParams);
         params.set("page", e.detail.page.toString());
-        goto(`/shops/${shop.slug}/products?${params.toString()}`, {
+        goto(`/shop/${shop.slug}/product?${params.toString()}`, {
             replaceState: true,
         });
     };

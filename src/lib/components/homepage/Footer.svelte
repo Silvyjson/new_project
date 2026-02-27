@@ -73,8 +73,8 @@
         <div>
             <h4 class="font-bold mb-4">Product</h4>
             <ul class="space-y-2 text-small text-gray-400">
-                <li><a href="/vendors" class="hover:text-white">Vendors</a></li>
-                <li><a href="/shops" class="hover:text-white">Shops</a></li>
+                <li><a href="/vendor" class="hover:text-white">Vendors</a></li>
+                <li><a href="/shop" class="hover:text-white">Shops</a></li>
                 <li><a href="/blog" class="hover:text-white">Blog</a></li>
             </ul>
         </div>

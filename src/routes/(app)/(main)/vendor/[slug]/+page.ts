@@ -1,4 +1,4 @@
-// src/routes/vendors/[vendorSlug]/+page.ts
+// src/routes/vendor/[vendorSlug]/+page.ts
 import type { PageLoad } from './$types';
 import { error } from '@sveltejs/kit';
 
@@ -257,7 +257,7 @@ const mockVendors = [
 ];
 
 export const load: PageLoad = async ({ params }) => {
-    const vendor = mockVendors.find((v) => v.slug === params.vendorSlug);
+    const vendor = mockVendors.find((v) => v.slug === params.slug);
 
     if (!vendor) {
         throw error(404, 'Vendor not found');

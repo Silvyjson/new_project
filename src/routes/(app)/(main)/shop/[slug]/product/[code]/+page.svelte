@@ -1,4 +1,4 @@
-<!-- src/routes/shops/[shopSlug]/products/[productCode]/+page.svelte -->
+<!-- src/routes/shop/[shopSlug]/product/[productCode]/+page.svelte -->
 <script lang="ts">
     import { fade, fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
@@ -92,7 +92,7 @@
         if (history.length > 1) {
             history.back();
         } else {
-            window.location.href = `/shops/${product.shop.slug}/products`;
+            window.location.href = `/shop/${product.shop.slug}/product`;
         }
     };
 </script>
@@ -214,12 +214,12 @@
                     <!-- Breadcrumb -->
                     <nav class="text-small text-text-muted mb-4">
                         <a
-                            href="/shops/{product.shop.slug}"
+                            href="/shop/{product.shop.slug}"
                             class="hover:text-primary">Shop</a
                         >
                         <span> / </span>
                         <a
-                            href="/shops/{product.shop
+                            href="/shop/{product.shop
                                 .slug}?category={product.category}"
                             class="hover:text-primary">{product.category}</a
                         >

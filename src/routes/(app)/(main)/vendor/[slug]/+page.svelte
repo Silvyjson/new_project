@@ -1,4 +1,4 @@
-<!-- src/routes/vendors/[vendorSlug]/+page.svelte -->
+<!-- src/routes/vendor/[vendorSlug]/+page.svelte -->
 <script lang="ts">
   import { onMount } from "svelte";
   import { fade, fly } from "svelte/transition";
@@ -104,7 +104,7 @@
   }
   const copyProfileLink = () => {
     navigator.clipboard.writeText(
-      `${window.location.origin}/vendors/${vendor.slug}`,
+      `${window.location.origin}/vendor/${vendor.slug}`,
     );
     alert("Profile link copied!");
   };
@@ -294,7 +294,7 @@
             <!-- Primary CTA -->
             <div class="flex flex-col gap-3">
               <Button
-                href="/vendors/{vendor.slug}#shops"
+                href="/vendor/{vendor.slug}#shops"
                 variant="primary"
                 size="lg"
                 className="w-full"

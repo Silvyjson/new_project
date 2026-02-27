@@ -29,7 +29,7 @@ const mockPosts = [
       
       <blockquote>"We believe technology should be accessible, reliable, and exciting. Our 2026 Collection reflects that mission."</blockquote>
       
-      <p>Ready to upgrade your tech? <a href="/shops/techstoreng">Visit TechStoreNG</a> to explore the full collection.</p>
+      <p>Ready to upgrade your tech? <a href="/shop/techstoreng">Visit TechStoreNG</a> to explore the full collection.</p>
     `,
         coverImage: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c',
         category: 'New Releases',
@@ -122,7 +122,7 @@ const mockPosts = [
       
       <blockquote>"Pre-orders are a great way to get exclusive items early — just shop smart."</blockquote>
       
-      <p>Ready to shop with confidence? <a href="/shops">Browse verified vendors</a> on VendorHub today.</p>
+      <p>Ready to shop with confidence? <a href="/shop">Browse verified vendors</a> on VendorHub today.</p>
     `,
         coverImage: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d',
         category: 'Trust & Safety',
@@ -165,7 +165,7 @@ const mockPosts = [
       
       <blockquote>"Fashion should look good, feel good, and do good. That's the Amina promise."</blockquote>
       
-      <p>Explore the collection at <a href="/shops/amina-fashion">Amina Fashion</a> on VendorHub.</p>
+      <p>Explore the collection at <a href="/shop/amina-fashion">Amina Fashion</a> on VendorHub.</p>
     `,
         coverImage: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8',
         category: 'Vendor Updates',
@@ -346,7 +346,7 @@ function generateSEO(post: any) {
                 '@type': post.author.type === 'vendor' ? 'Organization' : 'Person',
                 name: post.author.type === 'vendor' ? post.author.vendorName : post.author.name,
                 url: post.author.type === 'vendor'
-                    ? `${siteUrl}/vendors/${post.author.vendorSlug}`
+                    ? `${siteUrl}/vendor/${post.author.vendorSlug}`
                     : undefined
             },
             publisher: {

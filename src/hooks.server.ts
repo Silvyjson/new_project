@@ -6,7 +6,19 @@ export const handle: Handle = async ({ event, resolve }) => {
     const url = new URL(event.request.url);
 
     // Protected routes
-    const protectedRoutes = ['/dashboard', '/vendor', '/buyer'];
+    const protectedRoutes = [
+        // '/shop',
+        // '/vendor',
+        '/dashboard', 
+        // '/home',
+        // '/following',
+        // '/orders',
+        // '/wishlist',
+        // '/cart',
+        // '/checkout',
+        // '/notifications',
+        // '/settings'
+    ];
     const isProtected = protectedRoutes.some(route => url.pathname.startsWith(route));
 
     if (isProtected && !session?.user) {

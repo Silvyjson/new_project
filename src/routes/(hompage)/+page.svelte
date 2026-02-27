@@ -165,7 +165,7 @@
           <Button href="/auth/register" size="lg" className="shadow-glow"
             >Create Free Shop</Button
           >
-          <Button href="/vendors" variant="outline" size="lg"
+          <Button href="/vendor" variant="outline" size="lg"
             >Explore Vendors</Button
           >
         </div>

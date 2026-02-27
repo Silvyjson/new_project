@@ -144,7 +144,7 @@
                 <Button href="/auth/register" size="lg" className="shadow-glow">
                     Become a Verified Vendor
                 </Button>
-                <Button href="/vendors" variant="outline" size="lg">
+                <Button href="/vendor" variant="outline" size="lg">
                     Explore Verified Shops
                 </Button>
             </div>
@@ -699,7 +699,7 @@
                     Create Free Shop
                 </Button>
                 <Button
-                    href="/vendors"
+                    href="/vendor"
                     variant="ghost"
                     className="border-2 border-white text-white hover:bg-white/10 px-8 py-4 text-lg font-semibold"
                 >

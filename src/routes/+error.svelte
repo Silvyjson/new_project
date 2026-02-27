@@ -112,7 +112,7 @@
                         Back to Home
                     </Button>
                     <Button
-                        href="/shops"
+                        href="/shop"
                         variant="outline"
                         size="lg"
                         className="px-8 h-[52px] text-lg font-semibold border-2"
@@ -120,7 +120,7 @@
                         Browse Shops
                     </Button>
                     <Button
-                        href="/vendors"
+                        href="/vendor"
                         variant="ivory"
                         size="lg"
                         className="px-8 h-[52px] text-lg font-semibold hover:text-primary transition-colors"

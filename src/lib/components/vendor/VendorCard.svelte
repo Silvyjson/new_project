@@ -24,7 +24,7 @@
 </script>
 
 <a
-  href="/vendors/{vendor.slug}"
+  href="/vendor/{vendor.slug}"
   class="block group"
   aria-label="View {vendor.name}'s shops"
 >

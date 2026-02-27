@@ -22,7 +22,7 @@ VendorHub is a managed multi-vendor marketplace where:
   - Place orders
   - Review vendors
 - **Vendor**
-  - Manage profile/shop/products/orders
+  - Manage profile/shop/product/orders
   - Track trust score and verification
   - Preview storefront
 - **Admin**
@@ -158,7 +158,7 @@ Key flags:
 ## Shared layers
 
 - `src/lib/components` — reusable UI components
-- `src/lib/features` — domain-driven feature folders (orders/products/trust)
+- `src/lib/features` — domain-driven feature folders (orders/product/trust)
 - `src/lib/stores` — session/UI stores
 - `src/lib/api` — typed API clients
 - `src/lib/utils` — helpers/formatters/validators

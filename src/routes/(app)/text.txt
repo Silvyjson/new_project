@@ -2,19 +2,19 @@
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
 
+  // Default App Layout
   import AppHeader from '$lib/components/app/AppHeader.svelte';
   import AppFooter from '$lib/components/app/AppFooter.svelte';
 
+  // Homepage Layout
   import Nav from "$lib/components/homepage/Nav.svelte";
   import Footer from "$lib/components/homepage/Footer.svelte";
 
+  // Auth store
   import { isAuthenticated } from '$lib/stores/auth';
   import ProfileDrawer from '$lib/components/app/ProfileDrawer.svelte';
 
   let showProfileDrawer = false;
-
-  // --- TEMP: simulate logged in state ---
-  let simulateLoggedIn = true; // toggle to true to see AppHeader
 
   const openProfileDrawer = () => {
     showProfileDrawer = true;
@@ -32,29 +32,27 @@
     return () => window.removeEventListener('open-profile-drawer', handleOpenDrawer);
   });
 
+  // Route + auth logic
   $: currentPath = $page.url.pathname;
-  // override auth store for testing
-  $: loggedIn = simulateLoggedIn ? true : $isAuthenticated;
+  $: loggedIn = $isAuthenticated;
 
+  // Route checks
   $: isBlog = currentPath.startsWith('/blog');
   $: isVendor = currentPath.startsWith('/vendor');
   $: isSupport = currentPath === '/support';
   $: isShopsRoot = currentPath === '/shop';
   $: isShopsNested = currentPath.startsWith('/shop/') && currentPath !== '/shop';
 
+  // Show homepage layout only on specific routes when logged out
   $: useHomepageLayout =
     !loggedIn &&
     (isBlog || isVendor || isSupport || isShopsRoot);
 
+  // Completely hide header/footer on nested shop routes
   $: hideLayout = isShopsNested;
 </script>
 
 <div class="min-h-screen bg-background flex flex-col">
-
-  <!-- TEMP: toggle login for testing -->
-  <button class="fixed top-4 right-4 p-2 bg-blue-500 text-white rounded" on:click={() => simulateLoggedIn = !simulateLoggedIn}>
-    {simulateLoggedIn ? 'Simulate Logout' : 'Simulate Login'}
-  </button>
 
   {#if !hideLayout}
     {#if useHomepageLayout}
@@ -79,4 +77,5 @@
   {#if showProfileDrawer && !useHomepageLayout && !hideLayout}
     <ProfileDrawer {showProfileDrawer} on:close={closeProfileDrawer} />
   {/if}
+
 </div>

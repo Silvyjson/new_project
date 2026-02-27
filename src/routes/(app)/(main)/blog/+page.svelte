@@ -188,7 +188,7 @@
                                     <div>
                                         {#if post.author.type === "vendor"}
                                             <a
-                                                href="/vendors/{post.author
+                                                href="/vendor/{post.author
                                                     .vendorSlug}"
                                                 class="text-sm font-semibold text-primary hover:underline"
                                             >
@@ -223,7 +223,7 @@
                                     >
                                     {#if post.linkedShop}
                                         <Button
-                                            href="/shops/{post.linkedShop.slug}"
+                                            href="/shop/{post.linkedShop.slug}"
                                             variant="outline"
                                             size="md">Visit Shop</Button
                                         >
@@ -373,7 +373,7 @@
                                                 />
                                                 {#if post.author.type === "vendor"}
                                                     <a
-                                                        href="/vendors/{post
+                                                        href="/vendor/{post
                                                             .author.vendorSlug}"
                                                         class="text-xs font-medium text-primary hover:underline"
                                                     >

@@ -100,7 +100,7 @@
         on:click={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          goto(`/shops/${shopSlug}/products/${product.code}`);
+          goto(`/shop/${shopSlug}/product/${product.code}`);
         }}
       >
         Quick View
@@ -113,7 +113,7 @@
     <!-- Title + Wishlist -->
     <div class="flex items-start justify-between gap-3 mb-2">
       <a
-        href={`/shops/${shopSlug}/products/${product.code}`}
+        href={`/shop/${shopSlug}/product/${product.code}`}
         class="hover:underline flex-1"
       >
         <h3 class="text-body font-semibold text-text-main line-clamp-2 hover:text-primary transition-colors">

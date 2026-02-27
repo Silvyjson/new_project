@@ -1,4 +1,4 @@
-// src/routes/shops/[shopSlug]/+page.ts
+// src/routes/shop/[shopSlug]/+page.ts
 import type { PageLoad } from './$types';
 import { error } from '@sveltejs/kit';
 import type { Product } from '$lib/types';

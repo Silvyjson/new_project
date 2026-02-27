@@ -1,4 +1,4 @@
-// src/routes/shops/+page.ts
+// src/routes/shop/+page.ts
 import type { PageLoad } from './$types';
 
 // Mock shop data - Replace with real API call

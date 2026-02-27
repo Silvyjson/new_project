@@ -23,7 +23,7 @@
     };
 </script>
 
-<a href="/shops/{shop.slug}" class="block group {className}">
+<a href="/shop/{shop.slug}" class="block group {className}">
     <Card
         hover={true}
         padding="none"
@@ -127,7 +127,7 @@
                 <!-- <Button
                     variant="outline"
                     size="sm"
-                    href="/shops/{shop.slug}/products"
+                    href="/shop/{shop.slug}/product"
                     className="w-full"
                 >
                     View Products

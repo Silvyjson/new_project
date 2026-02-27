@@ -1,4 +1,4 @@
-// src/routes/shops/[shopSlug]/products/+page.ts
+// src/routes/shop/[shopSlug]/product/+page.ts
 import type { Product } from '$lib/types';
 import type { PageLoad } from './$types';
 

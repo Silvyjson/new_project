@@ -1,4 +1,4 @@
-// src/routes/vendors/+page.ts
+// src/routes/vendor/+page.ts
 import type { PageLoad } from './$types';
 
 // Mock vendor data - Replace with real API call

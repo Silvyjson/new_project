@@ -1,4 +1,4 @@
-<!-- src/routes/shops/+page.svelte -->
+<!-- src/routes/shop/+page.svelte -->
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { page } from "$app/stores";
@@ -80,7 +80,7 @@
         if (verifiedOnly) params.set("verified", "true");
         if (sortBy && sortBy !== "trustScore") params.set("sort", sortBy);
 
-        goto(`/shops?${params.toString()}`, { replaceState: true });
+        goto(`/shop?${params.toString()}`, { replaceState: true });
     };
 
     // Remove filter chip
@@ -143,7 +143,7 @@
     const handlePageChange = (e: CustomEvent) => {
         const params = new URLSearchParams($page.url.searchParams);
         params.set("page", e.detail.page.toString());
-        goto(`/shops?${params.toString()}`, { replaceState: true });
+        goto(`/shop?${params.toString()}`, { replaceState: true });
     };
 
     import Filter from "$lib/components/ui/Filter.svelte";

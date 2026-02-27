@@ -1,4 +1,4 @@
-<!-- src/routes/vendors/+page.svelte -->
+<!-- src/routes/vendor/+page.svelte -->
 <script lang="ts">
   import { onMount, tick } from "svelte";
   import { fly, fade } from "svelte/transition";
@@ -72,7 +72,7 @@
     if (verifiedOnly) params.set("verified", "true");
     if (sortBy && sortBy !== "trustScore") params.set("sort", sortBy);
 
-    goto(`/vendors?${params.toString()}`, { replaceState: true });
+    goto(`/vendor?${params.toString()}`, { replaceState: true });
   };
 
   // Remove filter chip
@@ -181,7 +181,7 @@
   const handlePageChange = (e: CustomEvent) => {
     const params = new URLSearchParams($page.url.searchParams);
     params.set("page", e.detail.page.toString());
-    goto(`/vendors?${params.toString()}`, { replaceState: true });
+    goto(`/vendor?${params.toString()}`, { replaceState: true });
   };
 
   // Get trust score color

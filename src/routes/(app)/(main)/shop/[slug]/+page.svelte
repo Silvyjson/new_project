@@ -1,4 +1,4 @@
-<!-- src/routes/shops/[shopSlug]/+page.svelte -->
+<!-- src/routes/shop/[shopSlug]/+page.svelte -->
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { fade, fly } from "svelte/transition";
@@ -31,7 +31,7 @@
 
     // Copy shop link (subtle)
     const copyShopLink = () => {
-        const url = `${window.location.origin}/shops/${shop.slug}`;
+        const url = `${window.location.origin}/shop/${shop.slug}`;
         navigator.clipboard.writeText(url);
         // Could add toast here instead of alert
     };
@@ -161,7 +161,7 @@
                             <!-- Subtle Vendor Link -->
                             <p class="text-xs text-white/60 mb-4">
                                 by <a
-                                    href="/vendors/{shop.vendorSlug}"
+                                    href="/vendor/{shop.vendorSlug}"
                                     class="text-white/80 hover:text-white underline decoration-white/30 hover:decoration-white transition-all"
                                     >{shop.vendorName}</a
                                 >
@@ -170,7 +170,7 @@
                             <!-- Primary Actions -->
                             <div class="flex gap-3">
                                 <Button
-                                    href="/shops/{shop.slug}/products"
+                                    href="/shop/{shop.slug}/product"
                                     variant="primary"
                                     size="md">Shop Now</Button
                                 >
@@ -272,7 +272,7 @@
 
                 <!-- View All Products CTA -->
                 <a
-                    href="/shops/{shop.slug}/products"
+                    href="/shop/{shop.slug}/product"
                     class="hidden md:flex items-center gap-2 text-primary font-medium hover:underline whitespace-nowrap"
                 >
                     View All Products
@@ -297,7 +297,7 @@
     <!-- Mobile: View All CTA -->
     <div class="md:hidden my-2 text-right px-4">
          <a
-            href="/shops/{shop.slug}/products"
+            href="/shop/{shop.slug}/product"
             class="inline-flex items-center gap-2 text-primary font-medium hover:underline"
         >
             View All {products.length} Products →
@@ -334,7 +334,7 @@
                     <p class="text-body text-text-muted mb-6">
                         Try selecting a different tab or view all products.
                     </p>
-                    <Button variant="outline" href="/shops/{shop.slug}/products"
+                    <Button variant="outline" href="/shop/{shop.slug}/product"
                         >View All Products</Button
                     >
                 </Card>

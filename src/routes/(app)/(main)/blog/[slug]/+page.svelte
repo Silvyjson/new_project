@@ -89,7 +89,7 @@
                     <div class="flex items-center gap-2">
                         {#if post.author.type === "vendor"}
                             <a
-                                href="/vendors/{post.author.vendorSlug}"
+                                href="/vendor/{post.author.vendorSlug}"
                                 class="text-body font-semibold text-primary hover:underline"
                             >
                                 {post.author.vendorName}
@@ -110,7 +110,7 @@
                 </div>
                 {#if post.author.type === "vendor" && post.linkedShop}
                     <Button
-                        href="/shops/{post.linkedShop.slug}"
+                        href="/shop/{post.linkedShop.slug}"
                         variant="outline"
                         size="sm"
                     >
@@ -170,7 +170,7 @@
                         protected by VendorHub's secure checkout.
                     </p>
                     <Button
-                        href="/shops/{post.linkedShop.slug}"
+                        href="/shop/{post.linkedShop.slug}"
                         variant="primary"
                         size="lg"
                     >
@@ -245,7 +245,7 @@
                                 </div>
                             </div>
                             <Button
-                                href="/vendors/{post.author.vendorSlug}"
+                                href="/vendor/{post.author.vendorSlug}"
                                 variant="outline"
                                 size="md"
                             >

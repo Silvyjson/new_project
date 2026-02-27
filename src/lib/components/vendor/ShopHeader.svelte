@@ -5,6 +5,7 @@
     import type { Product, Shop } from "$lib/types";
     import Button from "$lib/components/ui/Button.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
+  import ProfileDrawer from "../app/ProfileDrawer.svelte";
 
     export let shop: Shop | null = null;
     export let product: Product | undefined = undefined;
@@ -40,11 +41,11 @@
         cartItems.reduce((total, item) => total + item.price, 0);
 
     $: currentPath = $page?.url?.pathname ?? "";
-    $: isShopProfile = currentPath === `/shops/${shop?.slug}`;
-    $: isShopProducts = currentPath === `/shops/${shop?.slug}/products`;
+    $: isShopProfile = currentPath === `/shop/${shop?.slug}`;
+    $: isShopProducts = currentPath === `/shop/${shop?.slug}/product`;
     $: isProductPage =
         product &&
-        currentPath === `/shops/${shop?.slug}/products/${product?.code}`;
+        currentPath === `/shop/${shop?.slug}/product/${product?.code}`;
 </script>
 
 <header class="sticky top-0 z-50 bg-surface border-b border-gray-100 backdrop-blur-sm">
@@ -52,7 +53,7 @@
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
             <!-- 🔹 Shop Info -->
-            <a href={`/shops/${shop?.slug}`} class="flex items-center gap-3 md:gap-4">
+            <a href={`/shop/${shop?.slug}`} class="flex items-center gap-3 md:gap-4">
                 <img
                     src={shop?.logoUrl}
                     alt={shop?.name}
@@ -115,7 +116,7 @@
                     class="text-text-muted hover:text-primary transition-colors"
                     on:click={() => {
                         const slug = shop?.slug ?? (product as any)?.shop?.slug;
-                        if (slug) goto(`/shops/${slug}/products?focus=search`);
+                        if (slug) goto(`/shop/${slug}/product?focus=search`);
                     }}
                 >
                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -283,130 +284,5 @@
 {/if}
 
 {#if showProfileDrawer}
-    <div class="fixed inset-0 z-[110]" role="dialog" aria-modal="true">
-        <!-- Overlay -->
-        <button
-            class="absolute inset-0 bg-dark/50 w-full h-full border-none cursor-default"
-            on:click={() => (showProfileDrawer = false)}
-            aria-label="Close profile"
-            type="button"
-        ></button>
-
-        <!-- Drawer -->
-        <div
-            class="absolute right-0 top-0 h-full w-full max-w-[360px] bg-surface shadow-2xl animate-slide-in-right"
-        >
-            <div class="flex flex-col h-full">
-                <!-- Header -->
-                <div class="p-6 border-b border-gray-200">
-                    <div class="flex items-center gap-4">
-                        <img
-                            src="/avatar-placeholder.png"
-                            class="w-14 h-14 rounded-full object-cover"
-                            alt="User"
-                        />
-                        <div>
-                            <h3 class="font-semibold text-text-main">
-                                John Doe
-                            </h3>
-                            <p class="text-sm text-text-muted">
-                                johndoe@email.com
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Menu -->
-                <div class="flex-1 overflow-y-auto p-6 space-y-6 text-sm">
-                    <div>
-                        <ul class="space-y-3">
-                            <li>
-                                <a href="/home" class="hover:text-primary"
-                                    >Home</a
-                                >
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Orders -->
-                    <div>
-                        <p class="text-xs text-text-muted mb-3 uppercase">
-                            Orders
-                        </p>
-                        <ul class="space-y-3">
-                            <li>
-                                <a href="/orders" class="hover:text-primary"
-                                    >My Orders</a
-                                >
-                            </li>
-                            <li>
-                                <a href="/track" class="hover:text-primary"
-                                    >Track Order</a
-                                >
-                            </li>
-                            <li>
-                                <a href="/returns" class="hover:text-primary"
-                                    >Returns</a
-                                >
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Shopping -->
-                    <div>
-                        <p class="text-xs text-text-muted mb-3 uppercase">
-                            Shopping
-                        </p>
-                        <ul class="space-y-3">
-                            <li>
-                                <a href="/wishlist" class="hover:text-primary"
-                                    >Wishlist</a
-                                >
-                            </li>
-                            <li>
-                                <a href="/cart" class="hover:text-primary"
-                                    >Cart</a
-                                >
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Account -->
-                    <div>
-                        <p class="text-xs text-text-muted mb-3 uppercase">
-                            Account
-                        </p>
-                        <ul class="space-y-3">
-                            <li>
-                                <a href="/settings" class="hover:text-primary"
-                                    >Settings</a
-                                >
-                            </li>
-                            <li>
-                                <a
-                                    href="/notifications"
-                                    class="hover:text-primary">Notifications</a
-                                >
-                            </li>
-                            <li>
-                                <a href="/support" class="hover:text-primary"
-                                    >Support</a
-                                >
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Footer -->
-                <div class="p-6 border-t border-gray-200">
-                    <button
-                        class="w-full text-red-500 hover:text-red-600 font-medium"
-                        on:click={() => console.log("logout")}
-                    >
-                        Log Out
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+   <ProfileDrawer {showProfileDrawer} on:close={() => (showProfileDrawer = false)} />
 {/if}

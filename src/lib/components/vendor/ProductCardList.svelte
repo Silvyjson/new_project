@@ -33,7 +33,7 @@
     <div class="flex-1 p-4 flex flex-col justify-between">
         <div>
             <a
-                href={`/shops/${shopSlug}/products/${product.code}`}
+                href={`/shop/${shopSlug}/product/${product.code}`}
                 class="hover:underline flex-1"
             >
                 <h3 class="text-body font-semibold text-text-main mb-1">{product.name}</h3>
