@@ -159,6 +159,10 @@
 
   .section {
     @apply py-20;
+
+    @media (max-width: 768px) {
+      @apply py-14;
+    }
   }
 
   .container {
@@ -260,7 +264,7 @@ button {
 
 /* Scrollbar Thumb */
 .scrollable::-webkit-scrollbar-thumb {
-  background-color: #7e22ce;
+  background-color: #1d4ed8;
   border-radius: 10px;
   border: 2px solid #2d2d2d;
 }

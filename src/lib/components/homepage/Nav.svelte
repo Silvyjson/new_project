@@ -112,7 +112,7 @@
     {#if mobileMenuOpen}
         <div
             transition:slide={{ duration: 250 }}
-            class="md:hidden absolute top-20 left-0 w-full bg-surface border-b border-gray-100 p-6 flex flex-col gap-6 shadow-xl"
+            class="md:hidden absolute top-18 left-0 w-full bg-surface border-b border-gray-100 p-6 flex flex-col gap-6 shadow-xl"
         >
             {#each navItems as item}
                 <a

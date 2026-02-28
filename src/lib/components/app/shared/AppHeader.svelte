@@ -207,7 +207,7 @@
 
   {#if role === "buyer"}
     <!-- Mobile Search Bar (shown on mobile only) -->
-    <div class="md:hidden px-4 pb-3">
+    <div class="hidden px-4 pb-3">
       <SearchBar />
     </div>
   {/if}

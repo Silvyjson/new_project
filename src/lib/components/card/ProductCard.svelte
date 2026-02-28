@@ -58,7 +58,7 @@
   className="group overflow-hidden border border-gray-200 h-full flex flex-col {className}"
 >
   <!-- Product Image -->
-  <div class="relative aspect-square bg-gray-100 overflow-hidden">
+  <div class="relative h-35 bg-gray-100 overflow-hidden">
     {#if product.images?.[0]}
       <img
         src={product.images[0]}
@@ -84,7 +84,7 @@
     <div class="absolute top-3 right-3">
       <span
         class="px-2 py-1 rounded-full text-xs font-medium {getStockStatusColor(
-          product.stockStatus
+          product.stockStatus,
         )}"
       >
         {getStockStatusLabel(product.stockStatus)}
@@ -111,22 +111,24 @@
   <!-- Content -->
   <div class="p-4 flex-1 flex flex-col">
     <!-- Title + Wishlist -->
-    <div class="flex items-start justify-between gap-3 mb-2">
+    <div class="flex items-start justify-between gap-3 mb-1">
       <a
         href={`/shop/${shopSlug}/product/${product.code}`}
         class="hover:underline flex-1"
       >
-        <h3 class="text-body font-semibold text-text-main line-clamp-2 hover:text-primary transition-colors">
+        <h3
+          class="text-body font-semibold text-text-main line-clamp-2 hover:text-primary transition-colors"
+        >
           {product.name}
         </h3>
       </a>
 
       <button
         on:click={toggleWishlist}
-        class="w-8 h-8 rounded-full flex items-center justify-center transition
+        class="hidden w-8 h-8 rounded-full md:flex items-center justify-center transition
           {isWishlisted
-            ? 'bg-red-50 text-red-500'
-            : 'text-gray-400 hover:text-red-500'}"
+          ? 'bg-red-50 text-red-500'
+          : 'text-gray-400 hover:text-red-500'}"
         aria-label="Toggle wishlist"
       >
         <svg
@@ -146,19 +148,19 @@
     </div>
 
     {#if !compact}
-      <p class="text-small text-text-muted mb-3 line-clamp-1">
+      <p class="text-small text-text-muted mb-2 line-clamp-1">
         {product.description}
       </p>
     {/if}
 
     <!-- Rating -->
-    <div class="flex items-center gap-1 mb-3">
+    <div class="flex items-center gap-1 mb-2">
       {#each Array(5) as _, index}
         <span
           class="text-sm {index < Math.floor(product.rating)
             ? 'text-yellow-400'
-            : 'text-gray-300'}"
-        >★</span>
+            : 'text-gray-300'}">★</span
+        >
       {/each}
       <span class="text-small text-text-muted ml-1">
         ({product.reviewCount})
@@ -181,7 +183,7 @@
       {#if product.stockStatus === "in-stock"}
         <button
           on:click={handleAddToCart}
-          class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-hover transition shadow-sm"
+          class="hidden md:flex w-10 h-10 rounded-full bg-primary text-white items-center justify-center hover:bg-primary-hover transition shadow-sm"
           aria-label="Add to cart"
         >
           <svg
@@ -212,5 +214,49 @@
         {product.preorderNote}
       </p>
     {/if}
+
+    <div class="flex justify-between items-center md:hidden mt-2">
+      <button
+        on:click={toggleWishlist}
+        class="w-8 h-8 rounded-full flex items-center justify-center transition
+          {isWishlisted
+          ? 'bg-red-50 text-red-500'
+          : 'text-gray-400 hover:text-red-500'}"
+        aria-label="Toggle wishlist"
+      >
+        <svg
+          class="w-5 h-5"
+          fill={isWishlisted ? "currentColor" : "none"}
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+          />
+        </svg>
+      </button>
+      <button
+        on:click={handleAddToCart}
+        class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-hover transition shadow-sm"
+        aria-label="Add to cart"
+      >
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1 5h12m-6-5v5"
+          />
+        </svg>
+      </button>
+    </div>
   </div>
 </Card>

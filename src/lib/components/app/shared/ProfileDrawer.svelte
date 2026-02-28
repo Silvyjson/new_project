@@ -102,7 +102,7 @@
   const buyerSections = [
     {
       title: "Home",
-      items: [{ label: "Home", path: "/", icon: "mdi:home-outline" }],
+      items: [{ label: "Home", path: "/home", icon: "mdi:home-outline" }],
     },
     {
       title: "Discover",
@@ -121,6 +121,7 @@
       items: [
         { label: "Orders", path: "/orders", icon: "mdi:shopping-outline" },
         { label: "Wishlist", path: "/wishlist", icon: "mdi:heart-outline" },
+        { label: "Cart", path: "/cart", icon: "mdi:cart-outline" },
         {
           label: "Following",
           path: "/following",

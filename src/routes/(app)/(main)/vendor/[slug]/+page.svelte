@@ -269,13 +269,16 @@
                 <div class="text-2xl font-bold text-text-main">
                   ★ {vendor.stats.avgRating}
                 </div>
-                <div class="text-xs text-text-muted">Rating</div>
+                <div class="text-xs text-text-muted">
+                  {vendor.stats.reviewCount}
+                  Reviews
+                </div>
               </div>
               <div class="text-center">
                 <div class="text-2xl font-bold text-text-main">
-                  {vendor.stats.reviewCount}
+                  {vendor.stats.followersCount}
                 </div>
-                <div class="text-xs text-text-muted">Reviews</div>
+                <div class="text-xs text-text-muted">Followers</div>
               </div>
               <div class="text-center">
                 <div class="text-2xl font-bold text-text-main">

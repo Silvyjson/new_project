@@ -1,26 +1,26 @@
 <!-- src/lib/components/ui/TrustBadge.svelte -->
 <script lang="ts">
     export let verified: boolean = true;
-    export let size: "sm" | "md" | "lg" = "md";
+    export let size: "xs" | "sm" | "md" | "lg" = "md";
     export let showText: boolean = true;
     export let className: string = "";
 
     $: sizeClasses = {
+        xs: "text-xs px-2.5 py-0.5",
         sm: "text-xs px-2.5 py-0.5",
         md: "text-sm px-3.5 py-1",
         lg: "text-base px-4 py-1.5",
     }[size];
 
     $: iconSize = {
+        xs: "w-3 h-3",
         sm: "w-3 h-3",
         md: "w-4 h-4",
         lg: "w-5 h-5",
     }[size];
 
     $: classes =
-        `relative inline-flex items-center gap-2 font-semibold rounded-full
-         bg-gradient-to-r from-primary to-primary-light
-         text-white shadow-md
+        `relative inline-flex items-center shadow-md rounded-full text-white font-semibold bg-gradient-to-r from-primary to-primary-light ${showText ? "gap-2" : ""}
          ${sizeClasses} ${className}`.trim();
 </script>
 

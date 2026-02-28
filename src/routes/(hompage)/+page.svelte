@@ -308,7 +308,9 @@
     >
       <!-- LEFT: Premium Visual Card -->
       <div class="animate-fade-in">
-        <div class="relative bg-dark rounded-3xl p-12 text-center shadow-2xl">
+        <div
+          class="relative bg-dark rounded-3xl px-6 py-8 md:p-12 text-center shadow-2xl"
+        >
           <span
             class="absolute right-3 top-4 bg-success/10 text-success px-4 py-1 rounded-full text-sm font-medium mb-6"
           >

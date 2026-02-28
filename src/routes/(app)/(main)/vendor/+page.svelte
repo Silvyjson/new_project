@@ -194,6 +194,7 @@
 
   import Filter from "$lib/components/ui/Filter.svelte";
   import Pagination from "$lib/components/ui/Pagination.svelte";
+  import VendorGrid from "$lib/components/grid/VendorGrid.svelte";
 </script>
 
 <svelte:head>
@@ -282,42 +283,7 @@
   </section>
 
   <!-- 🔷 SECTION 5: VENDOR GRID -->
-  <section class="py-16 bg-background-light">
-    <div class="container max-w-7xl mx-auto px-4">
-      <!-- Vendor Cards Grid -->
-      {#if vendors.length > 0}
-        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {#each vendors as vendor, i}
-            <div
-              in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}
-            >
-              <VendorCard {vendor} />
-            </div>
-          {/each}
-        </div>
-
-        <!-- Pagination -->
-        <Pagination
-          currentPage={data.pagination?.page || 1}
-          totalPages={data.pagination?.totalPages || 1}
-          on:pageChange={handlePageChange}
-        />
-      {:else}
-        <!-- Empty State -->
-        <Card className="py-16 text-center">
-          <div class="text-6xl mb-4">🔍</div>
-          <h3 class="text-h3 text-text-main mb-2">No Vendors Found</h3>
-          <p class="text-body text-text-muted mb-6">
-            Try adjusting your filters or search terms to find what you're
-            looking for.
-          </p>
-          <Button variant="outline" onclick={clearAllFilters}
-            >Clear All Filters</Button
-          >
-        </Card>
-      {/if}
-    </div>
-  </section>
+  <VendorGrid {data} />
 
   <!-- 🔷 SECTION 6: CTA SECTION -->
   <section
