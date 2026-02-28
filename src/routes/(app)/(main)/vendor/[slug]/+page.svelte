@@ -13,7 +13,7 @@
   import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
   import Nav from "$lib/components/homepage/Nav.svelte";
   import Footer from "$lib/components/homepage/Footer.svelte";
-  import ShopCard from "$lib/components/vendor/ShopCard.svelte";
+  import ShopCard from "$lib/components/card/ShopCard.svelte";
   import Pagination from "$lib/components/ui/Pagination.svelte";
   import ReviewCard from "$lib/components/ui/ReviewCard.svelte";
 
@@ -494,7 +494,10 @@
 
       <div class="flex gap-6 overflow-x-auto pb-4 snap-x">
         {#each vendor.reviews as review, i}
-          <div class="flex-shrink-0 w-80 h-full animate-fade-in snap-start" style="animation-delay: {i * 100}ms">
+          <div
+            class="flex-shrink-0 w-80 h-full animate-fade-in snap-start"
+            style="animation-delay: {i * 100}ms"
+          >
             <ReviewCard {review} />
           </div>
         {/each}

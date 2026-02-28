@@ -1,7 +1,7 @@
 <script lang="ts">
     import { page } from "$app/stores";
-    import ShopFooter from "$lib/components/vendor/ShopFooter.svelte";
-    import ShopHeader from "$lib/components/vendor/ShopHeader.svelte";
+    import ShopFooter from "$lib/components/shop/ShopFooter.svelte";
+    import ShopHeader from "$lib/components/shop/ShopHeader.svelte";
     import type { PageData } from "./$types";
 
     export let data: PageData;
@@ -12,11 +12,10 @@
     let product: any = undefined;
 
     // prefer layout `data`, then fall back to page data from child routes or from product
-    $: product = ( ($page.data as any)?.product ) ?? ( (data as any)?.product );
+    $: product = ($page.data as any)?.product ?? (data as any)?.product;
     $: shop = data?.shop ?? $page.data?.shop ?? product?.shop ?? null;
     $: products = data?.products ?? $page.data?.products ?? [];
     $: totalProducts = data?.totalProducts ?? $page.data?.totalProducts ?? 0;
-
 </script>
 
 <main>

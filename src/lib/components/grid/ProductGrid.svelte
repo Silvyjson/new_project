@@ -1,7 +1,7 @@
 <!-- src/lib/components/vendor/ProductGrid.svelte -->
 <script lang="ts">
     import type { Product } from "$lib/types";
-    import ProductCard from "./ProductCard.svelte";
+    import ProductCard from "../card/ProductCard.svelte";
     import Card from "$lib/components/ui/Card.svelte";
 
     export let products: Product[];

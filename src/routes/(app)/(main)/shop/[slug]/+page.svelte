@@ -13,7 +13,7 @@
     import Badge from "$lib/components/ui/Badge.svelte";
     import ReviewCard from "$lib/components/ui/ReviewCard.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
-    import ProductCard from "$lib/components/vendor/ProductCard.svelte";
+    import ProductCard from "$lib/components/card/ProductCard.svelte";
 
     // Data from load function
     export let data: PageData;
@@ -296,7 +296,7 @@
 
     <!-- Mobile: View All CTA -->
     <div class="md:hidden my-2 text-right px-4">
-         <a
+        <a
             href="/shop/{shop.slug}/product"
             class="inline-flex items-center gap-2 text-primary font-medium hover:underline"
         >
@@ -307,7 +307,6 @@
     <!-- 🔷 SECTION 4: PRODUCT GRID (Filtered by Tab) -->
     <section id="products" class="py-16 bg-background-light">
         <div class="container max-w-7xl mx-auto px-4">
-
             {#if displayProducts.length > 0}
                 <div
                     class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
@@ -452,9 +451,14 @@
                 </div>
             </div>
 
-            <div class="flex gap-6 overflow-x-auto pb-4 snap-x max-w-6xl mx-auto">
+            <div
+                class="flex gap-6 overflow-x-auto pb-4 snap-x max-w-6xl mx-auto"
+            >
                 {#each reviews as review, i}
-                    <div class="flex-shrink-0 w-80 h-full animate-fade-in snap-start" style="animation-delay: {i * 100}ms">
+                    <div
+                        class="flex-shrink-0 w-80 h-full animate-fade-in snap-start"
+                        style="animation-delay: {i * 100}ms"
+                    >
                         <ReviewCard {review} />
                     </div>
                 {/each}

@@ -14,8 +14,8 @@
     import Card from "$lib/components/ui/Card.svelte";
     import Badge from "$lib/components/ui/Badge.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
-    import ProductCard from "$lib/components/vendor/ProductCard.svelte";
-    import ProductCardList from "$lib/components/vendor/ProductCardList.svelte";
+    import ProductCard from "$lib/components/card/ProductCard.svelte";
+    import ProductCardList from "$lib/components/card/ProductCardList.svelte";
     import Pagination from "$lib/components/ui/Pagination.svelte";
 
     // Data from load function
@@ -424,7 +424,9 @@
                             }}
                         />
                     </div>
-                    <button class="ml-4" on:click={() => closeFilters()}>✕</button>
+                    <button class="ml-4" on:click={() => closeFilters()}
+                        >✕</button
+                    >
                 </div>
 
                 <div class="space-y-4">
@@ -534,7 +536,7 @@
                                     shopSlug={shop.slug}
                                     on:addToCart={() => addToCart(product)}
                                     on:wishlist={(e: CustomEvent) => {
-                                        console.log('wishlist:', e.detail);
+                                        console.log("wishlist:", e.detail);
                                         // TODO: sync with backend or update UI state
                                     }}
                                 />

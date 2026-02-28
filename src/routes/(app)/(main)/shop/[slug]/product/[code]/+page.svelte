@@ -11,7 +11,7 @@
     import Card from "$lib/components/ui/Card.svelte";
     import Badge from "$lib/components/ui/Badge.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
-    import ProductCard from "$lib/components/vendor/ProductCard.svelte";
+    import ProductCard from "$lib/components/card/ProductCard.svelte";
     import ReviewCard from "$lib/components/ui/ReviewCard.svelte";
 
     // Data from load function

@@ -61,7 +61,7 @@
         </div>
 
         <!-- Content -->
-        <div class="p-6 flex-1 flex flex-col">
+        <div class="p-4 flex-1 flex flex-col">
             <!-- Shop Name & Description -->
             <h3
                 class="text-h4 font-bold text-text-main mb-2 group-hover:text-primary transition-colors"
@@ -81,22 +81,22 @@
                     <span>⭐</span>
                     <span>{shop.rating}/5</span>
                 </div>
-                <div class="flex items-center gap-2 text-small text-text-muted">
+                <!-- <div class="flex items-center gap-2 text-small text-text-muted">
                     <span>📦</span>
                     <span>{shop.productCount} Products</span>
                 </div>
                 <div class="flex items-center gap-2 text-small text-text-muted">
                     <span>🛒</span>
                     <span>{shop.orderCount.toLocaleString()} Orders</span>
-                </div>
+                </div> -->
                 <div class="flex items-center gap-2 text-small text-text-muted">
                     <span>👥</span>
-                    <span>{shop?.customers?.toLocaleString()} Customers</span>
+                    <span>{shop?.customers?.toLocaleString()} Followers</span>
                 </div>
             </div>
 
             <!-- Trust Score Bar -->
-            <div class="mb-4">
+            <!-- <div class="mb-4">
                 <div
                     class="flex items-center justify-between text-small mb-1.5"
                 >
@@ -117,7 +117,7 @@
                         style="width: {shop.trustScore}%"
                     ></div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- CTA Buttons -->
             <div class="space-y-2">

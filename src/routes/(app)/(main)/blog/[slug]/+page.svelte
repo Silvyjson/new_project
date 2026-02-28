@@ -5,7 +5,7 @@
     import Button from "$lib/components/ui/Button.svelte";
     import Badge from "$lib/components/ui/Badge.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
-    import ProductCard from "$lib/components/vendor/ProductCard.svelte";
+    import ProductCard from "$lib/components/card/ProductCard.svelte";
 
     export let data: PageData;
     const { post, relatedPosts, meta } = data;

@@ -12,7 +12,7 @@
   // Components
   import Button from "$lib/components/ui/Button.svelte";
   import Card from "$lib/components/ui/Card.svelte";
-  import VendorCard from "$lib/components/vendor/VendorCard.svelte";
+  import VendorCard from "$lib/components/card/VendorCard.svelte";
   import Nav from "$lib/components/homepage/Nav.svelte";
   import Footer from "$lib/components/homepage/Footer.svelte";
 
