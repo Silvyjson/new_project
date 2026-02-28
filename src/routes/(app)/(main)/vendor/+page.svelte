@@ -206,7 +206,7 @@
 
 <main class="min-h-screen bg-background-light">
   <!-- 🔷 SECTION 2: HERO HEADER -->
-  <section class="py-20 bg-surface text-center animate-fade-in">
+  <section class="section bg-surface text-center animate-fade-in">
     <div class="container max-w-4xl mx-auto px-4">
       <h1
         class="text-[48px] md:text-[56px] font-bold text-text-main leading-tight mb-6"
@@ -261,7 +261,7 @@
 
   <!-- 🔷 SECTION 4: SEARCH + FILTER BAR (Sticky) -->
   <section
-    class="sticky top-20 z-40 bg-surface border-b border-gray-200 py-4 shadow-sm"
+    class="sticky top-18 z-40 bg-surface border-b border-gray-200 py-4 shadow-sm"
   >
     <div class="container max-w-[1200px] mx-auto px-4">
       <Filter
@@ -321,7 +321,7 @@
 
   <!-- 🔷 SECTION 6: CTA SECTION -->
   <section
-    class="py-24 bg-gradient-to-r from-primary to-primary-hover text-text-inverse text-center"
+    class="section bg-gradient-to-r from-primary to-primary-hover text-text-inverse text-center"
   >
     <div class="container max-w-3xl mx-auto px-4">
       <h2 class="text-h2 mb-6">Want to Be Listed Here?</h2>

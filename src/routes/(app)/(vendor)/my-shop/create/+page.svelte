@@ -65,7 +65,7 @@
             formData.append("whatsapp", whatsapp);
             formData.append("instagram", instagram);
 
-            const response = await fetch("/api/vendor/shops", {
+            const response = await fetch("/api/vendor/shop", {
                 method: "POST",
                 body: formData,
             });

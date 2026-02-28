@@ -5,7 +5,7 @@
     import type { Product, Shop } from "$lib/types";
     import Button from "$lib/components/ui/Button.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
-    import ProfileDrawer from "../app/buyer/ProfileDrawer.svelte";
+    import ProfileDrawer from "../app/shared/ProfileDrawer.svelte";
 
     export let shop: Shop | null = null;
     export let product: Product | undefined = undefined;

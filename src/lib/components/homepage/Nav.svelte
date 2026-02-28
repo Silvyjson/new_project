@@ -26,7 +26,7 @@
 </script>
 
 <nav
-    class="sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-gray-200 h-20 shadow-sm"
+    class="sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-gray-200 h-18 shadow-sm"
 >
     <div
         class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between"

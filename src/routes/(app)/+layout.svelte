@@ -2,23 +2,20 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
 
-  import AppHeader from "$lib/components/app/buyer/AppHeader.svelte";
-  import AppFooter from "$lib/components/app/buyer/AppFooter.svelte";
+  import AppHeader from "$lib/components/app/shared/AppHeader.svelte";
+  import AppFooter from "$lib/components/app/shared/AppFooter.svelte";
 
   import Nav from "$lib/components/homepage/Nav.svelte";
   import Footer from "$lib/components/homepage/Footer.svelte";
 
   import { isAuthenticated } from "$lib/stores/auth";
-  import ProfileDrawer from "$lib/components/app/buyer/ProfileDrawer.svelte";
-  import VendorHeader from "$lib/components/app/vendor/VendorHeader.svelte";
-  import VendorFooter from "$lib/components/app/vendor/VendorFooter.svelte";
-  import VendorProfileDrawer from "$lib/components/app/vendor/VendorProfileDrawer.svelte";
+  import ProfileDrawer from "$lib/components/app/shared/ProfileDrawer.svelte";
 
   let showProfileDrawer = false;
-  let role = "vendor";
+  let role = "buyer";
 
   // --- TEMP: simulate logged in state ---
-  let simulateLoggedIn = true; // toggle to true to see AppHeader
+  let simulateLoggedIn = false; // toggle to true to see AppHeader
 
   const openProfileDrawer = () => {
     showProfileDrawer = true;
@@ -66,10 +63,8 @@
   {#if !hideLayout}
     {#if useHomepageLayout}
       <Nav />
-    {:else if role === "buyer"}
-      <AppHeader on:openProfileDrawer={openProfileDrawer} />
-    {:else if role === "vendor"}
-      <VendorHeader on:openProfileDrawer={openProfileDrawer} />
+    {:else if role}
+      <AppHeader on:openProfileDrawer={openProfileDrawer} {role} />
     {/if}
   {/if}
 
@@ -80,18 +75,14 @@
   {#if !hideLayout}
     {#if useHomepageLayout}
       <Footer />
-    {:else if role === "buyer"}
-      <AppFooter />
-    {:else if role === "vendor"}
-      <VendorFooter />
+    {:else if role}
+      <AppFooter {role} />
     {/if}
   {/if}
 
   {#if showProfileDrawer && !useHomepageLayout && !hideLayout}
-    {#if role === "buyer"}
-      <ProfileDrawer {showProfileDrawer} on:close={closeProfileDrawer} />
-    {:else if role === "vendor"}
-      <VendorProfileDrawer {showProfileDrawer} on:close={closeProfileDrawer} />
+    {#if role}
+      <ProfileDrawer {showProfileDrawer} on:close={closeProfileDrawer} {role} />
     {/if}
   {/if}
 </div>

@@ -125,7 +125,7 @@
 
 <main class="min-h-screen bg-surface">
     <!-- 🔷 SECTION 2: HERO (Mission-Focused) -->
-    <section class="py-20 bg-surface text-center animate-fade-in">
+    <section class="section bg-surface text-center animate-fade-in">
         <div class="container max-w-4xl mx-auto px-4">
             <h1
                 class="text-[48px] md:text-[56px] font-bold text-text-main leading-tight mb-6"
@@ -152,7 +152,7 @@
     </section>
 
     <!-- 🔷 SECTION 2: OUR STORY -->
-    <section id="what-we-do" class="py-24 bg-background-light">
+    <section id="what-we-do" class="section bg-background-light">
         <div class="container grid md:grid-cols-2 gap-12 items-center">
             <!-- Left: Visual Mockup -->
             <div class="order-2 md:order-1 relative animate-fade-in">
@@ -231,7 +231,7 @@
     </section>
 
     <!-- 🔷 SECTION 3: MISSION & VISION -->
-    <section class="py-24 bg-surface">
+    <section class="section bg-surface">
         <div class="container max-w-5xl mx-auto">
             <div class="grid md:grid-cols-2 gap-8">
                 <!-- Mission Card -->
@@ -296,7 +296,7 @@
     </section>
 
     <!-- 🔷 SECTION 4: HOW VENDORHUB WORKS (Authority) -->
-    <section id="how-it-works" class="py-24 bg-dark text-text-inverse">
+    <section id="how-it-works" class="section bg-dark text-text-inverse">
         <div class="container">
             <h2 class="text-h2 text-center mb-16">How VendorHub Works</h2>
 
@@ -420,7 +420,7 @@
     </section>
 
     <!-- 🔷 SECTION 5: WHY MULTIPLE SHOPS MATTER -->
-    <section class="py-24 bg-background-light">
+    <section class="section bg-background-light">
         <div class="container grid md:grid-cols-2 gap-12 items-center">
             <!-- Left: Illustration -->
             <div class="order-2 md:order-1 animate-fade-in">
@@ -595,7 +595,7 @@
     </section>
 
     <!-- 🔷 SECTION 7: TEAM / CREDIBILITY (Optional) -->
-    <section class="py-24 bg-background-light">
+    <section class="section bg-background-light">
         <div class="container max-w-3xl mx-auto text-center">
             <div
                 class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6"
@@ -628,7 +628,7 @@
     </section>
 
     <!-- 🔷 SECTION 8: IMPACT (Animated Counters) -->
-    <section id="impact-section" class="py-24 bg-surface">
+    <section id="impact-section" class="section bg-surface">
         <div class="container">
             <div class="grid md:grid-cols-4 gap-8 text-center">
                 <!-- Vendors Counter -->
@@ -680,7 +680,7 @@
 
     <!-- 🔷 SECTION 9: FINAL CTA -->
     <section
-        class="py-24 bg-gradient-to-r from-primary to-primary-hover text-text-inverse text-center"
+        class="section bg-gradient-to-r from-primary to-primary-hover text-text-inverse text-center"
     >
         <div class="container max-w-3xl mx-auto px-4">
             <h2 class="text-h2 mb-6">

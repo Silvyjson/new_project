@@ -149,7 +149,7 @@
 
 <main class="font-sans text-text-main antialiased">
   <!-- 🔷 SECTION 2: HERO SECTION -->
-  <section class="py-20 bg-surface overflow-hidden">
+  <section class="section bg-surface overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
       <!-- Left: Copy -->
       <div class="animate-fade-in">
@@ -206,7 +206,7 @@
 
   <!-- 🔷 SECTION 3: PROBLEMS SECTION -->
   <section
-    class="relative py-28 bg-gradient-to-b from-dark to-[#0f172a] text-white overflow-hidden"
+    class="relative section bg-gradient-to-b from-dark to-[#0f172a] text-white overflow-hidden"
   >
     <div class="max-w-7xl mx-auto px-6 text-center">
       <h2 class="text-4xl md:text-5xl font-semibold mb-4">
@@ -243,7 +243,7 @@
   </section>
 
   <!-- 🔷 SECTION 4: SOLUTION SECTION -->
-  <section id="features" class="py-24 bg-surface">
+  <section id="features" class="section bg-surface">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <h2 class="text-h2 text-dark mb-4">VendorHub Solves This</h2>
       <p class="text-body text-text-muted mb-16 max-w-2xl mx-auto">
@@ -269,7 +269,7 @@
   </section>
 
   <!-- 🔷 SECTION 5: HOW IT WORKS -->
-  <section id="how-it-works" class="py-24 bg-background-light">
+  <section id="how-it-works" class="section bg-background-light">
     <div class="max-w-7xl mx-auto px-4">
       <h2 class="text-h2 text-dark text-center mb-16">How It Works</h2>
 
@@ -296,7 +296,7 @@
 
   <!-- 🔷 SECTION 6: TRUST & SECURITY -->
   <section
-    class="relative py-24 bg-gradient-to-b from-surface to-surface/60 overflow-hidden"
+    class="relative section bg-gradient-to-b from-surface to-surface/60 overflow-hidden"
   >
     <!-- Subtle background glow -->
     <div
@@ -466,7 +466,7 @@
   </section>
 
   <!-- 🔷 SECTION 8: PRICING PREVIEW -->
-  <section id="pricing" class="py-24 bg-surface">
+  <section id="pricing" class="section bg-surface">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <h2 class="text-h2 text-dark mb-4">Simple Pricing</h2>
       <p class="text-body text-text-muted mb-16">
@@ -529,15 +529,15 @@
   </section>
 
   <!-- 🔷 SECTION 9: SOCIAL PROOF -->
-  <section class="py-24 bg-background-light">
+  <section class="section bg-background-light">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <h2 class="text-h2 text-dark mb-16">Trusted by Growing Vendors</h2>
       <div class="flex gap-8 overflow-x-auto pb-4 snap-x">
         {#each testimonials as t}
           <div class="flex-shrink-0 w-72 snap-start">
-            <Card className="p-8 text-left bg-white">
-              <div class="text-primary text-4xl mb-4">"</div>
-              <p class="text-body text-dark mb-6">{t.text}</p>
+            <Card className="p-4 text-left h-65 bg-white">
+              <div class="text-primary text-4xl mb-2">"</div>
+              <p class="text-body text-dark mb-4">{t.text}</p>
               <div class="flex items-center gap-3">
                 <div
                   class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-xl"
@@ -558,7 +558,7 @@
 
   <!-- 🔷 SECTION 10: FINAL CTA -->
   <section
-    class="py-24 bg-gradient-to-r from-primary to-primary-hover text-white text-center"
+    class="section bg-gradient-to-r from-primary to-primary-hover text-white text-center"
   >
     <div class="max-w-3xl mx-auto px-4">
       <h2 class="text-h2 mb-6">Start Your Free Vendor Shop Today</h2>

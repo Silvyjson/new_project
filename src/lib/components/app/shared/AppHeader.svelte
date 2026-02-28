@@ -4,17 +4,26 @@
   import { page } from "$app/stores";
   import { createEventDispatcher } from "svelte";
   import SearchBar from "./SearchBar.svelte";
-  // import NotificationBell from './NotificationBell.svelte';
-  // import CartIcon from './CartIcon.svelte';
 
   const dispatch = createEventDispatcher();
 
-  // User data (from auth store)
-  let user = {
-    name: "John Doe",
-    email: "john@example.com",
-    avatar: null,
-  };
+  export let role = "buyer";
+  let user;
+
+  if (role === "buyer") {
+    // User data (from auth store)
+    user = {
+      name: "John Doe",
+      email: "john@example.com",
+      avatar: null,
+    };
+  } else {
+    user = {
+      name: "Divine",
+      businessName: "Divine Stores",
+      avatar: null,
+    };
+  }
 
   const openProfile = () => {
     dispatch("openProfileDrawer");
@@ -25,19 +34,23 @@
 
   // Mock cart count
   let cartCount = 5;
+  let newOrders = 3;
 
   $: currentPath = $page.url.pathname;
-  $: isHome = currentPath === "/home";
+  $: isHome = role === "buyer" && currentPath === "/home";
 </script>
 
 <header
-  class="sticky top-0 z-50 bg-surface border-b border-gray-200 h-20 shadow-sm"
+  class="sticky top-0 z-50 bg-surface border-b border-gray-200 h-18 shadow-sm"
 >
   <div
-    class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between gap-4"
+    class="max-w-8xl mx-auto px-4 h-full flex items-center justify-between gap-4"
   >
     <!-- Left: Logo -->
-    <a href="/home" class="flex items-center gap-2 flex-shrink-0">
+    <a
+      href={role === "vendor" ? "/dashboard" : "/home"}
+      class="flex items-center gap-2 flex-shrink-0"
+    >
       <div
         class="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-white font-bold text-lg"
       >
@@ -108,36 +121,66 @@
         {/if}
       </button>
 
-      <!-- Cart -->
-      <button
-        on:click={() => {
-          goto("/cart");
-        }}
-        class="relative p-2 text-text-muted hover:text-primary transition-colors"
-        aria-label="Cart"
-      >
-        <svg
-          class="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+      {#if role === "buyer"}
+        <!-- Cart -->
+        <button
+          on:click={() => {
+            goto("/cart");
+          }}
+          class="relative p-2 text-text-muted hover:text-primary transition-colors"
+          aria-label="Cart"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-          />
-        </svg>
-
-        {#if cartCount > 0}
-          <span
-            class="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-xs font-bold rounded-full flex items-center justify-center"
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
           >
-            {cartCount > 9 ? "9+" : cartCount}
-          </span>
-        {/if}
-      </button>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+
+          {#if cartCount > 0}
+            <span
+              class="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-xs font-bold rounded-full flex items-center justify-center"
+            >
+              {cartCount > 9 ? "9+" : cartCount}
+            </span>
+          {/if}
+        </button>
+      {:else if role === "vendor"}
+        <!-- Order Requests -->
+        <a
+          href="/orders?status=new"
+          class="relative p-2 text-text-muted hover:text-primary transition-colors"
+          aria-label="Order requests"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+            />
+          </svg>
+          {#if newOrders > 0}
+            <span
+              class="absolute -top-1 -right-1 w-5 h-5 bg-danger text-white text-xs font-bold rounded-full flex items-center justify-center animate-bounce"
+            >
+              {newOrders > 9 ? "9+" : newOrders}
+            </span>
+          {/if}
+        </a>
+      {/if}
 
       <!-- Profile Avatar -->
       <button
@@ -162,8 +205,10 @@
     </div>
   </div>
 
-  <!-- Mobile Search Bar (shown on mobile only) -->
-  <div class="md:hidden px-4 pb-3">
-    <SearchBar />
-  </div>
+  {#if role === "buyer"}
+    <!-- Mobile Search Bar (shown on mobile only) -->
+    <div class="md:hidden px-4 pb-3">
+      <SearchBar />
+    </div>
+  {/if}
 </header>
