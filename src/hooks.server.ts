@@ -9,7 +9,6 @@ export const handle: Handle = async ({ event, resolve }) => {
     const protectedRoutes = [
         // '/shop',
         // '/vendor',
-        '/dashboard', 
         // '/home',
         // '/following',
         // '/orders',
@@ -18,6 +17,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         // '/checkout',
         // '/notifications',
         // '/settings'
+        // '/dashboard', 
     ];
     const isProtected = protectedRoutes.some(route => url.pathname.startsWith(route));
 
