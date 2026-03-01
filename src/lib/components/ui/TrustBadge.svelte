@@ -3,6 +3,7 @@
     export let verified: boolean = true;
     export let size: "xs" | "sm" | "md" | "lg" = "md";
     export let showText: boolean = true;
+    export let text: string = "Verified";
     export let className: string = "";
 
     $: sizeClasses = {
@@ -53,7 +54,7 @@
         </span>
 
         {#if showText}
-            <span class="relative tracking-wide"> Verified </span>
+            <span class="relative tracking-wide"> {text} </span>
         {/if}
 
         <!-- Shine Effect -->

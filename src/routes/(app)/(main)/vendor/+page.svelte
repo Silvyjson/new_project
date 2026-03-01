@@ -210,7 +210,7 @@
   <section class="section bg-surface text-center animate-fade-in">
     <div class="container max-w-4xl mx-auto px-4">
       <h1
-        class="text-[48px] md:text-[56px] font-bold text-text-main leading-tight mb-6"
+        class="text-[48px] md:text-[56px] font-bold text-text-main leading-tight"
       >
         Explore <span class="text-primary border-b-4 border-primary/30"
           >Trusted</span
@@ -222,36 +222,6 @@
         Find verified sellers with transparent trust scores and secure payments
         — all in one trusted marketplace.
       </p>
-
-      <!-- Large Search Bar -->
-      <div class="relative max-w-[600px] mx-auto">
-        <svg
-          class="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-text-muted"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
-        <input
-          type="text"
-          placeholder="Search vendors, categories, or products..."
-          class="w-full pl-14 pr-32 py-4 rounded-xl border border-gray-200 focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none transition-all text-body shadow-card"
-          bind:value={searchQuery}
-          on:input={handleSearch}
-        />
-        <button
-          on:click={updateFilters}
-          class="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-white px-6 py-2.5 rounded-btn font-medium hover:bg-primary-hover transition-colors"
-        >
-          Search
-        </button>
-      </div>
     </div>
   </section>
 
@@ -264,7 +234,7 @@
   <section
     class="sticky top-18 z-40 bg-surface border-b border-gray-200 py-4 shadow-sm"
   >
-    <div class="container max-w-[1200px] mx-auto px-4">
+    <div class="container max-w-7xl mx-auto px-4">
       <Filter
         {searchQuery}
         {selectedCategory}

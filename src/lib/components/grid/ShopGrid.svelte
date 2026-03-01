@@ -5,6 +5,7 @@
     import Button from "../ui/Button.svelte";
     import { fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
+    import Icon from "@iconify/svelte";
 
     export let data;
     let shops = data.shops;
@@ -16,9 +17,7 @@
 <section class="py-16 bg-background-light">
     <div class="container max-w-7xl mx-auto px-4">
         {#if shops.length > 0}
-            <div
-                class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
-            >
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {#each shops as shop, i}
                     <div
                         in:fly={{
@@ -42,7 +41,9 @@
         {:else}
             <!-- Empty State -->
             <Card className="py-16 text-center">
-                <div class="text-6xl mb-4">🔍</div>
+                <div class="text-6xl mb-4">
+                    <Icon icon="mdi:store-off" class="w-16 h-16" />
+                </div>
                 <h3 class="text-h3 text-text-main mb-2">No Shops Found</h3>
                 <p class="text-body text-text-muted mb-6">
                     Try adjusting your filters or search terms to find what

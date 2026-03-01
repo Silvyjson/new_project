@@ -5,6 +5,7 @@
     import Card from "$lib/components/ui/Card.svelte";
     import { fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
+    import Icon from "@iconify/svelte";
 
     export let data;
     let vendors = data.vendors;
@@ -42,7 +43,9 @@
             </div>
         {:else}
             <Card className="py-12 text-center">
-                <div class="text-5xl mb-4">🔍</div>
+                <div class="text-5xl mb-4">
+                    <Icon icon="mdi:store-search-outline" class="w-12 h-12" />
+                </div>
                 <h3 class="text-lg font-semibold text-text-main mb-2">
                     No Vendors Found
                 </h3>

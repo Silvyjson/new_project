@@ -4,6 +4,7 @@
     import Card from "$lib/components/ui/Card.svelte";
     import Badge from "$lib/components/ui/Badge.svelte";
     import Button from "$lib/components/ui/Button.svelte";
+    import Icon from "@iconify/svelte";
 
     export let shop: Shop;
     export let className: string = "";
@@ -27,111 +28,95 @@
     <Card
         hover={true}
         padding="none"
-        className="overflow-hidden border border-gray-200 hover:border-primary/50 h-full flex flex-col"
+        className="overflow-hidden border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-300 h-full flex flex-col bg-white"
     >
         <!-- Banner Image -->
-        <div
-            class="relative h-40 bg-gradient-to-r from-primary to-primary-light overflow-hidden"
-        >
+        <div class="relative h-36 sm:h-40 overflow-hidden bg-gray-100">
             {#if shop.bannerUrl}
                 <img
                     src={shop.bannerUrl}
                     alt={shop.name}
-                    class="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-500"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
             {/if}
 
-            <!-- Category Tag -->
+            <!-- Category -->
             <div class="absolute top-3 left-3">
-                <Badge variant="info">{shop.category}</Badge>
+                <span
+                    class="text-xs font-medium bg-black/20 text-white backdrop-blur px-2.5 py-1 rounded-md border border-gray-200"
+                >
+                    {shop.category}
+                </span>
             </div>
 
-            <!-- Trust Indicator -->
+            <!-- Trust Score -->
             <div class="absolute top-3 right-3">
                 <div
-                    class="w-8 h-8 rounded-full bg-surface flex items-center justify-center shadow-card"
+                    class="bg-white rounded-full px-2 py-1 border border-gray-200 shadow-sm"
                 >
                     <span
-                        class="text-xs font-bold {getTrustScoreColor(
+                        class="text-xs font-semibold {getTrustScoreColor(
                             shop.trustScore,
-                        )}">{shop.trustScore}%</span
+                        )}"
                     >
+                        {shop.trustScore}%
+                    </span>
                 </div>
             </div>
         </div>
 
         <!-- Content -->
         <div class="p-4 flex-1 flex flex-col">
-            <!-- Shop Name & Description -->
+            <!-- Name -->
             <h3
-                class="text-h4 font-bold text-text-main mb-2 group-hover:text-primary transition-colors"
+                class="text-base sm:text-lg font-semibold text-text-main mb-2 group-hover:text-primary transition-colors"
             >
                 {shop.name}
             </h3>
-            <p class="text-small text-text-muted mb-4 line-clamp-2 flex-1">
+
+            <!-- Description -->
+            <p class="text-sm text-text-muted mb-4 line-clamp-2 flex-1">
                 {shop.description ||
                     "Quality products with guaranteed satisfaction."}
             </p>
 
-            <!-- Metrics Row -->
-            <div
-                class="grid grid-cols-2 gap-3 mb-4 pb-4 border-b border-gray-100"
-            >
-                <div class="flex items-center gap-2 text-small text-text-muted">
-                    <span>⭐</span>
-                    <span>{shop.rating}/5</span>
+            <!-- Metrics -->
+            <div class="flex flex-col justify-between mb-4 gap-2 text-sm">
+                <!-- 5-Star Rating -->
+                <div class="flex items-center gap-2">
+                    <div class="flex items-center">
+                        {#each Array(5) as _, i}
+                            <Icon
+                                icon="mdi:star"
+                                class={`w-4 h-4 ${
+                                    i < Math.round(shop.rating)
+                                        ? "text-yellow-400"
+                                        : "text-gray-300"
+                                }`}
+                            />
+                        {/each}
+                    </div>
+                    <span class="text-xs text-text-muted">
+                        {shop.rating.toFixed(1)}
+                    </span>
                 </div>
-                <!-- <div class="flex items-center gap-2 text-small text-text-muted">
-                    <span>📦</span>
-                    <span>{shop.productCount} Products</span>
-                </div>
-                <div class="flex items-center gap-2 text-small text-text-muted">
-                    <span>🛒</span>
-                    <span>{shop.orderCount.toLocaleString()} Orders</span>
-                </div> -->
-                <div class="flex items-center gap-2 text-small text-text-muted">
-                    <span>👥</span>
-                    <span>{shop?.customers?.toLocaleString()} Followers</span>
+
+                <!-- Followers -->
+                <div class="flex items-center gap-1 text-text-muted text-xs">
+                    <Icon icon="mdi:account-group-outline" class="w-4 h-4" />
+                    <span>{shop?.customers?.toLocaleString()}</span>
                 </div>
             </div>
 
-            <!-- Trust Score Bar -->
-            <!-- <div class="mb-4">
-                <div
-                    class="flex items-center justify-between text-small mb-1.5"
+            <!-- CTA -->
+            <div class="hidden md:flex">
+                <Button
+                    variant="primary"
+                    size="md"
+                    className="w-full font-medium"
                 >
-                    <span class="text-text-muted">Shop Trust Score</span>
-                    <span
-                        class="font-semibold {getTrustScoreColor(
-                            shop.trustScore,
-                        )}">{shop.trustScore}%</span
-                    >
-                </div>
-                <div
-                    class="w-full h-2 bg-gray-200 rounded-full overflow-hidden"
-                >
-                    <div
-                        class="h-full {getTrustScoreBgColor(
-                            shop.trustScore,
-                        )} transition-all duration-500"
-                        style="width: {shop.trustScore}%"
-                    ></div>
-                </div>
-            </div> -->
-
-            <!-- CTA Buttons -->
-            <div class="space-y-2">
-                <Button variant="primary" size="md" className="w-full">
-                    Visit Shop →
+                    Visit Shop
                 </Button>
-                <!-- <Button
-                    variant="outline"
-                    size="sm"
-                    href="/shop/{shop.slug}/product"
-                    className="w-full"
-                >
-                    View Products
-                </Button> -->
             </div>
         </div>
     </Card>
