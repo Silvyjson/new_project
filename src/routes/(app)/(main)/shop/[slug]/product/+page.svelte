@@ -16,8 +16,8 @@
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
     import ProductCard from "$lib/components/card/ProductCard.svelte";
     import ProductCardList from "$lib/components/card/ProductCardList.svelte";
-    import Pagination from "$lib/components/ui/Pagination.svelte";
     import ProductGrid from "$lib/components/grid/ProductGrid.svelte";
+    import Icon from "@iconify/svelte";
 
     // Data from load function
     export let data: PageData;
@@ -217,19 +217,10 @@
             >
                 <!-- Search Bar -->
                 <div class="relative w-full md:w-96">
-                    <svg
+                    <Icon
+                        icon="mdi:magnify"
                         class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                    </svg>
+                    />
                     <input
                         bind:this={searchInput}
                         type="text"
@@ -320,19 +311,7 @@
                                 : 'text-text-muted'}"
                             aria-label="Grid view"
                         >
-                            <svg
-                                class="w-5 h-5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                                />
-                            </svg>
+                            <Icon icon="mdi:view-grid" class="w-5 h-5" />
                         </button>
                         <button
                             on:click={() => {
@@ -345,19 +324,7 @@
                                 : 'text-text-muted'}"
                             aria-label="List view"
                         >
-                            <svg
-                                class="w-5 h-5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                />
-                            </svg>
+                            <Icon icon="mdi:view-list" class="w-5 h-5" />
                         </button>
                     </div>
                 </div>
@@ -401,19 +368,10 @@
             >
                 <div class="flex items-center justify-between mb-4">
                     <div class="relative flex-1">
-                        <svg
+                        <Icon
+                            icon="mdi:magnify"
                             class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                            />
-                        </svg>
+                        />
                         <input
                             type="text"
                             placeholder="Search in this shop..."
@@ -426,7 +384,7 @@
                         />
                     </div>
                     <button class="ml-4" on:click={() => closeFilters()}
-                        >✕</button
+                        ><Icon icon="mdi:close" /></button
                     >
                 </div>
 
@@ -524,19 +482,7 @@
                 <div
                     class="w-10 h-10 rounded-full bg-success/20 text-success flex items-center justify-center"
                 >
-                    <svg
-                        class="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M5 13l4 4L19 7"
-                        />
-                    </svg>
+                    <Icon icon="mdi:check" class="w-6 h-6" />
                 </div>
                 <div>
                     <p class="font-medium text-sm">Added to Cart</p>

@@ -11,15 +11,17 @@
 
     export let data: any;
 
-    let products: Product[] = data.products;
-    let shop: string = data.shop;
-    let pagination = data.pagination;
-    let handlePageChange = data.handlePageChange;
-    let clearAllFilters = data.clearAllFilters;
-    let viewMode = data.viewMode || "grid";
-    let addToCart = data.addToCart;
-    let formatNaira = data.formatNaira;
-    let getStockBadge = data.getStockBadge;
+    // Allow either a single `data` prop (backwards compatible) or explicit props passed in.
+    export let products: Product[] = data?.products || [];
+    export let shop: any = data?.shop;
+    export let pagination: any = data?.pagination;
+    // provide safe defaults so callers don't need to pass everything
+    export let handlePageChange: (e: CustomEvent<{ page: number }>) => void = data?.handlePageChange || ((e) => {});
+    export let clearAllFilters: () => void = data?.clearAllFilters || (() => {});
+    export let viewMode: string = data?.viewMode || "grid";
+    export let addToCart: (p: Product) => void = data?.addToCart || ((p) => {});
+    export let formatNaira: (n: number) => string = data?.formatNaira || ((n) => n.toString());
+    export let getStockBadge: (p: Product) => any = data?.getStockBadge || (() => null);
 </script>
 
 <section class="py-8 bg-soft-background">
@@ -28,7 +30,7 @@
             <!-- Grid View -->
             {#if viewMode === "grid"}
                 <div
-                    class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+                    class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6"
                 >
                     {#each products as product, i}
                         <div
@@ -41,7 +43,7 @@
                         >
                             <ProductCard
                                 {product}
-                                shopSlug={shop.slug}
+                                shopSlug={shop?.slug}
                                 on:addToCart={() => addToCart(product)}
                                 on:wishlist={(e: CustomEvent) => {
                                     console.log("wishlist:", e.detail);
@@ -54,7 +56,7 @@
             {:else}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {#each products as product, i}
-                        {@const badge = getStockBadge(product)}
+                        {@const badge = getStockBadge ? getStockBadge(product) : null}
                         <div
                             in:fly={{
                                 y: 20,
@@ -66,9 +68,9 @@
                             <!-- List View (componentized) -->
                             <ProductCardList
                                 {product}
-                                shopSlug={shop.slug}
-                                {addToCart}
-                                {formatNaira}
+                                shopSlug={shop?.slug}
+                                addToCart={addToCart}
+                                formatNaira={formatNaira}
                             />
                         </div>
                     {/each}
@@ -77,8 +79,8 @@
 
             <!-- Pagination -->
             <Pagination
-                currentPage={pagination.page}
-                totalPages={pagination.totalPages}
+                currentPage={pagination?.page}
+                totalPages={pagination?.totalPages}
                 on:pageChange={handlePageChange}
             />
         {:else}
@@ -89,9 +91,9 @@
                 <p class="text-body text-text-muted mb-6">
                     Try adjusting your filters or search terms.
                 </p>
-                <Button variant="outline" onclick={clearAllFilters}
-                    >Clear All Filters</Button
-                >
+                <Button variant="outline" onclick={() => clearAllFilters()}>
+                    Clear All Filters
+                </Button>
             </Card>
         {/if}
     </div>

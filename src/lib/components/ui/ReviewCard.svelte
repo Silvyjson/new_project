@@ -1,6 +1,7 @@
 <!-- src/lib/components/ui/ReviewCard.svelte -->
 <script lang="ts">
     import Card from "./Card.svelte";
+    import Icon from "@iconify/svelte";
 
     export let review: {
         userName: string;
@@ -21,7 +22,10 @@
     };
 </script>
 
-<Card padding="md" className="border border-gray-100 shadow-sm animate-fade-in h-full flex flex-col">
+<Card
+    padding="md"
+    className="border border-gray-100 shadow-sm animate-fade-in h-full flex flex-col"
+>
     <div class="flex items-start justify-between mb-4">
         <div class="flex items-center gap-3">
             <div
@@ -55,11 +59,12 @@
                 </div>
                 <div class="flex items-center gap-1">
                     {#each Array(5) as _, i}
-                        <span
+                        <Icon
+                            icon="mdi:star"
                             class="text-small {i < Math.floor(review.rating)
                                 ? 'text-yellow-400'
-                                : 'text-gray-200'}">★</span
-                        >
+                                : 'text-gray-200'}"
+                        />
                     {/each}
                     <span class="text-xs text-text-muted ml-2"
                         >{formatDate(review.date)}</span

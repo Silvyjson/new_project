@@ -2,6 +2,7 @@
 <script lang="ts">
     import { fade, slide } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
+    import Icon from "@iconify/svelte";
 
     // Types
     import type { PageData } from "./$types";
@@ -57,9 +58,7 @@
         <div
             class="container max-w-4xl mx-auto px-4 text-center animate-fade-in"
         >
-            <h1
-                class="text-[36px] md:text-[40px] font-bold text-text-main mb-4"
-            >
+            <h1 class="md:text-h2 text-h3 font-bold text-text-main mb-4">
                 Need Help? We've Got You Covered.
             </h1>
             <p class="text-lg text-text-muted mb-8 max-w-2xl mx-auto">
@@ -69,19 +68,10 @@
 
             <!-- Search Bar -->
             <div class="relative max-w-2xl mx-auto mb-8">
-                <svg
+                <Icon
+                    icon="mdi:magnify"
                     class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                </svg>
+                />
                 <input
                     type="text"
                     placeholder="Search help topics…"
@@ -98,14 +88,14 @@
                     rel="noopener noreferrer"
                     class="inline-flex items-center justify-center gap-2 px-6 h-[48px] rounded-xl bg-whatsapp text-white font-medium hover:bg-whatsapp-hover transition-colors shadow-sm"
                 >
-                    <span>💬</span>
+                    <Icon icon="logos:whatsapp-icon" class="w-5 h-5" />
                     <span>Contact via WhatsApp</span>
                 </a>
                 <a
                     href="mailto:{contact.email.address}"
                     class="inline-flex items-center justify-center gap-2 px-6 h-[48px] rounded-xl border-2 border-primary text-primary font-medium hover:bg-primary/5 transition-colors"
                 >
-                    <span>✉️</span>
+                    <Icon icon="mdi:email" class="w-5 h-5" />
                     <span>Send Email</span>
                 </a>
             </div>
@@ -127,7 +117,7 @@
                             <div
                                 class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-110 transition-transform"
                             >
-                                {category.icon}
+                                <Icon icon={category.icon} />
                             </div>
                             <div>
                                 <h3
@@ -149,7 +139,7 @@
     <!-- 🔷 SECTION 3: HELP CENTER (FAQ ACCORDION) -->
     <section id="faq" class="py-12 bg-soft-background">
         <div class="container max-w-4xl mx-auto px-4">
-            <h2 class="text-h2 text-text-main text-center mb-8">
+            <h2 class="md:text-h2 text-h3 text-text-main text-center mb-8">
                 Frequently Asked Questions
             </h2>
 
@@ -170,19 +160,7 @@
                                 class="flex-shrink-0 w-6 h-6 flex items-center justify-center text-primary transition-transform duration-200"
                                 class:rotate-180={openFaqId === faq.id}
                             >
-                                <svg
-                                    class="w-5 h-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M19 9l-7 7-7-7"
-                                    />
-                                </svg>
+                                <Icon icon="mdi:chevron-down" class="w-5 h-5" />
                             </span>
                         </button>
 
@@ -223,7 +201,7 @@
     <!-- 🔷 SECTION 4: DISPUTE RESOLUTION (Step-by-Step) -->
     <section id="dispute" class="py-16 bg-surface">
         <div class="container max-w-5xl mx-auto px-4">
-            <h2 class="text-h2 text-text-main text-center mb-4">
+            <h2 class="md:text-h2 text-h3 text-text-main text-center mb-4">
                 How Disputes Work
             </h2>
             <p
@@ -290,14 +268,16 @@
 
             <!-- Dispute Box -->
             <Card className="p-6 border border-warning/30 bg-warning/5">
-                <div class="flex items-start gap-4">
+                <div class="flex flex-col md:flex-row items-start gap-4">
                     <div
                         class="w-10 h-10 rounded-full bg-warning/20 text-warning flex items-center justify-center text-xl flex-shrink-0"
                     >
-                        ⚠️
+                        <Icon icon="mdi:alert" class="w-6 h-6" />
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-h3 font-semibold text-text-main mb-3">
+                        <h3
+                            class="md:text-h3 text-h4 font-semibold text-text-main mb-3"
+                        >
                             Need to Open a Dispute?
                         </h3>
                         <p class="text-body text-text-muted mb-4">
@@ -320,7 +300,10 @@
                                 rel="noopener noreferrer"
                                 class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-whatsapp text-white font-medium hover:bg-whatsapp-hover transition-colors"
                             >
-                                <span>💬</span>
+                                <Icon
+                                    icon="logos:whatsapp-icon"
+                                    class="w-5 h-5"
+                                />
                                 <span>Start Dispute via WhatsApp</span>
                             </a>
                             <a
@@ -328,7 +311,7 @@
                                     .address}?subject=Dispute: Order #[ORDER_ID]"
                                 class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-primary text-primary font-medium hover:bg-primary/5 transition-colors"
                             >
-                                <span>✉️</span>
+                                <Icon icon="mdi:email" class="w-5 h-5" />
                                 <span>Send Dispute Email</span>
                             </a>
                         </div>
@@ -341,7 +324,7 @@
     <!-- 🔷 SECTION 5: TRUST & SAFETY PILLARS -->
     <section id="trust" class="py-16 bg-soft-background">
         <div class="container max-w-7xl mx-auto px-4">
-            <h2 class="text-h2 text-text-main text-center mb-4">
+            <h2 class="md:text-h2 text-h3 text-text-main text-center mb-4">
                 Trust & Safety at VendorHub
             </h2>
             <p
@@ -372,7 +355,7 @@
                                       ? 'bg-primary/10 text-primary'
                                       : 'bg-info/10 text-info'} flex items-center justify-center text-xl"
                             >
-                                {pillar.icon}
+                                <Icon icon={pillar.icon} />
                             </div>
                             <h3 class="text-h3 font-semibold text-text-main">
                                 {pillar.title}
@@ -402,18 +385,18 @@
     <!-- 🔷 SECTION 6: CONTACT METHODS (No Forms) -->
     <section id="contact" class="py-16 bg-surface">
         <div class="container max-w-4xl mx-auto px-4">
-            <h2 class="text-h2 text-text-main text-center mb-12">
+            <h2 class="md:text-h2 text-h3 text-text-main text-center mb-12">
                 Contact Support
             </h2>
 
             <div class="grid md:grid-cols-2 gap-6">
                 <!-- WhatsApp Card -->
                 <Card className="p-6 border border-success/30 bg-success/5">
-                    <div class="flex items-start gap-4">
+                    <div class="flex flex-col md:flex-row items-start gap-4">
                         <div
                             class="w-14 h-14 rounded-2xl bg-whatsapp/10 flex items-center justify-center text-3xl flex-shrink-0"
                         >
-                            💬
+                            <Icon icon="logos:whatsapp-icon" class="w-8 h-8" />
                         </div>
                         <div class="flex-1">
                             <h3
@@ -445,20 +428,12 @@
                                 rel="noopener noreferrer"
                                 class="inline-flex items-center justify-center gap-2 w-full px-6 py-3 rounded-xl bg-whatsapp text-white font-medium hover:bg-whatsapp-hover transition-colors"
                             >
+                                <Icon
+                                    icon="logos:whatsapp-icon"
+                                    class="w-5 h-5"
+                                />
                                 <span>Open WhatsApp Chat</span>
-                                <svg
-                                    class="w-4 h-4"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                                    />
-                                </svg>
+                                <Icon icon="mdi:open-in-new" class="w-4 h-4" />
                             </a>
                         </div>
                     </div>
@@ -466,11 +441,11 @@
 
                 <!-- Email Card -->
                 <Card className="p-6 border border-primary/30 bg-primary/5">
-                    <div class="flex items-start gap-4">
+                    <div class="flex flex-col md:flex-row items-start gap-4">
                         <div
                             class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-3xl flex-shrink-0"
                         >
-                            ✉️
+                            <Icon icon="mdi:email" class="w-8 h-8" />
                         </div>
                         <div class="flex-1">
                             <h3
@@ -500,20 +475,12 @@
                                 href="mailto:{contact.email.address}"
                                 class="inline-flex items-center justify-center gap-2 w-full px-6 py-3 rounded-xl border-2 border-primary text-primary font-medium hover:bg-primary/5 transition-colors"
                             >
+                                <Icon icon="mdi:email" class="w-5 h-5" />
                                 <span>Send Email</span>
-                                <svg
+                                <Icon
+                                    icon="mdi:email-outline"
                                     class="w-4 h-4"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                    />
-                                </svg>
+                                />
                             </a>
                         </div>
                     </div>
@@ -548,11 +515,13 @@
     <!-- 🔷 SECTION 8: SECURITY NOTICE -->
     <section class="py-8 bg-danger/5 border-t border-danger/20">
         <div class="container max-w-4xl mx-auto px-4">
-            <div class="flex items-start gap-4">
+            <div
+                class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-4"
+            >
                 <div
                     class="w-10 h-10 rounded-full bg-danger/20 text-danger flex items-center justify-center text-xl flex-shrink-0"
                 >
-                    🚫
+                    <Icon icon="mdi:block" class="w-6 h-6" />
                 </div>
                 <div>
                     <h3 class="text-h3 font-semibold text-text-main mb-2">
@@ -588,7 +557,7 @@
             rel="noopener noreferrer"
             class="flex items-center justify-center gap-2 w-full px-6 py-4 rounded-xl bg-whatsapp text-white font-medium shadow-lg hover:bg-whatsapp-hover transition-colors"
         >
-            <span>💬</span>
+            <Icon icon="logos:whatsapp-icon" class="w-6 h-6" />
             <span>Chat with Support</span>
         </a>
     </div>

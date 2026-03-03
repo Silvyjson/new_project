@@ -7,17 +7,19 @@
     import { cubicOut } from "svelte/easing";
     import Icon from "@iconify/svelte";
 
-    export let data;
-    let shops = data.shops;
-    let pagination = data.pagination;
-    let handlePageChange = data.handlePageChange;
-    let clearAllFilters = data.clearAllFilters;
+    export let data: any;
+
+    // Support explicit props or the legacy `data` shape
+    export let shops: any[] = data?.shops || [];
+    export let pagination: any = data?.pagination;
+    export let handlePageChange: (e: CustomEvent<{ page: number }>) => void = data?.handlePageChange || ((e) => {});
+    export let clearAllFilters: () => void = data?.clearAllFilters || (() => {});
 </script>
 
 <section class="py-16 bg-background-light">
     <div class="container max-w-7xl mx-auto px-4">
         {#if shops.length > 0}
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
                 {#each shops as shop, i}
                     <div
                         in:fly={{
@@ -34,8 +36,8 @@
 
             <!-- Pagination -->
             <Pagination
-                currentPage={data.pagination?.page || 1}
-                totalPages={data.pagination?.totalPages || 1}
+                currentPage={pagination?.page || 1}
+                totalPages={pagination?.totalPages || 1}
                 on:pageChange={handlePageChange}
             />
         {:else}
@@ -49,9 +51,9 @@
                     Try adjusting your filters or search terms to find what
                     you're looking for.
                 </p>
-                <Button variant="outline" onclick={clearAllFilters}
-                    >Clear All Filters</Button
-                >
+                <Button variant="outline" onclick={() => clearAllFilters()}>
+                    Clear All Filters
+                </Button>
             </Card>
         {/if}
     </div>

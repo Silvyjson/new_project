@@ -6,6 +6,7 @@
     import Button from "$lib/components/ui/Button.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
     import ProfileDrawer from "../app/shared/ProfileDrawer.svelte";
+    import Icon from "@iconify/svelte";
 
     export let shop: Shop | null = null;
     export let product: Product | undefined = undefined;
@@ -88,8 +89,11 @@
                     {:else}
                         <p class="text-xs md:text-sm text-text-muted truncate">
                             {shop?.category ?? fallbackCategory}
-                            • {fallbackTotalProducts} Products • ★ {shop?.rating ??
-                                0}
+                            • {fallbackTotalProducts} Products • <Icon
+                                icon="mdi:star"
+                                class="inline-block text-yellow-400"
+                            />
+                            {shop?.rating ?? 0}
                             ({((shop?.reviewCount ?? 0) / 1000).toFixed(1)}k
                             reviews)
                         </p>
@@ -142,20 +146,9 @@
                             if (slug)
                                 goto(`/shop/${slug}/product?focus=search`);
                         }}
+                        aria-label="Search products"
                     >
-                        <svg
-                            class="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                            />
-                        </svg>
+                        <Icon icon="mdi:magnify" class="w-5 h-5" />
                     </button>
 
                     <!-- Wishlist -->
@@ -193,20 +186,9 @@
                             activeDrawerTab = "cart";
                             showShopDrawer = true;
                         }}
+                        aria-label="View cart"
                     >
-                        <svg
-                            class="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                            />
-                        </svg>
+                        <Icon icon="mdi:cart-outline" class="w-5 h-5" />
                         {#if cartItems.length > 0}
                             <span
                                 class="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-xs rounded-full flex items-center justify-center"
@@ -220,20 +202,9 @@
                     <button
                         class="text-text-muted hover:text-primary transition-colors"
                         on:click={() => (showProfileDrawer = true)}
+                        aria-label="View profile"
                     >
-                        <svg
-                            class="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                            />
-                        </svg>
+                        <Icon icon="mdi:account-outline" class="w-5 h-5" />
                     </button>
                 </div>
             </div>
@@ -247,6 +218,7 @@
         <button
             class="absolute inset-0 bg-dark/50"
             on:click={() => (showShopDrawer = false)}
+            aria-label="Close overlay"
         ></button>
 
         <div
@@ -276,7 +248,10 @@
                     </button>
                 </div>
 
-                <button on:click={() => (showShopDrawer = false)}>✕</button>
+                <button
+                    on:click={() => (showShopDrawer = false)}
+                    aria-label="Close drawer"><Icon icon="mdi:close" /></button
+                >
             </div>
 
             <!-- Content -->
@@ -289,6 +264,7 @@
                             >
                                 <img
                                     src={item.images?.[0]}
+                                    alt={item.name}
                                     class="w-16 h-16 rounded-lg object-cover"
                                 />
                                 <div class="flex-1">
@@ -313,6 +289,7 @@
                         >
                             <img
                                 src={item.images?.[0]}
+                                alt={item.name}
                                 class="w-16 h-16 rounded-lg object-cover"
                             />
                             <div class="flex-1">

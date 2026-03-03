@@ -72,7 +72,7 @@
           {/if}
 
           <!-- Trust Indicator -->
-          <div class="bg-white rounded-md px-2 py-1 shadow-sm">
+          <div class="bg-white rounded-full px-1 py-0.5 shadow-sm">
             <span
               class="text-xs font-semibold {getTrustScoreColor(
                 vendor.trustScore,

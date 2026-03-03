@@ -12,6 +12,7 @@
     import Button from "$lib/components/ui/Button.svelte";
     import Badge from "$lib/components/ui/Badge.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
+    import BlogGrid from "$lib/components/grid/BlogGrid.svelte";
 
     // Data from load function
     export let data: PageData;
@@ -83,9 +84,7 @@
     <section class="py-16 bg-soft-background">
         <div class="container max-w-7xl mx-auto px-4">
             <div class="text-center mb-10 animate-fade-in">
-                <h1
-                    class="text-[36px] md:text-[40px] font-bold text-text-main mb-4"
-                >
+                <h1 class="md:text-h2 text-h3 font-bold text-text-main mb-4">
                     Discover insights and ideas
                 </h1>
                 <p class="text-lg text-text-muted max-w-2xl mx-auto">
@@ -164,9 +163,11 @@
                             </div>
 
                             <!-- Content -->
-                            <div class="p-8 flex flex-col justify-center">
+                            <div
+                                class="p-4 md:p-8 flex flex-col justify-center"
+                            >
                                 <h2
-                                    class="text-2xl md:text-3xl font-bold text-text-main mb-4 hover:text-primary transition-colors"
+                                    class="text-xl md:text-2xl lg:text-3xl font-bold text-text-main mb-4 hover:text-primary transition-colors"
                                 >
                                     <a href="/blog/{post.slug}">{post.title}</a>
                                 </h2>
@@ -315,171 +316,15 @@
                 <!-- Blog Grid -->
                 <div class="lg:col-span-3">
                     {#if posts.length > 0}
-                        <div class="grid md:grid-cols-3 gap-6">
-                            {#each posts as post, i}
-                                <Card
-                                    hover={true}
-                                    padding="none"
-                                    className="overflow-hidden border border-gray-200 group animate-fade-in transition-delay: {i *
-                                        50}ms"
-                                >
-                                    <!-- Image -->
-                                    <a
-                                        href="/blog/{post.slug}"
-                                        class="block relative aspect-video bg-gray-100 overflow-hidden"
-                                    >
-                                        <img
-                                            src={post.coverImage}
-                                            alt={post.title}
-                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                        />
-                                        <Badge
-                                            variant={getCategoryColorClass(
-                                                post.categoryColor,
-                                            )}
-                                            className="absolute top-3 left-3"
-                                        >
-                                            {post.category}
-                                        </Badge>
-                                    </a>
-
-                                    <!-- Content -->
-                                    <div class="p-5">
-                                        <h3
-                                            class="text-lg font-semibold text-text-main mb-2 line-clamp-2 group-hover:text-primary transition-colors"
-                                        >
-                                            <a href="/blog/{post.slug}"
-                                                >{post.title}</a
-                                            >
-                                        </h3>
-                                        <p
-                                            class="text-small text-text-muted mb-4 line-clamp-2"
-                                        >
-                                            {post.excerpt}
-                                        </p>
-
-                                        <!-- Author & Meta -->
-                                        <div
-                                            class="flex items-center justify-between"
-                                        >
-                                            <div
-                                                class="flex items-center gap-2"
-                                            >
-                                                <img
-                                                    src={post.author.logo ||
-                                                        post.author.vendorLogo}
-                                                    alt=""
-                                                    class="w-6 h-6 rounded-full object-cover"
-                                                />
-                                                {#if post.author.type === "vendor"}
-                                                    <a
-                                                        href="/vendor/{post
-                                                            .author.vendorSlug}"
-                                                        class="text-xs font-medium text-primary hover:underline"
-                                                    >
-                                                        {post.author.vendorName}
-                                                    </a>
-                                                    {#if post.author.vendorVerified}
-                                                        <span
-                                                            class="text-success text-xs"
-                                                            >★ {post.author
-                                                                .trustScore}</span
-                                                        >
-                                                    {/if}
-                                                {:else}
-                                                    <span
-                                                        class="text-xs font-medium text-text-main"
-                                                        >{post.author
-                                                            .name}</span
-                                                    >
-                                                {/if}
-                                            </div>
-                                            <span
-                                                class="text-xs text-text-muted"
-                                                >{post.readTime} min</span
-                                            >
-                                        </div>
-                                    </div>
-                                </Card>
-                            {/each}
-                        </div>
-
-                        <!-- Pagination -->
-                        {#if posts.length >= 12}
-                            <div class="mt-12 flex justify-center">
-                                <div class="flex items-center gap-2">
-                                    <button
-                                        class="w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center text-text-muted hover:border-primary hover:text-primary transition-colors disabled:opacity-50"
-                                        disabled
-                                        aria-label="Previous page"
-                                    >
-                                        <svg
-                                            class="w-5 h-5"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                            ><path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M15 19l-7-7 7-7"
-                                            /></svg
-                                        >
-                                    </button>
-                                    <button
-                                        class="w-9 h-9 rounded-lg bg-primary text-white font-medium"
-                                        >1</button
-                                    >
-                                    <button
-                                        class="w-9 h-9 rounded-lg border border-gray-200 text-text-main hover:border-primary transition-colors"
-                                        >2</button
-                                    >
-                                    <button
-                                        class="w-9 h-9 rounded-lg border border-gray-200 text-text-main hover:border-primary transition-colors"
-                                        >3</button
-                                    >
-                                    <span class="text-text-muted">...</span>
-                                    <button
-                                        class="w-9 h-9 rounded-lg border border-gray-200 text-text-muted hover:border-primary hover:text-primary transition-colors"
-                                        aria-label="Next page"
-                                    >
-                                        <svg
-                                            class="w-5 h-5"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                            ><path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M9 5l7 7-7 7"
-                                            /></svg
-                                        >
-                                    </button>
-                                </div>
-                            </div>
-                        {/if}
-                    {:else}
-                        <Card className="py-16 text-center">
-                            <div class="text-6xl mb-4">📰</div>
-                            <h3 class="text-h3 text-text-main mb-2">
-                                No Articles Found
-                            </h3>
-                            <p class="text-body text-text-muted mb-6">
-                                Try adjusting your filters or search terms.
-                            </p>
-                            <Button
-                                variant="outline"
-                                onclick={() => {
-                                    selectedCategory = "all";
-                                    selectedVendor = "";
-                                    searchQuery = "";
-                                    updateFilters();
-                                }}
-                            >
-                                Clear All Filters
-                            </Button>
-                        </Card>
+                        <BlogGrid
+                            {posts}
+                            {formatDate}
+                            {getCategoryColorClass}
+                            {updateFilters}
+                            {searchQuery}
+                            {selectedCategory}
+                            {selectedVendor}
+                        />
                     {/if}
                 </div>
             </div>

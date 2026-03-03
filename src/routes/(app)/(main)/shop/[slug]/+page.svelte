@@ -3,6 +3,7 @@
     import { goto } from "$app/navigation";
     import { fade, fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
+    import Icon from "@iconify/svelte";
 
     // Types
     import type { PageData } from "./$types";
@@ -80,11 +81,11 @@
 
     // Social icons mapping
     const socialIcons: Record<string, string> = {
-        instagram: "📸",
-        whatsapp: "💬",
-        twitter: "🐦",
-        tiktok: "🎵",
-        facebook: "📘",
+        instagram: "mdi:instagram",
+        whatsapp: "simple-icons:whatsapp",
+        twitter: "mdi:twitter",
+        tiktok: "simple-icons:tiktok",
+        facebook: "mdi:facebook",
     };
 </script>
 
@@ -115,7 +116,7 @@
                         <img
                             src={shop.logoUrl}
                             alt={shop.name}
-                            class="w-[100px] h-[100px] rounded-2xl object-cover border-4 border-surface shadow-card"
+                            class="hidden sm:block w-[100px] h-[100px] rounded-2xl object-cover border-4 border-surface shadow-card"
                         />
                         <div>
                             <div class="inline-flex gap-1 items-center">
@@ -130,19 +131,10 @@
                                     title="Copy shop link"
                                     aria-label="Copy shop link"
                                 >
-                                    <svg
+                                    <Icon
+                                        icon="mdi:content-copy"
                                         class="w-5 h-5"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
-                                        />
-                                    </svg>
+                                    />
                                 </button>
                             </div>
                             <p class="text-lg text-white/90 mb-4">
@@ -178,9 +170,7 @@
                                     on:click={toggleFollow}
                                     class="px-6 py-3 rounded-btn hidden md:flex border-2 border-white text-white font-medium hover:bg-white hover:text-dark transition-colors"
                                 >
-                                    {isFollowing
-                                        ? "✓ Following"
-                                        : "Follow Shop"}
+                                    {isFollowing ? "Following" : "Follow Shop"}
                                 </button>
                             </div>
                         </div>
@@ -211,7 +201,11 @@
                                     <div
                                         class="text-[32px] font-bold text-text-main"
                                     >
-                                        ★ {shop.rating}
+                                        <Icon
+                                            icon="mdi:star"
+                                            class="inline-block mr-1 text-yellow-400"
+                                        />
+                                        {shop.rating}
                                     </div>
                                     <div class="text-small text-text-muted">
                                         {shop.reviewCount} Reviews
@@ -276,19 +270,7 @@
                     class="hidden md:flex items-center gap-2 text-primary font-medium hover:underline whitespace-nowrap"
                 >
                     View All Products
-                    <svg
-                        class="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                    </svg>
+                    <Icon icon="mdi:arrow-right" class="w-4 h-4" />
                 </a>
             </div>
         </div>
@@ -308,11 +290,10 @@
     <section id="products" class="py-16 bg-background-light">
         <div class="container max-w-7xl mx-auto px-4">
             {#if displayProducts.length > 0}
-                <div
-                    class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-                >
+                <div class="flex gap-3 md:gap-6 overflow-x-auto pb-4 snap-x">
                     {#each displayProducts as product, i}
                         <div
+                            class="flex-shrink-0 w-70 h-full animate-fade-in snap-start"
                             in:fly={{
                                 y: 20,
                                 duration: 400,
@@ -326,7 +307,9 @@
                 </div>
             {:else}
                 <Card className="py-16 text-center">
-                    <div class="text-6xl mb-4">🔍</div>
+                    <div class="text-6xl mb-4">
+                        <Icon icon="mdi:magnify" class="mx-auto" />
+                    </div>
                     <h3 class="text-h3 text-text-main mb-2">
                         No Products in This Category
                     </h3>
@@ -348,7 +331,9 @@
         >
             <!-- Left: Shop Story + Socials -->
             <div class="animate-fade-in">
-                <h2 class="text-h2 text-text-main mb-6">About {shop.name}</h2>
+                <h2 class="text-h3 md:text-h2 text-text-main mb-6">
+                    About {shop.name}
+                </h2>
                 <p class="text-body text-text-muted leading-relaxed mb-6">
                     {shop.description}
                 </p>
@@ -364,19 +349,23 @@
                                 class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-xl hover:bg-primary hover:text-white transition-colors"
                                 aria-label="Visit {shop.name} on {social.platform}"
                             >
-                                {socialIcons[social.platform]}
+                                <Icon icon={socialIcons[social.platform]} />
                             </a>
                         {/each}
                     </div>
                 {/if}
 
                 <!-- Location & Member Since -->
-                <div class="flex items-center gap-6 text-body text-text-muted">
+                <div
+                    class="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-body text-text-muted"
+                >
                     <span class="flex items-center gap-2"
-                        >📍 {shop.location}</span
+                        ><Icon icon="mdi:map-marker" class="w-4 h-4" />
+                        {shop.location}</span
                     >
                     <span class="flex items-center gap-2"
-                        >🗓 Member since {formatDate(shop.joinedAt)}</span
+                        ><Icon icon="mdi:calendar" class="w-4 h-4" /> Member since
+                        {formatDate(shop.joinedAt)}</span
                     >
                 </div>
 
@@ -385,16 +374,17 @@
                         href="/messages?shop={shop.slug}"
                         variant="primary"
                         size="lg"
+                        className="flex items-center gap-2"
                     >
-                        💬 Message
+                        <Icon icon="simple-icons:whatsapp" class="w-6 h-6" /> Message
                     </Button>
                     <Button
                         href="/report?shop={shop.slug}"
                         variant="outline"
                         size="lg"
-                        className="text-error hover:bg-error/5"
+                        className="flex items-center gap-2 text-error hover:bg-error/5"
                     >
-                        🚩 Report
+                        <Icon icon="mdi:flag" class="w-6 h-6" /> Report
                     </Button>
                 </div>
             </div>
@@ -429,10 +419,14 @@
     <section id="reviews" class="py-20 bg-background-light">
         <div class="container max-w-7xl mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-h2 text-text-main mb-4">Customer Reviews</h2>
+                <h2 class="text-h3 md:text-h2 text-text-main mb-4">
+                    Customer Reviews
+                </h2>
                 <div class="flex items-center justify-center gap-4 mb-4">
-                    <span class="text-[48px] font-bold text-text-main"
-                        >★ {shop.rating}</span
+                    <span
+                        class="flex items-center gap-2 text-[48px] font-bold text-text-main"
+                        ><Icon icon="mdi:star" class="text-yellow-400" />
+                        {shop.rating}</span
                     >
                     <div class="text-left">
                         <div class="text-body text-text-muted">
@@ -440,11 +434,12 @@
                         </div>
                         <div class="flex items-center gap-1">
                             {#each Array(5) as _, i}
-                                <span
+                                <Icon
+                                    icon="mdi:star"
                                     class={i < Math.floor(shop.rating)
                                         ? "text-yellow-400"
-                                        : "text-gray-300"}>★</span
-                                >
+                                        : "text-gray-300"}
+                                />
                             {/each}
                         </div>
                     </div>
@@ -452,7 +447,7 @@
             </div>
 
             <div
-                class="flex gap-6 overflow-x-auto pb-4 snap-x max-w-6xl mx-auto"
+                class="flex gap-3 md:gap-6 overflow-x-auto pb-4 snap-x max-w-6xl mx-auto"
             >
                 {#each reviews as review, i}
                     <div

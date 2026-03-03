@@ -6,6 +6,7 @@
     import Badge from "$lib/components/ui/Badge.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
     import ProductCard from "$lib/components/card/ProductCard.svelte";
+    import BlogCard from "$lib/components/card/BlogCard.svelte";
 
     export let data: PageData;
     const { post, relatedPosts, meta } = data;
@@ -47,7 +48,7 @@
 <main class="min-h-screen bg-surface">
     <!-- Breadcrumb -->
     <nav class="py-4 border-b border-gray-200">
-        <div class="container max-w-4xl mx-auto px-4">
+        <div class="container max-w-7xl mx-auto px-4">
             <ol class="flex items-center gap-2 text-sm text-text-muted">
                 <li><a href="/" class="hover:text-primary">Home</a></li>
                 <li>/</li>
@@ -60,7 +61,7 @@
 
     <!-- Article Header -->
     <article class="py-12">
-        <div class="container max-w-4xl mx-auto px-4">
+        <div class="container max-w-7xl mx-auto px-4">
             <!-- Category Tag -->
             <Badge
                 variant={getCategoryColorClass(post.categoryColor)}
@@ -71,7 +72,7 @@
 
             <!-- Title -->
             <h1
-                class="text-[36px] md:text-[40px] font-bold text-text-main mb-6 leading-tight"
+                class="md:text-h2 text-h3 font-bold text-text-main mb-6 leading-tight"
             >
                 {post.title}
             </h1>
@@ -135,9 +136,9 @@
 
     <!-- 🔷 LINKED PRODUCTS SECTION -->
     {#if post.linkedProducts?.length}
-        <section class="py-12 bg-soft-background">
+        <section class="pb-12 bg-soft-background">
             <div class="container max-w-7xl mx-auto px-4">
-                <h2 class="text-h2 text-text-main mb-6">
+                <h2 class="md:text-h2 text-h3 text-text-main mb-6">
                     Products Mentioned in This Post
                 </h2>
                 <div class="flex gap-6 overflow-x-auto pb-4 snap-x">
@@ -157,10 +158,10 @@
 
     <!-- 🔷 VISIT SHOP CTA -->
     {#if post.linkedShop}
-        <section class="py-12 bg-surface">
-            <div class="container max-w-4xl mx-auto px-4">
+        <section class="pb-12 bg-surface">
+            <div class="container max-w-7xl mx-auto px-4">
                 <Card
-                    className="p-8 text-center bg-primary/5 border-primary/20"
+                    className="p-8 text-center bg-primary/5 border-primary/20 shadow-md"
                 >
                     <h3 class="text-h3 text-text-main mb-4">
                         Explore More from {post.linkedShop.name}
@@ -183,13 +184,13 @@
 
     <!-- 🔷 VENDOR AUTHOR PROFILE -->
     {#if post.author.type === "vendor"}
-        <section class="py-12 bg-soft-background">
-            <div class="container max-w-4xl mx-auto px-4">
+        <section class="pb-12 bg-soft-background">
+            <div class="container max-w-7xl mx-auto px-4">
                 <Card className="p-6">
                     <h3 class="text-h3 text-text-main mb-6">
                         About This Vendor
                     </h3>
-                    <div class="flex items-start gap-6">
+                    <div class="flex flex-col md:flex-row items-start gap-6">
                         <img
                             src={post.author.vendorLogo}
                             alt={post.author.vendorName}
@@ -211,7 +212,7 @@
                                 quality products with secure delivery.
                             </p>
                             <div
-                                class="grid grid-cols-3 gap-4 mb-6 text-center"
+                                class="flex justify-between items-center gap-6 mb-6 w-full sm:w-[80%] md:w-[40%] text-center"
                             >
                                 <div>
                                     <div
@@ -260,36 +261,20 @@
 
     <!-- 🔷 RELATED POSTS -->
     {#if relatedPosts?.length}
-        <section class="py-12 bg-surface">
+        <section class="pb-12 bg-surface">
             <div class="container max-w-7xl mx-auto px-4">
-                <h2 class="text-h2 text-text-main mb-6">Read More</h2>
-                <div class="grid md:grid-cols-3 gap-6">
+                <h2 class="md:text-h2 text-h3 text-text-main mb-6">
+                    Read More
+                </h2>
+                <div
+                    class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+                >
                     {#each relatedPosts as related, i}
-                        <Card
-                            hover={true}
-                            padding="none"
-                            className="overflow-hidden border border-gray-200"
-                        >
-                            <a href="/blog/{related.slug}" class="block">
-                                <div class="aspect-video bg-gray-100">
-                                    <img
-                                        src={related.coverImage}
-                                        alt={related.title}
-                                        class="w-full h-full object-cover"
-                                    />
-                                </div>
-                                <div class="p-4">
-                                    <h3
-                                        class="text-body font-semibold text-text-main mb-2 line-clamp-2 hover:text-primary transition-colors"
-                                    >
-                                        {related.title}
-                                    </h3>
-                                    <p class="text-small text-text-muted">
-                                        {related.readTime} min read
-                                    </p>
-                                </div>
-                            </a>
-                        </Card>
+                        <BlogCard
+                            post={related}
+                            {formatDate}
+                            {getCategoryColorClass}
+                        />
                     {/each}
                 </div>
             </div>

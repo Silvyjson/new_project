@@ -2,25 +2,26 @@
 <script lang="ts">
   import Button from "$lib/components/ui/Button.svelte";
   import Card from "$lib/components/ui/Card.svelte";
+  import Icon from "@iconify/svelte";
 
   const problems = [
     {
-      icon: "❌",
+      icon: "mdi:close-circle-outline",
       title: "No Website",
       desc: "Sharing products via DMs is slow and unprofessional.",
     },
     {
-      icon: "🔒",
+      icon: "mdi:lock-outline",
       title: "No Trust",
       desc: "Buyers hesitate to pay strangers without verification.",
     },
     {
-      icon: "💸",
+      icon: "mdi:cash",
       title: "Payment Risk",
       desc: "Cash-on-delivery risks lead to lost revenue.",
     },
     {
-      icon: "📉",
+      icon: "mdi:trending-down",
       title: "Hard to Scale",
       desc: "Manual tracking limits your growth potential.",
     },
@@ -28,13 +29,25 @@
 
   const features = [
     {
-      icon: "🔗",
+      icon: "mdi:link-variant",
       title: "Unique Shop Link",
       desc: "Get vendorhub.com/yourname/shopname",
     },
-    { icon: "⭐", title: "Trust Score", desc: "Verified badges & reviews" },
-    { icon: "🛡️", title: "Escrow Payments", desc: "Funds held until delivery" },
-    { icon: "📊", title: "Simple Analytics", desc: "Track views & sales" },
+    {
+      icon: "mdi:star",
+      title: "Trust Score",
+      desc: "Verified badges & reviews",
+    },
+    {
+      icon: "mdi:shield-check",
+      title: "Escrow Payments",
+      desc: "Funds held until delivery",
+    },
+    {
+      icon: "mdi:chart-box",
+      title: "Simple Analytics",
+      desc: "Track views & sales",
+    },
   ];
 
   const steps = [
@@ -73,19 +86,19 @@
       name: "Sarah K.",
       role: "Fashion Vendor",
       text: "VendorHub doubled my sales in 30 days. The trust badge makes buyers confident.",
-      avatar: "👩🏾",
+      avatar: "mdi:account",
     },
     {
       name: "David O.",
       role: "Electronics",
       text: "Finally a platform that handles payments securely. No more chasing DMs for payment.",
-      avatar: "👨🏿",
+      avatar: "mdi:account",
     },
     {
       name: "Priya M.",
       role: "Handmade Goods",
       text: "The setup was instant. I shared my link on Instagram and started selling immediately.",
-      avatar: "👩🏽",
+      avatar: "mdi:account",
     },
   ];
 
@@ -153,7 +166,7 @@
     <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
       <!-- Left: Copy -->
       <div class="animate-fade-in">
-        <h1 class="text-h1 text-dark mb-6">
+        <h1 class="md:text-h1 text-h2 text-dark mb-6">
           Build Your Online Shop.<br />
           <span class="text-primary">Get Verified.</span> Get Paid.
         </h1>
@@ -196,7 +209,12 @@
           <div
             class="absolute top-10 right-10 bg-white p-3 rounded-xl shadow-card-hover flex items-center gap-2 animate-bounce"
           >
-            <div class="text-success">✓</div>
+            <Icon
+              icon="mdi:check"
+              width="16"
+              height="16"
+              class="text-success"
+            />
             <span class="text-sm font-bold text-dark">Verified Vendor</span>
           </div>
         </Card>
@@ -226,7 +244,7 @@
             <div
               class="w-14 h-14 flex items-center justify-center rounded-xl bg-primary/10 text-primary text-2xl mb-6 group-hover:bg-primary/20 transition-colors"
             >
-              {item.icon}
+              <Icon icon={item.icon} width="28" height="28" />
             </div>
 
             <h3 class="text-xl font-semibold mb-3">
@@ -245,7 +263,7 @@
   <!-- 🔷 SECTION 4: SOLUTION SECTION -->
   <section id="features" class="section bg-surface">
     <div class="max-w-7xl mx-auto px-4 text-center">
-      <h2 class="text-h2 text-dark mb-4">VendorHub Solves This</h2>
+      <h2 class="md:text-h2 text-h3 text-dark mb-4">VendorHub Solves This</h2>
       <p class="text-body text-text-muted mb-16 max-w-2xl mx-auto">
         Everything you need to sell online, simplified for social media vendors.
       </p>
@@ -258,7 +276,7 @@
             <div
               class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-2xl mb-6 mx-auto"
             >
-              {feature.icon}
+              <Icon icon={feature.icon} width="22" height="22" />
             </div>
             <h3 class="text-h4 text-dark mb-2">{feature.title}</h3>
             <p class="text-small text-text-muted">{feature.desc}</p>
@@ -271,7 +289,9 @@
   <!-- 🔷 SECTION 5: HOW IT WORKS -->
   <section id="how-it-works" class="section bg-background-light">
     <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-h2 text-dark text-center mb-16">How It Works</h2>
+      <h2 class="md:text-h2 text-h3 text-dark text-center mb-16">
+        How It Works
+      </h2>
 
       <div class="grid md:grid-cols-4 gap-8 relative">
         <!-- Connecting Line (Desktop) -->
@@ -286,7 +306,9 @@
             >
               {item.step}
             </div>
-            <h3 class="text-h3 text-dark text-center mb-2">{item.title}</h3>
+            <h3 class="md:text-h3 text-h4 text-dark text-center mb-2">
+              {item.title}
+            </h3>
             <p class="text-body text-text-muted text-center">{item.desc}</p>
           </div>
         {/each}
@@ -309,7 +331,7 @@
       <!-- LEFT: Premium Visual Card -->
       <div class="animate-fade-in">
         <div
-          class="relative bg-dark rounded-3xl px-6 py-8 md:p-12 text-center shadow-2xl"
+          class="relative bg-dark rounded-3xl px-4 py-6 md:px-6 md:py-8 lg:p-12 text-center shadow-2xl"
         >
           <span
             class="absolute right-3 top-4 bg-success/10 text-success px-4 py-1 rounded-full text-sm font-medium mb-6"
@@ -319,28 +341,35 @@
           <!-- Glow ring -->
           <div class="absolute inset-0 rounded-3xl ring-1 ring-white/10"></div>
 
-          <div class="text-7xl mb-6">🛡️</div>
+          <Icon icon="noto:shield" class="w-30 h-30 text-center mx-auto mb-4" />
 
-          <h3 class="text-2xl font-semibold text-white mb-4">
-            Your Payment is Fully Protected
-          </h3>
-
-          <p class="text-white/70 mb-10 max-w-sm mx-auto">
+          <p class="text-white/70 text-sm mb-5 max-w-sm mx-auto">
             Every transaction is secured with escrow protection and real vendor
             verification.
           </p>
 
           <div class="grid grid-cols-3 gap-6 text-white">
-            <div>
-              <div class="text-3xl mb-2">🔒</div>
+            <div class="flex flex-col gap-2 items-center justify-center">
+              <div class="text-3xl">
+                <Icon icon="mdi:lock-outline" width="28" height="28" />
+              </div>
               <p class="text-sm text-white/70">Funds Secured</p>
             </div>
-            <div>
-              <div class="text-3xl mb-2">⚖️</div>
+            <div class="flex flex-col gap-2 items-center justify-center">
+              <div class="text-3xl">
+                <Icon icon="mdi:scale-balance" width="28" height="28" />
+              </div>
               <p class="text-sm text-white/70">Disputes Resolved</p>
             </div>
-            <div>
-              <div class="text-3xl mb-2">✓</div>
+            <div class="flex flex-col gap-2 items-center justify-center">
+              <div class="text-3xl">
+                <Icon
+                  icon="mdi:check"
+                  width="24"
+                  height="24"
+                  class="text-white"
+                />
+              </div>
               <p class="text-sm text-white/70">Verified Vendors</p>
             </div>
           </div>
@@ -349,7 +378,7 @@
 
       <!-- RIGHT: Trust Breakdown -->
       <div class="animate-fade-in" style="transition-delay: 100ms">
-        <h2 class="text-h3 text-text-main mb-8 leading-tight">
+        <h2 class="md:text-h3 text-h4 text-text-main mb-8 leading-tight">
           Why Buyers Trust VendorHub
         </h2>
 
@@ -359,7 +388,12 @@
               <div
                 class="w-8 h-8 rounded-full bg-success/15 text-success flex items-center justify-center flex-shrink-0 mt-1"
               >
-                ✓
+                <Icon
+                  icon="mdi:check"
+                  width="16"
+                  height="16"
+                  class="text-success"
+                />
               </div>
               <div>
                 <h3 class="font-semibold text-sm mb-1">
@@ -385,7 +419,9 @@
     <div class="container">
       <!-- Section Header -->
       <div class="text-center max-w-3xl mx-auto mb-16">
-        <h2 class="text-h2 text-text-main mb-4">Frequently Asked Questions</h2>
+        <h2 class="md:text-h2 text-h3 text-text-main mb-4">
+          Frequently Asked Questions
+        </h2>
         <p class="text-body text-text-muted">
           Everything you need to know about selling with VendorHub. Still have
           questions? <a
@@ -470,7 +506,7 @@
   <!-- 🔷 SECTION 8: PRICING PREVIEW -->
   <section id="pricing" class="section bg-surface">
     <div class="max-w-7xl mx-auto px-4 text-center">
-      <h2 class="text-h2 text-dark mb-4">Simple Pricing</h2>
+      <h2 class="md:text-h2 text-h3 text-dark mb-4">Simple Pricing</h2>
       <p class="text-body text-text-muted mb-16">
         Start free. Upgrade when you grow.
       </p>
@@ -481,9 +517,30 @@
           <h3 class="text-h4 text-dark mb-2">Free</h3>
           <div class="text-4xl font-bold text-dark mb-6">$0</div>
           <ul class="space-y-3 text-small text-text-muted mb-8 text-left">
-            <li>✓ 30 Products</li>
-            <li>✓ 1 Shop</li>
-            <li>✓ 5% Transaction Fee</li>
+            <li>
+              <Icon
+                icon="mdi:check"
+                width="16"
+                height="16"
+                class="text-success inline-block mr-2"
+              />30 Products
+            </li>
+            <li>
+              <Icon
+                icon="mdi:check"
+                width="16"
+                height="16"
+                class="text-success inline-block mr-2"
+              />1 Shop
+            </li>
+            <li>
+              <Icon
+                icon="mdi:check"
+                width="16"
+                height="16"
+                class="text-success inline-block mr-2"
+              />5% Transaction Fee
+            </li>
           </ul>
           <Button variant="outline" className="w-full">Get Started</Button>
         </Card>
@@ -503,13 +560,28 @@
           </div>
           <ul class="space-y-3 text-small text-dark mb-8 text-left">
             <li class="flex gap-2">
-              <span class="text-success">✓</span> Unlimited Products
+              <Icon
+                icon="mdi:check"
+                width="16"
+                height="16"
+                class="text-success mt-0.5"
+              /> Unlimited Products
             </li>
             <li class="flex gap-2">
-              <span class="text-success">✓</span> 5 Shops
+              <Icon
+                icon="mdi:check"
+                width="16"
+                height="16"
+                class="text-success mt-0.5"
+              /> 5 Shops
             </li>
             <li class="flex gap-2">
-              <span class="text-success">✓</span> 5% Transaction Fee
+              <Icon
+                icon="mdi:check"
+                width="16"
+                height="16"
+                class="text-success mt-0.5"
+              /> 5% Transaction Fee
             </li>
           </ul>
           <Button variant="primary" className="w-full">Start Pro Trial</Button>
@@ -520,9 +592,30 @@
           <h3 class="text-h4 text-dark mb-2">Enterprise</h3>
           <div class="text-4xl font-bold text-dark mb-6">Custom</div>
           <ul class="space-y-3 text-small text-text-muted mb-8 text-left">
-            <li>✓ API Access</li>
-            <li>✓ Dedicated Manager</li>
-            <li>✓ Custom Domain</li>
+            <li>
+              <Icon
+                icon="mdi:check"
+                width="16"
+                height="16"
+                class="text-success inline-block mr-2"
+              />API Access
+            </li>
+            <li>
+              <Icon
+                icon="mdi:check"
+                width="16"
+                height="16"
+                class="text-success inline-block mr-2"
+              />Dedicated Manager
+            </li>
+            <li>
+              <Icon
+                icon="mdi:check"
+                width="16"
+                height="16"
+                class="text-success inline-block mr-2"
+              />Custom Domain
+            </li>
           </ul>
           <Button variant="outline" className="w-full">Contact Sales</Button>
         </Card>
@@ -533,10 +626,12 @@
   <!-- 🔷 SECTION 9: SOCIAL PROOF -->
   <section class="section bg-background-light">
     <div class="max-w-7xl mx-auto px-4 text-center">
-      <h2 class="text-h2 text-dark mb-16">Trusted by Growing Vendors</h2>
-      <div class="flex gap-8 overflow-x-auto pb-4 snap-x">
+      <h2 class="md:text-h2 text-h3 text-dark mb-16">
+        Trusted by Growing Vendors
+      </h2>
+      <div class="flex gap-3 md:gap-6 overflow-x-auto pb-4 snap-x">
         {#each testimonials as t}
-          <div class="flex-shrink-0 w-72 snap-start">
+          <div class="flex-shrink-0 w-80 snap-start">
             <Card className="p-4 text-left h-65 bg-white">
               <div class="text-primary text-4xl mb-2">"</div>
               <p class="text-body text-dark mb-4">{t.text}</p>
@@ -544,7 +639,7 @@
                 <div
                   class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-xl"
                 >
-                  {t.avatar}
+                  <Icon icon={t.avatar} width="20" height="20" />
                 </div>
                 <div>
                   <div class="font-bold text-dark">{t.name}</div>
@@ -563,7 +658,7 @@
     class="section bg-gradient-to-r from-primary to-primary-hover text-white text-center"
   >
     <div class="max-w-3xl mx-auto px-4">
-      <h2 class="text-h2 mb-6">Start Your Free Vendor Shop Today</h2>
+      <h2 class="md:text-h2 text-h3 mb-6">Start Your Free Vendor Shop Today</h2>
       <p class="text-lg opacity-90 mb-8">
         No credit card. No tech skills. Launch in 3 minutes.
       </p>

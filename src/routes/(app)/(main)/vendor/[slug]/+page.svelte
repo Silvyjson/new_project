@@ -6,6 +6,8 @@
   import ReviewCard from "$lib/components/ui/ReviewCard.svelte";
   import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
   import Icon from "@iconify/svelte";
+  import { goto } from "$app/navigation";
+  import Button from "$lib/components/ui/Button.svelte";
 
   let { data }: { data: PageData } = $props();
   let vendor = $derived(data.vendor);
@@ -66,9 +68,9 @@
 
     <!-- Floating Profile Card -->
     <div class="relative -mt-30 md:-mt-45">
-      <div class="container max-w-7xl mx-auto px-4">
+      <div class="container max-w-7xl mx-auto px-2 md:px-4">
         <div
-          class="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-8 md:p-12 border border-white/30"
+          class="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 lg:p-12 border border-white/30"
         >
           <div class="grid md:grid-cols-3 gap-10 items-start">
             <!-- LEFT: Identity -->
@@ -114,25 +116,6 @@
                         </span>
                       </div>
                     </div>
-
-                    <!-- Action Icons -->
-                    <div class="flex items-center gap-4 text-text-muted">
-                      <button
-                        onclick={copyProfileLink}
-                        class="hover:text-primary transition"
-                        aria-label="Copy profile link"
-                      >
-                        <Icon icon="mdi:link-variant" class="w-5 h-5" />
-                      </button>
-
-                      <a
-                        href="/report?vendor={vendor.slug}"
-                        class="hover:text-red-500 transition"
-                        aria-label="Report vendor"
-                      >
-                        <Icon icon="mdi:alert-outline" class="w-5 h-5" />
-                      </a>
-                    </div>
                   </div>
 
                   <!-- Bio -->
@@ -161,6 +144,20 @@
                       {/each}
                     </div>
                   {/if}
+
+                  <!-- Action Buttons -->
+                  <div class="flex items-center gap-4 mt-6">
+                    <Button onclick={copyProfileLink} className="transition">
+                      Copy Profile Link
+                    </Button>
+                    <Button
+                      onclick={() => goto(`/report?vendor=${vendor.slug}`)}
+                      variant="outline"
+                      className="bg-gray-100 hover:bg-primary transition"
+                    >
+                      Report Vendor
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -227,10 +224,10 @@
         </p>
       </div>
 
-      <div class="flex gap-6 overflow-x-auto pb-4 snap-x">
+      <div class="flex gap-3 md:gap-6 overflow-x-auto pb-4 snap-x">
         {#each vendor.shops as shop, i}
           <div
-            class="flex-shrink-0 w-80 h-full animate-fade-in snap-start"
+            class="flex-shrink-0 w-70 h-full animate-fade-in snap-start"
             style="animation-delay: {i * 100}ms"
           >
             <ShopCard {shop} />
@@ -250,7 +247,7 @@
           </h2>
         </div>
 
-        <div class="flex gap-6 overflow-x-auto pb-4 snap-x">
+        <div class="flex gap-3 md:gap-6 overflow-x-auto pb-4 snap-x">
           {#each vendor.reviews.slice(0, 3) as review, i}
             <div
               class="flex-shrink-0 w-80 h-65 animate-fade-in snap-start"

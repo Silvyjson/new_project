@@ -2,6 +2,7 @@
 <script lang="ts">
     import { fade, fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
+    import Icon from "@iconify/svelte";
 
     // Types
     import type { PageData } from "./$types";
@@ -118,19 +119,7 @@
                     class="flex items-center gap-2 text-text-muted hover:text-primary transition-colors"
                     aria-label="Go back"
                 >
-                    <svg
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M15 19l-7-7 7-7"
-                        />
-                    </svg>
+                    <Icon icon="mdi:arrow-left" class="w-5 h-5" />
                     <span class="text-sm font-medium">Back</span>
                 </button>
 
@@ -143,19 +132,10 @@
                         : 'text-text-muted hover:text-red-500 hover:border-red-300'}"
                     aria-label="Add to wishlist"
                 >
-                    <svg
+                    <Icon
+                        icon={isWishlisted ? "mdi:heart" : "mdi:heart-outline"}
                         class="w-5 h-5"
-                        fill={isWishlisted ? "currentColor" : "none"}
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                        />
-                    </svg>
+                    />
                 </button>
             </div>
 
@@ -236,11 +216,12 @@
                     <div class="flex items-center gap-3 mb-4">
                         <div class="flex items-center gap-1">
                             {#each Array(5) as _, i}
-                                <span
+                                <Icon
+                                    icon="mdi:star"
                                     class={i < Math.floor(product.rating)
                                         ? "text-yellow-400"
-                                        : "text-gray-300"}>★</span
-                                >
+                                        : "text-gray-300"}
+                                />
                             {/each}
                         </div>
                         <span class="text-body text-text-muted"
@@ -272,7 +253,11 @@
                                 product.stockStatus,
                             )} mt-2 font-medium"
                         >
-                            ✓ {getStockStatusText(
+                            <Icon
+                                icon="mdi:check-circle"
+                                class="inline-block mr-1"
+                            />
+                            {getStockStatusText(
                                 product.stockStatus,
                                 product.stockCount,
                             )}
@@ -347,7 +332,7 @@
                                         (quantity = Math.max(1, quantity - 1))}
                                     class="w-10 h-10 rounded-btn border border-gray-300 flex items-center justify-center text-xl hover:border-primary transition-colors"
                                 >
-                                    −
+                                    <Icon icon="mdi:minus" />
                                 </button>
                                 <span
                                     class="w-12 text-center text-body font-medium"
@@ -361,7 +346,7 @@
                                         ))}
                                     class="w-10 h-10 rounded-btn border border-gray-300 flex items-center justify-center text-xl hover:border-primary transition-colors"
                                 >
-                                    +
+                                    <Icon icon="mdi:plus" />
                                 </button>
                             </div>
                         </div>
@@ -394,19 +379,31 @@
                         class="grid grid-cols-3 gap-4 p-4 bg-background-light rounded-xl mb-6"
                     >
                         <div class="text-center">
-                            <div class="text-success text-xl mb-1">✓</div>
+                            <div class="text-success text-xl mb-1">
+                                <Icon icon="mdi:shield-check" class="mx-auto" />
+                            </div>
                             <div class="text-xs text-text-muted">
                                 Secure Payment
                             </div>
                         </div>
                         <div class="text-center">
-                            <div class="text-success text-xl mb-1">✓</div>
+                            <div class="text-success text-xl mb-1">
+                                <Icon
+                                    icon="mdi:check-decagram"
+                                    class="mx-auto"
+                                />
+                            </div>
                             <div class="text-xs text-text-muted">
                                 Verified Shop
                             </div>
                         </div>
                         <div class="text-center">
-                            <div class="text-success text-xl mb-1">✓</div>
+                            <div class="text-success text-xl mb-1">
+                                <Icon
+                                    icon="mdi:scale-balance"
+                                    class="mx-auto"
+                                />
+                            </div>
                             <div class="text-xs text-text-muted">
                                 Dispute Protection
                             </div>
@@ -451,96 +448,148 @@
     <section class="py-12 bg-background-light">
         <div class="container max-w-7xl mx-auto px-4">
             <div class="max-w-4xl mx-auto">
-                <!-- Tabs -->
-                <div class="flex border-b border-gray-200 mb-6">
-                    {#each ["description", "shipping", "returns", "trust"] as tab}
-                        <button
-                            on:click={() => (activeTab = tab)}
-                            class="px-6 py-3 text-body font-medium border-b-2 transition-colors capitalize
-                     {activeTab === tab
-                                ? 'border-primary text-primary'
-                                : 'border-transparent text-text-muted hover:text-primary'}"
-                        >
-                            {tab === "trust" ? "Trust & Safety" : tab}
-                        </button>
-                    {/each}
+                <!-- Responsive Tabs -->
+                <div class="border-b border-gray-200 mb-6">
+                    <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+                        {#each ["description", "shipping", "returns", "trust"] as tab}
+                            <button
+                                on:click={() => (activeTab = tab)}
+                                class="flex-shrink-0 whitespace-nowrap px-4 md:px-6 py-3
+                                   text-sm md:text-body font-medium border-b-2
+                                   transition-colors capitalize
+                                   {activeTab === tab
+                                    ? 'border-primary text-primary'
+                                    : 'border-transparent text-text-muted hover:text-primary'}"
+                            >
+                                {tab === "trust" ? "Trust & Safety" : tab}
+                            </button>
+                        {/each}
+                    </div>
                 </div>
 
                 <!-- Tab Content -->
-                <div class="prose prose-slate max-w-none">
+                <div class="max-w-none">
+                    <!-- DESCRIPTION -->
                     {#if activeTab === "description"}
-                        {@html product.longDescription}
+                        <div
+                            class="prose prose-slate max-w-none text-sm md:text-body"
+                        >
+                            {@html product.longDescription}
+                        </div>
+
+                        <!-- SHIPPING -->
                     {:else if activeTab === "shipping"}
-                        <div class="space-y-4">
-                            <p class="text-body text-text-muted">
-                                <strong>Free Shipping:</strong> Available on this
-                                item
-                            </p>
-                            <p class="text-body text-text-muted">
+                        <div
+                            class="grid sm:grid-cols-2 gap-4 text-sm md:text-body text-text-muted"
+                        >
+                            <div>
+                                <strong>Free Shipping:</strong>
+                                <div>Available on this item</div>
+                            </div>
+
+                            <div>
                                 <strong>Standard Delivery:</strong>
-                                {product.shipping?.estimatedDays}
-                            </p>
-                            <p class="text-body text-text-muted">
+                                <div>{product.shipping?.estimatedDays}</div>
+                            </div>
+
+                            <div>
                                 <strong>Express Delivery:</strong>
-                                {product.shipping?.expressDays} ({formatNaira(
-                                    product.shipping?.expressPrice ?? 0,
-                                )})
-                            </p>
-                            <p class="text-body text-text-muted">
-                                <strong>Tracking:</strong> All orders include tracking
-                                number
-                            </p>
-                        </div>
-                    {:else if activeTab === "returns"}
-                        <div class="space-y-4">
-                            <p class="text-body text-text-muted">
-                                <strong>Return Window:</strong>
-                                {product.returns?.days} days
-                            </p>
-                            <p class="text-body text-text-muted">
-                                <strong>Conditions:</strong>
-                                {product.returns?.conditions}
-                            </p>
-                            <p class="text-body text-text-muted">
-                                <strong>Process:</strong> Contact shop to initiate
-                                return. Buyer pays return shipping unless item is
-                                defective.
-                            </p>
-                        </div>
-                    {:else if activeTab === "trust"}
-                        <div class="space-y-4">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="w-12 h-12 rounded-full bg-success/20 text-success flex items-center justify-center text-xl"
-                                >
-                                    ✓
+                                <div>
+                                    {product.shipping?.expressDays}
+                                    ({formatNaira(
+                                        product.shipping?.expressPrice ?? 0,
+                                    )})
                                 </div>
+                            </div>
+
+                            <div>
+                                <strong>Tracking:</strong>
+                                <div>All orders include tracking number</div>
+                            </div>
+                        </div>
+
+                        <!-- RETURNS -->
+                    {:else if activeTab === "returns"}
+                        <div
+                            class="grid sm:grid-cols-2 gap-4 text-sm md:text-body text-text-muted"
+                        >
+                            <div>
+                                <strong>Return Window:</strong>
+                                <div>{product.returns?.days} days</div>
+                            </div>
+
+                            <div>
+                                <strong>Conditions:</strong>
+                                <div>{product.returns?.conditions}</div>
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <strong>Process:</strong>
+                                <div>
+                                    Contact shop to initiate return. Buyer pays
+                                    return shipping unless item is defective.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TRUST -->
+                    {:else if activeTab === "trust"}
+                        <div class="space-y-6">
+                            <!-- Protection -->
+                            <div
+                                class="flex flex-col sm:flex-row items-start sm:items-center gap-4"
+                            >
+                                <div
+                                    class="w-10 h-10 md:w-12 md:h-12 rounded-full
+                                        bg-success/20 text-success
+                                        flex items-center justify-center flex-shrink-0"
+                                >
+                                    <Icon
+                                        icon="mdi:shield-check"
+                                        class="w-5 h-5 md:w-6 md:h-6"
+                                    />
+                                </div>
+
                                 <div>
                                     <h4
-                                        class="text-h4 font-semibold text-text-main"
+                                        class="text-base md:text-h4 font-semibold text-text-main"
                                     >
                                         VendorHub Protection
                                     </h4>
-                                    <p class="text-body text-text-muted">
+                                    <p
+                                        class="text-sm md:text-body text-text-muted"
+                                    >
                                         Your payment is held securely until you
                                         confirm delivery.
                                     </p>
                                 </div>
                             </div>
-                            <div class="flex items-center gap-3">
+
+                            <!-- Trust Score -->
+                            <div
+                                class="flex flex-col sm:flex-row items-start sm:items-center gap-4"
+                            >
                                 <div
-                                    class="w-12 h-12 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xl"
+                                    class="w-10 h-10 md:w-12 md:h-12 rounded-full
+                                        bg-primary/20 text-primary
+                                        flex items-center justify-center flex-shrink-0"
                                 >
-                                    ★
+                                    <Icon
+                                        icon="mdi:star"
+                                        class="w-5 h-5 md:w-6 md:h-6"
+                                    />
                                 </div>
+
                                 <div>
                                     <h4
-                                        class="text-h4 font-semibold text-text-main"
+                                        class="text-base md:text-h4 font-semibold text-text-main"
                                     >
                                         Shop Trust Score: {product.shop
                                             .trustScore}%
                                     </h4>
-                                    <p class="text-body text-text-muted">
+                                    <p
+                                        class="text-sm md:text-body text-text-muted"
+                                    >
                                         Based on delivery rate, reviews, and
                                         order completion.
                                     </p>
@@ -557,7 +606,9 @@
     <section class="py-12 bg-surface">
         <div class="container max-w-7xl mx-auto px-4">
             <div class="max-w-4xl mx-auto">
-                <h2 class="text-h2 text-text-main mb-6">Customer Reviews</h2>
+                <h2 class="md:text-h2 text-h3 text-text-main mb-6">
+                    Customer Reviews
+                </h2>
 
                 <!-- Review Summary -->
                 <div
@@ -571,11 +622,12 @@
                             class="flex items-center gap-1 justify-center mb-1"
                         >
                             {#each Array(5) as _, i}
-                                <span
+                                <Icon
+                                    icon="mdi:star"
                                     class={i < Math.floor(product.rating)
                                         ? "text-yellow-400"
-                                        : "text-gray-300"}>★</span
-                                >
+                                        : "text-gray-300"}
+                                />
                             {/each}
                         </div>
                         <div class="text-small text-text-muted">
@@ -586,7 +638,10 @@
                         {#each [5, 4, 3, 2, 1] as stars}
                             <div class="flex items-center gap-3">
                                 <span class="text-small text-text-muted w-6"
-                                    >{stars}★</span
+                                    >{stars}<Icon
+                                        icon="mdi:star"
+                                        class="inline"
+                                    /></span
                                 >
                                 <div
                                     class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden"
@@ -626,8 +681,10 @@
     <!-- 🔷 SECTION 5: RELATED PRODUCTS -->
     <section class="py-12 bg-background-light">
         <div class="container max-w-7xl mx-auto px-4">
-            <h2 class="text-h2 text-text-main mb-6">Related Products</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <h2 class="md:text-h2 text-h3 text-text-main mb-6">
+                Related Products
+            </h2>
+            <div class="flex gap-4 overflow-x-auto pb-4 snap-x">
                 {#each product.relatedProducts as relatedProduct, i}
                     <div
                         in:fly={{
@@ -636,6 +693,7 @@
                             delay: i * 50,
                             easing: cubicOut,
                         }}
+                        class="flex-shrink-0 w-70 h-full snap-start"
                     >
                         <ProductCard
                             product={relatedProduct}
@@ -646,103 +704,6 @@
             </div>
         </div>
     </section>
-
-    <!-- 🔷 CART DRAWER (Slide from Right) -->
-    {#if showCartDrawer}
-        <div class="fixed inset-0 z-[100]" role="dialog" aria-modal="true">
-            <!-- Overlay -->
-            <button
-                class="absolute inset-0 bg-dark/50 w-full h-full border-none cursor-default"
-                on:click={() => (showCartDrawer = false)}
-                aria-label="Close cart"
-                type="button"
-            ></button>
-
-            <!-- Drawer -->
-            <div
-                class="absolute right-0 top-0 h-full w-full max-w-[400px] bg-surface shadow-2xl animate-slide-in-right"
-            >
-                <div class="flex flex-col h-full">
-                    <!-- Header -->
-                    <div
-                        class="flex items-center justify-between p-4 border-b border-gray-200"
-                    >
-                        <h3 class="text-h3 font-bold text-text-main">
-                            Your Cart
-                        </h3>
-                        <button
-                            on:click={() => (showCartDrawer = false)}
-                            class="text-text-muted hover:text-text-main"
-                            aria-label="Close cart drawer"
-                        >
-                            <svg
-                                class="w-6 h-6"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            </svg>
-                        </button>
-                    </div>
-
-                    <!-- Cart Items (Placeholder) -->
-                    <div class="flex-1 overflow-y-auto p-4">
-                        <div
-                            class="flex items-center gap-4 p-4 bg-background-light rounded-xl"
-                        >
-                            <img
-                                src={product.images[0]}
-                                alt={product.name}
-                                class="w-20 h-20 rounded-lg object-cover"
-                            />
-                            <div class="flex-1">
-                                <h4
-                                    class="font-semibold text-text-main text-sm"
-                                >
-                                    {product.name}
-                                </h4>
-                                <p class="text-small text-text-muted">
-                                    Size: {selectedSize} | Qty: {quantity}
-                                </p>
-                                <p class="text-primary font-bold mt-1">
-                                    {formatNaira(product.price * quantity)}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="p-4 border-t border-gray-200">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="text-body text-text-muted"
-                                >Subtotal</span
-                            >
-                            <span class="text-body font-bold text-text-main"
-                                >{formatNaira(product.price * quantity)}</span
-                            >
-                        </div>
-                        <Button
-                            variant="primary"
-                            size="lg"
-                            className="w-full"
-                            href="/checkout"
-                        >
-                            Proceed to Checkout
-                        </Button>
-                        <p class="text-xs text-text-muted text-center mt-3">
-                            🔒 Secure checkout powered by VendorHub
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {/if}
 </main>
 
 <style>

@@ -58,37 +58,37 @@ const categories = [
     {
         id: 'orders-payments',
         title: 'Orders & Payments',
-        icon: '💳',
+        icon: 'mdi:credit-card',
         description: 'Track orders, payment methods, refunds'
     },
     {
         id: 'disputes-refunds',
         title: 'Disputes & Refunds',
-        icon: '⚖️',
+        icon: 'mdi:scale-balance',
         description: 'Open disputes, refund process, policies'
     },
     {
         id: 'vendor-verification',
         title: 'Vendor Verification',
-        icon: '✓',
+        icon: 'mdi:check-decagram',
         description: 'How vendors get verified, trust badges'
     },
     {
         id: 'trust-safety',
         title: 'Trust & Safety',
-        icon: '🛡️',
+        icon: 'mdi:shield-check',
         description: 'Escrow protection, fraud prevention'
     },
     {
         id: 'account-issues',
         title: 'Account Issues',
-        icon: '👤',
+        icon: 'mdi:account',
         description: 'Login, password, profile settings'
     },
     {
         id: 'shipping-delivery',
         title: 'Shipping & Delivery',
-        icon: '📦',
+        icon: 'mdi:package-variant-closed',
         description: 'Delivery times, tracking, issues'
     }
 ];
@@ -98,7 +98,7 @@ const trustPillars = [
     {
         id: 'verified-vendors',
         title: 'Verified Vendors',
-        icon: '✓',
+        icon: 'mdi:check-decagram',
         accent: 'success',
         description: 'Every vendor undergoes ID verification, business document review, and manual approval before receiving a verified badge.',
         features: [
@@ -111,7 +111,7 @@ const trustPillars = [
     {
         id: 'secure-payments',
         title: 'Secure Payments',
-        icon: '🔒',
+        icon: 'mdi:lock-check',
         accent: 'primary',
         description: 'Your payment is held in secure escrow until you confirm delivery. No funds release until you\'re satisfied.',
         features: [
@@ -124,7 +124,7 @@ const trustPillars = [
     {
         id: 'trust-score',
         title: 'Trust Score System',
-        icon: '⭐',
+        icon: 'mdi:star',
         accent: 'info',
         description: 'Transparent algorithm calculates vendor reliability based on real performance metrics.',
         features: [

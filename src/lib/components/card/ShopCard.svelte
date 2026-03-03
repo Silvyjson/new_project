@@ -40,19 +40,19 @@
                 />
             {/if}
 
-            <!-- Category -->
-            <div class="absolute top-3 left-3">
+            <div
+                class="flex items-center justify-between px-3 py-3 absolute top-0 w-full"
+            >
+                <!-- Category -->
                 <span
                     class="text-xs font-medium bg-black/20 text-white backdrop-blur px-2.5 py-1 rounded-md border border-gray-200"
                 >
                     {shop.category}
                 </span>
-            </div>
 
-            <!-- Trust Score -->
-            <div class="absolute top-3 right-3">
+                <!-- Trust Score -->
                 <div
-                    class="bg-white rounded-full px-2 py-1 border border-gray-200 shadow-sm"
+                    class="bg-white rounded-full px-1 py-0.5 border border-gray-200 shadow-sm"
                 >
                     <span
                         class="text-xs font-semibold {getTrustScoreColor(

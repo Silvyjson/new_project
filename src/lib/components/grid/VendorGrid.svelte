@@ -7,18 +7,20 @@
     import { cubicOut } from "svelte/easing";
     import Icon from "@iconify/svelte";
 
-    export let data;
-    let vendors = data.vendors;
-    let pagination = data.pagination;
-    let handlePageChange = data.handlePageChange;
-    let clearAllFilters = data.clearAllFilters;
+    export let data: any;
+
+    // Allow explicit props or fall back to `data` for backwards compatibility
+    export let vendors: any[] = data?.vendors || [];
+    export let pagination: any = data?.pagination;
+    export let handlePageChange: (e: CustomEvent<{ page: number }>) => void = data?.handlePageChange || ((e) => {});
+    export let clearAllFilters: () => void = data?.clearAllFilters || (() => {});
 </script>
 
 <section class="py-12 bg-background-light">
     <div class="container max-w-7xl mx-auto px-4">
         {#if vendors.length > 0}
             <div
-                class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
+                class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6"
             >
                 {#each vendors as vendor, i}
                     <div

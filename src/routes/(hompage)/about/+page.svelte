@@ -12,6 +12,7 @@
     import Card from "$lib/components/ui/Card.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
     import Nav from "$lib/components/homepage/Nav.svelte";
+    import Icon from "@iconify/svelte";
 
     // Data from load function
     export let data: PageData;
@@ -84,22 +85,22 @@
 
     const features = [
         {
-            icon: "🔐",
+            icon: "mdi:lock-outline",
             title: "Vendor Verification",
             desc: "ID checks + manual review for every verified badge",
         },
         {
-            icon: "⭐",
+            icon: "mdi:star",
             title: "Transparent Trust Score",
             desc: "Algorithm-based scoring from real performance data",
         },
         {
-            icon: "🛡️",
+            icon: "mdi:shield-check",
             title: "Payment Protection",
             desc: "Escrow holds funds until delivery is confirmed",
         },
         {
-            icon: "⚖️",
+            icon: "mdi:scale-balance",
             title: "Dispute Resolution",
             desc: "Neutral team resolves issues within 48 hours",
         },
@@ -128,7 +129,7 @@
     <section class="section bg-surface text-center animate-fade-in">
         <div class="container max-w-4xl mx-auto px-4">
             <h1
-                class="text-[48px] md:text-[56px] font-bold text-text-main leading-tight mb-6"
+                class="md:text-h1 text-h2 font-bold text-text-main leading-tight mb-6"
             >
                 Empowering Vendors.<br />
                 <span class="text-primary">Building Trust</span> in Pre-Orders.
@@ -167,15 +168,20 @@
                         class="aspect-video bg-gradient-to-br from-primary/5 to-primary-light/5 flex items-center justify-center"
                     >
                         <div class="text-center p-8">
-                            <div class="text-6xl mb-4">📊</div>
+                            <Icon
+                                icon="noto:bar-chart"
+                                class="text-5xl mb-4 block mx-auto"
+                            />
+
                             <p class="text-text-muted font-medium">
                                 Vendor Dashboard Preview
                             </p>
+
                             <div class="mt-4 flex justify-center gap-2">
                                 <TrustBadge verified={true} size="sm" />
-                                <span class="text-sm text-text-muted"
-                                    >Trust Score: 94/100</span
-                                >
+                                <span class="text-sm text-text-muted">
+                                    Trust Score: 94/100
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -183,7 +189,12 @@
                     <div
                         class="absolute top-4 right-4 bg-white p-3 rounded-lg shadow-card flex items-center gap-2"
                     >
-                        <span class="text-success font-bold">✓</span>
+                        <Icon
+                            icon="mdi:check"
+                            width="16"
+                            height="16"
+                            class="text-success"
+                        />
                         <span class="text-sm font-medium text-text-main"
                             >Verified</span
                         >
@@ -196,7 +207,9 @@
                 class="order-1 md:order-2 animate-fade-in"
                 style="transition-delay: 100ms"
             >
-                <h2 class="text-h2 text-text-main mb-6 relative inline-block">
+                <h2
+                    class="md:text-h2 text-h3 text-text-main mb-6 relative inline-block"
+                >
                     Why VendorHub Was Created
                     <span
                         class="absolute bottom-0 left-0 w-full h-1 bg-primary/30 rounded-full"
@@ -298,7 +311,9 @@
     <!-- 🔷 SECTION 4: HOW VENDORHUB WORKS (Authority) -->
     <section id="how-it-works" class="section bg-dark text-text-inverse">
         <div class="container">
-            <h2 class="text-h2 text-center mb-16">How VendorHub Works</h2>
+            <h2 class="md:text-h2 text-h3 text-center mb-16">
+                How VendorHub Works
+            </h2>
 
             <div class="grid md:grid-cols-3 gap-8">
                 <!-- Verified Vendors -->
@@ -323,7 +338,7 @@
                             />
                         </svg>
                     </div>
-                    <h3 class="text-h3 mb-4">Verified Vendors</h3>
+                    <h3 class="md:text-h3 text-h4 mb-4">Verified Vendors</h3>
                     <p class="text-body opacity-90 leading-relaxed">
                         Every vendor undergoes ID verification and manual
                         review. Trust Scores (0-100) reflect real performance —
@@ -353,7 +368,7 @@
                             />
                         </svg>
                     </div>
-                    <h3 class="text-h3 mb-4">Secure Payments</h3>
+                    <h3 class="md:text-h3 text-h4 mb-4">Secure Payments</h3>
                     <p class="text-body opacity-90 leading-relaxed">
                         We hold payments in escrow until delivery is confirmed.
                         Buyers are protected from scams. Vendors are protected
@@ -383,7 +398,9 @@
                             />
                         </svg>
                     </div>
-                    <h3 class="text-h3 mb-4">Multi-Shop Flexibility</h3>
+                    <h3 class="md:text-h3 text-h4 mb-4">
+                        Multi-Shop Flexibility
+                    </h3>
                     <p class="text-body opacity-90 leading-relaxed mb-4">
                         One account. Multiple independent shops. Perfect for
                         vendors selling in different niches.
@@ -399,14 +416,24 @@
                         </div>
                         <div class="flex items-center justify-between text-sm">
                             <span>Pro Plan</span>
-                            <span class="font-medium text-success"
-                                >✓ 5 Shops</span
+                            <span class="font-medium text-success">
+                                <Icon
+                                    icon="mdi:check"
+                                    width="14"
+                                    height="14"
+                                    class="inline-block mr-2"
+                                />5 Shops</span
                             >
                         </div>
                         <div class="flex items-center justify-between text-sm">
                             <span>Enterprise</span>
-                            <span class="font-medium text-success"
-                                >✓ Unlimited</span
+                            <span class="font-medium text-success">
+                                <Icon
+                                    icon="mdi:check"
+                                    width="14"
+                                    height="14"
+                                    class="inline-block mr-2"
+                                />Unlimited</span
                             >
                         </div>
                     </div>
@@ -428,76 +455,89 @@
                     <div class="space-y-4">
                         <!-- Shop 1: Fashion -->
                         <div
-                            class="flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-100"
+                            class="flex flex-wrap md:flex-nowrap items-center gap-4 p-4 bg-white rounded-xl border border-gray-100"
                         >
                             <div
-                                class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center text-xl"
+                                class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center"
                             >
-                                👗
+                                <Icon
+                                    icon="noto:t-shirt"
+                                    width="22"
+                                    height="22"
+                                />
                             </div>
-                            <div>
+
+                            <div class="flex-1 min-w-0">
                                 <div class="font-medium text-text-main">
                                     Fashion Hub
                                 </div>
-                                <div class="text-xs text-text-muted">
+                                <div class="text-xs text-text-muted truncate">
                                     vendorhub.com/amina/fashion
                                 </div>
                             </div>
-                            <TrustBadge
-                                verified={true}
-                                size="sm"
-                                className="ml-auto"
-                            />
+
+                            <div class="w-full md:w-auto md:ml-auto">
+                                <TrustBadge verified={true} size="sm" />
+                            </div>
                         </div>
 
                         <!-- Shop 2: Gadgets -->
                         <div
-                            class="flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-100"
+                            class="flex flex-wrap md:flex-nowrap items-center gap-4 p-4 bg-white rounded-xl border border-gray-100"
                         >
                             <div
-                                class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-xl"
+                                class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center"
                             >
-                                📱
+                                <Icon
+                                    icon="noto:mobile-phone"
+                                    width="22"
+                                    height="22"
+                                />
                             </div>
-                            <div>
+
+                            <div class="flex-1 min-w-0">
                                 <div class="font-medium text-text-main">
                                     Tech Deals
                                 </div>
-                                <div class="text-xs text-text-muted">
+                                <div class="text-xs text-text-muted truncate">
                                     vendorhub.com/amina/tech
                                 </div>
                             </div>
-                            <TrustBadge
-                                verified={true}
-                                size="sm"
-                                className="ml-auto"
-                            />
+
+                            <div class="w-full md:w-auto md:ml-auto">
+                                <TrustBadge verified={true} size="sm" />
+                            </div>
                         </div>
 
                         <!-- Shop 3: Beauty -->
                         <div
-                            class="flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-100"
+                            class="flex flex-wrap md:flex-nowrap items-center gap-4 p-4 bg-white rounded-xl border border-gray-100"
                         >
                             <div
-                                class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-xl"
+                                class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center"
                             >
-                                💄
+                                <Icon
+                                    icon="noto:lipstick"
+                                    width="22"
+                                    height="22"
+                                />
                             </div>
-                            <div>
+
+                            <div class="flex-1 min-w-0">
                                 <div class="font-medium text-text-main">
                                     Beauty Box
                                 </div>
-                                <div class="text-xs text-text-muted">
+                                <div class="text-xs text-text-muted truncate">
                                     vendorhub.com/amina/beauty
                                 </div>
                             </div>
-                            <TrustBadge
-                                verified={true}
-                                size="sm"
-                                className="ml-auto"
-                            />
+
+                            <div class="w-full md:w-auto md:ml-auto">
+                                <TrustBadge verified={true} size="sm" />
+                            </div>
                         </div>
                     </div>
+
                     <p class="text-center text-xs text-text-muted mt-4">
                         One vendor. Three brands. One dashboard.
                     </p>
@@ -509,7 +549,7 @@
                 class="order-1 md:order-2 animate-fade-in"
                 style="transition-delay: 100ms"
             >
-                <h2 class="text-h2 text-text-main mb-6">
+                <h2 class="md:text-h2 text-h3 text-text-main mb-6">
                     Grow Multiple Brands.<br />
                     <span class="text-primary">Under One Account.</span>
                 </h2>
@@ -523,7 +563,12 @@
                     <ul class="space-y-3">
                         {#each about as item}
                             <li class="flex items-start gap-3">
-                                <span class="text-success mt-0.5">✓</span>
+                                <Icon
+                                    icon="mdi:check"
+                                    width="14"
+                                    height="14"
+                                    class="text-success mt-0.5"
+                                />
                                 <span>{item}</span>
                             </li>
                         {/each}
@@ -540,9 +585,11 @@
     </section>
 
     <!-- 🔷 SECTION 6: TRUST & SAFETY -->
-    <section class="py-28 bg-surface">
+    <section class="section bg-surface">
         <div class="container max-w-6xl mx-auto px-6 text-center">
-            <h2 class="text-h2 text-text-main mb-4">Built on Trust</h2>
+            <h2 class="md:text-h2 text-h3 text-text-main mb-4">
+                Built on Trust
+            </h2>
 
             <p class="text-body text-text-muted mb-16 max-w-2xl mx-auto">
                 Every feature is designed to protect honest vendors and
@@ -553,16 +600,35 @@
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {#each features as item}
                     <Card
-                        className="p-8 rounded-2xl border border-gray-100 bg-white
-                     hover:shadow-xl hover:-translate-y-1
-                     transition-all duration-300 text-left"
+                        className="relative p-8 rounded-2xl 
+                    bg-white 
+                    shadow-sm hover:shadow-2xl
+                    border border-gray-100
+                    transition-all duration-300
+                    hover:-translate-y-2
+                    text-left overflow-hidden"
                     >
-                        <div class="text-4xl mb-6">{item.icon}</div>
+                        <!-- Accent Top Border -->
+                        <div
+                            class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"
+                        ></div>
 
+                        <!-- Icon -->
+                        <div
+                            class="w-14 h-14 rounded-xl
+                        bg-gradient-to-br from-primary/10 to-secondary/10
+                        flex items-center justify-center
+                        mb-6"
+                        >
+                            <Icon icon={item.icon} class="text-2xl" />
+                        </div>
+
+                        <!-- Title -->
                         <h3 class="text-lg font-semibold text-text-main mb-3">
                             {item.title}
                         </h3>
 
+                        <!-- Description -->
                         <p class="text-sm text-text-muted leading-relaxed">
                             {item.desc}
                         </p>
@@ -572,21 +638,25 @@
 
             <!-- Security Badge -->
             <div
-                class="mt-16 flex items-center justify-center gap-3 text-sm text-text-muted"
+                class="mt-20 flex items-center justify-center gap-3 text-sm text-text-muted"
             >
-                <svg
-                    class="w-5 h-5 text-success"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                <div
+                    class="w-8 h-8 rounded-full bg-success/10 flex items-center justify-center"
                 >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                    />
-                </svg>
+                    <svg
+                        class="w-4 h-4 text-success"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                        />
+                    </svg>
+                </div>
                 <span>
                     PCI-DSS Compliant • 256-bit SSL Encryption • GDPR Ready
                 </span>
@@ -600,9 +670,9 @@
             <div
                 class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6"
             >
-                <span class="text-3xl">🤝</span>
+                <Icon icon="noto:handshake" class="w-10 h-10 text-primary" />
             </div>
-            <h2 class="text-h2 text-text-main mb-4">
+            <h2 class="md:text-h2 text-h3 text-text-main mb-4">
                 Built by People Who Care
             </h2>
             <p class="text-body text-text-muted leading-relaxed">
@@ -630,47 +700,65 @@
     <!-- 🔷 SECTION 8: IMPACT (Animated Counters) -->
     <section id="impact-section" class="section bg-surface">
         <div class="container">
-            <div class="grid md:grid-cols-4 gap-8 text-center">
-                <!-- Vendors Counter -->
-                <div class="animate-fade-in" style="transition-delay: 0ms">
-                    <div class="text-[48px] font-bold text-primary mb-2">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                <!-- Vendors -->
+                <div
+                    class="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100"
+                >
+                    <div
+                        class="text-3xl md:text-[48px] font-bold text-primary mb-1"
+                    >
                         {countersVisible
                             ? `${vendorCount.toLocaleString()}+`
                             : "1,000+"}
                     </div>
-                    <div class="text-body text-text-muted">
+                    <div class="text-sm md:text-body text-text-muted">
                         Verified Vendors
                     </div>
                 </div>
 
-                <!-- Shops Counter -->
-                <div class="animate-fade-in" style="transition-delay: 100ms">
-                    <div class="text-[48px] font-bold text-primary mb-2">
+                <!-- Shops -->
+                <div
+                    class="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100"
+                >
+                    <div
+                        class="text-3xl md:text-[48px] font-bold text-primary mb-1"
+                    >
                         {countersVisible
                             ? `${shopCount.toLocaleString()}+`
                             : "5,000+"}
                     </div>
-                    <div class="text-body text-text-muted">Active Shops</div>
+                    <div class="text-sm md:text-body text-text-muted">
+                        Active Shops
+                    </div>
                 </div>
 
-                <!-- Customers Counter -->
-                <div class="animate-fade-in" style="transition-delay: 150ms">
-                    <div class="text-[48px] font-bold text-primary mb-2">
+                <!-- Deliveries -->
+                <div
+                    class="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100"
+                >
+                    <div
+                        class="text-3xl md:text-[48px] font-bold text-primary mb-1"
+                    >
                         {countersVisible
                             ? `${customerCount.toLocaleString()}%`
                             : "98%"}
                     </div>
-                    <div class="text-body text-text-muted">
+                    <div class="text-sm md:text-body text-text-muted">
                         Successful Deliveries
                     </div>
                 </div>
 
-                <!-- Secured Payments Counter -->
-                <div class="animate-fade-in" style="transition-delay: 300ms">
-                    <div class="text-[48px] font-bold text-primary mb-2">
+                <!-- Secured Payments -->
+                <div
+                    class="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100"
+                >
+                    <div
+                        class="text-3xl md:text-[48px] font-bold text-primary mb-1"
+                    >
                         {countersVisible ? formatNaira(securedAmount) : "₦10M+"}
                     </div>
-                    <div class="text-body text-text-muted">
+                    <div class="text-sm md:text-body text-text-muted">
                         Secured Payments
                     </div>
                 </div>
@@ -683,7 +771,7 @@
         class="section bg-gradient-to-r from-primary to-primary-hover text-text-inverse text-center"
     >
         <div class="container max-w-3xl mx-auto px-4">
-            <h2 class="text-h2 mb-6">
+            <h2 class="md:text-h2 text-h3 mb-6">
                 Start Building Your Trusted Store Today
             </h2>
             <p class="text-lg opacity-90 mb-8 max-w-2xl mx-auto">

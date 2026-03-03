@@ -4,6 +4,7 @@
   import type { Product } from "$lib/types";
   import Card from "$lib/components/ui/Card.svelte";
   import Badge from "$lib/components/ui/Badge.svelte";
+  import Icon from "@iconify/svelte";
 
   const dispatch = createEventDispatcher<{
     wishlist: { wishlisted: boolean; product: Product };
@@ -156,11 +157,12 @@
     <!-- Rating -->
     <div class="flex items-center gap-1 mb-2">
       {#each Array(5) as _, index}
-        <span
+        <Icon
+          icon="mdi:star"
           class="text-sm {index < Math.floor(product.rating)
             ? 'text-yellow-400'
-            : 'text-gray-300'}">★</span
-        >
+            : 'text-gray-300'}"
+        />
       {/each}
       <span class="text-small text-text-muted ml-1">
         ({product.reviewCount})

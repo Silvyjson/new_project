@@ -209,15 +209,13 @@
   <!-- 🔷 SECTION 2: HERO HEADER -->
   <section class="section bg-surface text-center animate-fade-in">
     <div class="container max-w-4xl mx-auto px-4">
-      <h1
-        class="text-[48px] md:text-[56px] font-bold text-text-main leading-tight"
-      >
+      <h1 class="md:text-h1 text-h3 font-bold text-text-main leading-tight">
         Explore <span class="text-primary border-b-4 border-primary/30"
           >Trusted</span
         > Vendors on VendorHub
       </h1>
       <p
-        class="text-[18px] text-text-muted max-w-[650px] mx-auto mb-10 leading-relaxed"
+        class="text-[18px] text-text-muted max-w-[650px] mx-auto leading-relaxed"
       >
         Find verified sellers with transparent trust scores and secure payments
         — all in one trusted marketplace.
@@ -260,7 +258,7 @@
     class="section bg-gradient-to-r from-primary to-primary-hover text-text-inverse text-center"
   >
     <div class="container max-w-3xl mx-auto px-4">
-      <h2 class="text-h2 mb-6">Want to Be Listed Here?</h2>
+      <h2 class="md:text-h2 text-h3 mb-6">Want to Be Listed Here?</h2>
       <p class="text-lg opacity-90 mb-8 max-w-2xl mx-auto">
         Join thousands of trusted vendors building secure online stores with
         VendorHub.
