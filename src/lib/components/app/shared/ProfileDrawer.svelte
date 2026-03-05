@@ -108,11 +108,6 @@
       title: "Discover",
       items: [
         { label: "Blog", path: "/blog", icon: "mdi:file-document-outline" },
-        {
-          label: "Vendors",
-          path: "/vendor",
-          icon: "mdi:store-search-outline",
-        },
         { label: "Shops", path: "/shop", icon: "mdi:storefront-outline" },
       ],
     },
@@ -167,7 +162,7 @@
       <div class="flex flex-col h-full">
         <!-- HEADER -->
         <div class="p-6 border-b border-gray-200">
-          <div class="flex items-center gap-4 mb-4">
+          <div class="flex items-center gap-4">
             {#if user.avatar}
               <img
                 src={user.avatar}
@@ -202,47 +197,6 @@
               </p>
             </div>
           </div>
-
-          <!-- Vendor Trust Score -->
-          {#if role === "vendor" && user.trustScore}
-            <div
-              class="flex items-center gap-3 p-3 bg-background-light rounded-xl"
-            >
-              <div
-                class="text-2xl font-bold {user.trustScore >= 80
-                  ? 'text-success'
-                  : user.trustScore >= 60
-                    ? 'text-primary'
-                    : 'text-warning'}"
-              >
-                {user.trustScore}%
-              </div>
-
-              <div class="flex-1">
-                <p class="text-xs font-medium text-text-muted">Trust Score</p>
-
-                <div
-                  class="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden"
-                >
-                  <div
-                    class="h-full {user.trustScore >= 80
-                      ? 'bg-success'
-                      : user.trustScore >= 60
-                        ? 'bg-primary'
-                        : 'bg-warning'}"
-                    style="width: {user.trustScore}%"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          {/if}
-
-          <button
-            on:click={() => navigate("/settings")}
-            class="text-sm text-primary font-medium hover:underline mt-4"
-          >
-            View Settings →
-          </button>
         </div>
 
         <!-- NAVIGATION -->

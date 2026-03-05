@@ -53,7 +53,7 @@
 </svelte:head>
 
 <main class="min-h-screen bg-soft-background">
-    <!-- 🔷 SECTION 1: HERO — REASSURANCE FIRST -->
+    <!-- 🔷 SECTION 1: HERO - REASSURANCE FIRST -->
     <section id="help" class="py-16 bg-soft-background">
         <div
             class="container max-w-4xl mx-auto px-4 text-center animate-fade-in"
@@ -489,7 +489,7 @@
         </div>
     </section>
 
-    <!-- 🔷 SECTION 7: FUTURE — WHATSAPP BOT NOTICE -->
+    <!-- 🔷 SECTION 7: FUTURE - WHATSAPP BOT NOTICE -->
     <section class="py-8 bg-soft-background">
         <div class="container max-w-4xl mx-auto px-4">
             <Card

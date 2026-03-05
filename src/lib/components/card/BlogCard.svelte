@@ -48,33 +48,25 @@
     <div class="flex flex-col gap-2 justify-between">
       <div class="flex items-center gap-2">
         <img
-          src={post.author.logo || post.author.vendorLogo}
+          src={post.author.logo}
           alt=""
-          class="w-6 h-6 rounded-full object-cover"
+          class="w-8 h-8 rounded-full object-cover text-sm"
         />
-        {#if post.author.type === "vendor"}
-          <a
-            href={`/vendor/${post.author.vendorSlug}`}
-            class="text-xs font-medium text-primary hover:underline"
-            >{post.author.vendorName}</a
-          >
-          {#if post.author.vendorVerified}
-            <span class="text-success text-xs">★ {post.author.trustScore}</span>
-          {/if}
-        {:else}
+        <div class="flex flex-col">
           <span class="text-xs font-medium text-text-main"
             >{post.author.name}</span
           >
-        {/if}
-      </div>
-      <div class="flex items-center gap-2 justify-end">
-        {#if post.publishedAt}
-          <span class="text-xs text-text-muted"
-            >{formatDate(post.publishedAt)}</span
-          >
-          <span class="text-xs text-text-muted">•</span>
-        {/if}
-        <span class="text-xs text-text-muted">{post.readTime} min Read</span>
+          <div class="flex items-center gap-1">
+            {#if post.publishedAt}
+              <span class="text-xs text-text-muted"
+                >{formatDate(post.publishedAt)}</span
+              >
+              <span class="text-xs text-text-muted">•</span>
+            {/if}
+            <span class="text-xs text-text-muted">{post.readTime} min Read</span
+            >
+          </div>
+        </div>
       </div>
     </div>
   </div>

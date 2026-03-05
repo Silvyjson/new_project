@@ -137,15 +137,19 @@
             <p
                 class="text-[18px] text-text-muted max-w-[650px] mx-auto mb-10 leading-relaxed"
             >
-                VendorHub is a secure digital home for social media vendors —
+                VendorHub is a secure digital home for social media vendors -
                 giving them trusted storefronts, verified identities, and safe
                 payment systems that protect both sellers and buyers.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button href="/auth/register" size="lg" className="shadow-glow">
+                <Button
+                    href="/auth/register/vendor"
+                    size="lg"
+                    className="shadow-glow"
+                >
                     Become a Verified Vendor
                 </Button>
-                <Button href="/vendor" variant="outline" size="lg">
+                <Button href="/shop" variant="outline" size="lg">
                     Explore Verified Shops
                 </Button>
             </div>
@@ -220,7 +224,7 @@
                 >
                     <p>
                         We saw a problem: talented vendors across Nigeria were
-                        selling on Instagram, WhatsApp, and TikTok — but losing
+                        selling on Instagram, WhatsApp, and TikTok - but losing
                         sales because buyers didn't trust them.
                     </p>
                     <p>
@@ -231,8 +235,8 @@
                         VendorHub was built to change that. We give every small
                         vendor a <strong
                             >professional, trusted storefront</strong
-                        > — with secure payments, identity verification, and tools
-                        to grow — all without needing technical skills or big capital.
+                        > - with secure payments, identity verification, and tools
+                        to grow - all without needing technical skills or big capital.
                     </p>
                     <p class="font-medium text-text-main">
                         Because every vendor deserves to be trusted. And every
@@ -300,7 +304,7 @@
                     <h3 class="text-h3 text-text-main mb-4">Our Vision</h3>
                     <p class="text-body text-text-muted leading-relaxed">
                         To become Nigeria's most trusted pre-order vendor
-                        infrastructure — the foundation for safe, scalable
+                        infrastructure - the foundation for safe, scalable
                         social commerce across Africa.
                     </p>
                 </Card>
@@ -341,7 +345,7 @@
                     <h3 class="md:text-h3 text-h4 mb-4">Verified Vendors</h3>
                     <p class="text-body opacity-90 leading-relaxed">
                         Every vendor undergoes ID verification and manual
-                        review. Trust Scores (0-100) reflect real performance —
+                        review. Trust Scores (0-100) reflect real performance -
                         so buyers know who to trust.
                     </p>
                 </div>
@@ -678,7 +682,7 @@
             <p class="text-body text-text-muted leading-relaxed">
                 VendorHub is backed by local entrepreneurs, tech professionals,
                 and e-commerce experts committed to building digital trust in
-                Nigeria. We're not just a platform — we're partners in your
+                Nigeria. We're not just a platform - we're partners in your
                 growth.
             </p>
 
@@ -778,22 +782,11 @@
                 Join thousands of vendors who trust VendorHub for safe, scalable
                 social commerce.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button
-                    href="/auth/register"
-                    variant="primary"
-                    className="text-primary hover:bg-gray-100 shadow-lg px-8 py-4 text-lg font-semibold"
-                >
-                    Create Free Shop
-                </Button>
-                <Button
-                    href="/vendor"
-                    variant="ghost"
-                    className="border-2 border-white text-white hover:bg-white/10 px-8 py-4 text-lg font-semibold"
-                >
-                    Explore Vendors
-                </Button>
-            </div>
+            <Button
+                href="/auth/register/vendor"
+                className="text-primary hover:bg-gray-100 shadow-lg px-8 py-4 text-lg"
+                >Claim Your Shop Link →</Button
+            >
         </div>
     </section>
 </main>

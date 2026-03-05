@@ -91,7 +91,7 @@
                 <h1
                     class="text-[48px] md:text-[64px] font-bold text-dark leading-tight"
                 >
-                    <span class="text-primary">{$page.status}</span> — {errorDetail.title}
+                    <span class="text-primary">{$page.status}</span> - {errorDetail.title}
                 </h1>
 
                 <p
@@ -117,15 +117,7 @@
                         size="lg"
                         className="px-8 h-[52px] text-lg font-semibold border-2"
                     >
-                        Browse Shops
-                    </Button>
-                    <Button
-                        href="/vendor"
-                        variant="ivory"
-                        size="lg"
-                        className="px-8 h-[52px] text-lg font-semibold hover:text-primary transition-colors"
-                    >
-                        Explore Vendors
+                        Explore Shops
                     </Button>
                 </div>
 
@@ -149,7 +141,7 @@
                         </svg>
                         <input
                             type="text"
-                            placeholder="Find products, shops, or sellers..."
+                            placeholder="Find products or shops..."
                             class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none transition-all text-body bg-white shadow-sm"
                         />
                     </div>

@@ -360,7 +360,7 @@
                             className="w-full h-[48px] text-lg"
                             onclick={() => addToCart}
                         >
-                            Add to Cart — {formatNaira(
+                            Add to Cart - {formatNaira(
                                 product.price * quantity,
                             )}
                         </Button>

@@ -7,11 +7,10 @@
     import Input from "$lib/components/ui/Input.svelte";
     import PasswordInput from "$lib/components/auth/PasswordInput.svelte";
     import Button from "$lib/components/ui/Button.svelte";
-    import TrustMeter from "$lib/components/auth/TrustMeter.svelte";
 
     // Form state
     let fullName = "";
-    let businessName = "";
+    let DisplayName = "";
     let email = "";
     let phone = "";
     let password = "";
@@ -32,7 +31,7 @@
     const validate = () => {
         if (!fullName || fullName.length < 2)
             return "Please enter your full name";
-        if (!businessName || businessName.length < 2)
+        if (!DisplayName || DisplayName.length < 2)
             return "Please enter your business name";
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
             return "Please enter a valid email";
@@ -61,7 +60,7 @@
             // Save account info to session/storage
             const vendorData = {
                 fullName,
-                businessName,
+                DisplayName,
                 email,
                 phone,
                 password,
@@ -92,16 +91,11 @@
         <div class="flex items-center gap-2 mb-4">
             <div class="flex-1 h-1 bg-primary rounded-full"></div>
             <div class="flex-1 h-1 bg-gray-200 rounded-full"></div>
-            <div class="flex-1 h-1 bg-gray-200 rounded-full"></div>
         </div>
         <p class="text-sm text-text-muted text-center">
             <span class="font-medium text-primary">Account Info</span> → ID Verification
-            → CAC (Optional)
         </p>
     </div>
-
-    <!-- Trust Score Preview -->
-    <TrustMeter steps={trustSteps} className="mb-6" />
 
     <AuthForm {loading} {error}>
         <form on:submit={handleSubmit} class="space-y-5">
@@ -115,11 +109,11 @@
             />
 
             <Input
-                label="Business Name"
-                name="businessName"
-                placeholder="Your Business Name"
+                label="Display Name"
+                name="DisplayName"
+                placeholder="Your Business Name or Brand Name"
                 required
-                bind:value={businessName}
+                bind:value={DisplayName}
             />
 
             <Input

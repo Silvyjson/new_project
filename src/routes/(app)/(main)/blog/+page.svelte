@@ -181,33 +181,16 @@
                                 <div class="flex items-center gap-3 mb-6">
                                     <img
                                         src={post.author.logo ||
-                                            post.author.vendorLogo}
+                                            post.author.logo}
                                         alt={post.author.name ||
-                                            post.author.vendorName}
+                                            post.author.name}
                                         class="w-10 h-10 rounded-full object-cover"
                                     />
                                     <div>
-                                        {#if post.author.type === "vendor"}
-                                            <a
-                                                href="/vendor/{post.author
-                                                    .vendorSlug}"
-                                                class="text-sm font-semibold text-primary hover:underline"
-                                            >
-                                                {post.author.vendorName}
-                                            </a>
-                                            {#if post.author.vendorVerified}
-                                                <TrustBadge
-                                                    size="sm"
-                                                    showText={false}
-                                                    className="ml-2"
-                                                />
-                                            {/if}
-                                        {:else}
-                                            <span
-                                                class="text-sm font-semibold text-text-main"
-                                                >{post.author.name}</span
-                                            >
-                                        {/if}
+                                        <span
+                                            class="text-sm font-semibold text-text-main"
+                                            >{post.author.name}</span
+                                        >
                                         <p class="text-xs text-text-muted">
                                             {formatDate(post.publishedAt)} • {post.readTime}
                                             min read

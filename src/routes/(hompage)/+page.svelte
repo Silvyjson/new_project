@@ -106,7 +106,7 @@
     {
       question: "What is VendorHub?",
       answer:
-        "VendorHub is a free platform that gives small vendors a professional online shop link. Share your unique URL (vendorhub.com/yourname/shopname) on Instagram, WhatsApp, or TikTok to start selling instantly — no website needed.",
+        "VendorHub is a free platform that gives small vendors a professional online shop link. Share your unique URL (vendorhub.com/yourname/shopname) on Instagram, WhatsApp, or TikTok to start selling instantly - no website needed.",
     },
     {
       question: "Is VendorHub really free?",
@@ -149,7 +149,7 @@
 </script>
 
 <svelte:head>
-  <title>VendorHub — Build Your Online Shop. Get Verified. Get Paid.</title>
+  <title>VendorHub | Build Your Online Shop. Get Verified. Get Paid.</title>
   <meta
     name="description"
     content="The trusted platform for social media vendors. Secure payments, unique shop links, and zero tech skills required."
@@ -171,15 +171,14 @@
           <span class="text-primary">Get Verified.</span> Get Paid.
         </h1>
         <p class="text-body text-text-muted mb-8 max-w-lg">
-          VendorHub gives small vendors a free, professional shop link — with
+          VendorHub gives small vendors a free, professional shop link - with
           secure payments, trust verification, and zero tech skills required.
         </p>
         <div class="flex flex-col sm:flex-row gap-4">
-          <Button href="/auth/register" size="lg" className="shadow-glow"
+          <Button href="/auth/register/vendor" size="lg" className="shadow-glow"
             >Create Free Shop</Button
           >
-          <Button href="/vendor" variant="outline" size="lg"
-            >Explore Vendors</Button
+          <Button href="/shop" variant="outline" size="lg">Explore Shops</Button
           >
         </div>
         <div class="mt-8 flex items-center gap-4 text-sm text-text-muted">
@@ -232,7 +231,7 @@
       </h2>
 
       <p class="text-text-muted max-w-2xl mx-auto mb-20 text-lg">
-        Going digital sounds simple — but small vendors face real challenges
+        Going digital sounds simple - but small vendors face real challenges
         that make it harder to compete in today’s online marketplace.
       </p>
 
@@ -383,7 +382,7 @@
         </h2>
 
         <div class="space-y-6">
-          {#each [{ title: "Identity Verified Vendors", desc: "Every vendor undergoes ID verification and manual approval before receiving a verified badge." }, { title: "Transparent Trust Score", desc: "Scores calculated from delivery rate, response time, reviews, and order completion." }, { title: "Secure Escrow Payments", desc: "Funds are safely held until you confirm delivery — eliminating scam risks." }, { title: "Fast Dispute Resolution", desc: "Our neutral resolution team reviews evidence and settles disputes within 48 hours." }] as item}
+          {#each [{ title: "Identity Verified Vendors", desc: "Every vendor undergoes ID verification and manual approval before receiving a verified badge." }, { title: "Transparent Trust Score", desc: "Scores calculated from delivery rate, response time, reviews, and order completion." }, { title: "Secure Escrow Payments", desc: "Funds are safely held until you confirm delivery - eliminating scam risks." }, { title: "Fast Dispute Resolution", desc: "Our neutral resolution team reviews evidence and settles disputes within 48 hours." }] as item}
             <div class="flex items-start gap-4">
               <div
                 class="w-8 h-8 rounded-full bg-success/15 text-success flex items-center justify-center flex-shrink-0 mt-1"
@@ -663,7 +662,7 @@
         No credit card. No tech skills. Launch in 3 minutes.
       </p>
       <Button
-        href="/auth/register"
+        href="/auth/register/vendor"
         className="text-primary hover:bg-gray-100 shadow-lg px-8 py-4 text-lg"
         >Claim Your Shop Link →</Button
       >

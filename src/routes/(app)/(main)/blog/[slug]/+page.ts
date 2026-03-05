@@ -10,7 +10,7 @@ const mockPosts = [
         title: 'How TechStoreNG Just Launched Their 2026 Collection',
         excerpt: 'Discover the latest gadgets, exclusive pre-orders, and limited-edition tech drops from one of our top-rated vendors.',
         content: `
-      <p>After months of anticipation, TechStoreNG has officially unveiled their 2026 Collection — a curated lineup of premium electronics designed for the modern Nigerian lifestyle.</p>
+      <p>After months of anticipation, TechStoreNG has officially unveiled their 2026 Collection - a curated lineup of premium electronics designed for the modern Nigerian lifestyle.</p>
       
       <h2>What's New</h2>
       <p>This year's collection features:</p>
@@ -36,12 +36,8 @@ const mockPosts = [
         categoryColor: 'indigo',
         author: {
             type: 'vendor',
-            vendorSlug: 'techstoreng',
-            vendorName: 'TechStoreNG',
-            vendorLogo: 'https://api.dicebear.com/7.x/initials/svg?seed=TS',
-            vendorVerified: true,
-            trustScore: 94,
-            vendorBio: 'TechStoreNG is a leading electronics vendor on VendorHub, specializing in authentic gadgets with warranty and secure delivery across Nigeria.'
+            name: 'TechStoreNG',
+            logo: 'https://api.dicebear.com/7.x/initials/svg?seed=TS',
         },
         publishedAt: new Date('2026-01-25T10:00:00Z'),
         updatedAt: new Date('2026-01-25T10:00:00Z'),
@@ -120,7 +116,7 @@ const mockPosts = [
       <h2>5. Know Your Dispute Window</h2>
       <p>You have 48 hours after the expected delivery date to open a dispute if your item doesn't arrive or doesn't match the description.</p>
       
-      <blockquote>"Pre-orders are a great way to get exclusive items early — just shop smart."</blockquote>
+      <blockquote>"Pre-orders are a great way to get exclusive items early - just shop smart."</blockquote>
       
       <p>Ready to shop with confidence? <a href="/shop">Browse verified vendors</a> on VendorHub today.</p>
     `,
@@ -147,7 +143,7 @@ const mockPosts = [
         id: 'post-003',
         slug: 'amina-fashion-spring-collection',
         title: 'Amina Fashion Unveils Spring Collection: Sustainable Styles',
-        excerpt: 'Eco-friendly fabrics, timeless designs, and ethical production — discover the new spring lineup.',
+        excerpt: 'Eco-friendly fabrics, timeless designs, and ethical production - discover the new spring lineup.',
         content: `
       <p>Amina Fashion is leading the sustainable fashion movement in Nigeria with their new Spring 2026 Collection.</p>
       
@@ -155,7 +151,7 @@ const mockPosts = [
       <p>Every piece in this collection uses organic cotton, recycled polyester, or locally-sourced fabrics. No harmful dyes, no waste.</p>
       
       <h2>Timeless Designs</h2>
-      <p>Instead of fast fashion trends, Amina focuses on versatile pieces that last seasons — not just weeks.</p>
+      <p>Instead of fast fashion trends, Amina focuses on versatile pieces that last seasons - not just weeks.</p>
       
       <h2>Ethical Production</h2>
       <p>Every garment is made by skilled artisans in Lagos, paid fair wages in safe working conditions.</p>
@@ -172,12 +168,8 @@ const mockPosts = [
         categoryColor: 'purple',
         author: {
             type: 'vendor',
-            vendorSlug: 'amina-fashion',
-            vendorName: 'Amina Fashion',
-            vendorLogo: 'https://api.dicebear.com/7.x/initials/svg?seed=AF',
-            vendorVerified: true,
-            trustScore: 92,
-            vendorBio: 'Amina Fashion creates sustainable, ethically-made clothing for the modern Nigerian woman. Based in Lagos, shipping nationwide.'
+            name: 'Amina Fashion',
+            logo: 'https://api.dicebear.com/7.x/initials/svg?seed=AF',
         },
         publishedAt: new Date('2026-01-18T09:00:00Z'),
         updatedAt: new Date('2026-01-18T09:00:00Z'),
@@ -227,20 +219,20 @@ const mockPosts = [
       <p>Your Trust Score (0-100) is a weighted average of five key metrics:</p>
       
       <ul>
-        <li><strong>Delivery Success Rate (30%)</strong> — Percentage of orders delivered on time without issues</li>
-        <li><strong>Customer Reviews (25%)</strong> — Average rating from verified buyer feedback</li>
-        <li><strong>Order Completion Rate (20%)</strong> — Percentage of orders that aren't cancelled</li>
-        <li><strong>Response Time (15%)</strong> — How quickly you reply to customer messages</li>
-        <li><strong>Dispute History (10%)</strong> — Number and outcome of disputes involving your shop</li>
+        <li><strong>Delivery Success Rate (30%)</strong> - Percentage of orders delivered on time without issues</li>
+        <li><strong>Customer Reviews (25%)</strong> - Average rating from verified buyer feedback</li>
+        <li><strong>Order Completion Rate (20%)</strong> - Percentage of orders that aren't cancelled</li>
+        <li><strong>Response Time (15%)</strong> - How quickly you reply to customer messages</li>
+        <li><strong>Dispute History (10%)</strong> - Number and outcome of disputes involving your shop</li>
       </ul>
       
       <h2>What Each Score Range Means</h2>
       <ul>
-        <li><strong>90-100 (Excellent)</strong> — Top-tier vendor with exceptional reliability</li>
-        <li><strong>80-89 (Great)</strong> — Reliable vendor with minor room for improvement</li>
-        <li><strong>70-79 (Good)</strong> — Decent vendor; monitor metrics to improve</li>
-        <li><strong>60-69 (Fair)</strong> — Needs attention; focus on delivery and communication</li>
-        <li><strong>Below 60 (Needs Improvement)</strong> — High risk; address issues promptly</li>
+        <li><strong>90-100 (Excellent)</strong> - Top-tier vendor with exceptional reliability</li>
+        <li><strong>80-89 (Great)</strong> - Reliable vendor with minor room for improvement</li>
+        <li><strong>70-79 (Good)</strong> - Decent vendor; monitor metrics to improve</li>
+        <li><strong>60-69 (Fair)</strong> - Needs attention; focus on delivery and communication</li>
+        <li><strong>Below 60 (Needs Improvement)</strong> - High risk; address issues promptly</li>
       </ul>
       
       <h2>How to Improve Your Trust Score</h2>
@@ -252,7 +244,7 @@ const mockPosts = [
         <li>Keep product descriptions accurate to avoid returns</li>
       </ol>
       
-      <blockquote>"Trust isn't given — it's earned. Every order is a chance to build yours."</blockquote>
+      <blockquote>"Trust isn't given - it's earned. Every order is a chance to build yours."</blockquote>
       
       <p>Check your Trust Score anytime in your <a href="/dashboard">Vendor Dashboard</a>.</p>
     `,
@@ -321,7 +313,7 @@ function generateSEO(post: any) {
                 publishedTime: post.publishedAt.toISOString(),
                 modifiedTime: post.updatedAt.toISOString(),
                 author: post.author.type === 'vendor'
-                    ? `${post.author.vendorName} (Vendor)`
+                    ? `${post.author.name} (Vendor)`
                     : post.author.name,
                 section: post.category,
                 tags: post.tags
@@ -344,7 +336,7 @@ function generateSEO(post: any) {
             dateModified: formatISODate(post.updatedAt),
             author: {
                 '@type': post.author.type === 'vendor' ? 'Organization' : 'Person',
-                name: post.author.type === 'vendor' ? post.author.vendorName : post.author.name,
+                name: post.author.type === 'vendor' ? post.author.name : post.author.name,
                 url: post.author.type === 'vendor'
                     ? `${siteUrl}/vendor/${post.author.vendorSlug}`
                     : undefined

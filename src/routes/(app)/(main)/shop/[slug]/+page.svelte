@@ -144,18 +144,15 @@
                             <div class="flex flex-wrap gap-2 mb-4">
                                 <Badge variant="info">{shop.category}</Badge>
                                 {#if shop.vendorVerified}
-                                    <Badge variant="success"
-                                        >Verified Vendor</Badge
-                                    >
+                                    <Badge variant="success">Verified</Badge>
                                 {/if}
                             </div>
 
                             <!-- Subtle Vendor Link -->
                             <p class="text-xs text-white/60 mb-4">
-                                by <a
-                                    href="/vendor/{shop.vendorSlug}"
+                                by <span
                                     class="text-white/80 hover:text-white underline decoration-white/30 hover:decoration-white transition-all"
-                                    >{shop.vendorName}</a
+                                    >{shop.vendorName}</span
                                 >
                             </p>
 
@@ -363,10 +360,10 @@
                         ><Icon icon="mdi:map-marker" class="w-4 h-4" />
                         {shop.location}</span
                     >
-                    <span class="flex items-center gap-2"
+                    <!-- <span class="flex items-center gap-2"
                         ><Icon icon="mdi:calendar" class="w-4 h-4" /> Member since
                         {formatDate(shop.joinedAt)}</span
-                    >
+                    > -->
                 </div>
 
                 <div class="flex gap-3 mt-4">

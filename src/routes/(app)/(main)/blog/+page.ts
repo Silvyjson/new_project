@@ -9,7 +9,7 @@ const mockPosts = [
         title: 'How TechStoreNG Just Launched Their 2026 Collection',
         excerpt: 'Discover the latest gadgets, exclusive pre-orders, and limited-edition tech drops from one of our top-rated vendors.',
         content: `
-      <p>After months of anticipation, TechStoreNG has officially unveiled their 2026 Collection — a curated lineup of premium electronics designed for the modern Nigerian lifestyle.</p>
+      <p>After months of anticipation, TechStoreNG has officially unveiled their 2026 Collection - a curated lineup of premium electronics designed for the modern Nigerian lifestyle.</p>
       
       <h2>What's New</h2>
       <p>This year's collection features:</p>
@@ -28,11 +28,8 @@ const mockPosts = [
         categoryColor: 'indigo',
         author: {
             type: 'vendor',
-            vendorSlug: 'techstoreng',
-            vendorName: 'TechStoreNG',
-            vendorLogo: 'https://api.dicebear.com/7.x/initials/svg?seed=TS',
-            vendorVerified: true,
-            trustScore: 94
+            name: 'TechStoreNG',
+            logo: 'https://api.dicebear.com/7.x/initials/svg?seed=TS',
         },
         publishedAt: new Date('2026-01-25'),
         readTime: 4,
@@ -71,18 +68,15 @@ const mockPosts = [
         id: 'post-003',
         slug: 'amina-fashion-spring-collection',
         title: 'Amina Fashion Unveils Spring Collection: Sustainable Styles',
-        excerpt: 'Eco-friendly fabrics, timeless designs, and ethical production — discover the new spring lineup.',
+        excerpt: 'Eco-friendly fabrics, timeless designs, and ethical production - discover the new spring lineup.',
         content: '<p>Amina Fashion is leading the sustainable fashion movement in Nigeria...</p>',
         coverImage: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8',
         category: 'Vendor Updates',
         categoryColor: 'purple',
         author: {
             type: 'vendor',
-            vendorSlug: 'amina-fashion',
-            vendorName: 'Amina Fashion',
-            vendorLogo: 'https://api.dicebear.com/7.x/initials/svg?seed=AF',
-            vendorVerified: true,
-            trustScore: 92
+            name: 'Amina Fashion',
+            logo: 'https://api.dicebear.com/7.x/initials/svg?seed=AF',
         },
         publishedAt: new Date('2026-01-18'),
         readTime: 3,
@@ -148,9 +142,7 @@ export const load: PageLoad = async ({ url }) => {
             post.excerpt.toLowerCase().includes(search.toLowerCase());
         const matchesCategory = category === 'all' ||
             post.category.toLowerCase().replace(' & ', '-').replace(' ', '-') === category;
-        const matchesVendor = vendor === '' ||
-            (post.author.type === 'vendor' && post.author.vendorSlug === vendor);
-        return matchesSearch && matchesCategory && matchesVendor;
+        return matchesSearch && matchesCategory;
     });
 
     // Sort posts
@@ -171,7 +163,7 @@ export const load: PageLoad = async ({ url }) => {
         featuredPosts,
         filters: { search, category, vendor, sortBy },
         meta: {
-            title: 'VendorHub Blog — Discover New Releases & Vendor Updates',
+            title: 'VendorHub Blog | Discover New Releases & Vendor Updates',
             description: 'Read the latest from VendorHub vendors: product launches, tips, trust guides, and exclusive updates.'
         }
     };

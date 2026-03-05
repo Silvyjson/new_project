@@ -4,7 +4,6 @@
     import Card from "$lib/components/ui/Card.svelte";
     import Button from "$lib/components/ui/Button.svelte";
     import Badge from "$lib/components/ui/Badge.svelte";
-    import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
     import ProductCard from "$lib/components/card/ProductCard.svelte";
     import BlogCard from "$lib/components/card/BlogCard.svelte";
 
@@ -82,27 +81,15 @@
                 class="flex items-center gap-4 mb-8 pb-8 border-b border-gray-200"
             >
                 <img
-                    src={post.author.logo || post.author.vendorLogo}
-                    alt={post.author.name || post.author.vendorName}
+                    src={post.author.logo}
+                    alt={post.author.name}
                     class="w-14 h-14 rounded-full object-cover"
                 />
                 <div class="flex-1">
                     <div class="flex items-center gap-2">
-                        {#if post.author.type === "vendor"}
-                            <a
-                                href="/vendor/{post.author.vendorSlug}"
-                                class="text-body font-semibold text-primary hover:underline"
-                            >
-                                {post.author.vendorName}
-                            </a>
-                            {#if post.author.vendorVerified}
-                                <TrustBadge size="sm" />
-                            {/if}
-                        {:else}
-                            <span class="text-body font-semibold text-text-main"
-                                >{post.author.name}</span
-                            >
-                        {/if}
+                        <span class="text-body font-semibold text-text-main"
+                            >{post.author.name}</span
+                        >
                     </div>
                     <p class="text-small text-text-muted">
                         {formatDate(post.publishedAt)} • {post.readTime} min read
@@ -177,83 +164,6 @@
                     >
                         Visit {post.linkedShop.name} →
                     </Button>
-                </Card>
-            </div>
-        </section>
-    {/if}
-
-    <!-- 🔷 VENDOR AUTHOR PROFILE -->
-    {#if post.author.type === "vendor"}
-        <section class="pb-12 bg-soft-background">
-            <div class="container max-w-7xl mx-auto px-4">
-                <Card className="p-6">
-                    <h3 class="text-h3 text-text-main mb-6">
-                        About This Vendor
-                    </h3>
-                    <div class="flex flex-col md:flex-row items-start gap-6">
-                        <img
-                            src={post.author.vendorLogo}
-                            alt={post.author.vendorName}
-                            class="w-20 h-20 rounded-2xl object-cover"
-                        />
-                        <div class="flex-1">
-                            <div class="flex items-center gap-3 mb-3">
-                                <h4 class="text-h4 font-bold text-text-main">
-                                    {post.author.vendorName}
-                                </h4>
-                                {#if post.author.vendorVerified}
-                                    <TrustBadge />
-                                {/if}
-                            </div>
-                            <p
-                                class="text-body text-text-muted mb-4 line-clamp-3"
-                            >
-                                Trusted vendor on VendorHub specializing in
-                                quality products with secure delivery.
-                            </p>
-                            <div
-                                class="flex justify-between items-center gap-6 mb-6 w-full sm:w-[80%] md:w-[40%] text-center"
-                            >
-                                <div>
-                                    <div
-                                        class="text-lg font-bold text-text-main"
-                                    >
-                                        {post.author.trustScore}%
-                                    </div>
-                                    <div class="text-xs text-text-muted">
-                                        Trust Score
-                                    </div>
-                                </div>
-                                <div>
-                                    <div
-                                        class="text-lg font-bold text-text-main"
-                                    >
-                                        3
-                                    </div>
-                                    <div class="text-xs text-text-muted">
-                                        Shops
-                                    </div>
-                                </div>
-                                <div>
-                                    <div
-                                        class="text-lg font-bold text-text-main"
-                                    >
-                                        250+
-                                    </div>
-                                    <div class="text-xs text-text-muted">
-                                        Products
-                                    </div>
-                                </div>
-                            </div>
-                            <Button
-                                href="/vendor/{post.author.vendorSlug}"
-                                variant="outline"
-                                size="md"
-                            >
-                                View Vendor Profile
-                            </Button>
-                        </div>
-                    </div>
                 </Card>
             </div>
         </section>
