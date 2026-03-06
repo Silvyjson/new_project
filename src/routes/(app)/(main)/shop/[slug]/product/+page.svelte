@@ -9,7 +9,7 @@
 
     // Components
     import Card from "$lib/components/common/Card.svelte";
-    import ProductGrid from "$lib/components/grid/ProductGrid.svelte";
+    import ProductGrid from "$lib/components/app/grid/ProductGrid.svelte";
     import Icon from "@iconify/svelte";
 
     // Data from load function

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { page } from "$app/stores";
-    import ShopFooter from "$lib/components/shop/ShopFooter.svelte";
-    import ShopHeader from "$lib/components/shop/ShopHeader.svelte";
+    import ShopFooter from "$lib/components/app/shopTheme/default/components/ShopFooter.svelte";
+    import ShopHeader from "$lib/components/app/shopTheme/default/components/ShopHeader.svelte";
     import type { PageData } from "./$types";
 
     export let data: PageData;

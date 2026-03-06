@@ -10,10 +10,8 @@
 
     // Components
     import Button from "$lib/components/common/Button.svelte";
-    import Card from "$lib/components/common/Card.svelte";
-    import ShopCard from "$lib/components/app/card/ShopCard.svelte";
-    import Nav from "$lib/components/homepage/Nav.svelte";
-    import Footer from "$lib/components/homepage/Footer.svelte";
+    import Filter from "$lib/components/common/Filter.svelte";
+    import ShopGrid from "$lib/components/app/grid/ShopGrid.svelte";
 
     // Data from load function
     export let data: PageData;
@@ -144,10 +142,6 @@
         params.set("page", e.detail.page.toString());
         goto(`/shop?${params.toString()}`, { replaceState: true });
     };
-
-    import Filter from "$lib/components/common/Filter.svelte";
-    import Pagination from "$lib/components/common/Pagination.svelte";
-    import ShopGrid from "$lib/components/grid/ShopGrid.svelte";
 </script>
 
 <svelte:head>
