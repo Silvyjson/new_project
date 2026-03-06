@@ -2,184 +2,281 @@
 <script lang="ts">
     import { fade, fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
+    import Icon from "@iconify/svelte";
+
+    import ShopCardVendor from "$lib/components/card/ShopCardVendor.svelte";
+    import OrderCard from "$lib/components/card/OrderCard.svelte";
     import Card from "$lib/components/ui/Card.svelte";
     import Button from "$lib/components/ui/Button.svelte";
-    import Badge from "$lib/components/ui/Badge.svelte";
-    import TrustScoreCard from "$lib/components/app/vendor/TrustScoreCard.svelte";
     import KPICard from "$lib/components/app/vendor/KPICard.svelte";
-    import OrderTable from "$lib/components/app/vendor/OrderTable.svelte";
 
-    // Mock data
-    let user = { name: "Divine" };
-    let trustScore = 78;
+    let user = { name: "Silvia" };
 
     const kpis = [
         { label: "Total Revenue", value: "₦2.4M", change: "+12%", trend: "up" },
         { label: "Total Orders", value: "245", change: "+8%", trend: "up" },
         { label: "Pending Orders", value: "12", change: "-3%", trend: "down" },
         { label: "Followers", value: "1,890", change: "+15%", trend: "up" },
-    ];
+    ] as const;
 
-    const recentOrders = [
+    let shops = [
+        {
+            id: "1",
+            slug: "urban-kicks",
+            name: "Urban Kicks",
+            logoUrl: "https://api.dicebear.com/7.x/initials/svg?seed=UK",
+            bannerUrl:
+                "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+            trustScore: 82,
+            rating: 4.3,
+            followers: 1240,
+            products: 32,
+            active: true,
+            verified: true,
+        },
+        {
+            id: "2",
+            slug: "tech-store",
+            name: "TechStoreNG",
+            logoUrl: "https://api.dicebear.com/7.x/initials/svg?seed=TS",
+            bannerUrl:
+                "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
+            trustScore: 94,
+            rating: 4.7,
+            followers: 2340,
+            products: 120,
+            active: true,
+            verified: true,
+        },
+        {
+            id: "3",
+            slug: "fashion-hub",
+            name: "Fashion Hub",
+            logoUrl: "https://api.dicebear.com/7.x/initials/svg?seed=FH",
+            bannerUrl:
+                "https://images.unsplash.com/photo-1490481651871-ab68de25d43d",
+            trustScore: 76,
+            rating: 4.1,
+            followers: 890,
+            products: 45,
+            active: false,
+            verified: false,
+        },
+    ];
+    let recentOrders = [
         {
             id: "ORD-2026-001",
-            customer: "John D.",
-            shop: "TechStore",
-            amount: 25000,
-            status: "new",
+            productId: "p_001",
+            productName: "Air Jordan Retro High",
+            productImage:
+                "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+            shopName: "Urban Kicks",
+            shopSlug: "urban-kicks",
+            price: 120000,
+            status: "shipped" as const,
+            date: "2026-01-25",
+            customerName: "John Doe",
         },
         {
             id: "ORD-2026-002",
-            customer: "Amina K.",
-            shop: "Fashion Hub",
-            amount: 12000,
-            status: "pending",
+            productId: "p_002",
+            productName: "Wireless Earbuds Pro",
+            productImage:
+                "https://images.unsplash.com/photo-1590658268037-6bf12165a8df",
+            shopName: "TechStoreNG",
+            shopSlug: "tech-store",
+            price: 25000,
+            status: "new" as const,
+            date: "2026-01-25",
+            customerName: "Amina K.",
         },
         {
             id: "ORD-2026-003",
-            customer: "Tunde M.",
-            shop: "TechStore",
-            amount: 45000,
-            status: "shipped",
-        },
-        {
-            id: "ORD-2026-004",
-            customer: "Blessing O.",
-            shop: "Beauty Co",
-            amount: 18000,
-            status: "delivered",
+            productId: "p_003",
+            productName: "Organic Cotton Dress",
+            productImage:
+                "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f",
+            shopName: "Fashion Hub",
+            shopSlug: "fashion-hub",
+            price: 12000,
+            status: "pending" as const,
+            date: "2026-01-24",
+            customerName: "Tunde M.",
         },
     ];
 
-    const quickActions = [
-        { label: "Add Product", icon: "📦", href: "/my-shop/product/add" },
-        { label: "Create Shop", icon: "🏪", href: "/my-shop/create" },
-        { label: "Write Blog", icon: "✍️", href: "/my-blog/create" },
-    ];
-
-    const getStatusBadge = (status: string) => {
-        const badges = {
-            new: { variant: "info" as const, label: "New" },
-            pending: { variant: "warning" as const, label: "Pending" },
-            shipped: { variant: "info" as const, label: "Shipped" },
-            delivered: { variant: "success" as const, label: "Delivered" },
-            cancelled: { variant: "danger" as const, label: "Cancelled" },
-            returned: { variant: "warning" as const, label: "Returned" },
-        };
-        return badges[status as keyof typeof badges];
-    };
-
-    const formatNaira = (amount: number) => {
-        return new Intl.NumberFormat("en-NG", {
-            style: "currency",
-            currency: "NGN",
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 1,
-        }).format(amount);
-    };
+    let shopCount = shops.length;
 </script>
 
 <svelte:head>
     <title>Dashboard | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-[1280px] mx-auto px-4 py-8">
-    <!-- Section 1: Welcome + Trust Score -->
-    <section
-        class="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6 animate-fade-in"
-    >
+<div class="max-w-[1280px] mx-auto px-4 py-6 space-y-8">
+    <!-- Header -->
+    <section class="flex items-center justify-between flex-wrap gap-4">
         <div>
-            <h1 class="text-3xl font-bold text-text-main mb-2">
-                Welcome back, {user.name} 👋
+            <h1 class="text-xl md:text-2xl font-bold text-text-main">
+                Good afternoon {user.name}
             </h1>
-            <p class="text-body text-text-muted">
-                Here's what's happening with your business today.
+
+            <p class="text-sm text-text-muted">
+                {#if shopCount === 0}
+                    You haven't created a shop yet
+                {:else if shopCount === 1}
+                    You manage 1 shop
+                {:else}
+                    You manage {shopCount} shops
+                {/if}
             </p>
         </div>
-        <TrustScoreCard score={trustScore} />
+
+        <!-- Quick Actions -->
+        <div class="flex items-center gap-2">
+            <Button href="/my-shop/create" size="sm" variant="primary">
+                <Icon icon="mdi:store-plus-outline" class="w-4 h-4 mr-1" />
+                Shop
+            </Button>
+
+            <Button href="/my-blog/create" size="sm" variant="outline">
+                <Icon icon="mdi:pencil-outline" class="w-4 h-4 mr-1" />
+                Blog
+            </Button>
+        </div>
     </section>
 
-    <!-- Section 2: KPI Grid -->
-    <section class="mb-10 animate-fade-in" style="transition-delay: 100ms">
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <!-- KPI Section -->
+    <section>
+        <div class="flex items-center justify-between mb-3">
+            <h2 class="text-lg font-semibold text-text-main">Overview</h2>
+        </div>
+
+        <!-- Mobile Scroll -->
+        <div
+            class="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto pb-2"
+        >
             {#each kpis as kpi, i}
-                <KPICard
-                    label={kpi.label}
-                    value={kpi.value}
-                    change={kpi.change}
-                    trend={kpi.trend}
-                    delay={i * 50}
-                />
+                <div class="min-w-[220px] md:min-w-0">
+                    <KPICard
+                        label={kpi.label}
+                        value={kpi.value}
+                        change={kpi.change}
+                        trend={kpi.trend}
+                        delay={i * 50}
+                    />
+                </div>
             {/each}
         </div>
     </section>
 
-    <!-- Section 3: Recent Orders -->
-    <section class="mb-10 animate-fade-in" style="transition-delay: 200ms">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-xl font-bold text-text-main">Recent Orders</h2>
-            <Button variant="outline" size="sm" href="/orders"
-                >View All →</Button
+    <!-- Recent Orders -->
+    <section>
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold text-text-main">Recent Orders</h2>
+
+            <Button variant="outline" size="sm" href="/orders">View All</Button>
+        </div>
+
+        {#if recentOrders.length > 0}
+            <div
+                class="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-x-auto pb-2"
             >
-        </div>
-        <OrderTable orders={recentOrders} />
+                {#each recentOrders as order, i}
+                    <div
+                        class="min-w-[260px] md:min-w-0"
+                        in:fly={{
+                            y: 20,
+                            duration: 400,
+                            delay: i * 50,
+                            easing: cubicOut,
+                        }}
+                    >
+                        <OrderCard {order} view="vendor" />
+                    </div>
+                {/each}
+            </div>
+        {:else}
+            <Card className="py-10 text-center border border-gray-200">
+                <Icon
+                    icon="mdi:package-variant-closed"
+                    class="w-10 h-10 mx-auto mb-3 text-gray-400"
+                />
+                <p class="text-sm text-text-muted">No orders yet</p>
+            </Card>
+        {/if}
     </section>
 
-    <!-- Section 4: Quick Actions -->
-    <section class="animate-fade-in" style="transition-delay: 300ms">
-        <h2 class="text-xl font-bold text-text-main mb-6">Quick Actions</h2>
-        <div class="grid md:grid-cols-3 gap-6">
-            {#each quickActions as action, i}
-                <a href={action.href} class="block group">
-                    <Card
-                        className="border border-gray-200 p-6 hover:border-primary hover:shadow-card-hover transition-all cursor-pointer"
-                    >
-                        <div class="flex items-center gap-4">
-                            <div
-                                class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform"
-                            >
-                                {action.icon}
-                            </div>
-                            <div>
-                                <h3
-                                    class="text-lg font-semibold text-text-main group-hover:text-primary transition-colors"
-                                >
-                                    {action.label}
-                                </h3>
-                                <p class="text-sm text-text-muted">
-                                    Create new {action.label.toLowerCase()}
-                                </p>
-                            </div>
-                        </div>
-                    </Card>
+    <!-- Shops -->
+    {#if shops.length > 0}
+        <section>
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold text-text-main">Your Shops</h2>
+
+                <a
+                    href="/my-shop"
+                    class="text-sm font-medium text-primary hover:underline"
+                >
+                    View All
                 </a>
-            {/each}
-        </div>
-    </section>
+            </div>
+
+            <!-- Mobile scroll -->
+            <div
+                class="flex md:grid md:grid-cols-3 lg:grid-cols-4 gap-4 overflow-x-auto pb-2"
+            >
+                {#each shops as shop, i}
+                    <div
+                        class="min-w-[260px] md:min-w-0"
+                        in:fly={{
+                            y: 20,
+                            duration: 400,
+                            delay: i * 50,
+                            easing: cubicOut,
+                        }}
+                    >
+                        <ShopCardVendor {shop} />
+                    </div>
+                {/each}
+            </div>
+        </section>
+    {/if}
+
+    <!-- Empty Shops -->
+
+    {#if shops.length === 0}
+        <section>
+            <Card
+                className="py-14 text-center border-2 border-dashed border-gray-300"
+            >
+                <Icon
+                    icon="mdi:store-outline"
+                    class="w-14 h-14 mx-auto mb-4 text-gray-400"
+                />
+
+                <h2 class="text-lg font-semibold text-text-main mb-2">
+                    No Shops Yet
+                </h2>
+
+                <p class="text-sm text-text-muted mb-5 max-w-sm mx-auto">
+                    Create your first shop and start selling on VendorHub.
+                </p>
+
+                <Button href="/my-shop/create" variant="primary">
+                    <Icon icon="mdi:store-plus-outline" class="w-4 h-4 mr-2" />
+                    Create Shop
+                </Button>
+            </Card>
+        </section>
+    {/if}
 </div>
 
 <style>
-    @keyframes fade-in {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    /* smooth mobile scrolling */
+    div::-webkit-scrollbar {
+        display: none;
     }
 
-    .animate-fade-in {
-        animation: fade-in 0.6s ease-out forwards;
-        opacity: 0;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .animate-fade-in {
-            animation: none !important;
-            opacity: 1 !important;
-            transform: none !important;
-        }
+    div {
+        scrollbar-width: none;
     }
 </style>

@@ -44,9 +44,9 @@
       desc: "Funds held until delivery",
     },
     {
-      icon: "mdi:chart-box",
-      title: "Simple Analytics",
-      desc: "Track views & sales",
+      icon: "mdi:truck-delivery",
+      title: "Integrated Logistics",
+      desc: "Instant delivery booking & tracking",
     },
   ];
 

@@ -5,7 +5,7 @@
     import AuthForm from "$lib/components/auth/AuthForm.svelte";
     import Button from "$lib/components/ui/Button.svelte";
     import FileUpload from "$lib/components/auth/FileUpload.svelte";
-    import TrustMeter from "$lib/components/auth/TrustMeter.svelte";
+    // import TrustMeter from "$lib/components/auth/TrustMeter.svelte";
 
     // Upload state
     let idFront: File | null = null;
@@ -88,19 +88,18 @@
 
 <AuthLayout
     title="Verify Your Identity"
-    subtitle="Step 2 of 3: ID Verification"
+    subtitle="Step 2 of 2: ID Verification"
 >
     <div class="mb-6">
         <!-- Progress Bar -->
         <div class="flex items-center gap-2 mb-4">
             <div class="flex-1 h-1 bg-primary rounded-full"></div>
             <div class="flex-1 h-1 bg-primary rounded-full"></div>
-            <div class="flex-1 h-1 bg-gray-200 rounded-full"></div>
         </div>
         <p class="text-sm text-text-muted text-center">
             Account Info → <span class="font-medium text-primary"
                 >ID Verification</span
-            > → CAC (Optional)
+            >
         </p>
     </div>
 
@@ -112,9 +111,6 @@
             you.
         </p>
     </div>
-
-    <!-- Trust Meter -->
-    <TrustMeter steps={trustSteps} className="mb-6" />
 
     {#if submitted}
         <!-- Success State -->
@@ -139,10 +135,13 @@
             <form on:submit={handleSubmit} class="space-y-6">
                 <!-- ID Type Selector -->
                 <div>
-                    <label for="id-type" class="block text-sm font-medium text-text-main mb-2"
+                    <label
+                        for="id-type"
+                        class="block text-sm font-medium text-text-main mb-2"
                         >ID Type</label
                     >
-                    <select id="id-type"
+                    <select
+                        id="id-type"
                         class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body"
                         bind:value={idType}
                     >

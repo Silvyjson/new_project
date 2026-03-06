@@ -3,25 +3,18 @@
     import { goto } from "$app/navigation";
     import { page } from "$app/stores";
     import { onMount, tick, onDestroy } from "svelte";
-    import { fade, fly } from "svelte/transition";
-    import { cubicOut } from "svelte/easing";
 
     // Types
     import type { PageData } from "./$types";
 
     // Components
-    import Button from "$lib/components/ui/Button.svelte";
     import Card from "$lib/components/ui/Card.svelte";
-    import Badge from "$lib/components/ui/Badge.svelte";
-    import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
-    import ProductCard from "$lib/components/card/ProductCard.svelte";
-    import ProductCardList from "$lib/components/card/ProductCardList.svelte";
     import ProductGrid from "$lib/components/grid/ProductGrid.svelte";
     import Icon from "@iconify/svelte";
 
     // Data from load function
     export let data: PageData;
-    const {
+    $: ({
         shop,
         products,
         totalProducts,
@@ -29,18 +22,18 @@
         filters,
         pagination,
         meta,
-    } = data;
+    } = data);
 
     // Local filter state
-    let searchQuery = filters.search;
+    let searchQuery = data.filters.search;
     let searchInput: HTMLInputElement;
-    let selectedCategory = filters.category;
-    let minPrice = filters.minPrice;
-    let maxPrice = filters.maxPrice;
-    let minRating = filters.minRating;
-    let availability = filters.availability;
-    let sortBy = filters.sortBy;
-    let viewMode = filters.viewMode || "grid";
+    let selectedCategory = data.filters.category;
+    let minPrice = data.filters.minPrice;
+    let maxPrice = data.filters.maxPrice;
+    let minRating = data.filters.minRating;
+    let availability = data.filters.availability;
+    let sortBy = data.filters.sortBy;
+    let viewMode = data.filters.viewMode || "grid";
 
     // Cart state
     let cartItemCount = 0;
@@ -473,7 +466,17 @@
     {/if}
 
     <!-- 🔷 SECTION 3: PRODUCT GRID -->
-    <ProductGrid {data} />
+    <ProductGrid
+        {products}
+        {shop}
+        {pagination}
+        {viewMode}
+        {handlePageChange}
+        {clearAllFilters}
+        {addToCart}
+        {formatNaira}
+        {getStockBadge}
+    />
 
     <!-- 🔷 CART NOTIFICATION (Toast) -->
     {#if showCartNotification}

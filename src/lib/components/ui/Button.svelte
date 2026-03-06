@@ -14,6 +14,7 @@
         href?: string | null;
         type?: "button" | "submit" | "reset";
         disabled?: boolean;
+        target?: string;
         className?: string;
         class?: string;
         title?: string;
@@ -30,6 +31,7 @@
         className = "",
         class: classProp = "",
         title = "",
+        target = "_self",
         onclick = () => {},
         children,
     }: Props = $props();
@@ -67,7 +69,7 @@
 </script>
 
 {#if href}
-    <a {href} class={classes} role="button">
+    <a {href} {target} class={classes} role="button">
         {@render children?.()}
     </a>
 {:else}

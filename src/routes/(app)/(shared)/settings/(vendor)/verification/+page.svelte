@@ -101,8 +101,11 @@
                         Passport)
                     </p>
                 </div>
-                {@const badge = getStatusBadge(verification.id.status)}
-                <Badge variant={badge.variant}>{badge.label}</Badge>
+                {#snippet idBadge()}
+                    {@const badge = getStatusBadge(verification.id.status)}
+                    <Badge variant={badge.variant}>{badge.label}</Badge>
+                {/snippet}
+                {@render idBadge()}
             </div>
             <div class="text-sm text-text-muted mb-4">
                 Submitted: {formatDate(verification.id.date)}
@@ -126,8 +129,11 @@
                         recommended)
                     </p>
                 </div>
-                {@const badge = getStatusBadge(verification.cac.status)}
-                <Badge variant={badge.variant}>{badge.label}</Badge>
+                {#snippet cacBadge()}
+                    {@const badge = getStatusBadge(verification.cac.status)}
+                    <Badge variant={badge.variant}>{badge.label}</Badge>
+                {/snippet}
+                {@render cacBadge()}
             </div>
             <div class="text-sm text-text-muted mb-4">
                 Submitted: {formatDate(verification.cac.date)}
@@ -156,7 +162,7 @@
         </Card>
 
         <!-- Bank Verification -->
-        <Card class="border border-gray-200 p-6">
+        <Card className="border border-gray-200 p-6">
             <div class="flex items-start justify-between mb-4">
                 <div>
                     <h3 class="text-lg font-bold text-text-main mb-1">
@@ -166,8 +172,11 @@
                         Bank account for withdrawals
                     </p>
                 </div>
-                {@const badge = getStatusBadge(verification.bank.status)}
-                <Badge variant={badge.variant}>{badge.label}</Badge>
+                {#snippet bankBadge()}
+                    {@const badge = getStatusBadge(verification.bank.status)}
+                    <Badge variant={badge.variant}>{badge.label}</Badge>
+                {/snippet}
+                {@render bankBadge()}
             </div>
             <div class="text-sm text-text-muted mb-4">
                 Submitted: {formatDate(verification.bank.date)}

@@ -100,9 +100,9 @@
             desc: "Escrow holds funds until delivery is confirmed",
         },
         {
-            icon: "mdi:scale-balance",
-            title: "Dispute Resolution",
-            desc: "Neutral team resolves issues within 48 hours",
+            icon: "mdi:truck-delivery",
+            title: "Reliable Logistics",
+            desc: "Seamless delivery coordination with trusted partners",
         },
     ];
 
@@ -228,15 +228,16 @@
                         sales because buyers didn't trust them.
                     </p>
                     <p>
-                        No website. No verification. No payment protection. Just
-                        DMs and hope.
+                        No website. No verification. No payment protection. No
+                        reliable logistics. Just DMs and hope.
                     </p>
                     <p>
                         VendorHub was built to change that. We give every small
                         vendor a <strong
                             >professional, trusted storefront</strong
-                        > - with secure payments, identity verification, and tools
-                        to grow - all without needing technical skills or big capital.
+                        > - with secure payments, identity verification, integrated
+                        logistics, and tools to grow - all without needing technical
+                        skills or big capital.
                     </p>
                     <p class="font-medium text-text-main">
                         Because every vendor deserves to be trusted. And every
@@ -476,7 +477,7 @@
                                     Fashion Hub
                                 </div>
                                 <div class="text-xs text-text-muted truncate">
-                                    vendorhub.com/amina/fashion
+                                    vendorhub.com/shop/amina/fashion
                                 </div>
                             </div>
 
@@ -504,7 +505,7 @@
                                     Tech Deals
                                 </div>
                                 <div class="text-xs text-text-muted truncate">
-                                    vendorhub.com/amina/tech
+                                    vendorhub.com/shop/amina/tech
                                 </div>
                             </div>
 
@@ -532,7 +533,7 @@
                                     Beauty Box
                                 </div>
                                 <div class="text-xs text-text-muted truncate">
-                                    vendorhub.com/amina/beauty
+                                    vendorhub.com/shop/amina/beauty
                                 </div>
                             </div>
 

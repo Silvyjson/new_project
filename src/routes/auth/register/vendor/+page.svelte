@@ -82,7 +82,7 @@
 
 <AuthLayout
     title="Create Vendor Account"
-    subtitle="Step 1 of 3: Account Information"
+    subtitle="Step 1 of 2: Account Information"
 >
     <RoleSelector />
 

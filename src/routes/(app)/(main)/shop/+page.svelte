@@ -17,16 +17,15 @@
 
     // Data from load function
     export let data: PageData;
-    const { shops, totalShops, categories, filters, trendingShops, meta } =
-        data;
+    $: ({ shops, totalShops, categories, filters, trendingShops, meta } = data);
 
     // Local filter state
-    let searchQuery = filters.search;
-    let selectedCategory = filters.category;
-    let minTrustScore = filters.minTrustScore;
-    let minRating = filters.minRating;
-    let verifiedOnly = filters.verifiedOnly;
-    let sortBy = filters.sortBy;
+    let searchQuery = data.filters.search;
+    let selectedCategory = data.filters.category;
+    let minTrustScore = data.filters.minTrustScore;
+    let minRating = data.filters.minRating;
+    let verifiedOnly = data.filters.verifiedOnly;
+    let sortBy = data.filters.sortBy;
 
     // Filter chips
     let activeChips: Array<{ type: string; value: string; label: string }> = [];
@@ -208,7 +207,12 @@
     </section>
 
     <!-- 🔷 SECTION 5: SHOPS GRID -->
-    <ShopGrid {data} />
+    <ShopGrid
+        {shops}
+        pagination={data.pagination}
+        {handlePageChange}
+        {clearAllFilters}
+    />
 
     <!-- 🔷 SECTION 6: CTA SECTION -->
     <section

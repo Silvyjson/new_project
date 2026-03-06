@@ -65,13 +65,37 @@
             </div>
         </div>
 
+        <!-- Shop Logo Overlay -->
+        <div class="relative px-4 -mt-10 z-10">
+            <div
+                class="w-16 h-16 rounded-xl border-4 border-white overflow-hidden bg-white shadow-sm"
+            >
+                {#if shop.logoUrl}
+                    <img
+                        src={shop.logoUrl}
+                        alt={shop.name}
+                        class="w-full h-full object-cover"
+                    />
+                {:else}
+                    <div
+                        class="w-full h-full bg-primary/10 flex items-center justify-center text-primary font-bold text-2xl"
+                    >
+                        {shop.name.charAt(0)}
+                    </div>
+                {/if}
+            </div>
+        </div>
+
         <!-- Content -->
-        <div class="p-4 flex-1 flex flex-col">
+        <div class="px-4 pb-4 pt-2 flex-1 flex flex-col">
             <!-- Name -->
             <h3
-                class="text-base sm:text-lg font-semibold text-text-main mb-2 group-hover:text-primary transition-colors"
+                class="text-base sm:text-lg font-semibold text-text-main mb-1 group-hover:text-primary transition-colors flex items-center gap-1"
             >
                 {shop.name}
+                {#if shop.verified}
+                    <Icon icon="mdi:verified" class="text-primary w-5 h-5" />
+                {/if}
             </h3>
 
             <!-- Description -->

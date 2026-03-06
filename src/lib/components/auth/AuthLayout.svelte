@@ -11,6 +11,7 @@
             { icon: "✓", text: "Secure escrow payments" },
             { icon: "✓", text: "Transparent trust scores" },
             { icon: "✓", text: "Dispute resolution support" },
+            { icon: "✓", text: "Integrated logistics support" },
         ],
         illustration: "/auth-illustration.svg",
     };
@@ -36,7 +37,9 @@
             <!-- Header -->
             {#if title}
                 <div class="mb-6">
-                    <h1 class="text-2xl md:text-3xl font-bold text-text-main mb-2">
+                    <h1
+                        class="text-2xl md:text-3xl font-bold text-text-main mb-2"
+                    >
                         {title}
                     </h1>
                     {#if subtitle}
@@ -57,7 +60,9 @@
                    text-white p-16 flex-col justify-between overflow-hidden"
         >
             <!-- Background Glow -->
-            <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_30%,white,transparent_60%)]"></div>
+            <div
+                class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_30%,white,transparent_60%)]"
+            ></div>
 
             <div class="relative z-10">
                 <!-- Logo -->
@@ -82,7 +87,9 @@
                 </p>
 
                 <!-- Feature Card -->
-                <div class="flex items-center justify-between bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+                <div
+                    class="flex items-center justify-between bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20"
+                >
                     <ul class="space-y-4 flex-1">
                         {#each brandContent.features as feature}
                             <li class="flex items-center gap-4">

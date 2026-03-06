@@ -1,6 +1,6 @@
 <!-- src/lib/components/ui/ReviewCard.svelte -->
 <script lang="ts">
-    import Card from "./Card.svelte";
+    import Card from "../ui/Card.svelte";
     import Icon from "@iconify/svelte";
 
     export let review: {

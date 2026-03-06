@@ -12,7 +12,7 @@
     import Button from "$lib/components/ui/Button.svelte";
     import Card from "$lib/components/ui/Card.svelte";
     import Badge from "$lib/components/ui/Badge.svelte";
-    import ReviewCard from "$lib/components/ui/ReviewCard.svelte";
+    import ReviewCard from "$lib/components/card/ReviewCard.svelte";
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
     import ProductCard from "$lib/components/card/ProductCard.svelte";
 

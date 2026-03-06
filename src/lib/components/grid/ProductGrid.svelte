@@ -9,19 +9,20 @@
     import { cubicOut } from "svelte/easing";
     import ProductCardList from "../card/ProductCardList.svelte";
 
-    export let data: any;
+    // Explicit props
+    export let products: Product[] = [];
+    export let shop: any = null;
+    export let pagination: any = null;
+    export let viewMode: string = "grid";
 
-    // Allow either a single `data` prop (backwards compatible) or explicit props passed in.
-    export let products: Product[] = data?.products || [];
-    export let shop: any = data?.shop;
-    export let pagination: any = data?.pagination;
-    // provide safe defaults so callers don't need to pass everything
-    export let handlePageChange: (e: CustomEvent<{ page: number }>) => void = data?.handlePageChange || ((e) => {});
-    export let clearAllFilters: () => void = data?.clearAllFilters || (() => {});
-    export let viewMode: string = data?.viewMode || "grid";
-    export let addToCart: (p: Product) => void = data?.addToCart || ((p) => {});
-    export let formatNaira: (n: number) => string = data?.formatNaira || ((n) => n.toString());
-    export let getStockBadge: (p: Product) => any = data?.getStockBadge || (() => null);
+    // Action props
+    export let handlePageChange: (e: CustomEvent<{ page: number }>) => void = (
+        e,
+    ) => {};
+    export let clearAllFilters: () => void = () => {};
+    export let addToCart: (p: Product) => void = (p) => {};
+    export let formatNaira: (n: number) => string = (n) => n.toString();
+    export let getStockBadge: (p: Product) => any = () => null;
 </script>
 
 <section class="py-8 bg-soft-background">
@@ -56,7 +57,9 @@
             {:else}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {#each products as product, i}
-                        {@const badge = getStockBadge ? getStockBadge(product) : null}
+                        {@const badge = getStockBadge
+                            ? getStockBadge(product)
+                            : null}
                         <div
                             in:fly={{
                                 y: 20,
@@ -69,8 +72,11 @@
                             <ProductCardList
                                 {product}
                                 shopSlug={shop?.slug}
-                                addToCart={addToCart}
-                                formatNaira={formatNaira}
+                                {addToCart}
+                                {formatNaira}
+                                on:wishlist={(e) => {
+                                    console.log("wishlist (list):", e.detail);
+                                }}
                             />
                         </div>
                     {/each}

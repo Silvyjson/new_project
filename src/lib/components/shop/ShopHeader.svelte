@@ -4,7 +4,6 @@
     import { goto } from "$app/navigation";
     import type { Product, Shop } from "$lib/types";
     import Button from "$lib/components/ui/Button.svelte";
-    import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
     import ProfileDrawer from "../app/shared/ProfileDrawer.svelte";
     import Icon from "@iconify/svelte";
 
@@ -77,7 +76,10 @@
 
                         {#if isShopProducts || isProductPage}
                             {#if shop?.verified}
-                                <TrustBadge size="sm" showText={true} />
+                                <Icon
+                                    icon="mdi:verified"
+                                    class="text-primary w-5 h-5"
+                                />
                             {/if}
                         {/if}
                     </div>
