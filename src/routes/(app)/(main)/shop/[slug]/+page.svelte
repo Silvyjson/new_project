@@ -13,8 +13,7 @@
     import Card from "$lib/components/ui/Card.svelte";
     import Badge from "$lib/components/ui/Badge.svelte";
     import ReviewCard from "$lib/components/card/ReviewCard.svelte";
-    import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
-    import ProductCard from "$lib/components/card/ProductCard.svelte";
+    import ProductCard from "$lib/components/shop/ProductCard.svelte";
 
     // Data from load function
     export let data: PageData;

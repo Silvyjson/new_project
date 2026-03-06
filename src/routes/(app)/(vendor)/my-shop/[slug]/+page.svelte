@@ -12,8 +12,8 @@
     import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
     import ShopSettingsList from "$lib/components/app/vendor/ShopSettingsList.svelte";
 
-    let shopId = "";
-    let shopSlug = "";
+    let shopId = "3";
+    let shopSlug = "3";
     $: if ($page.params.slug) {
         shopSlug = $page.params.slug;
         shopId = shopSlug; // In real app: fetch shop ID from slug
@@ -378,7 +378,7 @@
                         View Shop
                     </Button>
                     <Button
-                        href={`/my-shop/${shop.slug}/products`}
+                        href={`/my-shop/${shop.slug}/product`}
                         variant="outline"
                         size="sm"
                     >

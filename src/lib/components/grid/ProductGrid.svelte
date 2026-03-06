@@ -1,13 +1,13 @@
 <!-- src/lib/components/vendor/ProductGrid.svelte -->
 <script lang="ts">
     import type { Product } from "$lib/types";
-    import ProductCard from "../card/ProductCard.svelte";
     import Pagination from "../ui/Pagination.svelte";
     import Card from "../ui/Card.svelte";
     import Button from "../ui/Button.svelte";
     import { fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
-    import ProductCardList from "../card/ProductCardList.svelte";
+    import ProductCard from "../shop/ProductCard.svelte";
+    import ProductCardList from "../shop/ProductCardList.svelte";
 
     // Explicit props
     export let products: Product[] = [];

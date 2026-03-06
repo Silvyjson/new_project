@@ -51,6 +51,8 @@
     if (status === "preorder") return "Pre-Order";
     return "Sold Out";
   };
+
+  let bestsellers = product.reviewCount >= 50;
 </script>
 
 <Card
@@ -70,11 +72,10 @@
 
     <!-- Badges -->
     <div class="absolute top-3 left-3 flex flex-col gap-2">
-      {#if product.preorder}
-        <Badge variant="info">Pre-Order</Badge>
-      {/if}
-      {#if product.sale}
-        <Badge variant="danger">Sale</Badge>
+      {#if bestsellers}
+        <Badge variant="danger">
+          <Icon icon="noto:fire" class="text-xl" />
+        </Badge>
       {/if}
       {#if product.new}
         <Badge variant="success">New</Badge>
