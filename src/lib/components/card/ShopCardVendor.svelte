@@ -10,6 +10,7 @@
         id: string;
         slug: string;
         name: string;
+        description: string;
         logoUrl?: string;
         bannerUrl: string;
         trustScore: number;
@@ -82,8 +83,14 @@
                 {/if}
             </div>
 
+            <!-- Description -->
+            <p class="text-sm text-text-muted mb-2 line-clamp-2 flex-1">
+                {shop.description ||
+                    "Quality products with guaranteed satisfaction."}
+            </p>
+
             <!-- Stats -->
-            <div class="grid grid-cols-2 gap-2 text-sm mb-5">
+            <div class="grid grid-cols-2 gap-3 text-sm mb-5">
                 <!-- Rating -->
                 <div class="flex items-center gap-2">
                     <div class="flex items-center">

@@ -9,6 +9,7 @@
     import Card from "$lib/components/ui/Card.svelte";
     import Button from "$lib/components/ui/Button.svelte";
     import KPICard from "$lib/components/app/vendor/KPICard.svelte";
+    import ShopEmptyState from "$lib/components/app/vendor/ShopEmptyState.svelte";
 
     let user = { name: "Silvia" };
 
@@ -24,6 +25,7 @@
             id: "1",
             slug: "urban-kicks",
             name: "Urban Kicks",
+            description: "Quality products with guaranteed satisfaction.",
             logoUrl: "https://api.dicebear.com/7.x/initials/svg?seed=UK",
             bannerUrl:
                 "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
@@ -38,6 +40,7 @@
             id: "2",
             slug: "tech-store",
             name: "TechStoreNG",
+            description: "Quality products with guaranteed satisfaction.",
             logoUrl: "https://api.dicebear.com/7.x/initials/svg?seed=TS",
             bannerUrl:
                 "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
@@ -52,6 +55,7 @@
             id: "3",
             slug: "fashion-hub",
             name: "Fashion Hub",
+            description: "Quality products with guaranteed satisfaction.",
             logoUrl: "https://api.dicebear.com/7.x/initials/svg?seed=FH",
             bannerUrl:
                 "https://images.unsplash.com/photo-1490481651871-ab68de25d43d",
@@ -112,7 +116,7 @@
     <title>Dashboard | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-[1280px] mx-auto px-4 py-6 space-y-8">
+<main class="max-w-[1280px] mx-auto px-4 py-6 space-y-8">
     <!-- Header -->
     <section class="flex items-center justify-between flex-wrap gap-4">
         <div>
@@ -178,12 +182,10 @@
         </div>
 
         {#if recentOrders.length > 0}
-            <div
-                class="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-x-auto pb-2"
-            >
+            <div class="flex lg:grid lg:grid-cols-3 gap-4 overflow-x-auto pb-2">
                 {#each recentOrders as order, i}
                     <div
-                        class="min-w-[260px] md:min-w-0"
+                        class="w-100"
                         in:fly={{
                             y: 20,
                             duration: 400,
@@ -212,12 +214,9 @@
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-lg font-semibold text-text-main">Your Shops</h2>
 
-                <a
-                    href="/my-shop"
-                    class="text-sm font-medium text-primary hover:underline"
+                <Button variant="outline" size="sm" href="/my-shop"
+                    >View All</Button
                 >
-                    View All
-                </a>
             </div>
 
             <!-- Mobile scroll -->
@@ -239,36 +238,13 @@
                 {/each}
             </div>
         </section>
-    {/if}
-
-    <!-- Empty Shops -->
-
-    {#if shops.length === 0}
+    {:else}
+        <!-- Empty Shops -->
         <section>
-            <Card
-                className="py-14 text-center border-2 border-dashed border-gray-300"
-            >
-                <Icon
-                    icon="mdi:store-outline"
-                    class="w-14 h-14 mx-auto mb-4 text-gray-400"
-                />
-
-                <h2 class="text-lg font-semibold text-text-main mb-2">
-                    No Shops Yet
-                </h2>
-
-                <p class="text-sm text-text-muted mb-5 max-w-sm mx-auto">
-                    Create your first shop and start selling on VendorHub.
-                </p>
-
-                <Button href="/my-shop/create" variant="primary">
-                    <Icon icon="mdi:store-plus-outline" class="w-4 h-4 mr-2" />
-                    Create Shop
-                </Button>
-            </Card>
+            <ShopEmptyState />
         </section>
     {/if}
-</div>
+</main>
 
 <style>
     /* smooth mobile scrolling */
