@@ -53,7 +53,7 @@
     <title>{product.name} | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-[1280px] mx-auto px-4 py-8">
+<main class="max-w-[1280px] mx-auto px-4 py-8">
     <div class="mb-6">
         <a
             href="/my-shop/product"
@@ -230,4 +230,4 @@
             </Card>
         </div>
     </div>
-</div>
+</main>

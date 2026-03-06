@@ -1,4 +1,4 @@
-<!-- src/lib/components/ui/ReviewCard.svelte -->
+<!-- src/lib/components/common/ReviewCard.svelte -->
 <script lang="ts">
     import Card from "$lib/components/common/Card.svelte";
     import Icon from "@iconify/svelte";

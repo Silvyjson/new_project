@@ -1,4 +1,4 @@
-<!-- src/lib/components/ui/TrustBadge.svelte -->
+<!-- src/lib/components/common/TrustBadge.svelte -->
 <script lang="ts">
     export let verified: boolean = true;
     export let size: "xs" | "sm" | "md" | "lg" = "md";

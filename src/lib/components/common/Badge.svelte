@@ -1,4 +1,4 @@
-<!-- src/lib/components/ui/Badge.svelte -->
+<!-- src/lib/components/common/Badge.svelte -->
 <script lang="ts">
     export let variant: "default" | "success" | "warning" | "danger" | "info" =
         "default";

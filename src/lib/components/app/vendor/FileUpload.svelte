@@ -101,6 +101,14 @@
         class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-primary transition-colors bg-gray-50 cursor-pointer"
         on:dragover={(e) => e.preventDefault()}
         on:drop={handleDrop}
+        role="button"
+        tabindex="0"
+        on:keydown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                const input = document.getElementById(`file-${label.replace(/\s+/g, '-').toLowerCase()}`) as HTMLInputElement;
+                input?.click();
+            }
+        }}
     >
         <input
             type="file"

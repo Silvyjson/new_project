@@ -812,8 +812,7 @@
 
     /* Reduce motion preference */
     @media (prefers-reduced-motion: reduce) {
-        .animate-fade-in,
-        .animate-float {
+        .animate-fade-in {
             animation: none !important;
             opacity: 1 !important;
             transform: none !important;

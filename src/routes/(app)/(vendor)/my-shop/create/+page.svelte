@@ -58,7 +58,7 @@
     <title>Create Shop | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-[1400px] mx-auto px-4 py-8">
+<main class="max-w-[1000px] mx-auto px-4 py-8">
     <!-- Page Header -->
     <div class="mb-8" in:fade={{ duration: 400 }}>
         <div class="flex items-center justify-between">
@@ -89,7 +89,7 @@
     >
         <ShopForm bind:shop isEdit={false} />
     </div>
-</div>
+</main>
 
 <style>
     @media (prefers-reduced-motion: reduce) {

@@ -1,8 +1,8 @@
 <script lang="ts">
     import ShopCard from "../card/ShopCard.svelte";
-    import Pagination from "../ui/Pagination.svelte";
-    import Card from "../ui/Card.svelte";
-    import Button from "../ui/Button.svelte";
+    import Pagination from "$lib/components/common/Pagination.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Button from "$lib/components/common/Button.svelte";
     import { fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
     import Icon from "@iconify/svelte";

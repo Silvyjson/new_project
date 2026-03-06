@@ -1,7 +1,7 @@
 <script>
     import { page } from "$app/stores";
     import { slide } from "svelte/transition";
-    import Button from "../ui/Button.svelte";
+    import Button from "$lib/components/common/Button.svelte";
 
     let mobileMenuOpen = false;
 

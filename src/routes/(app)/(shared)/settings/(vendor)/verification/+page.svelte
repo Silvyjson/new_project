@@ -153,6 +153,7 @@
                         label="Upload CAC Certificate"
                         accept="application/pdf,image/*"
                         hint="PDF or image up to 10MB"
+                        recommendedSize="1200x800px"
                     />
                     <Button variant="primary" size="sm"
                         >Submit for Verification</Button

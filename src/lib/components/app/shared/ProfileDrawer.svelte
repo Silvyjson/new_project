@@ -92,7 +92,7 @@
         },
         {
           label: "Followers",
-          path: "/my-shop/followers",
+          path: "/followers",
           icon: "mdi:account-group-outline",
         },
       ],
@@ -148,11 +148,13 @@
 {#if showProfileDrawer}
   <div class="fixed inset-0 z-[100]" role="dialog" aria-modal="true">
     <!-- Overlay -->
-    <div
+    <button
       class="absolute inset-0 bg-dark/45 backdrop-blur-sm"
       on:click={close}
       transition:fade={{ duration: 200 }}
-    ></div>
+      type="button"
+      aria-label="Close drawer"
+    ></button>
 
     <!-- Drawer -->
     <div

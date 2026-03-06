@@ -6,7 +6,7 @@
     export let value: string;
     export let change: string;
     export let trend: "up" | "down" | "neutral";
-    export let delay: number = 0;
+    const delay: number = 0;
 </script>
 
 <Card

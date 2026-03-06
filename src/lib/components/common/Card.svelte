@@ -1,4 +1,4 @@
-<!-- src/lib/components/ui/Card.svelte -->
+<!-- src/lib/components/common/Card.svelte -->
 <script lang="ts">
     export let className: string = "";
     export let hover: boolean = true;

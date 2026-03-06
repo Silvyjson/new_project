@@ -166,7 +166,6 @@
                         value={kpi.value}
                         change={kpi.change}
                         trend={kpi.trend}
-                        delay={i * 50}
                     />
                 </div>
             {/each}

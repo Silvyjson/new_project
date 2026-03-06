@@ -50,7 +50,7 @@
     <title>Edit {product.name} - {shopName} | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-[1000px] mx-auto px-4 py-8 space-y-8">
+<main class="max-w-[1000px] mx-auto px-4 py-8 space-y-8">
     <!-- Back Link -->
     <div in:fade={{ duration: 400 }}>
         <a
@@ -114,7 +114,7 @@
     <section in:fade={{ duration: 400, delay: 300 }}>
         <ProductForm {product} {shopSlug} isEdit={true} />
     </section>
-</div>
+</main>
 
 <!-- <style>
     @media (prefers-reduced-motion: reduce) {

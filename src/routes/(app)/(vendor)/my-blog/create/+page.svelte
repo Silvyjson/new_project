@@ -135,11 +135,13 @@
                 </div>
                 <div>
                     <label
+                        for="shop-select"
                         class="block text-sm font-medium text-text-main mb-1.5"
                     >
                         Shop
                     </label>
                     <select
+                        id="shop-select"
                         class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body"
                         bind:value={selectedShop}
                     >
@@ -159,6 +161,7 @@
                 label="Upload Cover Image"
                 accept="image/*"
                 hint="Recommended: 1200x630px PNG or JPG"
+                recommendedSize="1200x630px"
                 on:upload={(e) => (coverImage = e.detail.file)}
             />
         </Card>

@@ -109,7 +109,7 @@
 <!-- Add Address Modal (simplified) -->
 {#if showAddModal}
   <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <button type="button" class="absolute inset-0 bg-dark/45" on:click={() => showAddModal = false}></button>
+      <button type="button" class="absolute inset-0 bg-dark/45" on:click={() => showAddModal = false} aria-label="Close modal"></button>
     <Card className="relative bg-surface p-6 w-full max-w-lg">
       <h2 class="text-xl font-bold text-text-main mb-6">Add New Address</h2>
       <form class="space-y-4">

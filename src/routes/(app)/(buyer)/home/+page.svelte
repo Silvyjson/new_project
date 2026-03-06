@@ -43,12 +43,21 @@
   ];
 
   const recommendedProducts = Array.from({ length: 8 }, (_, i) => ({
-    id: i + 1,
+    id: String(i + 1),
+    code: `PROD-${i + 1}`,
+    vendorId: String(i + 1),
     name: `Product ${i + 1}`,
     price: (i + 1) * 5000,
-    image: `https://images.unsplash.com/photo-${1500000000000 + i}`,
-    shop: `Shop ${i + 1}`,
+    currency: 'NGN',
+    images: [`https://images.unsplash.com/photo-${1500000000000 + i}`],
+    preorder: false,
+    sale: false,
+    new: false,
     rating: 4.0 + (i % 10) / 10,
+    reviewCount: Math.floor(Math.random() * 100),
+    stockStatus: 'in-stock' as const,
+    category: 'Electronics',
+    createdAt: new Date(),
   }));
 </script>
 

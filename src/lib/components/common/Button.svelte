@@ -1,4 +1,4 @@
-<!-- src/lib/components/ui/Button.svelte -->
+<!-- src/lib/components/common/Button.svelte -->
 <script lang="ts">
     type Props = {
         variant?:

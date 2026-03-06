@@ -42,7 +42,25 @@
   /* --------------------------------------------
    * Mock Data (Role Based Shape)
    * -------------------------------------------- */
-  let orders =
+  interface VendorOrder {
+    id: string;
+    customer: string;
+    items: number;
+    amount: number;
+    status: string;
+    date: string;
+  }
+
+  interface BuyerOrder {
+    id: string;
+    date: Date;
+    status: string;
+    vendor: string;
+    items: Array<{ name: string; image: string; quantity: number }>;
+    total: number;
+  }
+
+  let orders: VendorOrder[] | BuyerOrder[] =
     role === "vendor"
       ? [
           {
@@ -69,7 +87,7 @@
             status: "shipped",
             date: "2026-01-23",
           },
-        ]
+        ] as VendorOrder[]
       : [
           {
             id: "ORD-2026-010",
@@ -101,7 +119,7 @@
             ],
             total: 12000,
           },
-        ];
+        ] as BuyerOrder[];
 
   /* --------------------------------------------
    * Helpers
@@ -191,9 +209,9 @@
 
               <p class="text-sm text-text-muted">
                 {#if role === "vendor"}
-                  {order.date} • {order.customer}
+                  {(order as VendorOrder).date} • {(order as VendorOrder).customer}
                 {:else}
-                  {formatDate(order.date)} • {order.vendor}
+                  {formatDate((order as BuyerOrder).date)} • {(order as BuyerOrder).vendor}
                 {/if}
               </p>
             </div>
@@ -201,15 +219,15 @@
             <div class="text-right">
               <div class="text-lg font-bold">
                 {role === "vendor"
-                  ? formatNaira(order.amount)
-                  : formatNaira(order.total)}
+                  ? formatNaira((order as VendorOrder).amount)
+                  : formatNaira((order as BuyerOrder).total)}
               </div>
 
               <p class="text-xs text-text-muted">
                 {role === "vendor"
-                  ? `${order.items} items`
-                  : `${order.items.length} item${
-                      order.items.length > 1 ? "s" : ""
+                  ? `${(order as VendorOrder).items} items`
+                  : `${(order as BuyerOrder).items.length} item${
+                      (order as BuyerOrder).items.length > 1 ? "s" : ""
                     }`}
               </p>
             </div>
@@ -218,7 +236,7 @@
           <!-- Buyer Thumbnails -->
           {#if role === "buyer"}
             <div class="flex gap-3 mb-4">
-              {#each order.items as item}
+              {#each (order as BuyerOrder).items as item}
                 <img
                   src={item.image}
                   alt={item.name}

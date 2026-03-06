@@ -60,7 +60,7 @@
     <title>My Shops | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-[1280px] mx-auto px-4 py-6 space-y-8">
+<main class="max-w-[1280px] mx-auto px-4 py-6 space-y-8">
     <!-- Page Header -->
     <section class="flex items-center justify-between flex-wrap gap-4" in:fade>
         <div class="flex items-center gap-3">
@@ -128,4 +128,4 @@
             <ShopEmptyState />
         </section>
     {/if}
-</div>
+</main>
