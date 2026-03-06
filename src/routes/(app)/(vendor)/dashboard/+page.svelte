@@ -4,10 +4,10 @@
     import { cubicOut } from "svelte/easing";
     import Icon from "@iconify/svelte";
 
-    import ShopCardVendor from "$lib/components/card/ShopCardVendor.svelte";
-    import OrderCard from "$lib/components/card/OrderCard.svelte";
-    import Card from "$lib/components/ui/Card.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
+    import ShopCardVendor from "$lib/components/app/card/ShopCardVendor.svelte";
+    import OrderCard from "$lib/components/app/card/OrderCard.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Button from "$lib/components/common/Button.svelte";
     import KPICard from "$lib/components/app/vendor/KPICard.svelte";
     import ShopEmptyState from "$lib/components/app/vendor/ShopEmptyState.svelte";
 

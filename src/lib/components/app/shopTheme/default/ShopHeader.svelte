@@ -3,8 +3,8 @@
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
     import type { Product, Shop } from "$lib/types";
-    import Button from "$lib/components/ui/Button.svelte";
-    import ProfileDrawer from "../app/shared/ProfileDrawer.svelte";
+    import Button from "$lib/components/common/Button.svelte";
+    import ProfileDrawer from "$lib/components/app/shared/ProfileDrawer.svelte";
     import Icon from "@iconify/svelte";
 
     export let shop: Shop | null = null;

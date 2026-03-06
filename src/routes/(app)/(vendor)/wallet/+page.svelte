@@ -1,8 +1,8 @@
 <!-- src/routes/(vendor)/wallet/+page.svelte -->
 <script lang="ts">
-    import Card from "$lib/components/ui/Card.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
-    import Input from "$lib/components/ui/Input.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Button from "$lib/components/common/Button.svelte";
+    import Input from "$lib/components/common/Input.svelte";
 
     // Mock wallet data
     let wallet = {
@@ -125,6 +125,7 @@
                     />
                     <div>
                         <label
+                           for="bank-account"
                             class="block text-sm font-medium text-text-main mb-1.5"
                         >
                             Bank Account

@@ -2,8 +2,8 @@
   import { createEventDispatcher } from "svelte";
   import { goto } from "$app/navigation";
   import type { Product } from "$lib/types";
-  import Card from "$lib/components/ui/Card.svelte";
-  import Badge from "$lib/components/ui/Badge.svelte";
+  import Card from "$lib/components/common/Card.svelte";
+  import Badge from "$lib/components/common/Badge.svelte";
   import Icon from "@iconify/svelte";
 
   const dispatch = createEventDispatcher<{

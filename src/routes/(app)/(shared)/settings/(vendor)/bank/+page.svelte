@@ -1,9 +1,9 @@
 <!-- src/routes/(vendor)/settings/bank/+page.svelte -->
 <script lang="ts">
-    import Card from "$lib/components/ui/Card.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
-    import Input from "$lib/components/ui/Input.svelte";
-    import Badge from "$lib/components/ui/Badge.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Button from "$lib/components/common/Button.svelte";
+    import Input from "$lib/components/common/Input.svelte";
+    import Badge from "$lib/components/common/Badge.svelte";
 
     // Bank details
     let bank = {
@@ -87,7 +87,7 @@
 
         <form on:submit={handleUpdate} class="space-y-6">
             <div>
-                <label class="block text-sm font-medium text-text-main mb-1.5">
+                <label for="bank-name" class="block text-sm font-medium text-text-main mb-1.5">
                     Bank Name
                 </label>
                 <select

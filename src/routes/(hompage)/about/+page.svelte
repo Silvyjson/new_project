@@ -8,9 +8,9 @@
     import type { PageData } from "./$types";
 
     // Components
-    import Button from "$lib/components/ui/Button.svelte";
-    import Card from "$lib/components/ui/Card.svelte";
-    import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
+    import Button from "$lib/components/common/Button.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import TrustBadge from "$lib/components/common/TrustBadge.svelte";
     import Nav from "$lib/components/homepage/Nav.svelte";
     import Icon from "@iconify/svelte";
 

@@ -3,8 +3,8 @@
     import { page } from "$app/stores";
     import Nav from "$lib/components/homepage/Nav.svelte";
     import Footer from "$lib/components/homepage/Footer.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
-    import Card from "$lib/components/ui/Card.svelte";
+    import Button from "$lib/components/common/Button.svelte";
+    import Card from "$lib/components/common/Card.svelte";
     import { fade, fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
 

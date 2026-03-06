@@ -4,9 +4,9 @@
   import { invalidateAll } from "$app/navigation";
   import AuthLayout from "$lib/components/auth/AuthLayout.svelte";
   import AuthForm from "$lib/components/auth/AuthForm.svelte";
-  import Input from "$lib/components/ui/Input.svelte";
+  import Input from "$lib/components/common/Input.svelte";
   import PasswordInput from "$lib/components/auth/PasswordInput.svelte";
-  import Button from "$lib/components/ui/Button.svelte";
+  import Button from "$lib/components/common/Button.svelte";
 
   // Form state
   let email = "";

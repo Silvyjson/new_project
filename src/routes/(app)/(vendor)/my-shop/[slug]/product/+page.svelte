@@ -4,12 +4,12 @@
     import { fade, fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
     import Icon from "@iconify/svelte";
-    import ProductTable from "$lib/components/vendor/ProductTable.svelte";
-    import ProductGrid from "$lib/components/vendor/ProductGrid.svelte";
-    import Card from "$lib/components/ui/Card.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
-    import Badge from "$lib/components/ui/Badge.svelte";
-    import Input from "$lib/components/ui/Input.svelte";
+    import ProductTable from "$lib/components/app/vendor/ProductTable.svelte";
+    import ProductGrid from "$lib/components/app/vendor/ProductGrid.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Button from "$lib/components/common/Button.svelte";
+    import Badge from "$lib/components/common/Badge.svelte";
+    import Input from "$lib/components/common/Input.svelte";
 
     let shopSlug = "";
     let shopName = "";

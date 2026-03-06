@@ -1,8 +1,8 @@
 <!-- src/routes/(vendor)/settings/verification/+page.svelte -->
 <script lang="ts">
-    import Card from "$lib/components/ui/Card.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
-    import Badge from "$lib/components/ui/Badge.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Button from "$lib/components/common/Button.svelte";
+    import Badge from "$lib/components/common/Badge.svelte";
     import FileUpload from "$lib/components/app/vendor/FileUpload.svelte";
 
     // Verification status

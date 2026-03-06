@@ -1,11 +1,11 @@
 <!-- src/routes/blog/[slug]/+page.svelte -->
 <script lang="ts">
     import type { PageData } from "./$types";
-    import Card from "$lib/components/ui/Card.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
-    import Badge from "$lib/components/ui/Badge.svelte";
-    import ProductCard from "$lib/components/card/ProductCard.svelte";
-    import BlogCard from "$lib/components/card/BlogCard.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Button from "$lib/components/common/Button.svelte";
+    import Badge from "$lib/components/common/Badge.svelte";
+    import ProductCard from "$lib/components/app/shopTheme/default/components/ProductCard.svelte";
+    import BlogCard from "$lib/components/app/card/BlogCard.svelte";
 
     export let data: PageData;
     const { post, relatedPosts, meta } = data;

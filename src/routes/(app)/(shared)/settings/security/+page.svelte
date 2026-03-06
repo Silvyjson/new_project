@@ -1,7 +1,7 @@
 <!-- src/routes/(app)/settings/password/+page.svelte -->
 <script lang="ts">
-  import Card from '$lib/components/ui/Card.svelte';
-  import Button from '$lib/components/ui/Button.svelte';
+  import Card from '$lib/components/common/Card.svelte';
+  import Button from '$lib/components/common/Button.svelte';
   import PasswordInput from '$lib/components/auth/PasswordInput.svelte';
   
   // Form state

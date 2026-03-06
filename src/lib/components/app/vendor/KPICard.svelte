@@ -1,6 +1,6 @@
 <!-- src/lib/components/vendor/KPICard.svelte -->
 <script lang="ts">
-    import Card from "$lib/components/ui/Card.svelte";
+    import Card from "$lib/components/common/Card.svelte";
 
     export let label: string;
     export let value: string;

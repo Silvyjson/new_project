@@ -9,9 +9,9 @@
     import type { PageData } from "./$types";
 
     // Components
-    import Button from "$lib/components/ui/Button.svelte";
-    import Card from "$lib/components/ui/Card.svelte";
-    import ShopCard from "$lib/components/card/ShopCard.svelte";
+    import Button from "$lib/components/common/Button.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import ShopCard from "$lib/components/app/card/ShopCard.svelte";
     import Nav from "$lib/components/homepage/Nav.svelte";
     import Footer from "$lib/components/homepage/Footer.svelte";
 
@@ -145,8 +145,8 @@
         goto(`/shop?${params.toString()}`, { replaceState: true });
     };
 
-    import Filter from "$lib/components/ui/Filter.svelte";
-    import Pagination from "$lib/components/ui/Pagination.svelte";
+    import Filter from "$lib/components/common/Filter.svelte";
+    import Pagination from "$lib/components/common/Pagination.svelte";
     import ShopGrid from "$lib/components/grid/ShopGrid.svelte";
 </script>
 

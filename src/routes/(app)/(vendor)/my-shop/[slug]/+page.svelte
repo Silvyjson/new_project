@@ -4,13 +4,12 @@
     import { fade, fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
     import Icon from "@iconify/svelte";
-    import OrderCard from "$lib/components/card/OrderCard.svelte";
-    import ReviewCard from "$lib/components/card/ReviewCard.svelte";
-    import Card from "$lib/components/ui/Card.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
-    import Badge from "$lib/components/ui/Badge.svelte";
-    import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
-    import ShopSettingsList from "$lib/components/app/vendor/ShopSettingsList.svelte";
+    import OrderCard from "$lib/components/app/card/OrderCard.svelte";
+    import ReviewCard from "$lib/components/app/card/ReviewCard.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Button from "$lib/components/common/Button.svelte";
+    import Badge from "$lib/components/common/Badge.svelte";
+    import TrustBadge from "$lib/components/common/TrustBadge.svelte";
 
     let shopId = "3";
     let shopSlug = "3";
@@ -786,11 +785,6 @@
             </Card>
         </div>
     </section>
-
-    <!-- Section 5: Shop Settings -->
-    <!-- <section in:fade={{ duration: 400, delay: 500 }}>
-        <ShopSettingsList shopId={shop.id} />
-    </section> -->
 
     <!-- Section 5: Customer Reviews -->
     <section in:fade={{ duration: 400, delay: 700 }}>

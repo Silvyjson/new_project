@@ -1,7 +1,7 @@
 <!-- src/routes/(app)/settings/+page.svelte -->
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import Card from '$lib/components/ui/Card.svelte';
+  import Card from '$lib/components/common/Card.svelte';
   
   const settingsSections = [
     {

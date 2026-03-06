@@ -1,8 +1,8 @@
 <!-- src/lib/components/vendor/ProductCardList.svelte -->
 <script lang="ts">
-    import Card from "$lib/components/ui/Card.svelte";
-    import Badge from "$lib/components/ui/Badge.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Badge from "$lib/components/common/Badge.svelte";
+    import Button from "$lib/components/common/Button.svelte";
     import Icon from "@iconify/svelte";
     import { createEventDispatcher } from "svelte";
 

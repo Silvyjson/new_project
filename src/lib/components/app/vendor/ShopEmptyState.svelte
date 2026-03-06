@@ -1,8 +1,8 @@
 <!-- src/lib/components/vendor/ShopEmptyState.svelte -->
 <script lang="ts">
     import Icon from "@iconify/svelte";
-    import Card from "$lib/components/ui/Card.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Button from "$lib/components/common/Button.svelte";
 </script>
 
 <!-- Empty Shops -->

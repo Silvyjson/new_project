@@ -2,7 +2,7 @@
   import { goto } from "$app/navigation";
   import { createEventDispatcher, onMount } from "svelte";
   import { fade, slide } from "svelte/transition";
-  import Badge from "$lib/components/ui/Badge.svelte";
+  import Badge from "$lib/components/common/Badge.svelte";
   import Icon from "@iconify/svelte";
 
   const dispatch = createEventDispatcher();

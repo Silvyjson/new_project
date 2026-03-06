@@ -3,8 +3,8 @@
     import { page } from "$app/stores";
     import { fade } from "svelte/transition";
     import Icon from "@iconify/svelte";
-    import ProductForm from "$lib/components/vendor/ProductForm.svelte";
-    import ProductImages from "$lib/components/vendor/ProductImages.svelte";
+    import ProductForm from "$lib/components/app/vendor/ProductForm.svelte";
+    import ProductImages from "$lib/components/app/vendor/ProductImages.svelte";
 
     let shopSlug = "";
     let shopName = "";

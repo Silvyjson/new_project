@@ -1,9 +1,9 @@
 <!-- src/routes/(app)/settings/addresses/+page.svelte -->
 <script lang="ts">
-  import Card from '$lib/components/ui/Card.svelte';
-  import Button from '$lib/components/ui/Button.svelte';
-  import Badge from '$lib/components/ui/Badge.svelte';
-  import Input from '$lib/components/ui/Input.svelte';
+  import Card from '$lib/components/common/Card.svelte';
+  import Button from '$lib/components/common/Button.svelte';
+  import Badge from '$lib/components/common/Badge.svelte';
+  import Input from '$lib/components/common/Input.svelte';
   
   // Mock addresses
   let addresses = [
@@ -109,7 +109,7 @@
 <!-- Add Address Modal (simplified) -->
 {#if showAddModal}
   <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <button type="button" class="absolute inset-0 bg-dark/45" onclick={() => showAddModal = false}></button>
+      <button type="button" class="absolute inset-0 bg-dark/45" on:click={() => showAddModal = false}></button>
     <Card className="relative bg-surface p-6 w-full max-w-lg">
       <h2 class="text-xl font-bold text-text-main mb-6">Add New Address</h2>
       <form class="space-y-4">

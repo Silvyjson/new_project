@@ -2,9 +2,9 @@
 <script lang="ts">
   import { fade, fly } from "svelte/transition";
   import { cubicOut } from "svelte/easing";
-  import Card from "$lib/components/ui/Card.svelte";
-  import Button from "$lib/components/ui/Button.svelte";
-  import ProductCard from "$lib/components/card/ProductCard.svelte";
+  import Card from "$lib/components/common/Card.svelte";
+  import Button from "$lib/components/common/Button.svelte";
+  import ProductCard from "$lib/components/app/shopTheme/default/components/ProductCard.svelte";
 
   // Mock data
   let user = { name: "John" };

@@ -8,7 +8,7 @@
     import type { PageData } from "./$types";
 
     // Components
-    import Card from "$lib/components/ui/Card.svelte";
+    import Card from "$lib/components/common/Card.svelte";
     import ProductGrid from "$lib/components/grid/ProductGrid.svelte";
     import Icon from "@iconify/svelte";
 

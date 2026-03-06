@@ -1,8 +1,8 @@
 <script lang="ts">
-  import BlogCard from "$lib/components/card/BlogCard.svelte";
-  import Pagination from "$lib/components/ui/Pagination.svelte";
-  import Card from "$lib/components/ui/Card.svelte";
-  import Button from "../ui/Button.svelte";
+  import BlogCard from "$lib/components/app/card/BlogCard.svelte";
+  import Pagination from "$lib/components/common/Pagination.svelte";
+  import Card from "$lib/components/common/Card.svelte";
+  import Button from "$lib/components/common/Button.svelte";
 
   export let posts: any[] = [];
   export let pagination: any = undefined;

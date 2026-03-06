@@ -1,7 +1,7 @@
 <!-- src/lib/components/vendor/ThemeSelector.svelte -->
 <script lang="ts">
     import Icon from "@iconify/svelte";
-    import Card from "$lib/components/ui/Card.svelte";
+    import Card from "$lib/components/common/Card.svelte";
     import { createEventDispatcher } from "svelte";
 
     export let selectedTheme: string = "";

@@ -1,9 +1,9 @@
 <!-- src/lib/components/vendor/ShopCard.svelte -->
 <script lang="ts">
     import type { Shop } from "$lib/types";
-    import Card from "$lib/components/ui/Card.svelte";
-    import Badge from "$lib/components/ui/Badge.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Badge from "$lib/components/common/Badge.svelte";
+    import Button from "$lib/components/common/Button.svelte";
     import Icon from "@iconify/svelte";
 
     export let shop: Shop;

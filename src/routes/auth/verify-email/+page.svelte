@@ -5,7 +5,7 @@
     import { onDestroy } from "svelte";
     import AuthLayout from "$lib/components/auth/AuthLayout.svelte";
     import AuthForm from "$lib/components/auth/AuthForm.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
+    import Button from "$lib/components/common/Button.svelte";
 
     // Get params from URL
     let role = "buyer";

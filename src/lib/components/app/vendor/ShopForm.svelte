@@ -1,10 +1,10 @@
 <!-- src/lib/components/vendor/ShopForm.svelte -->
 <script lang="ts">
     import Icon from "@iconify/svelte";
-    import Card from "$lib/components/ui/Card.svelte";
-    import Input from "$lib/components/ui/Input.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
-    import Badge from "$lib/components/ui/Badge.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Input from "$lib/components/common/Input.svelte";
+    import Button from "$lib/components/common/Button.svelte";
+    import Badge from "$lib/components/common/Badge.svelte";
     import FileUpload from "./FileUpload.svelte";
     import ThemeSelector from "./ThemeSelector.svelte";
 
@@ -30,8 +30,10 @@
         };
         location: {
             address: string;
+            city: string;
             state: string;
             country: string;
+            postalCode: string;
         };
         verification: {
             cacNumber: string;
@@ -133,7 +135,7 @@
             />
 
             <div>
-                <label class="block text-sm font-medium text-text-main mb-1.5">
+                <label for="" class="block text-sm font-medium text-text-main mb-1.5">
                     Shop Slug
                     <span class="text-text-muted font-normal ml-1"
                         >(unique URL)</span
@@ -174,7 +176,7 @@
             />
 
             <div>
-                <label class="block text-sm font-medium text-text-main mb-1.5">
+                <label for="" class="block text-sm font-medium text-text-main mb-1.5">
                     Description
                 </label>
                 <textarea
@@ -188,6 +190,44 @@
                     {shop.description?.length || 0}/300 characters
                 </p>
             </div>
+        </div>
+    </Card>
+
+    <!-- Section 2: Location -->
+    <Card className="border border-gray-200 p-6">
+        <div class="flex items-center gap-3 mb-6">
+            <div
+                class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center"
+            >
+                <Icon icon="mdi:map-marker-outline" class="w-5 h-5 text-primary" />
+            </div>
+            <div>
+                <h3 class="font-semibold text-text-main">Location</h3>
+                <p class="text-xs text-text-muted">
+                    Where is your shop located?
+                </p>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-4">
+            <Input
+                label="Address"
+                name="address"
+                bind:value={shop.location.address}
+                placeholder="e.g., 123 Main St, Lagos"
+            />
+            <Input
+                label="State/Province"
+                name="state"
+                bind:value={shop.location.state}
+                placeholder="e.g., Lagos State"
+            />
+            <Input
+                label="Country"
+                name="country"
+                bind:value={shop.location.country}
+                placeholder="e.g., Nigeria"
+            />
         </div>
     </Card>
 
@@ -238,7 +278,7 @@
 
         <div class="grid md:grid-cols-2 gap-4">
             <div>
-                <label class="block text-sm font-medium text-text-main mb-1.5">
+                <label for="" class="block text-sm font-medium text-text-main mb-1.5">
                     Processing Time
                 </label>
                 <select
@@ -252,7 +292,7 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-text-main mb-1.5">
+                <label for="" class="block text-sm font-medium text-text-main mb-1.5">
                     Shipping Time
                 </label>
                 <select
@@ -266,7 +306,7 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-text-main mb-1.5">
+                <label for="" class="block text-sm font-medium text-text-main mb-1.5">
                     Shipping Regions
                 </label>
                 <select
@@ -280,7 +320,7 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-text-main mb-1.5">
+                <label for="" class="block text-sm font-medium text-text-main mb-1.5">
                     Delivery Method
                 </label>
                 <select
@@ -459,7 +499,7 @@
 
         <div class="grid md:grid-cols-2 gap-4">
             <div>
-                <label class="block text-sm font-medium text-text-main mb-1.5">
+                <label for="" class="block text-sm font-medium text-text-main mb-1.5">
                     Response Time
                 </label>
                 <select
@@ -473,7 +513,7 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-text-main mb-1.5">
+                <label for="" class="block text-sm font-medium text-text-main mb-1.5">
                     Processing Time
                 </label>
                 <select
@@ -487,7 +527,7 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-text-main mb-1.5">
+                <label for="" class="block text-sm font-medium text-text-main mb-1.5">
                     Shipping Time
                 </label>
                 <select
@@ -501,7 +541,7 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-text-main mb-1.5">
+                <label for="" class="block text-sm font-medium text-text-main mb-1.5">
                     Return Policy
                 </label>
                 <select
@@ -538,7 +578,7 @@
 
             <div class="flex gap-6">
                 {#each ["active", "paused", "closed"] as s}
-                    <label class="flex items-center gap-2 cursor-pointer group">
+                    <label for="" class="flex items-center gap-2 cursor-pointer group">
                         <input
                             type="radio"
                             name="status"

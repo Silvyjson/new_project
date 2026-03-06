@@ -1,7 +1,7 @@
 <!-- src/lib/components/vendor/ProductImages.svelte -->
 <script lang="ts">
     import Icon from "@iconify/svelte";
-    import Card from "$lib/components/ui/Card.svelte";
+    import Card from "$lib/components/common/Card.svelte";
     import { createEventDispatcher } from "svelte";
 
     const dispatch = createEventDispatcher();

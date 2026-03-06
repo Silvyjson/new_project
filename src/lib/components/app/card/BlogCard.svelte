@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Card from "$lib/components/ui/Card.svelte";
-  import Badge from "$lib/components/ui/Badge.svelte";
+  import Card from "$lib/components/common/Card.svelte";
+  import Badge from "$lib/components/common/Badge.svelte";
 
   export let post: any;
   // use the same strict union as Badge expects

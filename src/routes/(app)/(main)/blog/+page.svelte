@@ -8,10 +8,10 @@
     import type { PageData } from "./$types";
 
     // Components
-    import Card from "$lib/components/ui/Card.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
-    import Badge from "$lib/components/ui/Badge.svelte";
-    import TrustBadge from "$lib/components/ui/TrustBadge.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Button from "$lib/components/common/Button.svelte";
+    import Badge from "$lib/components/common/Badge.svelte";
+    import TrustBadge from "$lib/components/common/TrustBadge.svelte";
     import BlogGrid from "$lib/components/grid/BlogGrid.svelte";
 
     // Data from load function

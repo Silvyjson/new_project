@@ -4,9 +4,9 @@
     import { cubicOut } from "svelte/easing";
     import Icon from "@iconify/svelte";
 
-    import ShopCardVendor from "$lib/components/card/ShopCardVendor.svelte";
+    import ShopCardVendor from "$lib/components/app/card/ShopCardVendor.svelte";
     import ShopEmptyState from "$lib/components/app/vendor/ShopEmptyState.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
+    import Button from "$lib/components/common/Button.svelte";
 
     let shops = [
         {

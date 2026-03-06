@@ -3,7 +3,7 @@
     import { goto } from "$app/navigation";
     import AuthLayout from "$lib/components/auth/AuthLayout.svelte";
     import AuthForm from "$lib/components/auth/AuthForm.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
+    import Button from "$lib/components/common/Button.svelte";
     import FileUpload from "$lib/components/auth/FileUpload.svelte";
     // import TrustMeter from "$lib/components/auth/TrustMeter.svelte";
 

@@ -2,8 +2,7 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
     import Icon from "@iconify/svelte";
-    import ShopForm from "$lib/components/vendor/ShopForm.svelte";
-    import ShopPreview from "$lib/components/vendor/ShopPreview.svelte";
+    import ShopForm from "$lib/components/app/vendor/ShopForm.svelte";
 
     // Empty shop data for create
     let shop = {
@@ -29,6 +28,13 @@
             cacNumber: "",
             cacDocument: "",
             status: "not-verified" as const,
+        },
+        location: {
+            address: "",
+            city: "",
+            state: "",
+            country: "",
+            postalCode: "",
         },
         contact: {
             phone: "",
@@ -77,20 +83,11 @@
         </div>
     </div>
 
-    <!-- Two Column Layout -->
-    <div class="grid lg:grid-cols-3 gap-8">
-        <!-- Left: Form -->
-        <div
-            class="lg:col-span-2 space-y-6"
-            in:fade={{ duration: 400, delay: 100 }}
-        >
-            <ShopForm bind:shop isEdit={false} />
-        </div>
-
-        <!-- Right: Preview -->
-        <div class="lg:col-span-1" in:fade={{ duration: 400, delay: 200 }}>
-            <ShopPreview {shop} />
-        </div>
+    <div
+        class="lg:col-span-2 space-y-6"
+        in:fade={{ duration: 400, delay: 100 }}
+    >
+        <ShopForm bind:shop isEdit={false} />
     </div>
 </div>
 

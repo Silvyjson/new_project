@@ -1,6 +1,6 @@
 <!-- src/lib/components/auth/AuthForm.svelte -->
 <script lang="ts">
-    import Card from "$lib/components/ui/Card.svelte";
+    import Card from "$lib/components/common/Card.svelte";
 
     export let className: string = "";
     export let loading: boolean = false;

@@ -3,9 +3,9 @@
     import { page } from "$app/stores";
     import { fade } from "svelte/transition";
     import Icon from "@iconify/svelte";
-    import ProductForm from "$lib/components/vendor/ProductForm.svelte";
-    import ProductImages from "$lib/components/vendor/ProductImages.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
+    import ProductForm from "$lib/components/app/vendor/ProductForm.svelte";
+    import ProductImages from "$lib/components/app/vendor/ProductImages.svelte";
+    import Button from "$lib/components/common/Button.svelte";
 
     let shopSlug = "";
     let productCode = "";

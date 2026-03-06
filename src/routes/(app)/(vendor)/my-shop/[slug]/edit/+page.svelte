@@ -3,9 +3,8 @@
     import { page } from "$app/stores";
     import { fade } from "svelte/transition";
     import Icon from "@iconify/svelte";
-    import ShopForm from "$lib/components/vendor/ShopForm.svelte";
-    import ShopPreview from "$lib/components/vendor/ShopPreview.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
+    import ShopForm from "$lib/components/app/vendor/ShopForm.svelte";
+    import Button from "$lib/components/common/Button.svelte";
 
     let shopSlug = "";
     $: if ($page.params.slug) {
@@ -38,6 +37,13 @@
             cacNumber: "RC123456",
             cacDocument: "https://example.com/cac.pdf",
             status: "verified" as const,
+        },
+        location: {
+            address: "123 Main Street",
+            city: "Lagos",
+            state: "Lagos",
+            country: "Nigeria",
+            postalCode: "100001",
         },
         contact: {
             phone: "+234 801 234 5678",
@@ -92,20 +98,11 @@
         </div>
     </div>
 
-    <!-- Two Column Layout -->
-    <div class="grid lg:grid-cols-3 gap-8">
-        <!-- Left: Form -->
-        <div
-            class="lg:col-span-2 space-y-6"
-            in:fade={{ duration: 400, delay: 100 }}
-        >
-            <ShopForm {shop} isEdit={true} />
-        </div>
-
-        <!-- Right: Preview -->
-        <div class="lg:col-span-1" in:fade={{ duration: 400, delay: 200 }}>
-            <ShopPreview {shop} />
-        </div>
+    <div
+        class="lg:col-span-2 space-y-6"
+        in:fade={{ duration: 400, delay: 100 }}
+    >
+        <ShopForm {shop} isEdit={true} />
     </div>
 </div>
 

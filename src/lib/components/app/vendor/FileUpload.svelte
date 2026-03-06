@@ -1,7 +1,7 @@
 <!-- src/lib/components/vendor/FileUpload.svelte -->
 <script lang="ts">
     import Icon from "@iconify/svelte";
-    import Card from "$lib/components/ui/Card.svelte";
+    import Card from "$lib/components/common/Card.svelte";
 
     export let label: string;
     export let hint: string;

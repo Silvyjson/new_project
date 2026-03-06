@@ -2,8 +2,8 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import AuthLayout from "$lib/components/auth/AuthLayout.svelte";
-  import Card from "$lib/components/ui/Card.svelte";
-  import Button from "$lib/components/ui/Button.svelte";
+  import Card from "$lib/components/common/Card.svelte";
+  import Button from "$lib/components/common/Button.svelte";
 
   const roles = [
     {

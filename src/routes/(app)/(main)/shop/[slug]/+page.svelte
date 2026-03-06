@@ -9,11 +9,11 @@
     import type { PageData } from "./$types";
 
     // Components
-    import Button from "$lib/components/ui/Button.svelte";
-    import Card from "$lib/components/ui/Card.svelte";
-    import Badge from "$lib/components/ui/Badge.svelte";
-    import ReviewCard from "$lib/components/card/ReviewCard.svelte";
-    import ProductCard from "$lib/components/shop/ProductCard.svelte";
+    import Button from "$lib/components/common/Button.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Badge from "$lib/components/common/Badge.svelte";
+    import ReviewCard from "$lib/components/app/card/ReviewCard.svelte";
+    import ProductCard from "$lib/components/app/shopTheme/default/components/ProductCard.svelte";
 
     // Data from load function
     export let data: PageData;

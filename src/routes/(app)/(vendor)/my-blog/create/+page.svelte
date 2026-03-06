@@ -1,11 +1,11 @@
 <!-- src/routes/(vendor)/my-blog/create/+page.svelte -->
 <script lang="ts">
     import { goto } from "$app/navigation";
-    import Card from "$lib/components/ui/Card.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
-    import Input from "$lib/components/ui/Input.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Button from "$lib/components/common/Button.svelte";
+    import Input from "$lib/components/common/Input.svelte";
     import FileUpload from "$lib/components/app/vendor/FileUpload.svelte";
-    import Badge from "$lib/components/ui/Badge.svelte";
+    import Badge from "$lib/components/common/Badge.svelte";
 
     // Form state
     let title = "";

@@ -1,8 +1,8 @@
 <!-- src/routes/(vendor)/my-blog/+page.svelte -->
 <script lang="ts">
-    import Card from "$lib/components/ui/Card.svelte";
-    import Button from "$lib/components/ui/Button.svelte";
-    import Badge from "$lib/components/ui/Badge.svelte";
+    import Card from "$lib/components/common/Card.svelte";
+    import Button from "$lib/components/common/Button.svelte";
+    import Badge from "$lib/components/common/Badge.svelte";
 
     // Active tab
     let activeTab = "published";
