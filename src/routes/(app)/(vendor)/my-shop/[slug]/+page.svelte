@@ -788,9 +788,9 @@
     </section>
 
     <!-- Section 5: Shop Settings -->
-    <section in:fade={{ duration: 400, delay: 500 }}>
+    <!-- <section in:fade={{ duration: 400, delay: 500 }}>
         <ShopSettingsList shopId={shop.id} />
-    </section>
+    </section> -->
 
     <!-- Section 5: Customer Reviews -->
     <section in:fade={{ duration: 400, delay: 700 }}>
