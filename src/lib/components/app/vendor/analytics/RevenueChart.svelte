@@ -46,16 +46,16 @@
   </div>
   
   <!-- Simple Bar Chart -->
-  <div class="h-64 flex items-end justify-between gap-2">
+  <div class="h-64 flex items-end justify-between">
     {#each data as item, i}
       <div class="flex-1 flex flex-col items-center gap-2 group">
         <div class="w-full relative">
           <div
-            class="bg-primary/20 rounded-t transition-all hover:bg-primary/40"
+            class="w-1 bg-primary/20 rounded-t transition-all hover:bg-primary/40"
             style="height: {Math.max(20, (item.revenue / maxRevenue) * 200)}px"
           >
             <div
-              class="absolute bottom-0 left-0 right-0 bg-primary rounded-t"
+              class="absolute w-1 bottom-0 left-0 right-0 bg-primary rounded-t"
               style="height: {Math.max(10, (item.revenue / maxRevenue) * 180)}px"
             ></div>
           </div>
@@ -65,11 +65,11 @@
             ₦{(item.revenue / 1000).toFixed(1)}K
           </div>
         </div>
-        <span class="text-xs text-text-muted text-center">
+        <!-- <span class="text-xs text-text-muted text-center">
           {timeScale === 'daily' ? item.date.slice(0, 3) : 
            timeScale === 'weekly' ? `W${i + 1}` : 
            item.date.slice(0, 3)}
-        </span>
+        </span> -->
       </div>
     {/each}
   </div>

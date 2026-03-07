@@ -1,9 +1,12 @@
 <!-- src/routes/(vendor)/analytics/+page.svelte -->
 <script lang="ts">
+  import { page } from '$app/stores';
+  import { onMount } from 'svelte';
   import { fade, fly } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
   import Icon from '@iconify/svelte';
-  import AnalyticsFilters from '$lib/components/app/vendor/analytics/AnalyticsFilters.svelte';
+  import Card from '$lib/components/common/Card.svelte';
+  import Button from '$lib/components/common/Button.svelte';
   import KpiCard from '$lib/components/app/vendor/analytics/KpiCard.svelte';
   import RevenueChart from '$lib/components/app/vendor/analytics/RevenueChart.svelte';
   import ConversionFunnel from '$lib/components/app/vendor/analytics/ConversionFunnel.svelte';
@@ -22,17 +25,38 @@
   let selectedShop = '';
   let dateRange = '30days';
   
+  // Initialize selectedShop from URL params on mount
+  onMount(() => {
+    const shopParam = $page.url.searchParams.get('shop');
+    if (shopParam) {
+      selectedShop = shopParam;
+    }
+  });
+
+  // Get shop-specific data
+  $: currentShop = selectedShop 
+    ? shops.find(s => s.slug === selectedShop) 
+    : null;
+  
   // KPI Data
-  const kpis = [
+  const kpis: Array<{
+    icon: string;
+    label: string;
+    value: string;
+    change: string;
+    trend: 'up' | 'down' | 'neutral';
+    color: string;
+    subtext?: string;
+  }> = [
     { icon: 'mdi:cash-multiple', label: 'Revenue', value: '₦2.45M', change: '+12%', trend: 'up', color: 'green', subtext: 'from last period' },
     { icon: 'mdi:package-variant-closed', label: 'Orders', value: '156', change: '+8%', trend: 'up', color: 'blue' },
-    { icon: 'mdi:account-group-outline', label: 'Visitors', value: '4,320', change: '+21%', trend: 'up', color: 'purple' },
+    { icon: 'mdi:calculator-variant-outline', label: 'Avg Order Value', value: '₦15,700', change: '+4%', trend: 'up', color: 'orange' },
     { icon: 'mdi:chart-line', label: 'Conversion Rate', value: '3.2%', change: '+0.8%', trend: 'up', color: 'success' },
+    { icon: 'mdi:account-group-outline', label: 'Visitors', value: '4,320', change: '+21%', trend: 'up', color: 'purple' },
     { icon: 'mdi:cart-outline', label: 'Cart Items', value: '87', change: '₦520K', trend: 'neutral', color: 'warning', subtext: 'potential revenue' },
     { icon: 'mdi:heart-outline', label: 'Wishlist Adds', value: '241', change: '+15%', trend: 'up', color: 'pink' },
     { icon: 'mdi:account-plus-outline', label: 'Followers', value: '+34', change: '+20%', trend: 'up', color: 'blue', subtext: 'this week' },
-    { icon: 'mdi:calculator-variant-outline', label: 'Avg Order Value', value: '₦15,700', change: '+4%', trend: 'up', color: 'orange' }
-  ] as const;
+  ];
   
   // Revenue Chart Data
   const revenueData = Array.from({ length: 30 }, (_, i) => ({
@@ -102,6 +126,11 @@
       action: 'Edit Product'
     }
   ];
+
+   const exportData = () => {
+    // In real app: generate CSV/PDF export
+    alert('Exporting analytics data...');
+  };
 </script>
 
 <svelte:head>
@@ -117,23 +146,72 @@
         <Icon icon="mdi:chart-line" class="w-6 h-6 text-primary" />
       </div>
       <div>
-        <h1 class="text-2xl font-bold text-text-main">Analytics</h1>
-        <p class="text-body text-text-muted">Track shop performance, sales and customer behavior</p>
+        <h1 class="text-2xl font-bold text-text-main">
+          {#if selectedShop}
+            {currentShop?.name} - Analytics
+          {:else}
+            Analytics
+          {/if}
+        </h1>
+        <p class="text-body text-text-muted">
+          {#if selectedShop}
+            Performance metrics for {currentShop?.name}
+          {:else}
+            Track shop performance, sales and customer behavior
+          {/if}
+        </p>
       </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <!-- Shop Filter -->
+      <div class="relative">
+        <select
+          class="appearance-none px-4 py-2.5 pr-10 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
+          value={selectedShop}
+          on:change={(e) => {
+            selectedShop = (e.target as HTMLSelectElement).value;
+          }}
+        >
+          <option value="">All Shops</option>
+          {#each shops as shop}
+            <option value={shop.slug}>
+              {shop.name}
+            </option>
+          {/each}
+        </select>
+        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+          <Icon icon="mdi:chevron-down" class="w-5 h-5 text-text-muted" />
+        </div>
+      </div>
+
+      <!-- Date Range -->
+      <div class="relative">
+        <select
+          class="appearance-none px-4 py-2.5 pr-10 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
+          value={dateRange}
+          on:change={(e) => {
+            dateRange = (e.target as HTMLSelectElement).value;
+          }}
+        >
+          <option value="today">Today</option>
+          <option value="7days">Last 7 days</option>
+          <option value="30days">Last 30 days</option>
+          <option value="90days">Last 90 days</option>
+        </select>
+        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+          <Icon icon="mdi:chevron-down" class="w-5 h-5 text-text-muted" />
+        </div>
+      </div>
+        <Button variant="outline" size="md" onclick={exportData}>
+          <Icon icon="mdi:download-outline" class="w-4 h-4 mr-2" />
+          Export Data
+        </Button>
     </div>
   </section>
   
-  <!-- Section 2: Filters -->
+  <!-- Section 2: KPI Cards -->
   <section in:fade={{ duration: 400, delay: 100 }}>
-    <AnalyticsFilters
-      shops={shops}
-      selectedShop={selectedShop}
-      dateRange={dateRange}
-    />
-  </section>
-  
-  <!-- Section 3: KPI Cards -->
-  <section in:fade={{ duration: 400, delay: 200 }}>
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
       {#each kpis as kpi, i}
         <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
@@ -143,49 +221,38 @@
             value={kpi.value}
             change={kpi.change}
             trend={kpi.trend}
-            subtext={kpi.subtext}
             color={kpi.color}
+            subtext={kpi.subtext ?? ''}
           />
         </div>
       {/each}
     </div>
   </section>
   
-  <!-- Section 4: Revenue Chart -->
-  <section in:fade={{ duration: 400, delay: 300 }}>
+  <!-- Section 3: Revenue Chart -->
+  <section class="grid lg:grid-cols-2 gap-6" in:fade={{ duration: 400, delay: 200 }}>
     <RevenueChart data={revenueData} />
-  </section>
-  
-  <!-- Section 5: Conversion Funnel + Traffic Sources -->
-  <section class="grid lg:grid-cols-2 gap-6" in:fade={{ duration: 400, delay: 400 }}>
-    <ConversionFunnel funnel={funnel} />
     <TrafficSourcesChart sources={trafficSources} />
   </section>
   
-  <!-- Section 6: Product Performance -->
-  <section in:fade={{ duration: 400, delay: 500 }}>
+  <!-- Section 4: Conversion Funnel + Traffic Sources -->
+  <section class="grid lg:grid-cols-2 gap-6" in:fade={{ duration: 400, delay: 300 }}>
+    <!-- <ConversionFunnel funnel={funnel} /> -->
+    <!-- <TrafficSourcesChart sources={trafficSources} /> -->
+  </section>
+  
+  <!-- Section 5: Product Performance -->
+  <section in:fade={{ duration: 400, delay: 400 }}>
     <ProductPerformanceTable products={topProducts} />
   </section>
   
-  <!-- Section 7: Cart & Wishlist Insights -->
-  <section in:fade={{ duration: 400, delay: 600 }}>
+  <!-- Section 6: Cart & Wishlist Insights -->
+  <!-- <section in:fade={{ duration: 400, delay: 500 }}>
     <CartInsights cartData={cartData} wishlistData={wishlistData} />
-  </section>
+  </section> -->
   
-  <!-- Section 8: Smart Insights -->
-  <section in:fade={{ duration: 400, delay: 700 }}>
+  <!-- Section 7: Smart Insights -->
+  <!-- <section in:fade={{ duration: 400, delay: 600 }}>
     <SmartInsights insights={insights} />
-  </section>
+  </section> -->
 </main>
-
-<!-- <style>
-  @media (prefers-reduced-motion: reduce) {
-    .animate-fade-in,
-    [in:fly] {
-      animation: none !important;
-      transition: none !important;
-      opacity: 1 !important;
-      transform: none !important;
-    }
-  }
-</style> -->

@@ -6,8 +6,8 @@
     import Button from "$lib/components/common/Button.svelte";
     import { fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
-    import ProductCard from "../shop/ProductCard.svelte";
-    import ProductCardList from "../shop/ProductCardList.svelte";
+    import ProductCard from "./ProductCard.svelte";
+    import ProductCardList from "./ProductCardList.svelte";
 
     // Explicit props
     export let products: Product[] = [];

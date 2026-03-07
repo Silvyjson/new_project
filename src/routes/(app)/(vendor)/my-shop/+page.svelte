@@ -124,16 +124,6 @@
         </Button>
     </section>
 
-    <!-- Shop Stats -->
-    {#if shops.length > 0}
-        <div class="flex items-center justify-between text-sm text-text-muted flex-wrap gap-4">
-            <span>
-                {shopCount}
-                {shopCount === 1 ? "shop" : "shops"}
-            </span>
-        </div>
-    {/if}
-
     <!-- Search, Filters & Layout Toggle -->
     {#if shops.length > 0}
         <section in:fade={{ duration: 400, delay: 200 }}>
@@ -290,6 +280,45 @@
                 <ShopTable {filteredShops} />
             {/if}
         </section>
+
+        <!-- Section 4: Pagination -->
+        {#if filteredShops.length > 0}
+            <section in:fade={{ duration: 400, delay: 400 }}>
+                <div
+                    class="flex flex-col md:flex-row items-center justify-between gap-4"
+                >
+                    <p class="text-sm text-text-muted">
+                        Showing {filteredShops.length} of {shops.length} products
+                    </p>
+                    <div class="flex items-center gap-2">
+                        <button
+                            class="w-9 h-9 rounded-lg border border-gray-300 flex items-center justify-center text-text-muted hover:border-primary hover:text-primary transition-colors disabled:opacity-50"
+                            disabled
+                        >
+                            <Icon icon="mdi:chevron-left" class="w-5 h-5" />
+                        </button>
+                        <button
+                            class="w-9 h-9 rounded-lg bg-primary text-white font-medium"
+                            >1</button
+                        >
+                        <button
+                            class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors"
+                            >2</button
+                        >
+                        <button
+                            class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors"
+                            >3</button
+                        >
+                        <span class="text-text-muted">...</span>
+                        <button
+                            class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors"
+                        >
+                            <Icon icon="mdi:chevron-right" class="w-5 h-5" />
+                        </button>
+                    </div>
+                </div>
+            </section>
+        {/if}
     {:else}
         <section in:fade>
             <ShopEmptyState />

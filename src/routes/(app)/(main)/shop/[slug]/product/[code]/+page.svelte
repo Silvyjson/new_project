@@ -14,7 +14,7 @@
     import TrustBadge from "$lib/components/common/TrustBadge.svelte";
     import ProductCard from "$lib/components/app/shopTheme/default/components/ProductCard.svelte";
     import ReviewCard from "$lib/components/app/card/ReviewCard.svelte";
-  import { formatNaira } from "$lib/utils/format";
+    import { formatNaira } from "$lib/utils/format";
 
     // Data from load function
     export let data: PageData;
