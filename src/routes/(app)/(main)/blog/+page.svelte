@@ -12,7 +12,7 @@
     import Button from "$lib/components/common/Button.svelte";
     import Badge from "$lib/components/common/Badge.svelte";
     import TrustBadge from "$lib/components/common/TrustBadge.svelte";
-    import BlogGrid from "$lib/components/grid/BlogGrid.svelte";
+    import BlogGrid from "$lib/components/app/grid/BlogGrid.svelte";
 
     // Data from load function
     export let data: PageData;

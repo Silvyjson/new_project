@@ -96,90 +96,92 @@
   </div>
 </section>
 
-<style>
+<!-- <style>
   /* Prose typography styles for blog content */
   :global(.prose) {
-    @apply text-body text-text-muted leading-relaxed;
+    @apply text-[#64748B] leading-relaxed;
   }
-  
+
   :global(.prose h2) {
-    @apply text-2xl font-bold text-text-main mt-12 mb-4;
+    @apply text-[40px] font-bold text-[#0F172A] mt-12 mb-4;
   }
-  
+
   :global(.prose h3) {
-    @apply text-xl font-semibold text-text-main mt-8 mb-3;
+    @apply text-[28px] font-semibold text-[#0F172A] mt-8 mb-3;
   }
-  
+
   :global(.prose h4) {
-    @apply text-lg font-medium text-text-main mt-6 mb-2;
+    @apply text-[20px] font-medium text-[#0F172A] mt-6 mb-2;
   }
-  
+
   :global(.prose p) {
-    @apply mb-4;
+    @apply text-[16px] mb-4;
   }
-  
+
   :global(.prose ul) {
     @apply list-disc list-inside mb-4 pl-4;
   }
-  
+
   :global(.prose ol) {
     @apply list-decimal list-inside mb-4 pl-4;
   }
-  
+
   :global(.prose li) {
     @apply mb-2;
   }
-  
+
   :global(.prose a) {
-    @apply text-primary hover:underline font-medium;
+    @apply text-[#1D4ED8] hover:underline font-medium;
   }
-  
+
   :global(.prose blockquote) {
-    @apply border-l-4 border-primary pl-4 italic text-text-muted my-6;
+    @apply border-l-4 border-[#1D4ED8] pl-4 italic text-[#64748B] my-6;
   }
-  
+
   :global(.prose code) {
-    @apply bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono;
+    @apply bg-[#F1F5F9] px-1.5 py-0.5 rounded text-[14px];
   }
-  
+
   :global(.prose pre) {
-    @apply bg-gray-900 text-gray-100 p-4 rounded-xl overflow-x-auto my-6;
+    @apply bg-[#0F172A] text-[#FFFFFF] p-4 rounded-[16px] overflow-x-auto my-6;
   }
-  
+
   :global(.prose pre code) {
     @apply bg-transparent p-0 text-inherit;
   }
-  
+
   :global(.prose img) {
-    @apply rounded-xl my-6 max-w-full h-auto;
+    @apply rounded-[16px] my-6 max-w-full h-auto;
   }
-  
+
   :global(.prose table) {
     @apply w-full border-collapse my-6;
   }
-  
+
   :global(.prose th) {
-    @apply text-left py-3 px-4 bg-gray-100 font-semibold text-text-main border-b border-gray-200;
+    @apply text-left py-3 px-4 bg-[#F1F5F9] font-semibold text-[#0F172A] border-b border-[#E2E8F0];
   }
-  
+
   :global(.prose td) {
-    @apply py-3 px-4 border-b border-gray-100 text-text-muted;
+    @apply py-3 px-4 border-b border-[#F1F5F9] text-[#64748B];
   }
-  
+
   :global(.prose hr) {
-    @apply my-8 border-gray-200;
+    @apply my-8 border-[#E2E8F0];
   }
-  
+
   /* Responsive typography */
   @media (max-width: 640px) {
     :global(.prose) {
-      @apply text-base;
+      @apply text-[16px];
     }
+
     :global(.prose h2) {
-      @apply text-xl;
+      @apply text-[28px];
     }
+
     :global(.prose h3) {
-      @apply text-lg;
+      @apply text-[20px];
     }
   }
-</style>
+</style> -->

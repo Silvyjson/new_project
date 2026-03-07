@@ -2,177 +2,264 @@
 <script lang="ts">
   import { fade, fly } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
+  import { onMount } from 'svelte';
+  import Icon from '@iconify/svelte';
+  import NotificationItem from '$lib/components/app/notifications/NotificationItem.svelte';
+  import NotificationFilters from '$lib/components/app/notifications/NotificationFilters.svelte';
+  import NotificationGroup from '$lib/components/app/notifications/NotificationGroup.svelte';
+  // import NotificationSettingsModal from '$lib/components/app/notifications/NotificationSettingsModal.svelte';
+  import EmptyNotifications from '$lib/components/app/notifications/EmptyNotifications.svelte';
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
   
-  // Mock notifications grouped by date
-  const notifications = {
-    today: [
-      { id: 1, type: 'order', message: 'Your order #ORD-2026-001 has been delivered', time: '2 hours ago', unread: true, icon: '📦' },
-      { id: 2, type: 'promo', message: 'TechStoreNG just dropped 20% off on all electronics', time: '5 hours ago', unread: true, icon: '🏷️' }
-    ],
-    thisWeek: [
-      { id: 3, type: 'order', message: 'Your order #ORD-2026-002 has been shipped', time: '2 days ago', unread: false, icon: '🚚' },
-      { id: 4, type: 'review', message: 'Amina Fashion responded to your review', time: '3 days ago', unread: false, icon: '💬' },
-      { id: 5, type: 'follow', message: 'Home Essentials started following you', time: '5 days ago', unread: false, icon: '👤' }
-    ],
-    earlier: [
-      { id: 6, type: 'security', message: 'New login detected from Lagos, Nigeria', time: '1 week ago', unread: false, icon: '🔒' },
-      { id: 7, type: 'order', message: 'Your order #ORD-2026-000 has been confirmed', time: '2 weeks ago', unread: false, icon: '✓' }
-    ]
+  // Role (in real app: from auth store)
+  let role: 'buyer' | 'vendor' = 'vendor';
+  
+  // Filter state
+  let activeFilter = 'all';
+  let showUnreadOnly = false;
+  let showSettingsModal = false;
+  
+  // Mock notifications (in real app: fetch from API with filters)
+  let allNotifications = [
+    // Today
+    {
+      id: 'n_001',
+      type: 'order' as const,
+      title: 'New Order Received',
+      message: 'Order #VH-2043 has been placed in TechHub for ₦45,000',
+      time: new Date(Date.now() - 2 * 60 * 1000).toISOString(),
+      read: false,
+      action: { label: 'View Order', url: '/orders/VH-2043', icon: 'mdi:eye-outline' },
+      icon: 'mdi:package-variant',
+      link: '/orders/VH-2043'
+    },
+    {
+      id: 'n_002',
+      type: 'delivery' as const,
+      title: 'Order Shipped',
+      message: 'Your order #VH-2042 is now on delivery with GIG Logistics',
+      time: new Date(Date.now() - 45 * 60 * 1000).toISOString(),
+      read: false,
+      action: { label: 'Track Delivery', url: '/orders/VH-2042', icon: 'mdi:truck-fast-outline' },
+      icon: 'mdi:truck-fast-outline',
+      link: '/orders/VH-2042'
+    },
+    {
+      id: 'n_003',
+      type: 'follower' as const,
+      title: 'New Follower',
+      message: 'Sarah started following Urban Kicks',
+      time: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+      read: true,
+      action: { label: 'View Profile', url: '/dashboard?follower=sarah', icon: 'mdi:account-eye-outline' },
+      icon: 'mdi:account-plus-outline',
+      link: '/dashboard?follower=sarah'
+    },
+    
+    // Yesterday
+    {
+      id: 'n_004',
+      type: 'payment' as const,
+      title: 'Payment Received',
+      message: '₦45,000 has been credited to your wallet',
+      time: new Date(Date.now() - 18 * 60 * 60 * 1000).toISOString(),
+      read: true,
+      action: { label: 'View Wallet', url: '/wallet', icon: 'mdi:wallet-outline' },
+      icon: 'mdi:cash',
+      link: '/wallet'
+    },
+    {
+      id: 'n_005',
+      type: 'wishlist' as const,
+      title: 'Product Added to Wishlist',
+      message: 'Your product "Wireless Headphones" was added to wishlist by 3 users',
+      time: new Date(Date.now() - 20 * 60 * 60 * 1000).toISOString(),
+      read: true,
+      icon: 'mdi:heart-outline',
+      link: '/my-shop/techhub/product/p_001'
+    },
+    
+    // Earlier
+    {
+      id: 'n_006',
+      type: 'blog' as const,
+      title: 'New Blog Comment',
+      message: 'Someone commented on your blog post "How to Choose Wireless Headphones"',
+      time: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+      read: true,
+      action: { label: 'View Comment', url: '/my-blog/1', icon: 'mdi:comment-outline' },
+      icon: 'mdi:comment-outline',
+      link: '/my-blog/1'
+    },
+    {
+      id: 'n_007',
+      type: 'system' as const,
+      title: 'Verification Approved',
+      message: 'Your shop business verification was approved. Trust score increased by +30%',
+      time: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+      read: true,
+      action: { label: 'View Shop', url: '/my-shop/techhub', icon: 'mdi:store-outline' },
+      icon: 'mdi:shield-check-outline',
+      link: '/my-shop/techhub'
+    }
+  ];
+  
+  // Group notifications by date
+  const groupByDate = (notifications: typeof allNotifications) => {
+    const groups: Record<string, typeof allNotifications> = {};
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    notifications.forEach(notification => {
+      const notificationDate = new Date(notification.time);
+      let label = 'Earlier';
+      
+      if (notificationDate.toDateString() === today.toDateString()) {
+        label = 'Today';
+      } else if (notificationDate.toDateString() === yesterday.toDateString()) {
+        label = 'Yesterday';
+      }
+      
+      if (!groups[label]) groups[label] = [];
+      groups[label].push(notification);
+    });
+    
+    return groups;
   };
   
-  const markAsRead = (id: number) => {
-    // In real app: API call to mark notification as read
-    console.log(`Mark notification ${id} as read`);
+  // Filter notifications
+  $: filteredNotifications = allNotifications.filter(n => {
+    const matchesFilter = activeFilter === 'all' || n.type === activeFilter;
+    const matchesUnread = !showUnreadOnly || !n.read;
+    return matchesFilter && matchesUnread;
+  });
+  
+  $: groupedNotifications = groupByDate(filteredNotifications);
+  
+  // Mark as read
+  const markAsRead = (id: string) => {
+    allNotifications = allNotifications.map(n => 
+      n.id === id ? { ...n, read: true } : n
+    );
+    // In real app: API call to mark as read
   };
   
   const markAllAsRead = () => {
+    allNotifications = allNotifications.map(n => ({ ...n, read: true }));
     // In real app: API call to mark all as read
-    console.log('Mark all as read');
   };
   
-  const getNotificationStyles = (type: string) => {
-    const styles = {
-      order: 'bg-blue-100 text-blue-700',
-      promo: 'bg-purple-100 text-purple-700',
-      review: 'bg-green-100 text-green-700',
-      follow: 'bg-pink-100 text-pink-700',
-      security: 'bg-yellow-100 text-yellow-700'
-    };
-    return styles[type as keyof typeof styles] || styles.order;
+  const deleteAllRead = () => {
+    allNotifications = allNotifications.filter(n => !n.read);
+    // In real app: API call to delete read notifications
   };
+  
+  // Listen for filter events
+  onMount(() => {
+    const handleFilterChange = (e: CustomEvent) => activeFilter = e.detail;
+    const handleUnreadToggle = (e: CustomEvent) => showUnreadOnly = e.detail;
+    
+    window.addEventListener('filter-change', handleFilterChange as EventListener);
+    window.addEventListener('unread-toggle', handleUnreadToggle as EventListener);
+    
+    return () => {
+      window.removeEventListener('filter-change', handleFilterChange as EventListener);
+      window.removeEventListener('unread-toggle', handleUnreadToggle as EventListener);
+    };
+  });
 </script>
 
 <svelte:head>
   <title>Notifications | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-[800px] mx-auto px-4 py-8">
-  <div class="flex items-center justify-between mb-8">
-    <h1 class="text-3xl font-bold text-text-main">Notifications</h1>
-    <Button variant="outline" size="sm" onclick={markAllAsRead}>
-      Mark All as Read
-    </Button>
-  </div>
+<div class="max-w-[800px] mx-auto px-4 py-8 space-y-8">
   
-  <!-- Today -->
-  {#if notifications.today.length > 0}
-    <section class="mb-8">
-      <h2 class="text-sm font-semibold text-text-muted uppercase tracking-wide mb-4">Today</h2>
-      <div class="space-y-3">
-        {#each notifications.today as notification, i}
-          <div
-            in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}
-            class="relative"
-          >
-            <Card
-              className="border border-gray-200 p-4 transition-colors
-                     {notification.unread ? 'bg-blue-50 border-blue-200' : 'bg-surface'}"
-            >
-              <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-full {getNotificationStyles(notification.type)} flex items-center justify-center text-xl flex-shrink-0">
-                  {notification.icon}
-                </div>
-                <div class="flex-1 min-w-0">
-                  <p class="text-body text-text-main">{notification.message}</p>
-                  <p class="text-xs text-text-muted mt-1">{notification.time}</p>
-                </div>
-                {#if notification.unread}
-                  <button
-                    on:click={() => markAsRead(notification.id)}
-                    class="w-3 h-3 rounded-full bg-primary flex-shrink-0"
-                    aria-label="Mark as read"
-                  ></button>
-                {/if}
-              </div>
-            </Card>
-          </div>
-        {/each}
+  <!-- Section 1: Page Header -->
+  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4" in:fade={{ duration: 400 }}>
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+        <Icon icon="mdi:bell-outline" class="w-6 h-6 text-primary" />
       </div>
+      <div>
+        <h1 class="text-2xl font-bold text-text-main">Notifications</h1>
+        <p class="text-body text-text-muted">Stay updated on orders, shop activity and account alerts</p>
+      </div>
+    </div>
+    
+    <div class="flex gap-3">
+      <Button variant="outline" size="md" onclick={markAllAsRead}>
+        <Icon icon="mdi:check-all" class="w-4 h-4 mr-2" />
+        Mark all as read
+      </Button>
+      <Button variant="ghost" size="md" onclick={() => showSettingsModal = true}>
+        <Icon icon="mdi:cog-outline" class="w-5 h-5" />
+      </Button>
+    </div>
+  </section>
+  
+  <!-- Section 2: Filters -->
+  <section in:fade={{ duration: 400, delay: 100 }}>
+    <NotificationFilters
+      activeFilter={activeFilter}
+      showUnreadOnly={showUnreadOnly}
+    />
+  </section>
+  
+  <!-- Section 3: Bulk Actions (if notifications exist) -->
+  {#if filteredNotifications.length > 0}
+    <section class="flex items-center justify-between" in:fade={{ duration: 400, delay: 200 }}>
+      <p class="text-sm text-text-muted">
+        {filteredNotifications.length} notification{filteredNotifications.length !== 1 ? 's' : ''}
+        {showUnreadOnly && ` (unread)`}
+      </p>
+      <Button variant="ghost" size="sm" class="text-error hover:bg-error/5" onclick={deleteAllRead}>
+        <Icon icon="mdi:delete-outline" class="w-4 h-4 mr-1" />
+        Delete all read
+      </Button>
     </section>
   {/if}
   
-  <!-- This Week -->
-  {#if notifications.thisWeek.length > 0}
-    <section class="mb-8">
-      <h2 class="text-sm font-semibold text-text-muted uppercase tracking-wide mb-4">This Week</h2>
-      <div class="space-y-3">
-        {#each notifications.thisWeek as notification, i}
-          <div
-            in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}
-            class="relative"
-          >
-            <Card
-              className="border border-gray-200 p-4 transition-colors
-                     {notification.unread ? 'bg-blue-50 border-blue-200' : 'bg-surface'}"
-            >
-              <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-full {getNotificationStyles(notification.type)} flex items-center justify-center text-xl flex-shrink-0">
-                  {notification.icon}
-                </div>
-                <div class="flex-1 min-w-0">
-                  <p class="text-body text-text-main">{notification.message}</p>
-                  <p class="text-xs text-text-muted mt-1">{notification.time}</p>
-                </div>
-                {#if notification.unread}
-                  <button
-                    on:click={() => markAsRead(notification.id)}
-                    class="w-3 h-3 rounded-full bg-primary flex-shrink-0"
-                    aria-label="Mark as read"
-                  ></button>
-                {/if}
-              </div>
-            </Card>
-          </div>
-        {/each}
-      </div>
-    </section>
-  {/if}
+  <!-- Section 4: Notification List -->
+  <section in:fade={{ duration: 400, delay: 300 }}>
+    {#if filteredNotifications.length === 0}
+      <EmptyNotifications />
+    {:else}
+      {#each Object.entries(groupedNotifications) as [dateLabel, notifications]}
+        <NotificationGroup
+          {dateLabel}
+          {notifications}
+          onMarkRead={markAsRead}
+        />
+      {/each}
+    {/if}
+  </section>
   
-  <!-- Earlier -->
-  {#if notifications.earlier.length > 0}
-    <section>
-      <h2 class="text-sm font-semibold text-text-muted uppercase tracking-wide mb-4">Earlier</h2>
-      <div class="space-y-3">
-        {#each notifications.earlier as notification, i}
-          <div
-            in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}
-            class="relative"
-          >
-            <Card
-              className="border border-gray-200 p-4 transition-colors
-                     {notification.unread ? 'bg-blue-50 border-blue-200' : 'bg-surface'}"
-            >
-              <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-full {getNotificationStyles(notification.type)} flex items-center justify-center text-xl flex-shrink-0">
-                  {notification.icon}
-                </div>
-                <div class="flex-1 min-w-0">
-                  <p class="text-body text-text-main">{notification.message}</p>
-                  <p class="text-xs text-text-muted mt-1">{notification.time}</p>
-                </div>
-                {#if notification.unread}
-                  <button
-                    on:click={() => markAsRead(notification.id)}
-                    class="w-3 h-3 rounded-full bg-primary flex-shrink-0"
-                    aria-label="Mark as read"
-                  ></button>
-                {/if}
-              </div>
-            </Card>
-          </div>
-        {/each}
-      </div>
+  <!-- Load More / Pagination -->
+  {#if filteredNotifications.length >= 10}
+    <section class="text-center" in:fade={{ duration: 400, delay: 400 }}>
+      <Button variant="outline" size="lg">
+        Load More Notifications
+      </Button>
     </section>
-  {/if}
-  
-  <!-- Empty State -->
-  {#if notifications.today.length === 0 && notifications.thisWeek.length === 0 && notifications.earlier.length === 0}
-    <Card className="py-16 text-center">
-      <div class="text-6xl mb-4">🔔</div>
-      <h2 class="text-h2 text-text-main mb-2">No notifications</h2>
-      <p class="text-body text-text-muted">You're all caught up!</p>
-    </Card>
   {/if}
 </div>
+
+<!-- Settings Modal -->
+<!-- {#if showSettingsModal}
+  <NotificationSettingsModal onClose={() => showSettingsModal = false} />
+{/if} -->
+
+<!-- <style>
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    [in:fly] {
+      animation: none !important;
+      transition: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style> -->

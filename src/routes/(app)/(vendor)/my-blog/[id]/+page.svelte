@@ -108,7 +108,7 @@ Consider your primary use case:
   <title>{post.title} | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-[1280px] mx-auto px-4 py-8">
+<main class="max-w-7xl mx-auto px-4 py-8">
   
   <!-- Back Link -->
   <div class="mb-6" in:fade={{ duration: 400 }}>
@@ -185,49 +185,59 @@ Consider your primary use case:
       {@html post.content}
     </div>
   </article>
-</div>
+</main>
 
-<style>
+<!-- <style>
   /* Prose styles for blog content */
   :global(.prose) {
-    @apply text-body text-text-muted leading-relaxed;
+    @apply text-[16px] text-[#64748B] leading-[1.9];
   }
+
   :global(.prose h2) {
-    @apply text-2xl font-bold text-text-main mt-12 mb-4;
+    @apply text-[40px] font-bold text-[#0F172A] mt-12 mb-4;
   }
+
   :global(.prose h3) {
-    @apply text-xl font-semibold text-text-main mt-8 mb-3;
+    @apply text-[28px] font-semibold text-[#0F172A] mt-8 mb-3;
   }
+
   :global(.prose p) {
     @apply mb-4;
   }
+
   :global(.prose ul) {
     @apply list-disc list-inside mb-4 pl-4;
   }
+
   :global(.prose li) {
     @apply mb-2;
   }
+
   :global(.prose a) {
-    @apply text-primary hover:underline;
+    @apply text-[#1D4ED8] hover:underline;
   }
+
   :global(.prose blockquote) {
-    @apply border-l-4 border-primary pl-4 italic text-text-muted;
+    @apply border-l-4 border-[#1D4ED8] pl-4 italic text-[#64748B];
   }
+
   :global(.prose table) {
     @apply w-full border-collapse my-6;
   }
+
   :global(.prose th) {
-    @apply text-left py-2 px-4 bg-gray-100 font-semibold;
+    @apply text-left py-2 px-4 bg-[#F1F5F9] font-semibold text-[#0F172A];
   }
+
   :global(.prose td) {
-    @apply py-2 px-4 border-b border-gray-200;
+    @apply py-2 px-4 border-b border-[#E2E8F0];
   }
-  
-  /* @media (prefers-reduced-motion: reduce) {
+
+  @media (prefers-reduced-motion: reduce) {
     .animate-fade-in {
       animation: none !important;
       opacity: 1 !important;
       transform: none !important;
     }
-  } */
-</style>
+  }
+</style> -->

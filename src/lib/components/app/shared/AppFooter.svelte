@@ -10,7 +10,7 @@
     class="max-w-8xl mx-auto w-full h-full flex flex-col md:flex-row items-center justify-between"
   >
     <div class="text-sm text-text-muted">
-      © {new Date().getFullYear()} VendorHub {role === "vendor"
+      © {new Date().getFullYear()} VendorHub {role === "buyer"
         ? ""
         : "for Business"}
     </div>
