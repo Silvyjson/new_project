@@ -1,11 +1,17 @@
-<!-- src/routes/(vendor)/my-blog/create/+page.svelte -->
+<!-- src/routes/(vendor)/my-blog/[id]/edit/+page.svelte -->
 <script lang="ts">
+  import { page } from '$app/stores';
   import { fade } from 'svelte/transition';
   import { onMount } from 'svelte';
   import Icon from '@iconify/svelte';
   import BlogEditor from '$lib/components/app/vendor/blog/BlogEditor.svelte';
   import BlogSettings from '$lib/components/app/vendor/blog/BlogSettings.svelte';
   import Button from '$lib/components/common/Button.svelte';
+  
+  let postId = '';
+  $: if ($page.params.id) {
+    postId = $page.params.id;
+  }
   
   // Mock shops
   let shops = [
@@ -14,36 +20,50 @@
     { id: '3', name: 'Bella Beauty', slug: 'bella-beauty' }
   ];
   
-  // Form state
-  let title = '';
-  let slug = '';
-  let excerpt = '';
-  let content = '';
-  let coverImage = '';
-  let selectedShop = '';
-  let status: 'draft' | 'published' = 'draft';
-  let tags = '';
-  let seoTitle = '';
-  let seoDescription = '';
+  // Mock post data (in real app: fetch from API)
+  let post = {
+    id: postId,
+    title: 'How to Choose the Best Wireless Headphones',
+    slug: 'how-to-choose-wireless-headphones',
+    excerpt: 'A comprehensive guide to finding the perfect wireless headphones for your needs...',
+    content: '# How to Choose...\n\nWireless headphones have revolutionized...',
+    coverImage: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e',
+    shopId: '1',
+    status: 'published' as const,
+    tags: 'tech, headphones, buying-guide, audio',
+    seoTitle: '',
+    seoDescription: ''
+  };
+  
+  // Form state (pre-filled from post)
+  let title = post.title;
+  let slug = post.slug;
+  let excerpt = post.excerpt;
+  let content = post.content;
+  let coverImage = post.coverImage;
+  let selectedShop = post.shopId;
+  let status: 'draft' | 'published' = post.status;
+  let tags = post.tags;
+  let seoTitle = post.seoTitle;
+  let seoDescription = post.seoDescription;
   
   // Auto-save timer
   let autoSaveTimer: ReturnType<typeof setTimeout>;
   
-  const handleSave = (publishStatus: 'draft' | 'published') => {
+  const handleUpdate = (publishStatus: 'draft' | 'published') => {
     status = publishStatus;
-    // In real app: API call to save post
-    console.log('Saving post', { title, slug, status, content });
+    // In real app: API call to update post
+    console.log('Updating post', { id: postId, title, status });
   };
   
   const handlePreview = () => {
-    // In real app: open preview modal
     alert('Preview mode coming soon!');
   };
   
   // Auto-save every 10 seconds
   onMount(() => {
     autoSaveTimer = setInterval(() => {
-      if (title || content) {
+      if (title !== post.title || content !== post.content) {
         console.log('Auto-saving draft...');
         // In real app: API call to auto-save
       }
@@ -55,7 +75,7 @@
   // Warn on page leave with unsaved changes
   onMount(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (title || content) {
+      if (title !== post.title || content !== post.content) {
         e.preventDefault();
         e.returnValue = '';
       }
@@ -66,7 +86,7 @@
 </script>
 
 <svelte:head>
-  <title>Create Blog Post | VendorHub</title>
+  <title>Edit {post.title} | VendorHub</title>
 </svelte:head>
 
 <div class="max-w-[1400px] mx-auto px-4 py-8">
@@ -79,8 +99,8 @@
           <Icon icon="mdi:pencil-outline" class="w-6 h-6 text-primary" />
         </div>
         <div>
-          <h1 class="text-2xl font-bold text-text-main">Create Blog Post</h1>
-          <p class="text-body text-text-muted">Share updates, tutorials, or product announcements</p>
+          <h1 class="text-2xl font-bold text-text-main">Edit Blog Post</h1>
+          <p class="text-body text-text-muted">{post.title}</p>
         </div>
       </div>
     </div>
@@ -96,6 +116,7 @@
         excerpt={excerpt}
         content={content}
         coverImage={coverImage}
+        isEdit={true}
         on:title-change={(e) => title = e.detail}
         on:slug-change={(e) => slug = e.detail}
         on:excerpt-change={(e) => excerpt = e.detail}
@@ -119,22 +140,22 @@
         on:seo-description-change={(e) => seoDescription = e.detail}
       />
       
-      <!-- Publish Controls -->
+      <!-- Update Controls -->
       <div class="mt-6 space-y-3">
         <Button
           variant="primary"
           size="lg"
           class="w-full"
-          onclick={() => handleSave('published')}
+          onclick={() => handleUpdate('published')}
         >
-          <Icon icon="mdi:publish" class="w-5 h-5 mr-2" />
-          Publish Post
+          <Icon icon="mdi:update" class="w-5 h-5 mr-2" />
+          Update Post
         </Button>
         <Button
           variant="outline"
           size="lg"
           class="w-full"
-          onclick={() => handleSave('draft')}
+          onclick={() => handleUpdate('draft')}
         >
           <Icon icon="mdi:content-save-outline" class="w-5 h-5 mr-2" />
           Save Draft
