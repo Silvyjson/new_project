@@ -4,6 +4,7 @@
     import Card from "$lib/components/common/Card.svelte";
     import Button from "$lib/components/common/Button.svelte";
     import Badge from "$lib/components/common/Badge.svelte";
+  import { formatNaira } from "$lib/utils/format";
 
     export let products: Array<{
         id: string;
@@ -19,14 +20,6 @@
     }>;
 
     export let shopSlug: string;
-
-    const formatNaira = (amount: number) => {
-        return new Intl.NumberFormat("en-NG", {
-            style: "currency",
-            currency: "NGN",
-            minimumFractionDigits: 0,
-        }).format(amount);
-    };
 
     const getStatusBadge = (status: string) => {
         const badges = {

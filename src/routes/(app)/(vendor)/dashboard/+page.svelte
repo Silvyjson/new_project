@@ -4,12 +4,12 @@
     import { cubicOut } from "svelte/easing";
     import Icon from "@iconify/svelte";
 
-    import ShopCardVendor from "$lib/components/app/card/ShopCardVendor.svelte";
+    import ShopCardVendor from "$lib/components/app/vendor/shop/ShopCardVendor.svelte";
     import OrderCard from "$lib/components/app/card/OrderCard.svelte";
     import Card from "$lib/components/common/Card.svelte";
     import Button from "$lib/components/common/Button.svelte";
     import KPICard from "$lib/components/app/vendor/KPICard.svelte";
-    import ShopEmptyState from "$lib/components/app/vendor/ShopEmptyState.svelte";
+    import ShopEmptyState from "$lib/components/app/vendor/shop/ShopEmptyState.svelte";
 
     let user = { name: "Silvia" };
 
@@ -116,7 +116,7 @@
     <title>Dashboard | VendorHub</title>
 </svelte:head>
 
-<main class="max-w-[1280px] mx-auto px-4 py-6 space-y-8">
+<main class="max-w-7xl mx-auto px-4 py-6 space-y-8">
     <!-- Header -->
     <section class="flex items-center justify-between flex-wrap gap-4">
         <div>

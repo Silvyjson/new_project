@@ -6,6 +6,7 @@
     import Button from "$lib/components/common/Button.svelte";
     import ProfileDrawer from "$lib/components/app/shared/ProfileDrawer.svelte";
     import Icon from "@iconify/svelte";
+  import { formatNaira } from "$lib/utils/format";
 
     export let shop: Shop | null = null;
     export let product: Product | undefined = undefined;
@@ -28,14 +29,6 @@
     let activeDrawerTab: "cart" | "wishlist" = "cart";
 
     let showProfileDrawer = false;
-
-    const formatNaira = (amount: number) => {
-        return new Intl.NumberFormat("en-NG", {
-            style: "currency",
-            currency: "NGN",
-            minimumFractionDigits: 0,
-        }).format(amount);
-    };
 
     const cartSubtotal = () =>
         cartItems.reduce((total, item) => total + item.price, 0);

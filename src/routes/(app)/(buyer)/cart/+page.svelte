@@ -3,6 +3,7 @@
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
   import Badge from '$lib/components/common/Badge.svelte';
+  import { formatNaira } from '$lib/utils/format';
   
   // Mock cart data grouped by vendor
   let cartByVendor = [
@@ -76,14 +77,6 @@
     if (vendor.items.length === 0) {
       cartByVendor = cartByVendor.filter(v => v.vendorId !== vendorId);
     }
-  };
-  
-  const formatNaira = (amount: number) => {
-    return new Intl.NumberFormat('en-NG', {
-      style: 'currency',
-      currency: 'NGN',
-      minimumFractionDigits: 0
-    }).format(amount);
   };
 </script>
 

@@ -14,6 +14,7 @@
     import TrustBadge from "$lib/components/common/TrustBadge.svelte";
     import ProductCard from "$lib/components/app/shopTheme/default/components/ProductCard.svelte";
     import ReviewCard from "$lib/components/app/card/ReviewCard.svelte";
+  import { formatNaira } from "$lib/utils/format";
 
     // Data from load function
     export let data: PageData;
@@ -46,15 +47,6 @@
         }
         // Navigate to checkout
         window.location.href = "/checkout";
-    };
-
-    // Format currency
-    const formatNaira = (amount: number) => {
-        return new Intl.NumberFormat("en-NG", {
-            style: "currency",
-            currency: "NGN",
-            minimumFractionDigits: 0,
-        }).format(amount);
     };
 
     // Get stock status color

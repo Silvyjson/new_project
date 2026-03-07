@@ -36,15 +36,6 @@
         // Could add toast here instead of alert
     };
 
-    // Format currency
-    const formatNaira = (amount: number) => {
-        return new Intl.NumberFormat("en-NG", {
-            style: "currency",
-            currency: "NGN",
-            minimumFractionDigits: 0,
-        }).format(amount);
-    };
-
     // Format date
     const formatDate = (date: Date) => {
         return new Intl.DateTimeFormat("en-US", {

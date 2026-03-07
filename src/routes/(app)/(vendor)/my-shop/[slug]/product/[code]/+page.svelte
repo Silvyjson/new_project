@@ -4,6 +4,7 @@
     import Card from "$lib/components/common/Card.svelte";
     import Button from "$lib/components/common/Button.svelte";
     import Badge from "$lib/components/common/Badge.svelte";
+  import { formatNaira } from "$lib/utils/format";
 
     let productId = "";
     $: if ($page.params.code) {
@@ -36,14 +37,6 @@
         },
     };
 
-    const formatNaira = (amount: number) => {
-        return new Intl.NumberFormat("en-NG", {
-            style: "currency",
-            currency: "NGN",
-            minimumFractionDigits: 0,
-        }).format(amount);
-    };
-
     const toggleProductStatus = () => {
         product.active = !product.active;
     };
@@ -53,7 +46,7 @@
     <title>{product.name} | VendorHub</title>
 </svelte:head>
 
-<main class="max-w-[1280px] mx-auto px-4 py-8">
+<main class="max-w-7xl mx-auto px-4 py-8">
     <div class="mb-6">
         <a
             href="/my-shop/product"

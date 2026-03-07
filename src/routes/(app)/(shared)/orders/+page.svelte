@@ -3,6 +3,7 @@
   import Card from "$lib/components/common/Card.svelte";
   import Button from "$lib/components/common/Button.svelte";
   import Badge from "$lib/components/common/Badge.svelte";
+  import { formatNaira } from "$lib/utils/format";
 
   // 👇 injected from +layout.svelte
   export let role: "vendor" | "buyer" = "buyer";
@@ -144,13 +145,6 @@
       year: "numeric",
     }).format(new Date(date));
   };
-
-  const formatNaira = (amount: number) =>
-    new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: "NGN",
-      minimumFractionDigits: 0,
-    }).format(amount);
 
   /* --------------------------------------------
    * Filtered Orders

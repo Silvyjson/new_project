@@ -11,6 +11,8 @@
     import Card from "$lib/components/common/Card.svelte";
     import ProductGrid from "$lib/components/app/grid/ProductGrid.svelte";
     import Icon from "@iconify/svelte";
+    import { formatNaira } from '$lib/utils/format';
+
 
     // Data from load function
     export let data: PageData;
@@ -169,15 +171,6 @@
         cartItemCount++;
         showCartNotification = true;
         setTimeout(() => (showCartNotification = false), 3000);
-    };
-
-    // Format currency
-    const formatNaira = (amount: number) => {
-        return new Intl.NumberFormat("en-NG", {
-            style: "currency",
-            currency: "NGN",
-            minimumFractionDigits: 0,
-        }).format(amount);
     };
 
     // Get stock status badge

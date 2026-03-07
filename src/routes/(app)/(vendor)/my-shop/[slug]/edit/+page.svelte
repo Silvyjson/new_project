@@ -3,7 +3,7 @@
     import { page } from "$app/stores";
     import { fade } from "svelte/transition";
     import Icon from "@iconify/svelte";
-    import ShopForm from "$lib/components/app/vendor/ShopForm.svelte";
+    import ShopForm from "$lib/components/app/vendor/shop/ShopForm.svelte";
     import Button from "$lib/components/common/Button.svelte";
 
     let shopSlug = "";

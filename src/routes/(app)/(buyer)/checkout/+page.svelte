@@ -5,6 +5,7 @@
   import Button from '$lib/components/common/Button.svelte';
   import Input from '$lib/components/common/Input.svelte';
   import Badge from '$lib/components/common/Badge.svelte';
+  import { formatNaira } from '$lib/utils/format';
   
   // Mock checkout data
   let checkoutData = {
@@ -39,14 +40,6 @@
     
     // Redirect to success
     goto('/orders?success=true');
-  };
-  
-  const formatNaira = (amount: number) => {
-    return new Intl.NumberFormat('en-NG', {
-      style: 'currency',
-      currency: 'NGN',
-      minimumFractionDigits: 0
-    }).format(amount);
   };
 </script>
 

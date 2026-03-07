@@ -10,6 +10,7 @@
     import Button from "$lib/components/common/Button.svelte";
     import Badge from "$lib/components/common/Badge.svelte";
     import TrustBadge from "$lib/components/common/TrustBadge.svelte";
+    import { formatNumber } from "$lib/utils/format";
 
     let shopId = "3";
     let shopSlug = "3";
@@ -183,20 +184,13 @@
             verifiedMatch: false,
         },
     ];
-
-    const formatNumber = (num: number): string => {
-        if (num >= 1000) {
-            return (num / 1000).toFixed(1) + "K";
-        }
-        return num.toString();
-    };
 </script>
 
 <svelte:head>
     <title>{shop.name} | VendorHub</title>
 </svelte:head>
 
-<main class="max-w-[1280px] mx-auto px-4 py-8 space-y-10">
+<main class="max-w-7xl mx-auto px-4 py-8 space-y-10">
     <!-- Back Link -->
     <div in:fade={{ duration: 400 }}>
         <a
@@ -405,6 +399,16 @@
                         <Icon icon="mdi:chart-line" class="w-4 h-4 mr-1" />
                         Analytics
                     </Button>
+
+                    <Button
+                        href={`/followers?shop=${shop.slug}`}
+                        variant="outline"
+                        size="sm"
+                    >
+                        <Icon icon="mdi:crown-outline" class="w-4 h-4 mr-1" />
+                        Followers
+                    </Button>
+
                 </div>
 
                 <!-- Quick Stats -->
@@ -571,9 +575,12 @@
                 {/each}
             </div>
         {:else}
-            <Card className="py-12 text-center border border-gray-200">
-                <div class="text-5xl mb-4">📦</div>
-                <p class="text-body text-text-muted">No orders yet</p>
+            <Card className="py-10 text-center border border-gray-200">
+                <Icon
+                    icon="mdi:package-variant-closed"
+                    class="w-10 h-10 mx-auto mb-3 text-gray-400"
+                />
+                <p class="text-sm text-text-muted">No orders yet</p>
             </Card>
         {/if}
     </section>

@@ -3,6 +3,7 @@
     import Card from "$lib/components/common/Card.svelte";
     import Button from "$lib/components/common/Button.svelte";
     import Input from "$lib/components/common/Input.svelte";
+  import { formatNaira } from "$lib/utils/format";
 
     // Mock wallet data
     let wallet = {
@@ -59,14 +60,6 @@
         // In real app: API call
         await new Promise((resolve) => setTimeout(resolve, 2000));
         loading = false;
-    };
-
-    const formatNaira = (amount: number) => {
-        return new Intl.NumberFormat("en-NG", {
-            style: "currency",
-            currency: "NGN",
-            minimumFractionDigits: 0,
-        }).format(amount);
     };
 
     const getTransactionColor = (type: string) => {

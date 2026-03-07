@@ -5,6 +5,7 @@
   import Card from "$lib/components/common/Card.svelte";
   import Badge from "$lib/components/common/Badge.svelte";
   import Icon from "@iconify/svelte";
+  import { formatNaira } from "$lib/utils/format";
 
   const dispatch = createEventDispatcher<{
     wishlist: { wishlisted: boolean; product: Product };
@@ -30,14 +31,6 @@
     e.preventDefault();
     e.stopPropagation();
     dispatch("addToCart", { product });
-  };
-
-  const formatNaira = (amount: number) => {
-    return new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: "NGN",
-      minimumFractionDigits: 0,
-    }).format(amount);
   };
 
   const getStockStatusColor = (status: string) => {

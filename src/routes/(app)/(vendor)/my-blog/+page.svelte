@@ -68,7 +68,7 @@
     <title>My Blog | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-[1280px] mx-auto px-4 py-8">
+<div class="max-w-7xl mx-auto px-4 py-8">
     <div class="flex items-center justify-between mb-8">
         <h1 class="text-3xl font-bold text-text-main">My Blog</h1>
         <Button href="/my-blog/create" variant="primary" size="lg">

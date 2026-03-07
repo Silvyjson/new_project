@@ -4,8 +4,8 @@
     import { fade, fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
     import Icon from "@iconify/svelte";
-    import ProductTable from "$lib/components/app/vendor/ProductTable.svelte";
-    import ProductGrid from "$lib/components/app/vendor/ProductGrid.svelte";
+    import ProductTable from "$lib/components/app/vendor/product/ProductTable.svelte";
+    import ProductGrid from "$lib/components/app/vendor/product/ProductGrid.svelte";
     import Card from "$lib/components/common/Card.svelte";
     import Button from "$lib/components/common/Button.svelte";
     import Badge from "$lib/components/common/Badge.svelte";
@@ -116,7 +116,7 @@
     <title>Products - {shopName} | VendorHub</title>
 </svelte:head>
 
-<main class="max-w-[1280px] mx-auto px-4 py-8 space-y-8">
+<main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
     <!-- Back Link -->
     <div in:fade={{ duration: 400 }}>
         <a

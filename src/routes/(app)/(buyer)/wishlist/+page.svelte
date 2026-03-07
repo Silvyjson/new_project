@@ -60,7 +60,7 @@
   <title>Wishlist | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-[1280px] mx-auto px-4 py-8">
+<div class="max-w-7xl mx-auto px-4 py-8">
   <h1 class="text-3xl font-bold text-text-main mb-8">My Wishlist</h1>
 
   <!-- Tabs -->

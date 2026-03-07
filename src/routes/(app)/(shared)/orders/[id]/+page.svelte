@@ -4,6 +4,7 @@
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
   import Badge from '$lib/components/common/Badge.svelte';
+  import { formatNaira } from '$lib/utils/format';
   
   // Get order ID from URL
   let orderId = '';
@@ -58,14 +59,6 @@
       day: 'numeric',
       year: 'numeric'
     }).format(new Date(date));
-  };
-  
-  const formatNaira = (amount: number) => {
-    return new Intl.NumberFormat('en-NG', {
-      style: 'currency',
-      currency: 'NGN',
-      minimumFractionDigits: 0
-    }).format(amount);
   };
   
   $: statusBadge = getStatusBadge(order.status);
