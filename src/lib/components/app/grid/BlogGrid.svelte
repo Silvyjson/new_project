@@ -10,17 +10,6 @@
   export let handlePageChange: (e: CustomEvent<{ page: number }>) => void = (
     e,
   ) => {};
-  export let formatDate: (d: Date) => string = (d) =>
-    new Date(d).toDateString();
-  type BadgeVariant =
-    | "danger"
-    | "default"
-    | "success"
-    | "warning"
-    | "info"
-    | undefined;
-  export let getCategoryColorClass: (c: string) => BadgeVariant = () =>
-    "default";
 
   export let updateFilters: () => void;
   export let searchQuery: string;
@@ -31,7 +20,7 @@
 {#if posts && posts.length > 0}
   <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
     {#each posts as post, i}
-      <BlogCard {post} {formatDate} {getCategoryColorClass} />
+      <BlogCard {post} />
     {/each}
   </div>
 

@@ -13,7 +13,7 @@
   import Button from '$lib/components/common/Button.svelte';
   
   // Role (in real app: from auth store)
-  let role: 'buyer' | 'vendor' = 'vendor';
+  let role: 'buyer' | 'vendor' = 'buyer';
   
   // Filter state
   let activeFilter = 'all';
@@ -205,6 +205,7 @@
     <NotificationFilters
       activeFilter={activeFilter}
       showUnreadOnly={showUnreadOnly}
+      role={role}
     />
   </section>
   

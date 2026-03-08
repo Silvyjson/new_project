@@ -12,7 +12,7 @@
   import ProfileDrawer from "$lib/components/app/common/ProfileDrawer.svelte";
 
   let showProfileDrawer = false;
-  let role = "vendor";
+  let role = "buyer";
 
   // --- TEMP: simulate logged in state ---
   let simulateLoggedIn = false; // toggle to true to see AppHeader

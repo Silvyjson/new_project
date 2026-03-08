@@ -53,23 +53,6 @@
             year: "numeric",
         }).format(new Date(date));
     };
-
-    // Get category color class
-    const getCategoryColorClass = (
-        color: string,
-    ): "default" | "success" | "warning" | "danger" | "info" => {
-        const colors: Record<
-            string,
-            "default" | "success" | "warning" | "danger" | "info"
-        > = {
-            indigo: "info",
-            purple: "default",
-            blue: "info",
-            success: "success",
-            gray: "default",
-        };
-        return colors[color] || "default";
-    };
 </script>
 
 <svelte:head>
@@ -301,8 +284,6 @@
                     {#if posts.length > 0}
                         <BlogGrid
                             {posts}
-                            {formatDate}
-                            {getCategoryColorClass}
                             {updateFilters}
                             {searchQuery}
                             {selectedCategory}

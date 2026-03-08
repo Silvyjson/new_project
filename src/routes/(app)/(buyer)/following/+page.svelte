@@ -2,30 +2,76 @@
 <script lang="ts">
   import { fade, fly } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
-  import Card from '$lib/components/common/Card.svelte';
+  import Icon from '@iconify/svelte';
+  import ShopCard from '$lib/components/app/card/ShopCard.svelte';
   import Button from '$lib/components/common/Button.svelte';
+  import Card from '$lib/components/common/Card.svelte';
   import Badge from '$lib/components/common/Badge.svelte';
   
-  // Active tab
-  let activeTab = 'shops';
-  
-  // Mock data
-  const followedShops = [
-    { id: 1, name: 'TechStoreNG', logo: '🏪', banner: 'bg-blue-100', vendor: 'Kicks NG', followers: 2340, trustScore: 94, verified: true },
-    { id: 2, name: 'Amina Fashion', logo: '👗', banner: 'bg-pink-100', vendor: 'Amina Fashion', followers: 1890, trustScore: 92, verified: true },
-    { id: 3, name: 'Home Essentials', logo: '🏠', banner: 'bg-green-100', vendor: 'Home Co', followers: 1200, trustScore: 89, verified: false },
-    { id: 4, name: 'Beauty Hub', logo: '💄', banner: 'bg-purple-100', vendor: 'Beauty Co', followers: 3400, trustScore: 96, verified: true }
+  // Mock followed shops
+  let followedShops = [
+    {
+      id: '1',
+      name: 'TechHub',
+      slug: 'techhub',
+      logo: 'https://api.dicebear.com/7.x/initials/svg?seed=TH',
+      banner: 'bg-gradient-to-r from-blue-400 to-blue-600',
+      followers: 2340,
+      products: 120,
+      verified: true,
+      active: true,
+      lastActive: '2 hours ago',
+      recentActivity: 'Added 3 new products'
+    },
+    {
+      id: '2',
+      name: 'Urban Kicks',
+      slug: 'urban-kicks',
+      logo: 'https://api.dicebear.com/7.x/initials/svg?seed=UK',
+      banner: 'bg-gradient-to-r from-purple-400 to-purple-600',
+      followers: 1890,
+      products: 85,
+      verified: true,
+      active: true,
+      lastActive: '5 hours ago',
+      recentActivity: 'Posted a blog article'
+    },
+    {
+      id: '3',
+      name: 'Bella Beauty',
+      slug: 'bella-beauty',
+      logo: 'https://api.dicebear.com/7.x/initials/svg?seed=BB',
+      banner: 'bg-gradient-to-r from-pink-400 to-pink-600',
+      followers: 1200,
+      products: 200,
+      verified: false,
+      active: true,
+      lastActive: '1 day ago',
+      recentActivity: 'Running a promotion'
+    }
   ];
   
-  const followedVendors = [
-    { id: 1, name: 'Kicks NG', avatar: '👟', trustScore: 94, shops: 3, verified: true },
-    { id: 2, name: 'Amina Fashion', avatar: '👗', trustScore: 92, shops: 2, verified: true },
-    { id: 3, name: 'Tech Hub NG', avatar: '📱', trustScore: 89, shops: 1, verified: false }
-  ];
+  // Filter state
+  let searchQuery = '';
+  let sortBy = 'recently-followed';
   
-  const handleUnfollow = (type: 'shop' | 'vendor', id: number) => {
-    // In real app: API call to unfollow
-    console.log(`Unfollow ${type} ${id}`);
+  // Filter shops
+  $: filteredShops = followedShops.filter(shop =>
+    shop.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  
+  // Sort shops
+  $: sortedShops = [...filteredShops].sort((a, b) => {
+    if (sortBy === 'recently-followed') return 0; // In real app: sort by follow date
+    if (sortBy === 'most-active') return 0; // In real app: sort by activity
+    if (sortBy === 'alphabetical') return a.name.localeCompare(b.name);
+    return 0;
+  });
+  
+  const handleUnfollow = (shopId: string) => {
+    if (confirm('Are you sure you want to unfollow this shop?')) {
+      followedShops = followedShops.filter(s => s.id !== shopId);
+    }
   };
 </script>
 
@@ -33,108 +79,92 @@
   <title>Following | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-[1000px] mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold text-text-main mb-8">Following</h1>
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-8">
   
-  <!-- Tabs -->
-  <div class="flex items-center gap-2 mb-8">
-    <button
-      on:click={() => activeTab = 'shops'}
-      class="px-6 py-3 rounded-xl text-body font-medium transition-colors
-             {activeTab === 'shops' 
-               ? 'bg-primary text-white' 
-               : 'bg-gray-100 text-text-muted hover:bg-gray-200'}"
-    >
-      Shops ({followedShops.length})
-    </button>
-    <button
-      on:click={() => activeTab = 'vendors'}
-      class="px-6 py-3 rounded-xl text-body font-medium transition-colors
-             {activeTab === 'vendors' 
-               ? 'bg-primary text-white' 
-               : 'bg-gray-100 text-text-muted hover:bg-gray-200'}"
-    >
-      Vendors ({followedVendors.length})
-    </button>
-  </div>
-  
-  <!-- Shops Tab -->
-  {#if activeTab === 'shops'}
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {#each followedShops as shop, i}
-        <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
-          <Card hover={true} padding="none" className="overflow-hidden border border-gray-200">
-            <div class="h-32 {shop.banner} relative">
-              <div class="absolute -bottom-10 left-6">
-                <div class="w-20 h-20 rounded-full bg-surface border-4 border-surface flex items-center justify-center text-4xl shadow-card">
-                  {shop.logo}
-                </div>
-              </div>
-              {#if shop.verified}
-                <Badge variant="success" className="absolute top-4 right-4">Verified</Badge>
-              {/if}
-            </div>
-            <div class="pt-12 pb-4 px-6">
-              <h3 class="text-lg font-bold text-text-main mb-1">{shop.name}</h3>
-              <p class="text-sm text-text-muted mb-3">by {shop.vendor}</p>
-              
-              <div class="flex items-center justify-between mb-4">
-                <span class="text-sm text-text-muted">
-                  <span class="font-semibold text-text-main">{shop.followers.toLocaleString()}</span> followers
-                </span>
-                <span class="text-sm text-success font-medium">★ {shop.trustScore}%</span>
-              </div>
-              
-              <div class="flex gap-2">
-                <Button href="/shop/{shop.name.toLowerCase().replace(' ', '-')}" variant="primary" size="sm" className="flex-1">
-                  Visit Shop
-                </Button>
-                <Button variant="outline" size="sm" onclick={() => handleUnfollow('shop', shop.id)}>
-                  Unfollow
-                </Button>
-              </div>
-            </div>
-          </Card>
-        </div>
-      {/each}
+  <!-- Section 1: Page Header -->
+  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4" in:fade={{ duration: 400 }}>
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+        <Icon icon="mdi:account-heart-outline" class="w-6 h-6 text-primary" />
+      </div>
+      <div>
+        <h1 class="text-2xl font-bold text-text-main">Following</h1>
+        <p class="text-body text-text-muted">
+          {followedShops.length} shop{followedShops.length !== 1 ? 's' : ''} followed
+        </p>
+      </div>
     </div>
-  {/if}
+    
+    <Button variant="outline" size="md" href="/shop">
+      <Icon icon="mdi:store-search-outline" class="w-4 h-4 mr-2" />
+      Discover Shops
+    </Button>
+  </section>
   
-  <!-- Vendors Tab -->
-  {#if activeTab === 'vendors'}
-    <div class="space-y-4">
-      {#each followedVendors as vendor, i}
-        <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
-          <Card className="border border-gray-200 p-6">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-4">
-                <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-3xl">
-                  {vendor.avatar}
-                </div>
-                <div>
-                  <div class="flex items-center gap-2 mb-1">
-                    <h3 class="text-lg font-bold text-text-main">{vendor.name}</h3>
-                    {#if vendor.verified}
-                      <Badge variant="success" size="sm">Verified</Badge>
-                    {/if}
-                  </div>
-                  <p class="text-sm text-text-muted">
-                    {vendor.shops} {vendor.shops === 1 ? 'Shop' : 'Shops'} • ★ {vendor.trustScore}% Trust
-                  </p>
-                </div>
-              </div>
-              <div class="flex gap-2">
-                <Button href="/vendor/{vendor.name.toLowerCase().replace(' ', '-')}" variant="outline" size="sm">
-                  View Profile
-                </Button>
-                <Button variant="ghost" size="sm" className="text-error hover:bg-error/5" onclick={() => handleUnfollow('vendor', vendor.id)}>
-                  Unfollow
-                </Button>
-              </div>
-            </div>
-          </Card>
+  <!-- Section 2: Search & Filters -->
+  <section in:fade={{ duration: 400, delay: 100 }}>
+    <Card className="border border-gray-200 p-4">
+      <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+        <!-- Search -->
+        <div class="w-full md:w-80">
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="Search shops..."
+              class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body"
+              bind:value={searchQuery}
+            />
+            <Icon icon="mdi:magnify" class="w-5 h-5 text-text-muted absolute left-3 top-1/2 -translate-y-1/2" />
+          </div>
         </div>
-      {/each}
-    </div>
-  {/if}
+        
+        <!-- Sort -->
+        <select
+          class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
+          bind:value={sortBy}
+        >
+          <option value="recently-followed">Recently Followed</option>
+          <option value="most-active">Most Active</option>
+          <option value="alphabetical">Alphabetical</option>
+        </select>
+      </div>
+    </Card>
+  </section>
+  
+  <!-- Section 3: Followed Shops Grid -->
+  <section in:fade={{ duration: 400, delay: 200 }}>
+    {#if sortedShops.length === 0}
+      <Card className="py-16 text-center border border-gray-200">
+        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+          <Icon icon="mdi:account-heart-outline" class="w-8 h-8 text-text-muted" />
+        </div>
+        <h2 class="text-h2 text-text-main mb-2">No shops found</h2>
+        <p class="text-body text-text-muted mb-6">Try adjusting your search or discover new shops.</p>
+        <Button variant="primary" size="lg" href="/shop">
+          <Icon icon="mdi:store-search-outline" class="w-5 h-5 mr-2" />
+          Discover Shops
+        </Button>
+      </Card>
+    {:else}
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {#each sortedShops as shop, i}
+          <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
+            <ShopCard {shop} />
+          </div>
+        {/each}
+      </div>
+    {/if}
+  </section>
 </div>
+
+<!-- <style>
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    [in:fly] {
+      animation: none !important;
+      transition: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style> -->

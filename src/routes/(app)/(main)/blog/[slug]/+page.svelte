@@ -180,11 +180,7 @@
                     class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
                 >
                     {#each relatedPosts as related, i}
-                        <BlogCard
-                            post={related}
-                            {formatDate}
-                            {getCategoryColorClass}
-                        />
+                        <BlogCard post={related} />
                     {/each}
                 </div>
             </div>

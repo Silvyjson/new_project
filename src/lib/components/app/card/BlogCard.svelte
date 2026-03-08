@@ -3,18 +3,32 @@
   import Badge from "$lib/components/common/Badge.svelte";
 
   export let post: any;
-  // use the same strict union as Badge expects
-  type BadgeVariant =
-    | "danger"
-    | "default"
-    | "success"
-    | "warning"
-    | "info"
-    | undefined;
-  export let formatDate: (d: Date) => string = (d) =>
-    new Date(d).toDateString();
-  export let getCategoryColorClass: (c: string) => BadgeVariant = () =>
-    "default";
+  
+   // Format date
+    const formatDate = (date: Date) => {
+        return new Intl.DateTimeFormat("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+        }).format(new Date(date));
+    };
+
+    // Get category color class
+    const getCategoryColorClass = (
+        color: string,
+    ): "default" | "success" | "warning" | "danger" | "info" => {
+        const colors: Record<
+            string,
+            "default" | "success" | "warning" | "danger" | "info"
+        > = {
+            indigo: "info",
+            purple: "default",
+            blue: "info",
+            success: "success",
+            gray: "default",
+        };
+        return colors[color] || "default";
+    };
 </script>
 
 <Card

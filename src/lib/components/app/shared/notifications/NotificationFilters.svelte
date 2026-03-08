@@ -5,15 +5,19 @@
   
   export let activeFilter: string;
   export let showUnreadOnly: boolean;
+  export let role: 'buyer' | 'vendor' = 'vendor';
   
   const filters = [
     { id: 'all', label: 'All', icon: 'mdi:bell-outline' },
     { id: 'orders', label: 'Orders', icon: 'mdi:package-variant' },
     { id: 'shops', label: 'Shops', icon: 'mdi:store-outline' },
-    { id: 'followers', label: 'Followers', icon: 'mdi:account-heart-outline' },
-    { id: 'payments', label: 'Payments', icon: 'mdi:wallet-outline' },
+    { id: 'followers', label: 'Followers', icon: 'mdi:account-heart-outline', role: 'vendor' },
+    { id: 'payments', label: 'Payments', icon: 'mdi:wallet-outline', role: 'vendor' },
     { id: 'system', label: 'System', icon: 'mdi:cog-outline' }
   ];
+
+  // Only show filters allowed for the current role
+  $: visibleFilters = filters.filter((filter) => !filter.role || filter.role === role);
   
   const emit = (event: string, value: string | boolean) => {
     const customEvent = new CustomEvent(event, { detail: value });
@@ -23,9 +27,10 @@
 
 <Card className="border border-gray-200 p-4">
   <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    
     <!-- Filter Tabs -->
     <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0">
-      {#each filters as filter}
+      {#each visibleFilters as filter}
         <button
           on:click={() => emit('filter-change', filter.id)}
           class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors
@@ -58,5 +63,6 @@
         <Icon icon="mdi:filter-outline" class="w-5 h-5" />
       </button>
     </div>
+
   </div>
 </Card>
