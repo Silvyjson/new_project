@@ -3,11 +3,11 @@
   import { page } from '$app/stores';
   import { fade } from 'svelte/transition';
   import Icon from '@iconify/svelte';
-  import OrderTimeline from '$lib/components/app/order/OrderTimeline.svelte';
-  import OrderItems from '$lib/components/app/order/OrderItems.svelte';
-  import OrderDeliveryInfo from '$lib/components/app/order/OrderDeliveryInfo.svelte';
-  import OrderVendorActions from '$lib/components/app/order/OrderVendorActions.svelte';
-  import OrderBuyerActions from '$lib/components/app/order/OrderBuyerActions.svelte';
+  import OrderTimeline from '$lib/components/app/shared/order/OrderTimeline.svelte';
+  import OrderItems from '$lib/components/app/shared/order/OrderItems.svelte';
+  import OrderDeliveryInfo from '$lib/components/app/shared/order/OrderDeliveryInfo.svelte';
+  import OrderVendorActions from '$lib/components/app/shared/order/OrderVendorActions.svelte';
+  import OrderBuyerActions from '$lib/components/app/shared/order/OrderBuyerActions.svelte';
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
   import Badge from '$lib/components/common/Badge.svelte';
@@ -128,7 +128,7 @@
   <title>Order #{order.code} | VendorHub</title>
 </svelte:head>
 
-<main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+<main class="max-w-[1000px] mx-auto px-4 py-8 space-y-8">
   
   <!-- Back Link -->
   <div in:fade={{ duration: 400 }}>

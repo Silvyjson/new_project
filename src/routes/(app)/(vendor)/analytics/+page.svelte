@@ -85,10 +85,10 @@
   // Traffic Sources
   const trafficSources = [
     { name: 'VendorHub Search', percentage: 52, visitors: 2246, icon: 'mdi:magnify', color: 'blue' },
-    { name: 'Google', percentage: 23, visitors: 994, icon: 'mdi:google', color: 'green' },
-    { name: 'Social Media', percentage: 15, visitors: 648, icon: 'mdi:share-variant', color: 'pink' },
+    // { name: 'Google', percentage: 23, visitors: 994, icon: 'mdi:google', color: 'green' },
+    // { name: 'Social Media', percentage: 15, visitors: 648, icon: 'mdi:share-variant', color: 'pink' },
     { name: 'Direct', percentage: 8, visitors: 346, icon: 'mdi:link-variant', color: 'purple' },
-    { name: 'Referrals', percentage: 2, visitors: 86, icon: 'mdi:arrow-top-right', color: 'orange' }
+    // { name: 'Referrals', percentage: 2, visitors: 86, icon: 'mdi:arrow-top-right', color: 'orange' }
   ];
   
   // Cart & Wishlist Data

@@ -353,7 +353,7 @@
       </div>
       
       <a
-        href="/my-shop/{currentShop?.slug}"
+        href="/analytics?shop={currentShop?.slug}"
         class="inline-flex items-center text-primary text-sm font-medium mt-4 hover:underline"
       >
         View Shop Analytics

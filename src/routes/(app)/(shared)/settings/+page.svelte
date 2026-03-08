@@ -1,67 +1,183 @@
 <!-- src/routes/(app)/settings/+page.svelte -->
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import Card from '$lib/components/common/Card.svelte';
+  import { fade } from 'svelte/transition';
+  import { onMount } from 'svelte';
+  import SettingsSidebar from '$lib/components/app/shared/settings/SettingsSidebar.svelte';
+  import ProfileSettings from '$lib/components/app/shared/settings/ProfileSettings.svelte';
+  import SecuritySettings from '$lib/components/app/shared/settings/SecuritySettings.svelte';
+  import NotificationSettings from '$lib/components/app/shared/settings/NotificationSettings.svelte';
+  import AddressBook from '$lib/components/app/shared/settings/AddressBook.svelte';
+  import PaymentMethods from '$lib/components/app/shared/settings/PaymentMethods.svelte';
+  import BankAccounts from '$lib/components/app/shared/settings/BankAccounts.svelte';
+  import PreferencesSettings from '$lib/components/app/shared/settings/PreferencesSettings.svelte';
+  import AccountManagement from '$lib/components/app/shared/settings/AccountManagement.svelte';
+  import Icon from '@iconify/svelte';
   
-  const settingsSections = [
+  // Role (in real app: from auth store)
+  let role: 'buyer' | 'vendor' = 'vendor';
+  
+  // Active section
+  let activeSection = 'profile';
+  
+  // Mock data (in real app: fetch from API)
+  let profile = {
+    avatar: '',
+    fullName: 'John Doe',
+    username: 'johndoe',
+    email: 'john@example.com',
+    phone: '+234 801 234 5678',
+    bio: 'Vendor on VendorHub since 2025'
+  };
+  
+  let notificationPrefs = {
+    orders: { email: true, push: true, inApp: true },
+    delivery: { email: true, push: true, inApp: true },
+    followers: { email: false, push: true, inApp: true },
+    messages: { email: true, push: true, inApp: true },
+    payments: { email: true, push: false, inApp: true },
+    blog: { email: false, push: false, inApp: true },
+    system: { email: true, push: true, inApp: true }
+  };
+  
+  let addresses = [
     {
-      title: 'Account',
-      items: [
-        { id: 'profile', label: 'Profile', description: 'Update your personal information', icon: '👤', href: '/settings/profile' },
-        { id: 'password', label: 'Password', description: 'Change your password', icon: '🔒', href: '/settings/password' },
-        { id: 'notifications', label: 'Notifications', description: 'Manage notification preferences', icon: '🔔', href: '/notifications' }
-      ]
-    },
-    {
-      title: 'Shopping',
-      items: [
-        { id: 'addresses', label: 'Addresses', description: 'Manage your shipping addresses', icon: '📍', href: '/settings/addresses' },
-        { id: 'payment', label: 'Payment Methods', description: 'Manage saved payment methods', icon: '💳', href: '/settings/payment' },
-        { id: 'orders', label: 'Order History', description: 'View all your orders', icon: '📦', href: '/orders' }
-      ]
-    },
-    {
-      title: 'Preferences',
-      items: [
-        { id: 'privacy', label: 'Privacy', description: 'Control your privacy settings', icon: '🔐', href: '/settings/privacy' },
-        { id: 'language', label: 'Language', description: 'Choose your preferred language', icon: '🌐', href: '/settings/language' }
-      ]
+      id: 'a_001',
+      name: 'John Doe',
+      phone: '+234 801 234 5678',
+      street: '123 Main Street, Victoria Island',
+      city: 'Lagos',
+      state: 'Lagos State',
+      postalCode: '101241',
+      country: 'Nigeria',
+      isDefault: true
     }
   ];
+  
+  let cards = [
+    {
+      id: 'c_001',
+      brand: 'visa' as const,
+      last4: '4421',
+      expiryMonth: 10,
+      expiryYear: 2027,
+      isDefault: true
+    }
+  ];
+  
+  let bankAccounts = [
+    {
+      id: 'b_001',
+      bankName: 'GTBank',
+      accountName: 'John Doe',
+      accountNumber: '0123456789',
+      isPrimary: true,
+      verified: true
+    }
+  ];
+  
+  let appPreferences = {
+    language: 'en',
+    currency: 'NGN',
+    timezone: 'Africa/Lagos',
+    theme: 'system' as const
+  };
+  
+  const handleSectionChange = (e: CustomEvent) => {
+    activeSection = e.detail;
+  };
+  
+  onMount(() => {
+    window.addEventListener('section-change', handleSectionChange as EventListener);
+    return () => window.removeEventListener('section-change', handleSectionChange as EventListener);
+  });
 </script>
 
 <svelte:head>
   <title>Settings | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-[800px] mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold text-text-main mb-8">Settings</h1>
+<main class="max-w-7xl mx-auto px-4 py-8">
   
-  <div class="space-y-8">
-    {#each settingsSections as section}
-      <section>
-        <h2 class="text-lg font-bold text-text-main mb-4">{section.title}</h2>
-        <div class="space-y-3">
-          {#each section.items as item}
-            <a href={item.href} class="block">
-              <Card className="border border-gray-200 p-4 hover:border-primary hover:shadow-card-hover transition-all cursor-pointer">
-                <div class="flex items-center gap-4">
-                  <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-2xl flex-shrink-0">
-                    {item.icon}
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <h3 class="font-semibold text-text-main mb-0.5">{item.label}</h3>
-                    <p class="text-sm text-text-muted">{item.description}</p>
-                  </div>
-                  <svg class="w-5 h-5 text-text-muted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                  </svg>
-                </div>
-              </Card>
-            </a>
-          {/each}
-        </div>
-      </section>
-    {/each}
+  <!-- Page Header -->
+  <div class="mb-8" in:fade={{ duration: 400 }}>
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+        <Icon icon="mdi:settings-outline" class="w-6 h-6 text-primary" />
+      </div>
+      <div>
+        <h1 class="text-2xl font-bold text-text-main">Settings</h1>
+        <p class="text-body text-text-muted">
+          Manage your account preferences and security
+        </p>
+      </div>
+    </div>
   </div>
-</div>
+  
+  <!-- Two Column Layout -->
+  <div class="grid grid-cols-[260px_1fr] gap-8">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sticky top-24 h-fit" in:fade={{ duration: 400, delay: 100 }}>
+      <SettingsSidebar
+        role={role}
+        activeSection={activeSection}
+      />
+    </aside>
+    
+    <!-- Settings Content -->
+    <main class="space-y-6" in:fade={{ duration: 400, delay: 200 }}>
+      
+      {#if activeSection === 'profile'}
+        <ProfileSettings profile={profile} />
+      {/if}
+      
+      {#if activeSection === 'security'}
+        <SecuritySettings />
+      {/if}
+      
+      {#if activeSection === 'notifications'}
+        <NotificationSettings preferences={notificationPrefs} />
+      {/if}
+      
+      {#if activeSection === 'addresses' && role === 'buyer'}
+        <AddressBook addresses={addresses} />
+      {/if}
+      
+      {#if activeSection === 'payment-methods' && role === 'buyer'}
+        <PaymentMethods cards={cards} />
+      {/if}
+      
+      {#if activeSection === 'bank-accounts' && role === 'vendor'}
+        <BankAccounts accounts={bankAccounts} />
+      {/if}
+      
+      {#if activeSection === 'preferences'}
+        <PreferencesSettings preferences={appPreferences} />
+      {/if}
+      
+      {#if activeSection === 'account'}
+        <AccountManagement />
+      {/if}
+      
+    </main>
+  </div>
+</main>
+
+<style>
+  @media (max-width: 1024px) {
+    .grid {
+      grid-template-columns: 1fr !important;
+    }
+    aside {
+      position: static !important;
+    }
+  }
+  
+  /* @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  } */
+</style>

@@ -70,7 +70,7 @@
                     >
                         <span
                             class="text-[120px] font-black text-dark/5 select-none"
-                            >404</span
+                            >{$page.status}</span
                         >
                     </div>
 
@@ -121,7 +121,7 @@
                     </Button>
                 </div>
 
-                <div class="mt-16 pt-12 border-t border-gray-200">
+                <!-- <div class="mt-16 pt-12 border-t border-gray-200">
                     <p class="text-body text-text-muted mb-4">
                         Searching for something specific?
                     </p>
@@ -145,7 +145,7 @@
                             class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none transition-all text-body bg-white shadow-sm"
                         />
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

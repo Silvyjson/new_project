@@ -4,11 +4,11 @@
   import { cubicOut } from 'svelte/easing';
   import { onMount } from 'svelte';
   import Icon from '@iconify/svelte';
-  import NotificationItem from '$lib/components/app/notifications/NotificationItem.svelte';
-  import NotificationFilters from '$lib/components/app/notifications/NotificationFilters.svelte';
-  import NotificationGroup from '$lib/components/app/notifications/NotificationGroup.svelte';
+  import NotificationItem from '$lib/components/app/shared/notifications/NotificationItem.svelte';
+  import NotificationFilters from '$lib/components/app/shared/notifications/NotificationFilters.svelte';
+  import NotificationGroup from '$lib/components/app/shared/notifications/NotificationGroup.svelte';
   // import NotificationSettingsModal from '$lib/components/app/notifications/NotificationSettingsModal.svelte';
-  import EmptyNotifications from '$lib/components/app/notifications/EmptyNotifications.svelte';
+  import EmptyNotifications from '$lib/components/app/shared/notifications/EmptyNotifications.svelte';
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
   
@@ -175,7 +175,7 @@
   <title>Notifications | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-[800px] mx-auto px-4 py-8 space-y-8">
+<main class="max-w-[1000px] mx-auto px-4 py-8 space-y-8">
   
   <!-- Section 1: Page Header -->
   <section class="flex flex-col md:flex-row md:items-center justify-between gap-4" in:fade={{ duration: 400 }}>
@@ -190,7 +190,7 @@
     </div>
     
     <div class="flex gap-3">
-      <Button variant="outline" size="md" onclick={markAllAsRead}>
+      <Button variant="outline" size="sm" onclick={markAllAsRead}>
         <Icon icon="mdi:check-all" class="w-4 h-4 mr-2" />
         Mark all as read
       </Button>
@@ -245,7 +245,7 @@
       </Button>
     </section>
   {/if}
-</div>
+</main>
 
 <!-- Settings Modal -->
 <!-- {#if showSettingsModal}

@@ -3,9 +3,9 @@
   import { fade, fly } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
   import Icon from '@iconify/svelte';
-  import OrderCard from '$lib/components/app/order/OrderCard.svelte';
-  import OrderTable from '$lib/components/app/order/OrderTable.svelte';
-  import OrderFilters from '$lib/components/app/order/OrderFilters.svelte';
+  import OrderCard from '$lib/components/app/shared/order/OrderCard.svelte';
+  import OrderTable from '$lib/components/app/shared/order/OrderTable.svelte';
+  import OrderFilters from '$lib/components/app/shared/order/OrderFilters.svelte';
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
   

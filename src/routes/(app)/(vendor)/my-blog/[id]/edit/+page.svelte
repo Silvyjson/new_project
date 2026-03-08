@@ -116,7 +116,6 @@
         excerpt={excerpt}
         content={content}
         coverImage={coverImage}
-        isEdit={true}
         on:title-change={(e) => title = e.detail}
         on:slug-change={(e) => slug = e.detail}
         on:excerpt-change={(e) => excerpt = e.detail}

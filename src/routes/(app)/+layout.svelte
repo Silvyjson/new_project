@@ -2,17 +2,17 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
 
-  import AppHeader from "$lib/components/app/shared/AppHeader.svelte";
-  import AppFooter from "$lib/components/app/shared/AppFooter.svelte";
+  import AppHeader from "$lib/components/app/common/AppHeader.svelte";
+  import AppFooter from "$lib/components/app/common/AppFooter.svelte";
 
   import Nav from "$lib/components/homepage/Nav.svelte";
   import Footer from "$lib/components/homepage/Footer.svelte";
 
   import { isAuthenticated } from "$lib/stores/auth";
-  import ProfileDrawer from "$lib/components/app/shared/ProfileDrawer.svelte";
+  import ProfileDrawer from "$lib/components/app/common/ProfileDrawer.svelte";
 
   let showProfileDrawer = false;
-  let role = "buyer";
+  let role = "vendor";
 
   // --- TEMP: simulate logged in state ---
   let simulateLoggedIn = false; // toggle to true to see AppHeader

@@ -10,7 +10,6 @@
   export let excerpt: string;
   export let content: string;
   export let coverImage: string;
-  export let isEdit: boolean = false;
   
   const emit = (event: string, value: string) => {
     const customEvent = new CustomEvent(event, { detail: value });
@@ -29,11 +28,6 @@
     emit('title-change', value);
     emit('slug-change', generateSlug(value));
   };
-
-    const handleSubmit = (action: "draft" | "publish") => {
-        // In real app: submit form
-        console.log("Submit", { action, formData: {title, slug, excerpt, content, coverImage} });
-    };
 </script>
 
 <Card className="border border-gray-200 p-6">
@@ -164,40 +158,4 @@
       </p>
     </div>
   </div>
-
-      <!-- Submit Actions -->
-    <div
-        class="flex flex-wrap gap-3 sticky bottom-4 pt-4 bg-surface/90 backdrop-blur-md z-10 border-t border-gray-100 mt-8"
-    >
-        <Button
-            type="button"
-            variant="outline"
-            size="lg"
-            href="/my-blog"
-            class="flex-1 sm:flex-none"
-        >
-            <Icon icon="mdi:close" class="w-5 h-5 mr-2" />
-            Cancel
-        </Button>
-        <Button
-            type="button"
-            variant="outline"
-            size="lg"
-            onclick={() => handleSubmit("draft")}
-            class="flex-1 sm:flex-none"
-        >
-            <Icon icon="mdi:content-save-outline" class="w-5 h-5 mr-2" />
-            Save Draft
-        </Button>
-        <Button
-            type="button"
-            variant="primary"
-            size="lg"
-            onclick={() => handleSubmit("publish")}
-            class="flex-[2] sm:flex-none"
-        >
-            <Icon icon="mdi:storefront-outline" class="w-5 h-5 mr-2" />
-            {isEdit ? "Save Changes" : "Publish Post"}
-        </Button>
-    </div>
 </Card>

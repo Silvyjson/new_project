@@ -4,9 +4,9 @@
     import { goto } from "$app/navigation";
     import type { Product, Shop } from "$lib/types";
     import Button from "$lib/components/common/Button.svelte";
-    import ProfileDrawer from "$lib/components/app/shared/ProfileDrawer.svelte";
+    import ProfileDrawer from "$lib/components/app/common/ProfileDrawer.svelte";
     import Icon from "@iconify/svelte";
-  import { formatNaira } from "$lib/utils/format";
+    import { formatNaira } from "$lib/utils/format";
 
     export let shop: Shop | null = null;
     export let product: Product | undefined = undefined;

@@ -3,10 +3,10 @@
   import { fade, fly } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
   import Icon from '@iconify/svelte';
-  import WalletBalanceCard from '$lib/components/app/wallet/WalletBalanceCard.svelte';
-  import WalletInsights from '$lib/components/app/wallet/WalletInsights.svelte';
-  import TransactionTable from '$lib/components/app/wallet/TransactionTable.svelte';
-  import BankAccountCard from '$lib/components/app/wallet/BankAccountCard.svelte';
+  import WalletBalanceCard from '$lib/components/app/shared/wallet/WalletBalanceCard.svelte';
+  import WalletInsights from '$lib/components/app/shared/wallet/WalletInsights.svelte';
+  import TransactionTable from '$lib/components/app/shared/wallet/TransactionTable.svelte';
+  import BankAccountCard from '$lib/components/app/shared/wallet/BankAccountCard.svelte';
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
   import Badge from '$lib/components/common/Badge.svelte';
