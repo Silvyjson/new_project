@@ -109,15 +109,22 @@
   <!-- Section 1: Cart Header -->
   <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8" in:fade={{ duration: 400 }}>
     <div>
-      <h1 class="text-3xl font-bold text-text-main">
-        Shopping Cart
-        {#if shopName}
-          <span class="text-text-muted">— {shopName}</span>
-        {/if}
-      </h1>
-      <p class="text-body text-text-muted mt-1">
-        {filteredItems.length} item{filteredItems.length !== 1 ? 's' : ''} in cart
-      </p>
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+          <Icon icon="mdi:cart-outline" class="w-6 h-6 text-primary" />
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold text-text-main">
+            Shopping Cart
+            {#if shopName}
+              <span class="text-text-muted">— {shopName}</span>
+            {/if}
+          </h1>
+          <p class="text-body text-text-muted mt-1">
+            {filteredItems.length} item{filteredItems.length !== 1 ? 's' : ''} in cart
+          </p>
+        </div>
+      </div>
     </div>
     
     <Button variant="outline" size="md" href="/shop">
