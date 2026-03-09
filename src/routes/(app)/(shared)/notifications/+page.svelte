@@ -13,7 +13,7 @@
   import Button from '$lib/components/common/Button.svelte';
   
   // Role (in real app: from auth store)
-  let role: 'buyer' | 'vendor' = 'buyer';
+  let role = 'buyer' as 'buyer' | 'vendor';
   
   // Filter state
   let activeFilter = 'all';

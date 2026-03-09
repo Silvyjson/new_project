@@ -4,7 +4,7 @@
     import { cubicOut } from "svelte/easing";
     import Icon from "@iconify/svelte";
 
-    import ShopCardVendor from "$lib/components/app/vendor/shop/ShopCardVendor.svelte";
+    import ShopCard from "$lib/components/app/vendor/shop/ShopCard.svelte";
     import ShopEmptyState from "$lib/components/app/vendor/shop/ShopEmptyState.svelte";
     import ShopTable from "$lib/components/app/vendor/shop/ShopTable.svelte";
     import Button from "$lib/components/common/Button.svelte";
@@ -271,7 +271,7 @@
                                 easing: cubicOut,
                             }}
                         >
-                            <ShopCardVendor {shop} />
+                            <ShopCard {shop} />
                         </div>
                     {/each}
                 </div>

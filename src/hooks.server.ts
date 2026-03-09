@@ -2,11 +2,11 @@
 import type { Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
-    const session = event.locals.session;
+    const session = (event.locals as any).session;
     const url = new URL(event.request.url);
 
     // Protected routes
-    const protectedRoutes = [
+    const protectedRoutes: string[] = [
         // '/shop',
         // '/vendor',
         // '/home',

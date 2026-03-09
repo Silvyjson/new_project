@@ -4,7 +4,7 @@
     import { cubicOut } from "svelte/easing";
     import Icon from "@iconify/svelte";
 
-    import ShopCardVendor from "$lib/components/app/vendor/shop/ShopCardVendor.svelte";
+    import ShopCard from "$lib/components/app/vendor/shop/ShopCard.svelte";
     import OrderCard from "$lib/components/app/card/OrderCard.svelte";
     import Card from "$lib/components/common/Card.svelte";
     import Button from "$lib/components/common/Button.svelte";
@@ -121,7 +121,7 @@
     <section class="flex items-center justify-between flex-wrap gap-4">
         <div>
             <h1 class="text-xl md:text-2xl font-bold text-text-main">
-                Good afternoon {user.name}
+                Good afternoon {user.name} 👋
             </h1>
 
             <p class="text-sm text-text-muted">
@@ -232,7 +232,7 @@
                             easing: cubicOut,
                         }}
                     >
-                        <ShopCardVendor {shop} />
+                        <ShopCard {shop} />
                     </div>
                 {/each}
             </div>

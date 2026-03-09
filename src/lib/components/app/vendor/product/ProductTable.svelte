@@ -15,8 +15,10 @@
         discountPrice?: number | null;
         stock: number;
         orders: number;
-        status: "active" | "draft" | "out-of-stock";
+        status: "active" | "draft" | "out-of-stock" | "low-stock";
         category: string;
+        lowStockThreshold: number;
+        lastUpdated: string;
     }>;
 
     export let shopSlug: string;
@@ -24,10 +26,14 @@
     const getStatusBadge = (status: string) => {
         const badges = {
             active: { variant: "success" as const, label: "Active" },
-            draft: { variant: "warning" as const, label: "Draft" },
+            draft: { variant: "info" as const, label: "Draft" },
             "out-of-stock": {
                 variant: "danger" as const,
                 label: "Out of Stock",
+            },
+            "low-stock": {
+                variant: "warning" as const,
+                label: "Low Stock",
             },
         };
         return (
@@ -54,6 +60,10 @@
                     <th
                         class="text-left py-3 px-4 text-sm font-semibold text-text-muted"
                         >Product</th
+                    >
+                    <th
+                        class="text-left py-3 px-4 text-sm font-semibold text-text-muted"
+                        >SKU</th
                     >
                     <th
                         class="text-left py-3 px-4 text-sm font-semibold text-text-muted"
@@ -102,6 +112,9 @@
                                 </div>
                             </div>
                         </td>
+                        <td class="py-3 px-4 text-sm text-text-muted">
+                            {product.code}
+                        </td>
                         <td class="py-3 px-4">
                             <div class="flex flex-col">
                                 {#if product.discountPrice}
@@ -145,8 +158,7 @@
                                 <Button
                                     variant="ghost"
                                     size="sm"
-                                    href="/shop/{shopSlug}/product/{product.code}"
-                                    target="_blank"
+                                    href="/my-shop/{shopSlug}/product/{product.code}"
                                 >
                                     <Icon
                                         icon="mdi:eye-outline"

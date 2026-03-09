@@ -12,7 +12,7 @@
   import Badge from '$lib/components/common/Badge.svelte';
   
   // Role (in real app: from auth store)
-  let role: 'buyer' | 'vendor' = 'vendor';
+  let role = 'vendor' as 'buyer' | 'vendor';
   
   // Mock balance data
   let balance = {
@@ -88,7 +88,7 @@
   <!-- Section 5: Vendor-Only Sections -->
   {#if role === 'vendor'}
     <!-- Bank Accounts -->
-    <section in:fade={{ duration: 400, delay: 400 }}>
+    <!-- <section in:fade={{ duration: 400, delay: 400 }}>
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-xl font-bold text-text-main">Bank Accounts</h2>
         <Button variant="outline" size="sm">
@@ -101,91 +101,13 @@
           <BankAccountCard {account} />
         {/each}
       </div>
-    </section>
-    
-    <!-- Payout Status -->
-    <!-- <section in:fade={{ duration: 400, delay: 500 }}>
-      <Card className="border border-gray-200 p-6">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-            <Icon icon="mdi:progress-clock" class="w-5 h-5 text-primary" />
-          </div>
-          <div>
-            <h3 class="font-semibold text-text-main">Recent Withdrawal</h3>
-            <p class="text-xs text-text-muted">Track your payout status</p>
-          </div>
-        </div>
-        
-        <div class="p-4 bg-primary/5 rounded-xl border border-primary/20">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <p class="text-sm text-text-muted">Withdrawal Request</p>
-              <p class="text-2xl font-bold text-primary">₦20,000</p>
-            </div>
-            <Badge variant="info" size="lg">Processing</Badge>
-          </div>
-          
-          <div class="space-y-3">
-            <div class="flex items-center justify-between text-sm">
-              <span class="text-text-muted">Requested</span>
-              <span class="text-text-main">Jun 7, 2026</span>
-            </div>
-            <div class="flex items-center justify-between text-sm">
-              <span class="text-text-muted">Status</span>
-              <span class="text-text-main">Processing</span>
-            </div>
-            <div class="flex items-center justify-between text-sm">
-              <span class="text-text-muted">Expected</span>
-              <span class="text-text-main">1-2 business days</span>
-            </div>
-          </div>
-        </div>
-      </Card>
     </section> -->
-    
-    <!-- Security Section -->
-    <!-- <section in:fade={{ duration: 400, delay: 600 }}>
-      <Card className="border border-gray-200 p-6">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-            <Icon icon="mdi:shield-check-outline" class="w-5 h-5 text-primary" />
-          </div>
-          <div>
-            <h3 class="font-semibold text-text-main">Security</h3>
-            <p class="text-xs text-text-muted">Protect your account</p>
-          </div>
-        </div>
-        
-        <div class="space-y-4">
-          <div class="flex items-center justify-between p-4 bg-success/5 rounded-xl">
-            <div class="flex items-center gap-3">
-              <Icon icon="mdi:check-circle" class="w-5 h-5 text-success" />
-              <div>
-                <p class="font-medium text-text-main">Identity Verified</p>
-                <p class="text-xs text-text-muted">Your business is verified</p>
-              </div>
-            </div>
-          </div>
-          
-          <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-            <div class="flex items-center gap-3">
-              <Icon icon="mdi:two-factor-authentication" class="w-5 h-5 text-text-muted" />
-              <div>
-                <p class="font-medium text-text-main">Two-Factor Authentication</p>
-                <p class="text-xs text-text-muted">Add an extra layer of security</p>
-              </div>
-            </div>
-            <Button variant="outline" size="sm">Enable</Button>
-          </div>
-        </div>
-      </Card>
-    </section> -->
-  {/if}
+    {/if}
   
   <!-- Section 6: Buyer-Only Sections -->
   {#if role === 'buyer'}
     <!-- Payment Methods -->
-    <section in:fade={{ duration: 400, delay: 400 }}>
+    <!-- <section in:fade={{ duration: 400, delay: 400 }}>
       <Card className="border border-gray-200 p-6">
         <div class="flex items-center justify-between mb-6">
           <div class="flex items-center gap-3">
@@ -223,7 +145,7 @@
           </div>
         </div>
       </Card>
-    </section>
+    </section> -->
   {/if}
 </main>
 

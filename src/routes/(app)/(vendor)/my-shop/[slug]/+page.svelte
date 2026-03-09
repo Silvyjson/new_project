@@ -202,291 +202,272 @@
         </a>
     </div>
 
-    <!-- Section 1: Shop Hero -->
-    <section in:fade={{ duration: 400, delay: 100 }}>
-        <Card className="border border-gray-200 overflow-hidden">
-            <!-- Cover Image -->
-            <div class="h-48 md:h-64 {shop.banner} relative">
-                <!-- Status Badge -->
-                <div class="absolute top-4 right-4">
-                    <Badge
-                        variant={shop.active ? "success" : "warning"}
-                        size="md"
-                    >
-                        <Icon
-                            icon={shop.active
-                                ? "mdi:check-circle"
-                                : "mdi:pause-circle"}
-                            class="w-4 h-4 inline mr-1"
-                        />
-                        {shop.active ? "Active" : "Paused"}
-                    </Badge>
-                </div>
+  <!-- Section 1: Shop Hero -->
+  <section in:fade={{ duration: 400, delay: 100 }}>
+    <Card className="border border-gray-200 overflow-hidden">
+      <!-- Cover Image -->
+      <div class="h-48 md:h-64 {shop.banner} relative">
 
-                <!-- Logo -->
-                <div class="absolute -bottom-12 left-6 md:left-8">
-                    <div
-                        class="w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-surface border-4 border-surface flex items-center justify-center text-5xl md:text-6xl shadow-card"
-                    >
-                        {shop.logo}
-                    </div>
-                </div>
+        <!-- Shop Status -->
+        <div class="absolute top-4 left-4">
+          <Badge variant={shop.active ? "success" : "warning"} size="md">
+            <Icon
+              icon={shop.active ? "mdi:check-circle" : "mdi:pause-circle"}
+              class="w-4 h-4 inline mr-1"
+            />
+            {shop.active ? "Active" : "Paused"}
+          </Badge>
+        </div>
+
+        <!-- Pause / Resume Button -->
+        <div class="absolute top-4 right-4">
+          <Button
+            variant={shop.active ? "ghost" : "primary"}
+            size="sm"
+            class={shop.active ? "bg-white/90 text-warning hover:bg-white" : ""}
+          >
+            <Icon
+              icon={shop.active
+                ? "mdi:pause-circle-outline"
+                : "mdi:play-circle-outline"}
+              class="w-4 h-4 mr-1"
+            />
+            {shop.active ? "Pause Shop" : "Resume Shop"}
+          </Button>
+        </div>
+
+        <!-- Logo -->
+        <div class="absolute -bottom-12 left-6 md:left-8">
+          <div
+            class="w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-surface border-4 border-surface flex items-center justify-center text-5xl md:text-6xl shadow-card"
+          >
+            {shop.logo}
+          </div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="pt-14 pb-6 px-6 md:px-8">
+
+        <!-- Shop Name + Primary Actions -->
+        <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
+
+          <div class="flex-1">
+            <div class="flex items-center gap-3 mb-2 flex-wrap">
+              <h1 class="text-2xl md:text-3xl font-bold text-text-main">
+                {shop.name}
+              </h1>
+
+              {#if shop.verified}
+                <TrustBadge size="md" />
+              {/if}
             </div>
 
-            <!-- Content -->
-            <div class="pt-14 pb-6 px-6 md:px-8">
-                <div
-                    class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6"
-                >
-                    <div class="flex-1">
-                        <div class="flex items-center gap-3 mb-2 flex-wrap">
-                            <h1
-                                class="text-2xl md:text-3xl font-bold text-text-main"
-                            >
-                                {shop.name}
-                            </h1>
-                            {#if shop.verified}
-                                <TrustBadge size="md" />
-                            {/if}
-                        </div>
-
-                        <div class="flex items-center gap-2 mb-3 flex-wrap">
-                            <span class="text-body text-text-muted"
-                                >{shop.category}</span
-                            >
-                            <span class="text-text-muted">•</span>
-                            <span
-                                class="flex items-center gap-1 text-body text-text-muted"
-                            >
-                                <Icon
-                                    icon="mdi:map-marker-outline"
-                                    class="w-4 h-4"
-                                />
-                                {shop.location}
-                            </span>
-                        </div>
-
-                        <p
-                            class="text-body text-text-muted max-w-3xl leading-relaxed mb-4"
-                        >
-                            {shop.description}
-                        </p>
-
-                        <!-- Social Contacts -->
-                        <div class="flex items-center gap-4">
-                            {#if shop.socials.instagram}
-                                <a
-                                    href="https://instagram.com/{shop.socials.instagram.replace(
-                                        '@',
-                                        '',
-                                    )}"
-                                    target="_blank"
-                                    class="text-text-muted hover:text-primary transition-colors"
-                                    title="Instagram"
-                                >
-                                    <Icon
-                                        icon="mdi:instagram"
-                                        class="w-5 h-5"
-                                    />
-                                </a>
-                            {/if}
-                            {#if shop.socials.whatsapp}
-                                <a
-                                    href="https://wa.me/{shop.socials.whatsapp.replace(
-                                        '+',
-                                        '',
-                                    )}"
-                                    target="_blank"
-                                    class="text-text-muted hover:text-primary transition-colors"
-                                    title="WhatsApp"
-                                >
-                                    <Icon icon="mdi:whatsapp" class="w-5 h-5" />
-                                </a>
-                            {/if}
-                            {#if shop.socials.twitter}
-                                <a
-                                    href="https://twitter.com/{shop.socials.twitter.replace(
-                                        '@',
-                                        '',
-                                    )}"
-                                    target="_blank"
-                                    class="text-text-muted hover:text-primary transition-colors"
-                                    title="Twitter"
-                                >
-                                    <Icon icon="mdi:twitter" class="w-5 h-5" />
-                                </a>
-                            {/if}
-                            {#if shop.socials.website}
-                                <a
-                                    href={shop.socials.website}
-                                    target="_blank"
-                                    class="text-text-muted hover:text-primary transition-colors"
-                                    title="Website"
-                                >
-                                    <Icon icon="mdi:web" class="w-5 h-5" />
-                                </a>
-                            {/if}
-                        </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="flex flex-wrap gap-2">
-                        <Button
-                            href="/my-shop/{shop.id}/edit"
-                            variant="outline"
-                            size="sm"
-                        >
-                            <Icon
-                                icon="mdi:pencil-outline"
-                                class="w-4 h-4 mr-1"
-                            />
-                            Edit Shop
-                        </Button>
-
-                        <Button
-                            variant={shop.active ? "ghost" : "primary"}
-                            size="sm"
-                            class={shop.active ? "text-warning" : ""}
-                        >
-                            <Icon
-                                icon={shop.active
-                                    ? "mdi:pause-circle-outline"
-                                    : "mdi:play-circle-outline"}
-                                class="w-4 h-4 mr-1"
-                            />
-                            {shop.active ? "Pause Shop" : "Resume Shop"}
-                        </Button>
-                    </div>
-                </div>
-
-                <!-- Contact Actions -->
-                <div class="flex flex-wrap gap-3 pt-4 border-t border-gray-200">
-                    <Button
-                        href="/shop/{shop.slug}"
-                        variant="outline"
-                        size="sm"
-                        target="_blank"
-                    >
-                        <Icon icon="mdi:open-in-new" class="w-4 h-4 mr-1" />
-                        View Shop
-                    </Button>
-                    <Button
-                        href={`/my-shop/${shop.slug}/product`}
-                        variant="outline"
-                        size="sm"
-                    >
-                        <Icon icon="mdi:cube-outline" class="w-4 h-4 mr-1" />
-                        Products
-                    </Button>
-
-                    <Button
-                        href={`/orders?shop=${shop.slug}`}
-                        variant="outline"
-                        size="sm"
-                    >
-                        <Icon
-                            icon="mdi:shopping-outline"
-                            class="w-4 h-4 mr-1"
-                        />
-                        Orders
-                    </Button>
-
-                    <Button
-                        href={`/analytics?shop=${shop.slug}`}
-                        variant="outline"
-                        size="sm"
-                    >
-                        <Icon icon="mdi:chart-line" class="w-4 h-4 mr-1" />
-                        Analytics
-                    </Button>
-
-                    <Button
-                        href={`/followers?shop=${shop.slug}`}
-                        variant="outline"
-                        size="sm"
-                    >
-                        <Icon icon="mdi:crown-outline" class="w-4 h-4 mr-1" />
-                        Followers
-                    </Button>
-
-                </div>
-
-                <!-- Quick Stats -->
-                <div
-                    class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 pt-6 mt-6 border-t border-gray-200"
-                >
-                    <div class="text-center">
-                        <div
-                            class="flex items-center justify-center gap-2 mb-1"
-                        >
-                            <Icon
-                                icon="mdi:star"
-                                class="w-5 h-5 text-yellow-400"
-                            />
-                            <div class="text-2xl font-bold text-text-main">
-                                {shop.rating}
-                            </div>
-                        </div>
-                        <div class="text-sm text-text-muted">
-                            {shop.reviewCount} Reviews
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <div
-                            class="flex items-center justify-center gap-2 mb-1"
-                        >
-                            <Icon
-                                icon="mdi:cube-outline"
-                                class="w-5 h-5 text-primary"
-                            />
-                            <div class="text-2xl font-bold text-text-main">
-                                {shop.products}
-                            </div>
-                        </div>
-                        <div class="text-sm text-text-muted">Products</div>
-                    </div>
-                    <div class="text-center">
-                        <div
-                            class="flex items-center justify-center gap-2 mb-1"
-                        >
-                            <Icon
-                                icon="mdi:account-group-outline"
-                                class="w-5 h-5 text-primary"
-                            />
-                            <div class="text-2xl font-bold text-text-main">
-                                {formatNumber(shop.followers)}
-                            </div>
-                        </div>
-                        <div class="text-sm text-text-muted">Followers</div>
-                    </div>
-                    <div class="text-center">
-                        <div
-                            class="flex items-center justify-center gap-2 mb-1"
-                        >
-                            <Icon
-                                icon="mdi:shield-check-outline"
-                                class="w-5 h-5 {shop.trustScore >= 80
-                                    ? 'text-success'
-                                    : shop.trustScore >= 60
-                                      ? 'text-primary'
-                                      : 'text-warning'}"
-                            />
-                            <div
-                                class="text-2xl font-bold {shop.trustScore >= 80
-                                    ? 'text-success'
-                                    : shop.trustScore >= 60
-                                      ? 'text-primary'
-                                      : 'text-warning'}"
-                            >
-                                {shop.trustScore}%
-                            </div>
-                        </div>
-                        <div class="text-sm text-text-muted">Trust Score</div>
-                    </div>
-                </div>
+            <div class="flex items-center gap-2 mb-3 flex-wrap">
+              <span class="text-body text-text-muted">{shop.category}</span>
+              <span class="text-text-muted">•</span>
+              <span class="flex items-center gap-1 text-body text-text-muted">
+                <Icon icon="mdi:map-marker-outline" class="w-4 h-4" />
+                {shop.location}
+              </span>
             </div>
-        </Card>
-    </section>
+
+            <p class="text-body text-text-muted max-w-3xl leading-relaxed mb-4">
+              {shop.description}
+            </p>
+
+            <!-- Social -->
+            <div class="flex items-center gap-4">
+              {#if shop.socials.instagram}
+                <a
+                  href="https://instagram.com/{shop.socials.instagram.replace('@','')}"
+                  target="_blank"
+                  class="text-text-muted hover:text-primary transition-colors"
+                >
+                  <Icon icon="mdi:instagram" class="w-5 h-5" />
+                </a>
+              {/if}
+
+              {#if shop.socials.whatsapp}
+                <a
+                  href="https://wa.me/{shop.socials.whatsapp.replace('+','')}"
+                  target="_blank"
+                  class="text-text-muted hover:text-primary transition-colors"
+                >
+                  <Icon icon="mdi:whatsapp" class="w-5 h-5" />
+                </a>
+              {/if}
+
+              {#if shop.socials.twitter}
+                <a
+                  href="https://twitter.com/{shop.socials.twitter.replace('@','')}"
+                  target="_blank"
+                  class="text-text-muted hover:text-primary transition-colors"
+                >
+                  <Icon icon="mdi:twitter" class="w-5 h-5" />
+                </a>
+              {/if}
+
+              {#if shop.socials.website}
+                <a
+                  href={shop.socials.website}
+                  target="_blank"
+                  class="text-text-muted hover:text-primary transition-colors"
+                >
+                  <Icon icon="mdi:web" class="w-5 h-5" />
+                </a>
+              {/if}
+            </div>
+          </div>
+
+          <!-- Primary Actions -->
+          <div class="flex gap-2">
+            <Button
+              href="/my-shop/{shop.id}/edit"
+              variant="outline"
+              size="sm"
+            >
+              <Icon icon="mdi:pencil-outline" class="w-4 h-4 mr-1" />
+              Edit Shop
+            </Button>
+
+            <Button
+              href="/shop/{shop.slug}"
+              variant="primary"
+              size="sm"
+              target="_blank"
+            >
+              <Icon icon="mdi:open-in-new" class="w-4 h-4 mr-1" />
+              View Shop
+            </Button>
+          </div>
+
+        </div>
+
+        <!-- Management Tools -->
+        <div class="flex flex-wrap gap-3 pt-4 border-t border-gray-200">
+
+          <Button
+            href={`/my-shop/${shop.slug}/product`}
+            variant="outline"
+            size="sm"
+          >
+            <Icon icon="mdi:cube-outline" class="w-4 h-4 mr-1" />
+            Products
+          </Button>
+
+          <Button
+            href={`/my-shop/${shop.slug}/promotion`}
+            variant="outline"
+            size="sm"
+          >
+            <Icon icon="mdi:sale-outline" class="w-4 h-4 mr-1" />
+            Promotions
+          </Button>
+
+          <Button
+            href={`/wallet?shop=${shop.slug}`}
+            variant="outline"
+            size="sm"
+          >
+            <Icon icon="mdi:wallet-outline" class="w-4 h-4 mr-1" />
+            Wallet
+          </Button>
+
+          <Button
+            href={`/orders?shop=${shop.slug}`}
+            variant="outline"
+            size="sm"
+          >
+            <Icon icon="mdi:shopping-outline" class="w-4 h-4 mr-1" />
+            Orders
+          </Button>
+
+          <Button
+            href={`/analytics?shop=${shop.slug}`}
+            variant="outline"
+            size="sm"
+          >
+            <Icon icon="mdi:chart-line" class="w-4 h-4 mr-1" />
+            Analytics
+          </Button>
+
+          <Button
+            href={`/followers?shop=${shop.slug}`}
+            variant="outline"
+            size="sm"
+          >
+            <Icon icon="mdi:crown-outline" class="w-4 h-4 mr-1" />
+            Followers
+          </Button>
+
+        </div>
+
+        <!-- Quick Stats -->
+        <div
+          class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 pt-4 mt-6 border-t border-gray-200"
+        >
+
+          <div class="text-center">
+            <div class="flex items-center justify-center gap-2 mb-1">
+              <Icon icon="mdi:star" class="w-5 h-5 text-yellow-400" />
+              <div class="text-2xl font-bold text-text-main">
+                {shop.rating}
+              </div>
+            </div>
+            <div class="text-sm text-text-muted">
+              {shop.reviewCount} Reviews
+            </div>
+          </div>
+
+          <div class="text-center">
+            <div class="flex items-center justify-center gap-2 mb-1">
+              <Icon icon="mdi:cube-outline" class="w-5 h-5 text-primary" />
+              <div class="text-2xl font-bold text-text-main">
+                {shop.products}
+              </div>
+            </div>
+            <div class="text-sm text-text-muted">Products</div>
+          </div>
+
+          <div class="text-center">
+            <div class="flex items-center justify-center gap-2 mb-1">
+              <Icon icon="mdi:account-group-outline" class="w-5 h-5 text-primary" />
+              <div class="text-2xl font-bold text-text-main">
+                {formatNumber(shop.followers)}
+              </div>
+            </div>
+            <div class="text-sm text-text-muted">Followers</div>
+          </div>
+
+          <div class="text-center">
+            <div class="flex items-center justify-center gap-2 mb-1">
+              <Icon
+                icon="mdi:shield-check-outline"
+                class="w-5 h-5 {shop.trustScore >= 80
+                  ? 'text-success'
+                  : shop.trustScore >= 60
+                  ? 'text-primary'
+                  : 'text-warning'}"
+              />
+              <div
+                class="text-2xl font-bold {shop.trustScore >= 80
+                  ? 'text-success'
+                  : shop.trustScore >= 60
+                  ? 'text-primary'
+                  : 'text-warning'}"
+              >
+                {shop.trustScore}%
+              </div>
+            </div>
+            <div class="text-sm text-text-muted">Trust Score</div>
+          </div>
+
+        </div>
+
+      </div>
+    </Card>
+  </section>
 
     <!-- Section 2: Performance Metrics -->
     <section in:fade={{ duration: 400, delay: 200 }}>

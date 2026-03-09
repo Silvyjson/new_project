@@ -14,7 +14,7 @@
   import Icon from '@iconify/svelte';
   
   // Role (in real app: from auth store)
-  let role: 'buyer' | 'vendor' = 'vendor';
+  let role = 'vendor' as 'buyer' | 'vendor';
   
   // Active section
   let activeSection = 'profile';

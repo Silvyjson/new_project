@@ -33,7 +33,7 @@
         <Icon icon="mdi:download" class="w-5 h-5 text-primary" />
       </div>
       <div>
-        <h3 class="font-semibold text-text-main">Download Account Data</h3>
+        <h3 class="font-semibold text-h4 text-text-main">Download Account Data</h3>
         <p class="text-xs text-text-muted">Get a copy of your personal data</p>
       </div>
     </div>
@@ -53,7 +53,7 @@
         <Icon icon="mdi:account-off-outline" class="w-5 h-5 text-warning" />
       </div>
       <div>
-        <h3 class="font-semibold text-text-main">Deactivate Account</h3>
+        <h3 class="font-semibold text-h4 text-text-main">Deactivate Account</h3>
         <p class="text-xs text-text-muted">Temporarily disable your account</p>
       </div>
     </div>
@@ -72,7 +72,7 @@
         <Icon icon="mdi:delete-alert-outline" class="w-5 h-5 text-error" />
       </div>
       <div>
-        <h3 class="font-semibold text-error">Delete Account</h3>
+        <h3 class="font-semibold text-h4 text-error">Delete Account</h3>
         <p class="text-xs text-text-muted">Permanently delete your account and all data</p>
       </div>
     </div>

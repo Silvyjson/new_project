@@ -10,6 +10,9 @@
     import Button from "$lib/components/common/Button.svelte";
     import Badge from "$lib/components/common/Badge.svelte";
     import Input from "$lib/components/common/Input.svelte";
+    import BulkUpdateModal from '$lib/components/app/vendor/product/BulkUpdateModal.svelte';
+    import StockAlertBanner from '$lib/components/app/vendor/product/StockAlertBanner.svelte';
+
 
     let shopSlug = "";
     let shopName = "";
@@ -34,6 +37,8 @@
             orders: 41,
             status: "active" as const,
             category: "Sneakers",
+            lowStockThreshold: 10,
+            lastUpdated: '2026-01-25'
         },
         {
             id: "p_002",
@@ -46,6 +51,8 @@
             orders: 32,
             status: "active" as const,
             category: "Sneakers",
+            lowStockThreshold: 10,
+            lastUpdated: '2026-01-20'
         },
         {
             id: "p_003",
@@ -58,6 +65,8 @@
             orders: 67,
             status: "out-of-stock" as const,
             category: "Sneakers",
+            lowStockThreshold: 10,
+            lastUpdated: '2026-01-15'
         },
         {
             id: "p_004",
@@ -68,8 +77,10 @@
             discountPrice: null,
             stock: 8,
             orders: 28,
-            status: "active" as const,
+            status: "low-stock" as const,
             category: "Sneakers",
+            lowStockThreshold: 10,
+            lastUpdated: '2026-01-10'
         },
         {
             id: "p_005",
@@ -82,6 +93,8 @@
             orders: 55,
             status: "draft" as const,
             category: "Sneakers",
+            lowStockThreshold: 10,
+            lastUpdated: '2026-01-05'
         },
     ];
 
@@ -95,7 +108,7 @@
     let sortBy = "newest";
 
     const categories = ["All", "Sneakers", "Boots", "Accessories"];
-    const statuses = ["All", "Active", "Draft", "Out of Stock"];
+    const statuses = ["All", "Active", "Draft", "Out of Stock", "Low Stock"];
 
     // Filter products
     $: filteredProducts = products.filter((product) => {
@@ -110,10 +123,37 @@
             product.status === statusFilter.toLowerCase().replace(/\s+/g, "-");
         return matchesSearch && matchesCategory && matchesStatus;
     });
+
+    const formattedProducts = products.map((product) => ({
+        id: product.id,
+        name: product.name,
+        stockQuantity: product.stock,
+        shop: { name: shopName } // or product.shopName if available
+    }));
+
+    $: lowStockItems = formattedProducts.filter(i => i.stockQuantity <= 5 && i.stockQuantity > 0);
+
+    const handleExportCSV = () => {
+    // In real app: generate and download CSV
+        alert('Exporting inventory to CSV...');
+    };
+
+    let showBulkModal = false;
+    let selectedItems: string[] = [];
+    
+    const handleBulkUpdate = () => {
+        showBulkModal = true;
+    };
+
+    const handleViewLowStock = () => {
+        statusFilter = 'low-stock';
+        // Scroll to table
+        document.querySelector('table')?.scrollIntoView({ behavior: 'smooth' });
+    };
 </script>
 
 <svelte:head>
-    <title>Products - {shopName} | VendorHub</title>
+    <title>Inventory - {shopName} | VendorHub</title>
 </svelte:head>
 
 <main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
@@ -163,15 +203,6 @@
 
             <div class="flex flex-wrap gap-2">
                 <Button
-                    href="/shop/{shopSlug}"
-                    variant="outline"
-                    size="md"
-                    target="_blank"
-                >
-                    <Icon icon="mdi:open-in-new" class="w-4 h-4 mr-2" />
-                    View Shop
-                </Button>
-                <Button
                     href="/my-shop/{shopSlug}/product/add"
                     variant="primary"
                     size="md"
@@ -179,8 +210,24 @@
                     <Icon icon="mdi:plus-box-outline" class="w-4 h-4 mr-2" />
                     Add Product
                 </Button>
+                <Button variant="primary" size="md" onclick={handleBulkUpdate}>
+                    <Icon icon="mdi:update" class="w-4 h-4 mr-2" />
+                    Bulk Update
+                </Button>     
+                <Button variant="outline" size="md" onclick={handleExportCSV}>
+                    <Icon icon="mdi:file-export-outline" class="w-4 h-4 mr-2" />
+                    Export CSV
+                </Button>
             </div>
         </div>
+    </section>
+
+      <!-- Section 2: Low Stock Alert -->
+    <section in:fade={{ duration: 400, delay: 100 }}>
+        <StockAlertBanner
+        lowStockItems={lowStockItems}
+        onViewLowStock={handleViewLowStock}
+        />
     </section>
 
     <!-- Section 2: Product Toolbar -->
@@ -342,6 +389,14 @@
         </section>
     {/if}
 </main>
+
+<!-- Bulk Update Modal -->
+{#if showBulkModal}
+  <BulkUpdateModal
+    onClose={() => showBulkModal = false}
+    selectedItems={selectedItems}
+  />
+{/if}
 
 <!-- <style>
     @media (prefers-reduced-motion: reduce) {

@@ -15,7 +15,7 @@
   let role = "buyer";
 
   // --- TEMP: simulate logged in state ---
-  let simulateLoggedIn = false; // toggle to true to see AppHeader
+  let simulateLoggedIn = true; // toggle to true to see AppHeader
 
   const openProfileDrawer = () => {
     showProfileDrawer = true;

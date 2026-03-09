@@ -18,7 +18,7 @@
   }
   
   // Role (in real app: from auth store)
-  let role: 'buyer' | 'vendor' = 'vendor';
+  let role = 'vendor' as 'buyer' | 'vendor';
   
   // Mock order data
   let order = {
@@ -80,9 +80,9 @@
     { stage: 'Order Placed', description: 'Payment confirmed', date: '2026-01-25T10:30:00Z', icon: 'mdi:cart-outline', completed: true, current: false },
     { stage: 'Vendor Accepted', description: 'Order confirmed by seller', date: '2026-01-25T11:15:00Z', icon: 'mdi:check-circle-outline', completed: true, current: false },
     { stage: 'Processing', description: 'Preparing your items', date: '2026-01-25T14:20:00Z', icon: 'mdi:package-variant-closed', completed: true, current: false },
-    { stage: 'Ready for Pickup', description: 'Items ready for GIG pickup', date: null, icon: 'mdi:truck-fast-outline', completed: false, current: true },
-    { stage: 'In Delivery', description: 'On the way to you', date: null, icon: 'mdi:truck-delivery-outline', completed: false, current: false },
-    { stage: 'Delivered', description: 'Order delivered successfully', date: null, icon: 'mdi:home-outline', completed: false, current: false }
+    { stage: 'Ready for Pickup', description: 'Items ready for GIG pickup', date: undefined, icon: 'mdi:truck-fast-outline', completed: false, current: true },
+    { stage: 'In Delivery', description: 'On the way to you', date: undefined, icon: 'mdi:truck-delivery-outline', completed: false, current: false },
+    { stage: 'Delivered', description: 'Order delivered successfully', date: undefined, icon: 'mdi:home-outline', completed: false, current: false }
   ];
   
   const formatNaira = (amount: number) => {

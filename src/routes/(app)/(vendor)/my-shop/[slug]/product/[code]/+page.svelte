@@ -4,7 +4,8 @@
     import Card from "$lib/components/common/Card.svelte";
     import Button from "$lib/components/common/Button.svelte";
     import Badge from "$lib/components/common/Badge.svelte";
-  import { formatNaira } from "$lib/utils/format";
+    import { formatNaira } from "$lib/utils/format";
+    import Icon from "@iconify/svelte";
 
     let productId = "";
     $: if ($page.params.code) {
@@ -49,22 +50,10 @@
 <main class="max-w-7xl mx-auto px-4 py-8">
     <div class="mb-6">
         <a
-            href="/my-shop/product"
+            href="/my-shop/{$page.params.slug}/product"
             class="text-sm text-primary font-medium hover:underline flex items-center gap-2"
         >
-            <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 19l-7-7 7-7"
-                />
-            </svg>
+            <Icon icon="mdi:arrow-left" class="w-4 h-4" />
             Back to Products
         </a>
     </div>

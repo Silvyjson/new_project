@@ -26,6 +26,7 @@ export interface Product {
     stockCount?: number | null; // Optional: show "X left" for in-stock items
     preorderNote?: string;
     category: string;
+    shop?: Partial<Shop>;
     shipping?: {
         price?: number;
         freeShipping?: boolean;
@@ -85,6 +86,7 @@ export interface Shop {
     productCount?: number;
     orderCount: number;
     customers?: number;
+    followers?: number;
     trustScore: number;
     verified?: boolean;
     location?: string;

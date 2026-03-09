@@ -1,0 +1,285 @@
+<!-- src/routes/(vendor)/my-shop/[slug]/promotion/+page.svelte -->
+<script lang="ts">
+  import { page } from '$app/stores';
+  import { fade, fly } from 'svelte/transition';
+  import { cubicOut } from 'svelte/easing';
+  import { onMount } from 'svelte';
+  import Icon from '@iconify/svelte';
+  import PromotionCard from '$lib/components/app/vendor/promotion/PromotionCard.svelte';
+  import PromotionForm from '$lib/components/app/vendor/promotion/PromotionForm.svelte';
+  import PromotionStatusTabs from '$lib/components/app/vendor/promotion/PromotionStatusTabs.svelte';
+  import PromotionStats from '$lib/components/app/vendor/promotion/PromotionStats.svelte';
+  import Card from '$lib/components/common/Card.svelte';
+  import Button from '$lib/components/common/Button.svelte';
+  
+  let shopSlug = '';
+  $: if ($page.params.slug) {
+    shopSlug = $page.params.slug;
+  }
+  
+  // Active tab
+  let activeTab = 'all';
+  
+  // Show create modal
+  let showCreateModal = false;
+  
+  // Mock promotions (in real app: fetch from API)
+  let promotions = [
+    {
+      id: 'promo_001',
+      title: 'Black Friday Sale',
+      description: '20% off all electronics',
+      type: 'product' as const,
+      discountType: 'percentage' as const,
+      discountValue: 20,
+      productCount: 8,
+      startDate: '2026-11-25',
+      endDate: '2026-11-28',
+      status: 'active' as const,
+      orders: 42,
+      revenue: 280000,
+      productsSold: 65
+    },
+    {
+      id: 'promo_002',
+      title: 'New Customer Welcome',
+      description: '₦500 off first order',
+      type: 'coupon' as const,
+      discountType: 'fixed' as const,
+      discountValue: 500,
+      couponCode: 'WELCOME500',
+      productCount: 0,
+      startDate: '2026-01-01',
+      endDate: '2026-12-31',
+      status: 'active' as const,
+      orders: 128,
+      revenue: 450000,
+      productsSold: 203
+    },
+    {
+      id: 'promo_003',
+      title: 'Summer Clearance',
+      description: 'End of season sale',
+      type: 'shop' as const,
+      discountType: 'percentage' as const,
+      discountValue: 30,
+      productCount: 0,
+      startDate: '2026-06-01',
+      endDate: '2026-06-30',
+      status: 'scheduled' as const,
+      orders: 0,
+      revenue: 0,
+      productsSold: 0
+    },
+    {
+      id: 'promo_004',
+      title: 'Flash Sale',
+      description: 'Limited time offer',
+      type: 'product' as const,
+      discountType: 'fixed' as const,
+      discountValue: 2000,
+      productCount: 3,
+      startDate: '2026-01-10',
+      endDate: '2026-01-12',
+      status: 'expired' as const,
+      orders: 89,
+      revenue: 156000,
+      productsSold: 134
+    }
+  ];
+  
+  // Mock products for selector
+  let products = [
+    { id: 'p_001', name: 'Wireless Headphones Pro', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e', price: 24000, category: 'Electronics', inStock: true },
+    { id: 'p_002', name: 'USB-C Cable 2m', image: 'https://images.unsplash.com/photo-1609081219090-a66920c72123', price: 3000, category: 'Accessories', inStock: true },
+    { id: 'p_003', name: 'Gaming Mouse', image: 'https://images.unsplash.com/photo-1527814050087-3793815479db', price: 8500, category: 'Electronics', inStock: true },
+    { id: 'p_004', name: 'Bluetooth Speaker', image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1', price: 15000, category: 'Electronics', inStock: true }
+  ];
+  
+  // Filter promotions
+  $: filteredPromotions = promotions.filter(p => {
+    if (activeTab === 'all') return true;
+    return p.status === activeTab;
+  });
+  
+  // Stats
+  $: stats = {
+    activePromotions: promotions.filter(p => p.status === 'active').length,
+    totalOrders: promotions.reduce((sum, p) => sum + p.orders, 0),
+    totalRevenue: promotions.reduce((sum, p) => sum + p.revenue, 0),
+    totalProductsSold: promotions.reduce((sum, p) => sum + p.productsSold, 0)
+  };
+  
+  // Handlers
+  const handleCreate = () => {
+    showCreateModal = true;
+  };
+  
+  const handleEdit = (id: string) => {
+    console.log(`Edit promotion ${id}`);
+  };
+  
+  const handlePause = (id: string) => {
+    promotions = promotions.map(p => 
+      p.id === id 
+        ? { ...p, status: p.status === 'paused' ? 'active' : 'paused' as const }
+        : p
+    );
+  };
+  
+  const handleDuplicate = (id: string) => {
+    const original = promotions.find(p => p.id === id);
+    if (original) {
+      const newPromo = {
+        ...original,
+        id: `promo_${Date.now()}`,
+        title: `${original.title} (Copy)`,
+        status: 'paused' as const,
+        orders: 0,
+        revenue: 0,
+        productsSold: 0
+      };
+      promotions = [newPromo, ...promotions];
+    }
+  };
+  
+  const handleDelete = (id: string) => {
+    if (confirm('Are you sure you want to delete this promotion?')) {
+      promotions = promotions.filter(p => p.id !== id);
+    }
+  };
+  
+  const handleSavePromotion = ( data: any) => {
+    // In real app: API call to create/update promotion
+    console.log('Save promotion', data);
+    showCreateModal = false;
+    // Add to list (mock)
+    const newPromo = {
+      id: `promo_${Date.now()}`,
+      ...data,
+      productCount: data.productIds?.length || 0,
+      status: 'scheduled' as const,
+      orders: 0,
+      revenue: 0,
+      productsSold: 0
+    };
+    promotions = [newPromo, ...promotions];
+  };
+  
+  const handleTabChange = (e: CustomEvent) => {
+    activeTab = e.detail;
+  };
+  
+  onMount(() => {
+    window.addEventListener('tab-change', handleTabChange as EventListener);
+    return () => window.removeEventListener('tab-change', handleTabChange as EventListener);
+  });
+</script>
+
+<svelte:head>
+  <title>Promotions | VendorHub</title>
+</svelte:head>
+
+<main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+  <!-- Back Link -->
+    <div in:fade={{ duration: 400 }}>
+        <a
+            href="/my-shop/{shopSlug}"
+            class="text-sm text-primary font-medium hover:underline flex items-center gap-2"
+        >
+            <Icon icon="mdi:arrow-left" class="w-4 h-4" />
+            Back to Shop
+        </a>
+    </div>
+    
+  <!-- Section 1: Page Header -->
+  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4" in:fade={{ duration: 400 }}>
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+        <Icon icon="mdi:tag-outline" class="w-6 h-6 text-primary" />
+      </div>
+      <div>
+        <h1 class="text-2xl font-bold text-text-main">Promotions</h1>
+        <p class="text-body text-text-muted">Create discounts, coupons, and sales for your shop</p>
+      </div>
+    </div>
+    
+    <Button variant="primary" size="lg" onclick={handleCreate}>
+      <Icon icon="mdi:plus-circle-outline" class="w-5 h-5 mr-2" />
+      Create Promotion
+    </Button>
+  </section>
+  
+  <!-- Section 2: Promotion Stats -->
+  <section in:fade={{ duration: 400, delay: 100 }}>
+    <PromotionStats stats={stats} />
+  </section>
+  
+  <!-- Section 3: Status Tabs -->
+  <section in:fade={{ duration: 400, delay: 200 }}>
+    <PromotionStatusTabs activeTab={activeTab} />
+  </section>
+  
+  <!-- Section 4: Promotions List -->
+  <section in:fade={{ duration: 400, delay: 300 }}>
+    {#if filteredPromotions.length === 0}
+      <Card className="py-16 text-center border border-gray-200">
+        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+          <Icon icon="mdi:tag-off-outline" class="w-8 h-8 text-text-muted" />
+        </div>
+        <h2 class="text-h2 text-text-main mb-2">No promotions found</h2>
+        <p class="text-body text-text-muted mb-6">Try adjusting your filters or create your first promotion.</p>
+        <Button variant="primary" size="lg" onclick={handleCreate}>
+          <Icon icon="mdi:tag-plus-outline" class="w-5 h-5 mr-2" />
+          Create Promotion
+        </Button>
+      </Card>
+    {:else}
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {#each filteredPromotions as promo, i}
+          <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
+            <PromotionCard
+              promotion={promo}
+              onEdit={handleEdit}
+              onPause={handlePause}
+              onDuplicate={handleDuplicate}
+              onDelete={handleDelete}
+            />
+          </div>
+        {/each}
+      </div>
+    {/if}
+  </section>
+</main>
+
+<!-- Create/Edit Modal -->
+{#if showCreateModal}
+  <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-dark/45 backdrop-blur-sm" on:click={() => showCreateModal = false}></div>
+    <Card className="relative bg-surface p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
+        <h3 class="text-xl font-bold text-text-main">Create Promotion</h3>
+        <button on:click={() => showCreateModal = false} class="p-2 hover:bg-gray-100 rounded-lg transition-colors" aria-label="Close">
+          <Icon icon="mdi:close" class="w-5 h-5" />
+        </button>
+      </div>
+      <PromotionForm
+        products={products}
+        onSave={handleSavePromotion}
+        onCancel={() => showCreateModal = false}
+      />
+    </Card>
+  </div>
+{/if}
+
+<!-- <style>
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    [in:fly] {
+      animation: none !important;
+      transition: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style> -->

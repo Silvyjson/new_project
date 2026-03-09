@@ -1,58 +1,79 @@
 <!-- src/routes/(app)/wishlist/+page.svelte -->
 <script lang="ts">
-  import { fade, fly } from "svelte/transition";
-  import { cubicOut } from "svelte/easing";
-  import Card from "$lib/components/common/Card.svelte";
-  import Button from "$lib/components/common/Button.svelte";
-  import ProductCard from "$lib/components/app/shopTheme/default/components/ProductCard.svelte";
-
-  // Active tab
-  let activeTab = "products";
-
-  // Mock data
-  const wishlistProducts: any = Array.from({ length: 6 }, (_, i) => ({
-    id: i + 1,
-    name: `Wishlist Product ${i + 1}`,
-    price: (i + 1) * 8000,
-    oldPrice: (i + 1) * 10000,
-    image: `https://images.unsplash.com/photo-${1500000000000 + i}`,
-    shop: `Shop ${i + 1}`,
-    shopSlug: `shop-${i + 1}`,
-    rating: 4.0 + (i % 10) / 10,
-    reviewCount: 50 + i * 10,
-    inStock: i % 3 !== 0,
-  }));
-
-  const wishlistShops = [
+  import { fade, fly } from 'svelte/transition';
+  import { cubicOut } from 'svelte/easing';
+  import Icon from '@iconify/svelte';
+  import ProductCard from '$lib/components/app/card/ProductCard.svelte';
+  import Card from '$lib/components/common/Card.svelte';
+  import Button from '$lib/components/common/Button.svelte';
+  
+  // Mock wishlist items
+  let wishlistItems = [
     {
-      id: 1,
-      name: "TechStoreNG",
-      logo: "🏪",
-      banner: "bg-blue-100",
-      products: 120,
-      trustScore: 94,
+      id: 'p_001',
+      name: 'Wireless Headphones Pro',
+      price: 24000,
+      oldPrice: 30000,
+      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e',
+      shop: { name: 'TechHub', slug: 'techhub' },
+      rating: 4.8,
+      reviews: 124,
+      inStock: true,
+      addedAt: '2026-01-20'
     },
     {
-      id: 2,
-      name: "Amina Fashion",
-      logo: "👗",
-      banner: "bg-pink-100",
-      products: 85,
-      trustScore: 92,
+      id: 'p_002',
+      name: 'Air Jordan Retro High',
+      price: 85000,
+      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
+      shop: { name: 'Urban Kicks', slug: 'urban-kicks' },
+      rating: 4.9,
+      reviews: 89,
+      inStock: true,
+      addedAt: '2026-01-18'
     },
     {
-      id: 3,
-      name: "Home Essentials",
-      logo: "🏠",
-      banner: "bg-green-100",
-      products: 200,
-      trustScore: 89,
-    },
+      id: 'p_003',
+      name: 'Organic Face Cream',
+      price: 12000,
+      oldPrice: 15000,
+      image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571',
+      shop: { name: 'Bella Beauty', slug: 'bella-beauty' },
+      rating: 4.7,
+      reviews: 56,
+      inStock: false,
+      addedAt: '2026-01-15'
+    }
   ];
-
-  const removeFromWishlist = (type: "product" | "shop", id: number) => {
-    // In real app: API call to remove from wishlist
-    console.log(`Remove ${type} ${id} from wishlist`);
+  
+  // Filter state
+  let shopFilter = 'all';
+  let shops = ['all', 'TechHub', 'Urban Kicks', 'Bella Beauty'];
+  
+  // Filter items
+  $: filteredItems = shopFilter === 'all'
+    ? wishlistItems
+    : wishlistItems.filter(item => item.shop.name === shopFilter);
+  
+  // Handlers
+  const handleAddToCart = (productId: string) => {
+    // In real app: API call to add to cart
+    alert('Added to cart!');
+  };
+  
+  const handleRemove = (productId: string) => {
+    wishlistItems = wishlistItems.filter(item => item.id !== productId);
+  };
+  
+  const handleAddAllToCart = () => {
+    filteredItems.forEach(item => handleAddToCart(item.id));
+    alert('All items added to cart!');
+  };
+  
+  const handleClearWishlist = () => {
+    if (confirm('Clear all items from wishlist?')) {
+      wishlistItems = [];
+    }
   };
 </script>
 
@@ -60,131 +81,94 @@
   <title>Wishlist | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-7xl mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold text-text-main mb-8">My Wishlist</h1>
-
-  <!-- Tabs -->
-  <div class="flex items-center gap-2 mb-8">
-    <button
-      on:click={() => (activeTab = "products")}
-      class="px-6 py-3 rounded-xl text-body font-medium transition-colors
-             {activeTab === 'products'
-        ? 'bg-primary text-white'
-        : 'bg-gray-100 text-text-muted hover:bg-gray-200'}"
-    >
-      Products ({wishlistProducts.length})
-    </button>
-    <button
-      on:click={() => (activeTab = "shops")}
-      class="px-6 py-3 rounded-xl text-body font-medium transition-colors
-             {activeTab === 'shops'
-        ? 'bg-primary text-white'
-        : 'bg-gray-100 text-text-muted hover:bg-gray-200'}"
-    >
-      Shops ({wishlistShops.length})
-    </button>
-  </div>
-
-  <!-- Products Tab -->
-  {#if activeTab === "products"}
-    {#if wishlistProducts.length === 0}
-      <Card className="py-16 text-center">
-        <div class="text-6xl mb-4">❤️</div>
-        <h2 class="text-h2 text-text-main mb-2">Your wishlist is empty</h2>
-        <p class="text-body text-text-muted mb-6">
-          Start saving products you love.
-        </p>
-        <Button href="/shop" variant="primary" size="lg">Browse Products</Button
-        >
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+  
+  <!-- Section 1: Wishlist Header -->
+  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4" in:fade={{ duration: 400 }}>
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+        <Icon icon="mdi:heart-outline" class="w-6 h-6 text-primary" />
+      </div>
+      <div>
+        <h1 class="text-2xl font-bold text-text-main">Wishlist</h1>
+        <p class="text-body text-text-muted">{wishlistItems.length} saved product{wishlistItems.length !== 1 ? 's' : ''}</p>
+      </div>
+    </div>
+    
+    <div class="flex gap-3">
+      <Button variant="outline" size="md" onclick={handleAddAllToCart} disabled={filteredItems.length === 0}>
+        <Icon icon="mdi:cart-arrow-down" class="w-4 h-4 mr-2" />
+        Add All to Cart
+      </Button>
+      <Button variant="ghost" size="md" class="text-error hover:bg-error/5" onclick={handleClearWishlist} disabled={wishlistItems.length === 0}>
+        <Icon icon="mdi:broom" class="w-4 h-4 mr-2" />
+        Clear
+      </Button>
+    </div>
+  </section>
+  
+  <!-- Section 2: Shop Filter -->
+  <section in:fade={{ duration: 400, delay: 100 }}>
+    <Card className="border border-gray-200 p-4">
+      <div class="flex items-center gap-2 overflow-x-auto">
+        {#each shops as shop}
+          <button
+            on:click={() => shopFilter = shop}
+            class="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors
+                   {shopFilter === shop 
+                     ? 'bg-primary text-white' 
+                     : 'bg-gray-100 text-text-muted hover:bg-gray-200'}"
+          >
+            {shop === 'all' ? 'All Shops' : shop}
+          </button>
+        {/each}
+      </div>
+    </Card>
+  </section>
+  
+  <!-- Section 3: Product Grid -->
+  <section in:fade={{ duration: 400, delay: 200 }}>
+    {#if filteredItems.length === 0}
+      <Card className="py-16 text-center border border-gray-200">
+        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+          <Icon icon="mdi:heart-off-outline" class="w-8 h-8 text-text-muted" />
+        </div>
+        <h2 class="text-h2 text-text-main mb-2">No items found</h2>
+        <p class="text-body text-text-muted mb-6">Try adjusting your filter or discover new products.</p>
+        <Button variant="primary" size="lg" href="/shop">
+          <Icon icon="mdi:magnify" class="w-5 h-5 mr-2" />
+          Discover Products
+        </Button>
       </Card>
     {:else}
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {#each wishlistProducts as product, i}
-          <div
-            in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}
-            class="relative"
-          >
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        {#each filteredItems as product, i}
+          <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }} class="relative">
+            <!-- Remove Button -->
             <button
-              on:click={() => removeFromWishlist("product", product.id)}
+              on:click={() => handleRemove(product.id)}
               class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white shadow-card flex items-center justify-center text-error hover:bg-error hover:text-white transition-colors"
               aria-label="Remove from wishlist"
             >
-              <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <Icon icon="mdi:delete-outline" class="w-4 h-4" />
             </button>
-            <ProductCard {product} shopSlug={product.shopSlug} />
+            
+            <ProductCard {product} on:add-to-cart={() => handleAddToCart(product.id)} />
           </div>
         {/each}
       </div>
     {/if}
-  {/if}
-
-  <!-- Shops Tab -->
-  {#if activeTab === "shops"}
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {#each wishlistShops as shop, i}
-        <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
-          <Card
-            hover={true}
-            padding="none"
-            className="overflow-hidden border border-gray-200"
-          >
-            <div class="h-32 {shop.banner} relative">
-              <div class="absolute -bottom-10 left-6">
-                <div
-                  class="w-20 h-20 rounded-full bg-surface border-4 border-surface flex items-center justify-center text-4xl shadow-card"
-                >
-                  {shop.logo}
-                </div>
-              </div>
-              <button
-                on:click={() => removeFromWishlist("shop", shop.id)}
-                class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white shadow-card flex items-center justify-center text-error hover:bg-error hover:text-white transition-colors"
-                aria-label="Remove from wishlist"
-              >
-                <svg
-                  class="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div class="pt-12 pb-4 px-6">
-              <h3 class="text-lg font-bold text-text-main mb-1">{shop.name}</h3>
-              <p class="text-sm text-text-muted mb-3">
-                {shop.products} products • ★ {shop.trustScore}%
-              </p>
-              <Button
-                href="/shop/{shop.name.toLowerCase().replace(' ', '-')}"
-                variant="primary"
-                size="sm"
-                class="w-full"
-              >
-                Visit Shop
-              </Button>
-            </div>
-          </Card>
-        </div>
-      {/each}
-    </div>
-  {/if}
+  </section>
 </div>
+
+<!-- <style>
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    [in:fly] {
+      animation: none !important;
+      transition: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style> -->

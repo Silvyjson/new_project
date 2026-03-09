@@ -5,7 +5,7 @@
   export let dateLabel: string;
   export let notifications: Array<{
     id: string;
-    type: string;
+    type: "order" | "delivery" | "wishlist" | "system" | "follower" | "payment" | "blog";
     title: string;
     message: string;
     time: string;
