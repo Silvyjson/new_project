@@ -14,7 +14,7 @@
   import Icon from '@iconify/svelte';
   
   // Role (in real app: from auth store)
-  let role = 'vendor' as 'buyer' | 'vendor';
+  let role = 'buyer' as 'buyer' | 'vendor';
   
   // Active section
   let activeSection = 'profile';
@@ -36,6 +36,7 @@
     messages: { email: true, push: true, inApp: true },
     payments: { email: true, push: false, inApp: true },
     blog: { email: false, push: false, inApp: true },
+    promotions: { email: true, push: true, inApp: true },
     system: { email: true, push: true, inApp: true }
   };
   

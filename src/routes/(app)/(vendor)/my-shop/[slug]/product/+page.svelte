@@ -205,16 +205,16 @@
                 <Button
                     href="/my-shop/{shopSlug}/product/add"
                     variant="primary"
-                    size="md"
+                    size="sm"
                 >
                     <Icon icon="mdi:plus-box-outline" class="w-4 h-4 mr-2" />
                     Add Product
                 </Button>
-                <Button variant="primary" size="md" onclick={handleBulkUpdate}>
+                <Button variant="primary" size="sm" onclick={handleBulkUpdate}>
                     <Icon icon="mdi:update" class="w-4 h-4 mr-2" />
                     Bulk Update
                 </Button>     
-                <Button variant="outline" size="md" onclick={handleExportCSV}>
+                <Button variant="outline" size="sm" onclick={handleExportCSV}>
                     <Icon icon="mdi:file-export-outline" class="w-4 h-4 mr-2" />
                     Export CSV
                 </Button>

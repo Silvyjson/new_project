@@ -60,6 +60,7 @@
             shippingTime: "2-5 business days",
             returns: "7-day return policy",
         },
+        notificationContact: [""],
     };
 </script>
 

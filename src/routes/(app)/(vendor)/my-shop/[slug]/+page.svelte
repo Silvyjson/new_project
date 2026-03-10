@@ -247,7 +247,7 @@
       </div>
 
       <!-- Content -->
-      <div class="pt-14 pb-6 px-6 md:px-8">
+      <div class="pt-14 pb-6 md:px-8">
 
         <!-- Shop Name + Primary Actions -->
         <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
@@ -259,7 +259,10 @@
               </h1>
 
               {#if shop.verified}
+              <div class="hidden md:block">
                 <TrustBadge size="md" />
+              </div>
+                <Icon icon="mdi:verified" class="text-primary w-5 h-5 md:hidden" />
               {/if}
             </div>
 
@@ -345,10 +348,10 @@
         </div>
 
         <!-- Management Tools -->
-        <div class="flex flex-wrap gap-3 pt-4 border-t border-gray-200">
-
+        <div class="flex gap-3 overflow-x-auto pt-4 border-t border-gray-200 snap-x">
           <Button
             href={`/my-shop/${shop.slug}/product`}
+            className="snap-start flex-shrink-0"
             variant="outline"
             size="sm"
           >
@@ -358,6 +361,7 @@
 
           <Button
             href={`/my-shop/${shop.slug}/promotion`}
+            className="snap-start flex-shrink-0"
             variant="outline"
             size="sm"
           >
@@ -366,7 +370,19 @@
           </Button>
 
           <Button
+            href={`/orders?shop=${shop.slug}`}
+            className="snap-start flex-shrink-0"
+            variant="outline"
+            size="sm"
+          >
+            <Icon icon="mdi:shopping-outline" class="w-4 h-4 mr-1" />
+            Orders
+          </Button>
+
+          
+          <Button
             href={`/wallet?shop=${shop.slug}`}
+            className="snap-start flex-shrink-0"
             variant="outline"
             size="sm"
           >
@@ -375,16 +391,8 @@
           </Button>
 
           <Button
-            href={`/orders?shop=${shop.slug}`}
-            variant="outline"
-            size="sm"
-          >
-            <Icon icon="mdi:shopping-outline" class="w-4 h-4 mr-1" />
-            Orders
-          </Button>
-
-          <Button
             href={`/analytics?shop=${shop.slug}`}
+            className="snap-start flex-shrink-0"
             variant="outline"
             size="sm"
           >
@@ -394,13 +402,13 @@
 
           <Button
             href={`/followers?shop=${shop.slug}`}
+            className="snap-start flex-shrink-0"
             variant="outline"
             size="sm"
           >
             <Icon icon="mdi:crown-outline" class="w-4 h-4 mr-1" />
             Followers
           </Button>
-
         </div>
 
         <!-- Quick Stats -->

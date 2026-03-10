@@ -55,6 +55,7 @@
             shippingTime: string;
             returns: string;
         };
+        notificationContact: string[];
     };
 
     export let isEdit: boolean = false;
@@ -475,6 +476,67 @@
                 bind:value={shop.contact.website}
                 placeholder="https://urbankicks.com"
             />
+        </div>
+    </Card>
+
+    <Card className="border border-gray-200 p-6">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Icon icon="mdi:bell-outline" class="w-5 h-5 text-primary" />
+            </div>
+            <div>
+                <h3 class="font-semibold text-text-main">
+                    Notification Emails
+                </h3>
+                <p class="text-xs text-text-muted">
+                    Receive order updates and payment alerts. You can add up to 3 emails.
+                </p>
+            </div>
+        </div>
+
+        <div class="space-y-3">
+            {#each shop.notificationContact as email, index}
+                <div class="flex gap-2 items-start">
+                    <div class="flex-1">
+                        <Input
+                            label={index === 0 ? "Email Address" : ""}
+                            type="email"
+                            placeholder="notifications@yourshop.com"
+                            bind:value={shop.notificationContact[index]}
+                        />
+                    </div>
+
+                    {#if shop.notificationContact.length > 1}
+                        <button
+                            type="button"
+                            class="mt-7 p-3 rounded-xl border border-gray-300 hover:border-error hover:text-error transition-colors"
+                            onclick={() =>
+                                shop.notificationContact.splice(index, 1)}
+                        >
+                            <Icon icon="mdi:trash-outline" class="w-5 h-5" />
+                        </button>
+                    {/if}
+                </div>
+            {/each}
+
+            {#if shop.notificationContact.length < 3}
+                <button
+                    type="button"
+                    class="flex items-center gap-2 text-sm text-primary hover:underline mt-2"
+                    onclick={() => shop.notificationContact.push("")}
+                >
+                    <Icon icon="mdi:plus-circle-outline" class="w-4 h-4" />
+                    Add another email
+                </button>
+            {/if}
+        </div>
+
+        <div class="mt-4 p-3 rounded-xl bg-gray-50 border border-gray-200">
+            <p class="text-xs text-text-muted flex items-start gap-2">
+                <Icon icon="mdi:information-outline" class="w-4 h-4 mt-0.5" />
+                These emails will receive notifications for new orders, payments,
+                refunds, and important shop alerts.
+            </p>
         </div>
     </Card>
 

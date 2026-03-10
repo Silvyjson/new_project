@@ -204,7 +204,7 @@
       </div>
     </div>
     
-    <Button variant="primary" size="lg" onclick={handleCreate}>
+    <Button variant="primary" size="sm" onclick={handleCreate}>
       <Icon icon="mdi:plus-circle-outline" class="w-5 h-5 mr-2" />
       Create Promotion
     </Button>

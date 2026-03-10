@@ -10,7 +10,7 @@
   import Button from '$lib/components/common/Button.svelte';
   
   // Role (in real app: from auth store)
-  let role = 'vendor' as 'buyer' | 'vendor';
+  let role = 'buyer' as 'buyer' | 'vendor';
   
   // View mode for vendor (grid or table)
   let layoutView: 'grid' | 'table' = 'grid';

@@ -121,7 +121,7 @@ Consider your primary use case:
   <!-- Blog Header -->
   <article in:fade={{ duration: 400, delay: 100 }}>
     <!-- Cover Image -->
-    <div class="aspect-video bg-gray-100 rounded-2xl overflow-hidden mb-8">
+    <div class="aspect-video md:aspect-auto md:h-100 bg-gray-100 rounded-2xl overflow-hidden mb-8">
       <img src={post.coverImage} alt={post.title} class="w-full h-full object-cover" />
     </div>
     

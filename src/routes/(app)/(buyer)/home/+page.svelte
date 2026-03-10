@@ -328,9 +328,9 @@
       </Button> -->
     </div>
       
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="flex gap-4 overflow-x-auto pb-4 hide-scrollbar">
         {#each shopActivities as activity, i}
-          <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
+          <div class="flex-shrink-0 w-80" in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
             <ShopActivityCard {activity} />
           </div>
         {/each}
@@ -349,9 +349,9 @@
         </Button>
       </div>
       
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div class="flex gap-4 overflow-x-auto pb-4 hide-scrollbar">
         {#each followedShops.slice(0, 4) as shop, i}
-          <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
+          <div class="flex-shrink-0 w-64" in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
             <ShopCard {shop} />
           </div>
         {/each}
@@ -372,9 +372,9 @@
       </Button>
     </div>
     
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div class="flex gap-4 overflow-x-auto pb-4 hide-scrollbar">
       {#each recommendedShops as shop, i}
-        <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
+        <div class="flex-shrink-0 w-64" in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
           <ShopCard {shop} />
         </div>
       {/each}
@@ -390,9 +390,9 @@
       </div>
     </div>
     
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+    <div class="flex gap-4 overflow-x-auto pb-4 hide-scrollbar">
       {#each trendingProducts as product, i}
-        <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
+        <div class="flex-shrink-0 w-64" in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
           <ProductCard {product} shopSlug={product.shop?.slug || 'unknown'} />
         </div>
       {/each}

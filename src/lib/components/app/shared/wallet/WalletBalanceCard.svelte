@@ -36,12 +36,15 @@
       </div>
     </div>
     
-    <!-- {#if role === 'vendor'}
-      <Button variant="ghost" size="sm" class="text-white hover:bg-white/10" onclick={() => showWithdrawModal = true}>
-        <Icon icon="mdi:bank-transfer-out" class="w-4 h-4 mr-2" />
-        Withdraw
+    {#if role === 'vendor'}
+      <Button variant="ghost" size="sm" class="text-white rounded-full hover:bg-white/10" href="/settings?tab=bank-accounts" >
+        <Icon icon="mdi:settings" class="w-5 h-5" />
       </Button>
-    {/if} -->
+    {:else}
+      <Button variant="ghost" size="sm" class="text-white rounded-full hover:bg-white/10" href="/settings?tab=payment-methods" >
+        <Icon icon="mdi:settings" class="w-5 h-5" />
+      </Button>
+    {/if}
   </div>
   
   <!-- Balance Display -->

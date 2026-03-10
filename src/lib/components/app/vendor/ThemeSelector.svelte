@@ -66,12 +66,12 @@
         </div>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto pb-2">
         {#each themes as theme}
             <button
                 type="button"
                 on:click={() => selectTheme(theme.id)}
-                class="text-left p-4 rounded-xl border-2 transition-all {selectedTheme ===
+                class="flex-shrink-0 w-64 text-left p-4 rounded-xl border-2 transition-all {selectedTheme ===
                 theme.id
                     ? 'border-primary bg-primary/5'
                     : 'border-gray-200 hover:border-gray-300'}"
