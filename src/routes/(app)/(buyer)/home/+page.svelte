@@ -328,9 +328,12 @@
       </Button> -->
     </div>
       
-    <div class="flex gap-4 overflow-x-auto pb-4 hide-scrollbar">
+      <div class="columns-2 md:columns-3 lg:columns-4 gap-4">
         {#each shopActivities as activity, i}
-          <div class="flex-shrink-0 w-80" in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
+          <div
+            class="break-inside-avoid mb-4"
+            in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}
+          >
             <ShopActivityCard {activity} />
           </div>
         {/each}

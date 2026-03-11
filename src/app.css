@@ -1,57 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;600;700&family=Clash+Grotesk:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;600;700&family=Clash+Grotesk:wght@400;500;600&display=swap");
 /* src/app.css */
 @import "tailwindcss";
 
 /* 🎨 VendorHub Design Tokens - Tailwind v4 Format */
 @theme {
   /* 🔵 Primary Brand Colors */
-  --color-primary: #1D4ED8;
-  --color-primary-hover: #1E3A8A;
-  --color-primary-light: #3B82F6;
+  --color-primary: #1d4ed8;
+  --color-primary-hover: #1e3a8a;
+  --color-primary-light: #3b82f6;
 
   /* ⚫ Dark Sections */
-  --color-dark: #0F172A;
-  --color-dark-card: #1E293B;
-  --color-dark-card-hover: #1E293B;
+  --color-dark: #0f172a;
+  --color-dark-card: #1e293b;
+  --color-dark-card-hover: #1e293b;
 
   --color-black: #000000;
-  --color-white: #FFFFFF;
+  --color-white: #ffffff;
 
   /* ⚪ Backgrounds */
-  --color-surface: #FFFFFF;
-  --color-background-light: #F1F5F9;
+  --color-surface: #ffffff;
+  --color-background-light: #f1f5f9;
 
   /* 🧊 Text Colors */
-  --color-text-main: #0F172A;
-  --color-text-muted: #64748B;
-  --color-text-inverse: #FFFFFF;
+  --color-text-main: #0f172a;
+  --color-text-muted: #64748b;
+  --color-text-inverse: #ffffff;
 
   /* 🟢🟡🔴 Status */
-  --color-success: #22C55E;
-  --color-success-light: #F0FDF4;
-  --color-warning: #F59E0B;
-  --color-warning-light: #FFFBEB;
-  --color-error: #EF4444;
-  --color-error-light: #FEF2F2;
+  --color-success: #22c55e;
+  --color-success-light: #f0fdf4;
+  --color-warning: #f59e0b;
+  --color-warning-light: #fffbeb;
+  --color-error: #ef4444;
+  --color-error-light: #fef2f2;
 
-  --color-whatsapp: #25D366;
-  --color-whatsapp-hover: #1EBE5D;
+  --color-whatsapp: #25d366;
+  --color-whatsapp-hover: #1ebe5d;
 
   /* Accents for Trust Pillars */
-  --color-info: #8B5CF6;
+  --color-info: #8b5cf6;
   --color-info/10: rgb(139 92 246 / 0.1);
   --color-info/20: rgb(139 92 246 / 0.2);
 
   /* Warning/Alert Colors */
-  --color-warning: #F59E0B;
+  --color-warning: #f59e0b;
   --color-warning/5: rgb(245 158 11 / 0.05);
   --color-warning/10: rgb(245 158 11 / 0.1);
   --color-warning/20: rgb(245 158 11 / 0.2);
   --color-warning/30: rgb(245 158 11 / 0.3);
 
   /* Danger/Security Colors */
-  --color-danger: #EF4444;
+  --color-danger: #ef4444;
   --color-danger/5: rgb(239 68 68 / 0.05);
   --color-danger/10: rgb(239 68 68 / 0.1);
   --color-danger/20: rgb(239 68 68 / 0.2);
@@ -111,7 +111,8 @@
 
   /* 🌫 Shadows */
   --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.05);
-  --shadow-card-hover: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+  --shadow-card-hover:
+    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
   --shadow-glow: 0 0 20px rgb(29 78 216 / 0.3);
 
   /* ✨ Animations */
@@ -119,7 +120,6 @@
   --animate-fade-in: fadeIn 0.8s ease-out forwards;
 
   @keyframes float {
-
     0%,
     100% {
       transform: translateY(0);
@@ -203,6 +203,10 @@
   .text-muted {
     @apply text-text-muted;
   }
+}
+
+.break-inside-avoid {
+  break-inside: avoid;
 }
 
 /* ♿ Accessibility */

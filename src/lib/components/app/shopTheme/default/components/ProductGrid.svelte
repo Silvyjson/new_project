@@ -27,19 +27,23 @@
 
 <section class="py-8 bg-soft-background">
     <div class="container max-w-7xl mx-auto px-4">
+
         {#if products.length > 0}
-            <!-- Grid View -->
+
+            <!-- GRID VIEW (Masonry Layout) -->
             {#if viewMode === "grid"}
-                <div
-                    class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6"
-                >
+
+                <!-- <div class="columns-2 md:columns-3 lg:columns-4 gap-3 md:gap-6 space-y-3 md:space-y-6"> -->
+                <div class="md:grid md:grid-cols-3 lg:grid-cols-4 md:gap-6 columns-2 gap-3 space-y-3 md:space-y-0">
+
                     {#each products as product, i}
                         <div
+                            class="break-inside-avoid"
                             in:fly={{
                                 y: 20,
                                 duration: 400,
                                 delay: i * 50,
-                                easing: cubicOut,
+                                easing: cubicOut
                             }}
                         >
                             <ProductCard
@@ -48,27 +52,30 @@
                                 on:addToCart={() => addToCart(product)}
                                 on:wishlist={(e: CustomEvent) => {
                                     console.log("wishlist:", e.detail);
-                                    // TODO: sync with backend or update UI state
                                 }}
                             />
                         </div>
                     {/each}
+
                 </div>
+
             {:else}
+
+                <!-- LIST VIEW -->
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
                     {#each products as product, i}
-                        {@const badge = getStockBadge
-                            ? getStockBadge(product)
-                            : null}
+                        {@const badge = getStockBadge ? getStockBadge(product) : null}
+
                         <div
                             in:fly={{
                                 y: 20,
                                 duration: 400,
                                 delay: i * 50,
-                                easing: cubicOut,
+                                easing: cubicOut
                             }}
                         >
-                            <!-- List View (componentized) -->
                             <ProductCardList
                                 {product}
                                 shopSlug={shop?.slug}
@@ -80,27 +87,52 @@
                             />
                         </div>
                     {/each}
+
                 </div>
+
             {/if}
 
             <!-- Pagination -->
+
             <Pagination
                 currentPage={pagination?.page}
                 totalPages={pagination?.totalPages}
                 on:pageChange={handlePageChange}
             />
+
         {:else}
+
             <!-- Empty State -->
+
             <Card className="py-16 text-center">
+
                 <div class="text-6xl mb-4">🔍</div>
-                <h3 class="text-h3 text-text-main mb-2">No Products Found</h3>
+
+                <h3 class="text-h3 text-text-main mb-2">
+                    No Products Found
+                </h3>
+
                 <p class="text-body text-text-muted mb-6">
                     Try adjusting your filters or search terms.
                 </p>
-                <Button variant="outline" onclick={() => clearAllFilters()}>
+
+                <Button
+                    variant="outline"
+                    onclick={() => clearAllFilters()}
+                >
                     Clear All Filters
                 </Button>
+
             </Card>
+
         {/if}
+
     </div>
 </section>
+
+<style>
+/* Prevent cards from splitting across columns */
+.break-inside-avoid {
+    break-inside: avoid;
+}
+</style>

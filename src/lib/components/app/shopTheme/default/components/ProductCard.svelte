@@ -166,11 +166,11 @@
     <!-- Price + Add to Cart -->
     <div class="mt-auto flex items-center justify-between gap-3">
       <div>
-        <span class="text-lg font-bold text-primary">
+        <span class="text-sm md:text-lg font-bold text-primary">
           {formatNaira(product.price)}
         </span>
         {#if product.oldPrice}
-          <span class="text-small text-text-muted line-through ml-2">
+          <span class="text-xs md:text-small text-text-muted line-through ml-2">
             {formatNaira(product.oldPrice)}
           </span>
         {/if}
@@ -211,7 +211,7 @@
       </p>
     {/if}
 
-    <div class="flex justify-between items-center md:hidden mt-2">
+    <!-- <div class="flex justify-between items-center md:hidden mt-2">
       <button
         on:click={toggleWishlist}
         class="w-8 h-8 rounded-full flex items-center justify-center transition
@@ -253,6 +253,6 @@
           />
         </svg>
       </button>
-    </div>
+    </div> -->
   </div>
 </Card>

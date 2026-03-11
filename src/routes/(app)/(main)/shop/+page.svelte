@@ -179,7 +179,7 @@
 
     <!-- 🔷 SECTION 4: ADVANCED FILTER BAR -->
     <section
-        class="sticky top-18 z-40 bg-surface border-b border-gray-200 py-4 shadow-sm"
+        class="sticky top-18 z-40 md:top-auto md:static bg-surface border-b border-gray-200 py-4 shadow-sm"
     >
         <div class="container max-w-7xl mx-auto px-4">
             <Filter
