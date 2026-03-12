@@ -5,37 +5,36 @@
   import { cubicOut } from 'svelte/easing';
   import { onMount } from 'svelte';
   import Icon from '@iconify/svelte';
+  import type { Promotion, PromotionStatus } from '$lib/types';
   import PromotionCard from '$lib/components/app/vendor/promotion/PromotionCard.svelte';
   import PromotionForm from '$lib/components/app/vendor/promotion/PromotionForm.svelte';
   import PromotionStatusTabs from '$lib/components/app/vendor/promotion/PromotionStatusTabs.svelte';
-  import PromotionStats from '$lib/components/app/vendor/promotion/PromotionStats.svelte';
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
+  import MetricRow from '$lib/components/app/grid/MetricRow.svelte';
+  import { formatNaira } from '$lib/utils/format';
   
-  let shopSlug = '';
-  $: if ($page.params.slug) {
-    shopSlug = $page.params.slug;
-  }
+  let shopSlug = $derived($page.params.slug || '');
   
   // Active tab
-  let activeTab = 'all';
+  let activeTab = $state('all');
   
   // Show create modal
-  let showCreateModal = false;
+  let showCreateModal = $state(false);
   
   // Mock promotions (in real app: fetch from API)
-  let promotions = [
+  let promotions = $state<Promotion[]>([
     {
       id: 'promo_001',
       title: 'Black Friday Sale',
       description: '20% off all electronics',
-      type: 'product' as const,
-      discountType: 'percentage' as const,
+      type: 'product',
+      discountType: 'percentage',
       discountValue: 20,
       productCount: 8,
       startDate: '2026-11-25',
       endDate: '2026-11-28',
-      status: 'active' as const,
+      status: 'active',
       orders: 42,
       revenue: 280000,
       productsSold: 65
@@ -44,14 +43,14 @@
       id: 'promo_002',
       title: 'New Customer Welcome',
       description: '₦500 off first order',
-      type: 'coupon' as const,
-      discountType: 'fixed' as const,
+      type: 'coupon',
+      discountType: 'fixed',
       discountValue: 500,
       couponCode: 'WELCOME500',
       productCount: 0,
       startDate: '2026-01-01',
       endDate: '2026-12-31',
-      status: 'active' as const,
+      status: 'active',
       orders: 128,
       revenue: 450000,
       productsSold: 203
@@ -60,13 +59,13 @@
       id: 'promo_003',
       title: 'Summer Clearance',
       description: 'End of season sale',
-      type: 'shop' as const,
-      discountType: 'percentage' as const,
+      type: 'shop',
+      discountType: 'percentage',
       discountValue: 30,
       productCount: 0,
       startDate: '2026-06-01',
       endDate: '2026-06-30',
-      status: 'scheduled' as const,
+      status: 'scheduled',
       orders: 0,
       revenue: 0,
       productsSold: 0
@@ -75,18 +74,18 @@
       id: 'promo_004',
       title: 'Flash Sale',
       description: 'Limited time offer',
-      type: 'product' as const,
-      discountType: 'fixed' as const,
+      type: 'product',
+      discountType: 'fixed',
       discountValue: 2000,
       productCount: 3,
       startDate: '2026-01-10',
       endDate: '2026-01-12',
-      status: 'expired' as const,
+      status: 'expired',
       orders: 89,
       revenue: 156000,
       productsSold: 134
     }
-  ];
+  ]);
   
   // Mock products for selector
   let products = [
@@ -97,18 +96,44 @@
   ];
   
   // Filter promotions
-  $: filteredPromotions = promotions.filter(p => {
-    if (activeTab === 'all') return true;
-    return p.status === activeTab;
-  });
+  let filteredPromotions = $derived(
+    activeTab === 'all' 
+      ? promotions 
+      : promotions.filter(p => p.status === activeTab)
+  );
   
   // Stats
-  $: stats = {
+  let stats = $derived({
     activePromotions: promotions.filter(p => p.status === 'active').length,
     totalOrders: promotions.reduce((sum, p) => sum + p.orders, 0),
     totalRevenue: promotions.reduce((sum, p) => sum + p.revenue, 0),
     totalProductsSold: promotions.reduce((sum, p) => sum + p.productsSold, 0)
-  };
+  });
+
+  const kpis = $derived([
+    {
+      label: "Active Promotions",
+      value: stats.activePromotions,
+      icon: "mdi:tag-check-outline",
+    },
+    {
+      label: "Orders from Promotions",
+      value: stats.totalOrders,
+      icon: "mdi:cart-outline",
+      color: "success"
+    },
+    {
+      label: "Revenue Generated",
+      value: formatNaira(stats.totalRevenue),
+      icon: "mdi:currency-ngn",
+    },
+    {
+      label: "Products Sold",
+      value: stats.totalProductsSold,
+      icon: "mdi:package-variant",
+      color: "success"
+    }
+  ]);
   
   // Handlers
   const handleCreate = () => {
@@ -120,50 +145,51 @@
   };
   
   const handlePause = (id: string) => {
-    promotions = promotions.map(p => 
-      p.id === id 
-        ? { ...p, status: p.status === 'paused' ? 'active' : 'paused' as const }
-        : p
-    );
+    const index = promotions.findIndex(p => p.id === id);
+    if (index !== -1) {
+      const p = promotions[index];
+      promotions[index] = { ...p, status: p.status === 'paused' ? 'active' : 'paused' };
+    }
   };
   
   const handleDuplicate = (id: string) => {
     const original = promotions.find(p => p.id === id);
     if (original) {
-      const newPromo = {
+      const newPromo: Promotion = {
         ...original,
         id: `promo_${Date.now()}`,
         title: `${original.title} (Copy)`,
-        status: 'paused' as const,
+        status: 'paused',
         orders: 0,
         revenue: 0,
         productsSold: 0
       };
-      promotions = [newPromo, ...promotions];
+      promotions.unshift(newPromo);
     }
   };
   
   const handleDelete = (id: string) => {
     if (confirm('Are you sure you want to delete this promotion?')) {
-      promotions = promotions.filter(p => p.id !== id);
+      const index = promotions.findIndex(p => p.id === id);
+      if (index !== -1) {
+        promotions.splice(index, 1);
+      }
     }
   };
   
-  const handleSavePromotion = ( data: any) => {
-    // In real app: API call to create/update promotion
+  const handleSavePromotion = (data: any) => {
     console.log('Save promotion', data);
     showCreateModal = false;
-    // Add to list (mock)
-    const newPromo = {
+    const newPromo: Promotion = {
       id: `promo_${Date.now()}`,
       ...data,
       productCount: data.productIds?.length || 0,
-      status: 'scheduled' as const,
+      status: 'scheduled',
       orders: 0,
       revenue: 0,
       productsSold: 0
     };
-    promotions = [newPromo, ...promotions];
+    promotions.unshift(newPromo);
   };
   
   const handleTabChange = (e: CustomEvent) => {
@@ -174,6 +200,7 @@
     window.addEventListener('tab-change', handleTabChange as EventListener);
     return () => window.removeEventListener('tab-change', handleTabChange as EventListener);
   });
+
 </script>
 
 <svelte:head>
@@ -212,7 +239,7 @@
   
   <!-- Section 2: Promotion Stats -->
   <section in:fade={{ duration: 400, delay: 100 }}>
-    <PromotionStats stats={stats} />
+    <MetricRow metrics={kpis.map(kpi => ({...kpi}))} />
   </section>
   
   <!-- Section 3: Status Tabs -->
@@ -255,11 +282,18 @@
 <!-- Create/Edit Modal -->
 {#if showCreateModal}
   <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
-    <div class="absolute inset-0 bg-dark/45 backdrop-blur-sm" on:click={() => showCreateModal = false}></div>
+    <div 
+      class="absolute inset-0 bg-dark/45 backdrop-blur-sm" 
+      onclick={() => (showCreateModal = false)}
+      onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && (showCreateModal = false)}
+      role="button"
+      tabindex="0"
+      aria-label="Close modal"
+    ></div>
     <Card className="relative bg-surface p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
         <h3 class="text-xl font-bold text-text-main">Create Promotion</h3>
-        <button on:click={() => showCreateModal = false} class="p-2 hover:bg-gray-100 rounded-lg transition-colors" aria-label="Close">
+        <button onclick={() => (showCreateModal = false)} class="p-2 hover:bg-gray-100 rounded-lg transition-colors" aria-label="Close">
           <Icon icon="mdi:close" class="w-5 h-5" />
         </button>
       </div>

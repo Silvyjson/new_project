@@ -7,13 +7,13 @@
   import Icon from '@iconify/svelte';
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
-  import KpiCard from '$lib/components/app/vendor/analytics/KpiCard.svelte';
   import RevenueChart from '$lib/components/app/vendor/analytics/RevenueChart.svelte';
   import ConversionFunnel from '$lib/components/app/vendor/analytics/ConversionFunnel.svelte';
   import ProductPerformanceTable from '$lib/components/app/vendor/analytics/ProductPerformanceTable.svelte';
   import TrafficSourcesChart from '$lib/components/app/vendor/analytics/TrafficSourcesChart.svelte';
   import CartInsights from '$lib/components/app/vendor/analytics/CartInsights.svelte';
   import SmartInsights from '$lib/components/app/vendor/analytics/SmartInsights.svelte';
+  import MetricRow from '$lib/components/app/grid/MetricRow.svelte';
   
   // Mock data
   let shops = [
@@ -43,19 +43,19 @@
     icon: string;
     label: string;
     value: string;
-    change: string;
+    trendValue: string;
     trend: 'up' | 'down' | 'neutral';
     color: string;
     subtext?: string;
   }> = [
-    { icon: 'mdi:cash-multiple', label: 'Revenue', value: '₦2.45M', change: '+12%', trend: 'up', color: 'green', subtext: 'from last period' },
-    { icon: 'mdi:package-variant-closed', label: 'Orders', value: '156', change: '+8%', trend: 'up', color: 'blue' },
-    { icon: 'mdi:calculator-variant-outline', label: 'Avg Order Value', value: '₦15,700', change: '+4%', trend: 'up', color: 'orange' },
-    { icon: 'mdi:chart-line', label: 'Conversion Rate', value: '3.2%', change: '+0.8%', trend: 'up', color: 'success' },
-    { icon: 'mdi:account-group-outline', label: 'Visitors', value: '4,320', change: '+21%', trend: 'up', color: 'purple' },
-    { icon: 'mdi:cart-outline', label: 'Cart Items', value: '87', change: '₦520K', trend: 'neutral', color: 'warning', subtext: 'potential revenue' },
-    { icon: 'mdi:heart-outline', label: 'Wishlist Adds', value: '241', change: '+15%', trend: 'up', color: 'pink' },
-    { icon: 'mdi:account-plus-outline', label: 'Followers', value: '+34', change: '+20%', trend: 'up', color: 'blue', subtext: 'this week' },
+    { icon: 'mdi:cash-multiple', label: 'Revenue', value: '₦2.45M', trendValue: '+12%', trend: 'up', color: 'success', subtext: 'from last period' },
+    { icon: 'mdi:package-variant-closed', label: 'Orders', value: '156', trendValue: '+8%', trend: 'up', color: 'primary' },
+    { icon: 'mdi:calculator-variant-outline', label: 'Avg Order Value', value: '₦15,700', trendValue: '+4%', trend: 'up', color: 'warning' },
+    { icon: 'mdi:chart-line', label: 'Conversion Rate', value: '3.2%', trendValue: '+0.8%', trend: 'up', color: 'success' },
+    { icon: 'mdi:account-group-outline', label: 'Visitors', value: '4,320', trendValue: '+21%', trend: 'up', color: 'primary' },
+    { icon: 'mdi:cart-outline', label: 'Cart Items', value: '87', trendValue: '₦520K', trend: 'neutral', color: 'warning', subtext: 'potential revenue' },
+    { icon: 'mdi:heart-outline', label: 'Wishlist Adds', value: '241', trendValue: '+15%', trend: 'up', color: 'primary' },
+    { icon: 'mdi:account-plus-outline', label: 'Followers', value: '+34', trendValue: '+20%', trend: 'up', color: 'primary', subtext: 'this week' },
   ];
   
   // Revenue Chart Data
@@ -212,21 +212,7 @@
   
   <!-- Section 2: KPI Cards -->
   <section in:fade={{ duration: 400, delay: 100 }}>
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {#each kpis as kpi, i}
-        <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
-          <KpiCard
-            icon={kpi.icon}
-            label={kpi.label}
-            value={kpi.value}
-            change={kpi.change}
-            trend={kpi.trend}
-            color={kpi.color}
-            subtext={kpi.subtext ?? ''}
-          />
-        </div>
-      {/each}
-    </div>
+    <MetricRow metrics={kpis.map(kpi => ({...kpi}))} />
   </section>
   
   <!-- Section 3: Revenue Chart -->

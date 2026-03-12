@@ -10,13 +10,14 @@
   import Badge from '$lib/components/common/Badge.svelte';
   import Input from '$lib/components/common/Input.svelte';
   import { formatDate } from '$lib/utils/format';
+  import MetricRow from '$lib/components/app/grid/MetricRow.svelte';
   
   // Mock data
-  let stats = {
+  let stats = $state({
     totalFollowers: 1284,
     newFollowers: 84,
     activeShops: 3
-  };
+  });
   
   let shops = [
     { id: '1', name: 'Urban Kicks', slug: 'urban-kicks', followers: 742 },
@@ -75,6 +76,34 @@
       lastActive: '2026-01-15'
     }
   ];
+
+  let kpis = $derived([
+    {
+      label: "Total Followers",
+      value: stats.totalFollowers.toLocaleString(),
+      icon: "mdi:account-multiple-outline",
+      color: "primary",
+      trendValue: undefined,
+      trend: undefined
+    },
+    {
+      label: "New Followers",
+      value: `+${stats.newFollowers}`,
+      icon: "mdi:account-plus-outline",
+      valueClass: "text-success",
+      color: "success",
+      trendValue: "+7d",
+      trend: "up" as const
+    },
+    {
+      label: "Shops With Followers",
+      value: stats.activeShops,
+      icon: "mdi:store-outline",
+      color: "primary",
+      trendValue: undefined,
+      trend: undefined
+    }
+  ]);
   
   let topShop = shops[0];
   
@@ -84,8 +113,8 @@
   }));
   
   // Filter state
-  let selectedShop = '';
-  let searchQuery = '';
+  let selectedShop = $state('');
+  let searchQuery = $state('');
 
   // Initialize selectedShop from URL params on mount
   onMount(() => {
@@ -96,27 +125,58 @@
   });
 
   // Get shop-specific metrics
-  $: currentShop = selectedShop 
+  let currentShop = $derived(selectedShop 
     ? shops.find(s => s.slug === selectedShop) 
-    : null;
+    : null);
 
-  $: shopSpecificFollowers = selectedShop
+  let shopSpecificFollowers = $derived(selectedShop
     ? followers.filter(f => f.shops.some(s => s.slug === selectedShop))
-    : followers;
+    : followers);
 
-  $: shopMetrics = currentShop ? {
+  let shopMetrics = $derived(currentShop ? {
     totalFollowers: currentShop.followers,
     newFollowers: Math.floor(Math.random() * 20) + 5,
     activeShops: 1
-  } : stats;
+  } : stats);
+
   
   // Filter followers
-  $: filteredFollowers = shopSpecificFollowers.filter(follower => {
+  let filteredFollowers = $derived(shopSpecificFollowers.filter(follower => {
     const matchesSearch = searchQuery === '' || 
       follower.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       follower.email.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesSearch;
-  });
+  }));
+
+  let shopKpis = $derived([
+    {
+      label: "Shop Followers",
+      value: shopMetrics.totalFollowers.toLocaleString(),
+      icon: "mdi:account-multiple-outline",
+      color: "primary",
+      trendValue: undefined,
+      trend: undefined
+    },
+    {
+      label: "New Followers",
+      value: `+${shopMetrics.newFollowers}`,
+      icon: "mdi:account-plus-outline",
+      valueClass: "text-success",
+      color: "success",
+      trendValue: "Last 7 days",
+      trend: "up" as const
+    },
+    {
+      label: "Engagement Rate",
+      value: `${Math.round(
+        (filteredFollowers.filter(f => f.orders > 0).length / (filteredFollowers.length || 1)) * 100
+      )}%`,
+      icon: "mdi:percent",
+      color: "primary",
+      trendValue: "Followers with orders",
+      trend: "neutral" as const
+    }
+  ]);
   
   // Export followers
   const exportFollowers = () => {
@@ -160,7 +220,7 @@
       <select
         class="appearance-none px-4 py-2.5 pr-10 rounded-xl border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
         value={selectedShop}
-        on:change={(e) => {
+        onchange={(e) => {
           selectedShop = (e.target as HTMLSelectElement).value;
           searchQuery = '';
         }}
@@ -186,96 +246,12 @@
   <!-- Section 2: Followers Overview (All Shops) -->
   {#if !selectedShop}
     <section in:fade={{ duration: 400, delay: 100 }}>
-      <div class="grid md:grid-cols-3 gap-6">
-        <!-- Total Followers -->
-        <Card className="border border-gray-200 p-6">
-          <div class="flex items-start justify-between">
-            <div>
-              <p class="text-sm text-text-muted mb-1">Total Followers</p>
-              <p class="text-3xl font-bold text-text-main">{stats.totalFollowers.toLocaleString()}</p>
-              <p class="text-xs text-text-muted mt-1">Across all shops</p>
-            </div>
-            <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <Icon icon="mdi:account-multiple-outline" class="w-6 h-6 text-primary" />
-            </div>
-          </div>
-        </Card>
-        
-        <!-- New Followers -->
-        <Card className="border border-gray-200 p-6">
-          <div class="flex items-start justify-between">
-            <div>
-              <p class="text-sm text-text-muted mb-1">New Followers</p>
-              <p class="text-3xl font-bold text-success">+{stats.newFollowers}</p>
-              <p class="text-xs text-text-muted mt-1">Last 7 days</p>
-            </div>
-            <div class="w-12 h-12 rounded-xl bg-success/10 flex items-center justify-center flex-shrink-0">
-              <Icon icon="mdi:account-plus-outline" class="w-6 h-6 text-success" />
-            </div>
-          </div>
-        </Card>
-        
-        <!-- Active Shops -->
-        <Card className="border border-gray-200 p-6">
-          <div class="flex items-start justify-between">
-            <div>
-              <p class="text-sm text-text-muted mb-1">Shops With Followers</p>
-              <p class="text-3xl font-bold text-text-main">{stats.activeShops}</p>
-              <p class="text-xs text-text-muted mt-1">Receiving followers</p>
-            </div>
-            <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <Icon icon="mdi:store-outline" class="w-6 h-6 text-primary" />
-            </div>
-          </div>
-        </Card>
-      </div>
+      <MetricRow metrics={kpis.map(kpi => ({...kpi}))} />
     </section>
   {:else}
     <!-- Section 2: Shop-Specific Metrics -->
     <section in:fade={{ duration: 400, delay: 100 }}>
-      <div class="grid md:grid-cols-3 gap-6">
-        <!-- Shop Followers -->
-        <Card className="border border-gray-200 p-6">
-          <div class="flex items-start justify-between">
-            <div>
-              <p class="text-sm text-text-muted mb-1">Shop Followers</p>
-              <p class="text-3xl font-bold text-text-main">{shopMetrics.totalFollowers.toLocaleString()}</p>
-              <p class="text-xs text-text-muted mt-1">Total followers</p>
-            </div>
-            <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <Icon icon="mdi:account-multiple-outline" class="w-6 h-6 text-primary" />
-            </div>
-          </div>
-        </Card>
-        
-        <!-- New Shop Followers -->
-        <Card className="border border-gray-200 p-6">
-          <div class="flex items-start justify-between">
-            <div>
-              <p class="text-sm text-text-muted mb-1">New Followers</p>
-              <p class="text-3xl font-bold text-success">+{shopMetrics.newFollowers}</p>
-              <p class="text-xs text-text-muted mt-1">Last 7 days</p>
-            </div>
-            <div class="w-12 h-12 rounded-xl bg-success/10 flex items-center justify-center flex-shrink-0">
-              <Icon icon="mdi:account-plus-outline" class="w-6 h-6 text-success" />
-            </div>
-          </div>
-        </Card>
-        
-        <!-- Engagement -->
-        <Card className="border border-gray-200 p-6">
-          <div class="flex items-start justify-between">
-            <div>
-              <p class="text-sm text-text-muted mb-1">Engagement Rate</p>
-              <p class="text-3xl font-bold text-text-main">{Math.round((filteredFollowers.filter(f => f.orders > 0).length / filteredFollowers.length) * 100)}%</p>
-              <p class="text-xs text-text-muted mt-1">Followers with orders</p>
-            </div>
-            <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <Icon icon="mdi:percent" class="w-6 h-6 text-primary" />
-            </div>
-          </div>
-        </Card>
-      </div>
+      <MetricRow metrics={shopKpis.map(kpi => ({...kpi}))} />
     </section>
   {/if}
 
@@ -404,7 +380,7 @@
       name="search"
       placeholder="Search followers by name or email"
       value={searchQuery}
-      on:input={(e) => {
+      oninput={(e: Event) => {
         searchQuery = (e.target as HTMLInputElement).value;
       }}
     />

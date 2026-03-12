@@ -11,6 +11,7 @@
     import Badge from "$lib/components/common/Badge.svelte";
     import TrustBadge from "$lib/components/common/TrustBadge.svelte";
     import { formatNumber } from "$lib/utils/format";
+  import MetricRow from "$lib/components/app/grid/MetricRow.svelte";
 
     let shopId = "3";
     let shopSlug = "3";
@@ -51,35 +52,35 @@
             icon: "mdi:shopping-outline",
             label: "Total Orders",
             value: "485",
-            change: "+12%",
+            trendValue: "+12%",
             trend: "up",
-            color: "green",
+            color: "success",
         },
         {
             icon: "mdi:cash-multiple",
             label: "Revenue",
             value: "₦2.4M",
-            change: "+8%",
+            trendValue: "+8%",
             trend: "up",
-            color: "blue",
+            color: "primary",
         },
         {
             icon: "mdi:account-multiple-outline",
             label: "Followers",
             value: "1,240",
-            change: "+15%",
+            trendValue: "+15%",
             trend: "up",
-            color: "purple",
+            color: "primary",
         },
         {
             icon: "mdi:cube-outline",
             label: "Products",
             value: "32",
-            change: "+4",
+            trendValue: "+4",
             trend: "up",
-            color: "orange",
+            color: "primary",
         },
-    ];
+    ] as const;
 
     // Shop Info
     const shopInfo = {
@@ -482,60 +483,8 @@
         <h2 class="text-xl font-bold text-text-main mb-6">
             Performance Overview
         </h2>
-        <div
-            class="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto pb-4 no-scrollbar"
-        >
-            {#each kpis as kpi, i}
-                <div
-                    class="flex-shrink-0 w-[240px] md:w-auto"
-                    in:fly={{
-                        y: 20,
-                        duration: 400,
-                        delay: i * 50,
-                        easing: cubicOut,
-                    }}
-                >
-                    <Card className="border border-gray-200 p-6">
-                        <div class="flex items-start justify-between">
-                            <div>
-                                <p class="text-sm text-text-muted mb-1">
-                                    {kpi.label}
-                                </p>
-                                <p class="text-2xl font-bold text-text-main">
-                                    {kpi.value}
-                                </p>
-                                {#if kpi.change}
-                                    <p
-                                        class="text-xs font-medium mt-1 {kpi.trend ===
-                                        'up'
-                                            ? 'text-success'
-                                            : kpi.trend === 'down'
-                                              ? 'text-error'
-                                              : 'text-text-muted'}"
-                                    >
-                                        {kpi.trend === "up"
-                                            ? "↑"
-                                            : kpi.trend === "down"
-                                              ? "↓"
-                                              : "→"}
-                                        {kpi.change}
-                                    </p>
-                                {/if}
-                            </div>
-                            <div
-                                class="w-12 h-12 rounded-xl bg-{kpi.color}/10 flex items-center justify-center flex-shrink-0"
-                            >
-                                <Icon
-                                    icon={kpi.icon}
-                                    class="w-6 h-6 text-{kpi.color}"
-                                />
-                            </div>
-                        </div>
-                    </Card>
-                </div>
-            {/each}
-        </div>
-    </section>
+        <MetricRow metrics={kpis.map(kpi => ({...kpi}))} />
+      </section>
 
     <!-- Section 3: Recent Orders -->
     <section in:fade={{ duration: 400, delay: 600 }}>

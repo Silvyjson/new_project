@@ -4,15 +4,16 @@
   import { cubicOut } from 'svelte/easing';
   import Icon from '@iconify/svelte';
   import WalletBalanceCard from '$lib/components/app/shared/wallet/WalletBalanceCard.svelte';
-  import WalletInsights from '$lib/components/app/shared/wallet/WalletInsights.svelte';
   import TransactionTable from '$lib/components/app/shared/wallet/TransactionTable.svelte';
   import BankAccountCard from '$lib/components/app/shared/wallet/BankAccountCard.svelte';
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
   import Badge from '$lib/components/common/Badge.svelte';
+  import { formatNaira } from '$lib/utils/format';
+  import MetricRow from '$lib/components/app/grid/MetricRow.svelte';
   
   // Role (in real app: from auth store)
-  let role = 'buyer' as 'buyer' | 'vendor';
+  let role = 'vendor' as 'buyer' | 'vendor';
   
   // Mock balance data
   let balance = {
@@ -28,6 +29,52 @@
     pendingClearance: 34200,
     refundBalance: 12500
   };
+
+    $: kpis = role === 'vendor' ? [
+    {
+      label: 'Total Earned',
+      value: formatNaira(insights.totalEarned || 0),
+      icon: 'mdi:cash-multiple'
+    },
+    {
+      label: 'Total Withdrawn',
+      value: formatNaira(insights.totalWithdrawn || 0),
+      icon: 'mdi:bank-outline'
+    },
+    {
+      label: 'Pending Clearance',
+      value: formatNaira(insights.pendingClearance || 0),
+      icon: 'mdi:clock-outline',
+      valueClass: 'text-warning'
+    },
+    {
+      label: 'This Month',
+      value: formatNaira(245000),
+      icon: 'mdi:calendar-outline'
+    }
+  ] : [
+    {
+      label: 'Total Spent',
+      value: formatNaira(124500),
+      icon: 'mdi:cart-outline'
+    },
+    {
+      label: 'Refund Balance',
+      value: formatNaira(insights.refundBalance || 12500),
+      icon: 'mdi:restore',
+      valueClass: 'text-success'
+    },
+    {
+      label: 'Saved Cards',
+      value: '2',
+      icon: 'mdi:credit-card-outline'
+    },
+    {
+      label: 'Active Orders',
+      value: '3',
+      icon: 'mdi:package-variant-closed'
+    }
+  ];
   
   // Mock transactions
   let transactions = [
@@ -77,7 +124,7 @@
   
   <!-- Section 3: Wallet Insights -->
   <section in:fade={{ duration: 400, delay: 200 }}>
-    <WalletInsights role={role} insights={insights} />
+    <MetricRow metrics={kpis.map(kpi => ({...kpi}))} />
   </section>
   
   <!-- Section 4: Transaction History -->

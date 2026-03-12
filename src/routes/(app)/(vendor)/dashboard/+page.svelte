@@ -3,21 +3,20 @@
     import { fade, fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
     import Icon from "@iconify/svelte";
-
     import ShopCard from "$lib/components/app/vendor/shop/ShopCard.svelte";
     import OrderCard from "$lib/components/app/card/OrderCard.svelte";
     import Card from "$lib/components/common/Card.svelte";
     import Button from "$lib/components/common/Button.svelte";
-    import KPICard from "$lib/components/app/vendor/KPICard.svelte";
+    import MetricRow from "$lib/components/app/grid/MetricRow.svelte";
     import ShopEmptyState from "$lib/components/app/vendor/shop/ShopEmptyState.svelte";
 
     let user = { name: "Silvia" };
 
     const kpis = [
-        { label: "Total Revenue", value: "₦2.4M", change: "+12%", trend: "up" },
-        { label: "Total Orders", value: "245", change: "+8%", trend: "up" },
-        { label: "Pending Orders", value: "12", change: "-3%", trend: "down" },
-        { label: "Followers", value: "1,890", change: "+15%", trend: "up" },
+        { label: "Total Revenue", value: "₦2.4M", trendValue: "+12%", trend: "up", icon: "mdi:currency-ngn" },
+        { label: "Total Orders", value: "245", trendValue: "+8%", trend: "up", icon: "mdi:package-variant-closed" },
+        { label: "Pending Orders", value: "12", trendValue: "-3%", trend: "down", icon: "mdi:clock-outline" },
+        { label: "Followers", value: "1,890", trendValue: "+15%", trend: "up", icon: "mdi:account-group-outline" },
     ] as const;
 
     let shops = [
@@ -155,21 +154,7 @@
             <h2 class="text-lg font-semibold text-text-main">Overview</h2>
         </div>
 
-        <!-- Mobile Scroll -->
-        <div
-            class="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto pb-2"
-        >
-            {#each kpis as kpi, i}
-                <div class="min-w-[220px] md:min-w-0">
-                    <KPICard
-                        label={kpi.label}
-                        value={kpi.value}
-                        change={kpi.change}
-                        trend={kpi.trend}
-                    />
-                </div>
-            {/each}
-        </div>
+        <MetricRow metrics={kpis.map(kpi => ({...kpi}))} />
     </section>
 
     <!-- Recent Orders -->

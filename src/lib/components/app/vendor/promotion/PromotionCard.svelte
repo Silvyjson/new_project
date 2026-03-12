@@ -5,22 +5,9 @@
   import Button from '$lib/components/common/Button.svelte';
   import Badge from '$lib/components/common/Badge.svelte';
   
-  export let promotion: {
-    id: string;
-    title: string;
-    description: string;
-    type: 'product' | 'shop' | 'coupon';
-    discountType: 'percentage' | 'fixed';
-    discountValue: number;
-    couponCode?: string;
-    productCount: number;
-    startDate: string;
-    endDate: string;
-    status: 'active' | 'scheduled' | 'expired' | 'paused';
-    orders: number;
-    revenue: number;
-    productsSold: number;
-  };
+  import type { Promotion } from '$lib/types';
+  
+  export let promotion: Promotion;
   
   export let onEdit: (id: string) => void;
   export let onPause: (id: string) => void;

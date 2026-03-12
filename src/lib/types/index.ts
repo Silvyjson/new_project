@@ -126,3 +126,24 @@ export interface Order {
         completed: boolean;
     }>;
 }
+
+export type PromotionStatus = 'active' | 'scheduled' | 'expired' | 'paused';
+export type PromotionType = 'product' | 'shop' | 'coupon';
+export type DiscountType = 'percentage' | 'fixed';
+
+export interface Promotion {
+    id: string;
+    title: string;
+    description: string;
+    type: PromotionType;
+    discountType: DiscountType;
+    discountValue: number;
+    couponCode?: string;
+    productCount: number;
+    startDate: string;
+    endDate: string;
+    status: PromotionStatus;
+    orders: number;
+    revenue: number;
+    productsSold: number;
+}

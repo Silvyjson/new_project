@@ -5,8 +5,8 @@
     import Input from "$lib/components/common/Input.svelte";
     import Button from "$lib/components/common/Button.svelte";
     import Badge from "$lib/components/common/Badge.svelte";
-    import FileUpload from "../FileUpload.svelte";
-    import ThemeSelector from "../ThemeSelector.svelte";
+    import FileUpload from "./FileUpload.svelte";
+    import ThemeSelector from "./ThemeSelector.svelte";
 
     export let shop: {
         id?: string;
