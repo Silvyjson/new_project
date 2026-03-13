@@ -1,4 +1,4 @@
-<!-- src/routes/(vendor)/followers/+page.svelte -->
+<!-- src/routes/(vendor)/followers/+page.svelte  -->
 <script lang="ts">
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
@@ -11,6 +11,12 @@
   import Input from '$lib/components/common/Input.svelte';
   import { formatDate } from '$lib/utils/format';
   import MetricRow from '$lib/components/app/grid/MetricRow.svelte';
+  import AppFilter from '$lib/components/app/common/AppFilter.svelte';
+  import AppPagination from '$lib/components/app/common/AppPagination.svelte';
+  import AppTable from '$lib/components/app/common/AppTable.svelte';
+  import FollowerCard from '$lib/components/app/vendor/follower/FollowerCard.svelte';
+  import FollowerTable from '$lib/components/app/vendor/follower/FollowerTable.svelte';
+  import BroadcastForm from '$lib/components/app/vendor/follower/BroadcastForm.svelte';
   
   // Mock data
   let stats = $state({
@@ -112,9 +118,16 @@
     count: Math.floor(Math.random() * 20) + 5
   }));
   
+  // Broadcast state
+  let showBroadcastModal = $state(false);
+  let isSending = $state(false);
+  
   // Filter state
   let selectedShop = $state('');
   let searchQuery = $state('');
+  let layoutView = $state<'grid' | 'table'>('grid');
+  let sortBy = $state('newest');
+  let filterEngagement = $state('all');
 
   // Initialize selectedShop from URL params on mount
   onMount(() => {
@@ -145,7 +158,17 @@
     const matchesSearch = searchQuery === '' || 
       follower.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       follower.email.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesSearch;
+    
+    const matchesEngagement = filterEngagement === 'all' || 
+      (filterEngagement === 'active' && follower.orders > 0) ||
+      (filterEngagement === 'inactive' && follower.orders === 0);
+
+    return matchesSearch && matchesEngagement;
+  }).sort((a, b) => {
+    if (sortBy === 'newest') return new Date(b.followedAt).getTime() - new Date(a.followedAt).getTime();
+    if (sortBy === 'orders') return b.orders - a.orders;
+    if (sortBy === 'name') return a.name.localeCompare(b.name);
+    return 0;
   }));
 
   let shopKpis = $derived([
@@ -182,6 +205,19 @@
   const exportFollowers = () => {
     // In real app: generate CSV and download
     alert('Exporting followers...');
+  };
+
+  const handleBroadcastSubmit = (data: any) => {
+    isSending = true;
+    setTimeout(() => {
+      const targetText = filteredFollowers.length + " followers";
+      const scheduleText = data.isScheduled 
+        ? ` scheduled for ${data.scheduledDate} at ${data.scheduledTime}` 
+        : "";
+      alert(`Broadcast "${data.subject}" sent to ${targetText}${scheduleText}!`);
+      isSending = false;
+      showBroadcastModal = false;
+    }, 1500);
   };
 </script>
 
@@ -371,22 +407,38 @@
   {/if}
   
   <!-- Section 3: Shop Filter + Search -->
-  <section in:fade={{ duration: 400, delay: 200 }}>
-    <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
-  <!-- Search -->
-  <div class="md:w-100">
-    <Input
-      label=""
-      name="search"
-      placeholder="Search followers by name or email"
-      value={searchQuery}
-      oninput={(e: Event) => {
-        searchQuery = (e.target as HTMLInputElement).value;
-      }}
-    />
-  </div>
-</div>
-  </section>
+  <AppFilter
+    searchQuery={searchQuery}
+    {layoutView}
+    onSearchInput={(val) => searchQuery = val}
+    onLayoutChange={(layout) => layoutView = layout}
+    placeholder="Search followers by name or email"
+  >
+    {#snippet extraFilters()}
+      <select
+        class="appearance-none px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-white"
+        bind:value={sortBy}
+      >
+        <option value="newest">Newest First</option>
+        <option value="orders">Most Orders</option>
+        <option value="name">Name (A-Z)</option>
+      </select>
+
+      <select
+        class="appearance-none px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-white"
+        bind:value={filterEngagement}
+      >
+        <option value="all">Any Engagement</option>
+        <option value="active">Active (with orders)</option>
+        <option value="inactive">Inactive (no orders)</option>
+      </select>
+
+      <Button variant="primary" size="md" onclick={() => showBroadcastModal = true}>
+        <Icon icon="mdi:bullhorn-outline" class="w-4 h-4 mr-2" />
+        Broadcast
+      </Button>
+    {/snippet}
+  </AppFilter>
   
   <!-- Section 4: Followers List -->
   <section in:fade={{ duration: 400, delay: 300 }}>
@@ -409,110 +461,53 @@
         </p>
       </Card>
     {:else}
-      <!-- Followers Grid -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {#each filteredFollowers as follower, i}
-          <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
-           <Card className="border border-gray-200 p-6 hover:shadow-card-hover transition-shadow">
-  <div class="flex items-start gap-4">
-    <!-- Avatar -->
-    <div class="flex-shrink-0">
-      {#if follower.avatar}
-        <img
-          src={follower.avatar}
-          alt={follower.name}
-          class="w-14 h-14 rounded-full object-cover"
-        />
+      <!-- Followers List -->
+      {#if layoutView === 'grid'}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {#each filteredFollowers as follower, i}
+            <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
+              <FollowerCard {follower} />
+            </div>
+          {/each}
+        </div>
       {:else}
-        <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
-          <Icon icon="mdi:account-circle" class="w-8 h-8 text-primary" />
-        </div>
+        <FollowerTable followers={filteredFollowers} />
       {/if}
-    </div>
-    
-    <!-- Content -->
-    <div class="flex-1 min-w-0">
-      <div class="flex items-start justify-between gap-4">
-        <div class="min-w-0">
-          <h3 class="font-semibold text-text-main truncate">{follower.name}</h3>
-          <div class="flex items-center gap-1 text-sm text-text-muted mt-0.5">
-            <Icon icon="mdi:email-outline" class="w-4 h-4" />
-            <span class="truncate">{follower.email}</span>
-          </div>
-        </div>
-        {#if follower.orders > 0}
-          <Badge variant="success" size="sm">
-            <Icon icon="mdi:shopping-outline" class="w-3 h-3 inline mr-1" />
-            {follower.orders} orders
-          </Badge>
-        {/if}
-      </div>
-      
-      <!-- Following Info -->
-      <div class="mt-4 space-y-2">
-        <div class="flex items-center gap-2 text-sm text-text-muted">
-          <Icon icon="mdi:calendar-outline" class="w-4 h-4" />
-          <span>Following since {formatDate(follower.followedAt)}</span>
-        </div>
-        
-        <div class="flex items-center gap-2 text-sm text-text-muted">
-          <Icon icon="mdi:store-outline" class="w-4 h-4" />
-          <span>Following:</span>
-          <div class="flex flex-wrap gap-1">
-            {#each follower.shops.slice(0, 2) as shop}
-              <a
-                href="/shop/{shop.slug}"
-                class="text-primary hover:underline text-xs"
-                target="_blank"
-              >
-                {shop.name}
-              </a>
-            {/each}
-            {#if follower.shops.length > 2}
-              <span class="text-xs text-text-muted">+{follower.shops.length - 2} more</span>
-            {/if}
-          </div>
-        </div>
-      </div>
-      
-      <!-- Actions -->
-      <!-- <div class="flex gap-2 mt-4 pt-4 border-t border-gray-100">
-        <Button variant="outline" size="sm" href="/dashboard?follower={follower.id}">
-          <Icon icon="mdi:account-eye-outline" class="w-4 h-4 mr-1" />
-          View Profile
-        </Button>
-        <Button variant="ghost" size="sm">
-          <Icon icon="mdi:message-outline" class="w-4 h-4" />
-        </Button>
-      </div> -->
-    </div>
-  </div>
-</Card>
-          </div>
-        {/each}
-      </div>
       
       <!-- Pagination -->
-      <div class="flex items-center justify-between mt-8">
-        <p class="text-sm text-text-muted">
-          Showing {filteredFollowers.length} of {followers.length} followers
-        </p>
-        <div class="flex items-center gap-2">
-          <button class="w-9 h-9 rounded-lg border border-gray-300 flex items-center justify-center text-text-muted hover:border-primary hover:text-primary transition-colors disabled:opacity-50" disabled>
-            <Icon icon="mdi:chevron-left" class="w-5 h-5" />
-          </button>
-          <button class="w-9 h-9 rounded-lg bg-primary text-white font-medium">1</button>
-          <button class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors">2</button>
-          <button class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors">3</button>
-          <span class="text-text-muted">...</span>
-          <button class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors">
-            <Icon icon="mdi:chevron-right" class="w-5 h-5" />
-          </button>
-        </div>
-      </div>
+      <AppPagination
+        currentPage={1}
+        totalItems={followers.length}
+        itemsPerPage={10}
+        onPageChange={(page) => console.log('Page changed to:', page)}
+        entityName="followers"
+      />
     {/if}
   </section>
 </main>
+
+<!-- Broadcast Modal -->
+{#if showBroadcastModal}
+  <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div 
+      class="absolute inset-0 bg-dark/45 backdrop-blur-sm" 
+      onclick={() => !isSending && (showBroadcastModal = false)}
+      onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && !isSending && (showBroadcastModal = false)}
+      role="button"
+      tabindex="0"
+      aria-label="Close modal"
+    ></div>
+    <Card className="relative bg-surface p-6 w-full max-w-xl shadow-2xl h-130 overflow-y-auto">
+      <BroadcastForm
+        targetCount={filteredFollowers.length}
+        targetDescription={selectedShop ? 'followers of ' + currentShop?.name : 'followers across all shops'}
+        onSubmit={handleBroadcastSubmit}
+        onCancel={() => !isSending && (showBroadcastModal = false)}
+        loading={isSending}
+      />
+    </Card>
+  </div>
+{/if}
 
 <!-- <style>
   @media (prefers-reduced-motion: reduce) {

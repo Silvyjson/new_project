@@ -43,6 +43,8 @@ const mockPosts = [
         updatedAt: new Date('2026-01-25T10:00:00Z'),
         readTime: 4,
         views: 2340,
+        likes: 124,
+        shop: { name: 'TechStoreNG', slug: 'techstoreng' },
         linkedProducts: [
             {
                 id: 'p_001',
@@ -133,6 +135,8 @@ const mockPosts = [
         updatedAt: new Date('2026-01-20T14:30:00Z'),
         readTime: 5,
         views: 5670,
+        likes: 85,
+        shop: { name: 'VendorHub', slug: 'vendorhub' },
         linkedProducts: [],
         linkedShop: null,
         tags: ['tips', 'safety', 'pre-order', 'buyer-guide', 'escrow'],
@@ -175,6 +179,8 @@ const mockPosts = [
         updatedAt: new Date('2026-01-18T09:00:00Z'),
         readTime: 3,
         views: 1890,
+        likes: 64,
+        shop: { name: 'Amina Fashion', slug: 'amina-fashion' },
         linkedProducts: [
             {
                 id: 'p_003',
@@ -244,6 +250,15 @@ const mockPosts = [
         <li>Keep product descriptions accurate to avoid returns</li>
       </ol>
       
+      <h2>How to Improve Your Trust Score</h2>
+      <ol>
+        <li>Ship orders on time and upload tracking info promptly</li>
+        <li>Respond to customer messages within 24 hours</li>
+        <li>Resolve issues proactively before they become disputes</li>
+        <li>Encourage satisfied customers to leave reviews</li>
+        <li>Keep product descriptions accurate to avoid returns</li>
+      </ol>
+      
       <blockquote>"Trust isn't given - it's earned. Every order is a chance to build yours."</blockquote>
       
       <p>Check your Trust Score anytime in your <a href="/dashboard">Vendor Dashboard</a>.</p>
@@ -261,11 +276,14 @@ const mockPosts = [
         updatedAt: new Date('2026-01-15T11:00:00Z'),
         readTime: 6,
         views: 8920,
+        likes: 156,
+        shop: { name: 'VendorHub', slug: 'vendorhub' },
         linkedProducts: [],
         linkedShop: null,
         tags: ['trust-score', 'vendor-guide', 'transparency', 'algorithm', 'tips'],
         featured: true,
-        status: 'published'
+        status: 'published' as const,
+        comments: []
     }
 ];
 

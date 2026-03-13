@@ -5,25 +5,36 @@
   import Button from '$lib/components/common/Button.svelte';
   import Input from '$lib/components/common/Input.svelte';
   
-  export let profile: {
+  interface Profile {
     avatar?: string;
     fullName: string;
+    businessName?: string;
     username: string;
     email: string;
     phone: string;
     bio?: string;
-  };
+    verificationStatus?: 'NOT_VERIFIED' | 'PENDING' | 'VERIFIED';
+  }
+
+  interface Props {
+    role?: 'buyer' | 'vendor';
+    profile: Profile;
+  }
+
+  let { role = 'buyer', profile }: Props = $props();
   
-  let avatar = profile.avatar;
-  let fullName = profile.fullName;
-  let username = profile.username;
-  let email = profile.email;
-  let phone = profile.phone;
-  let bio = profile.bio || '';
+  let avatar = $state(profile.avatar);
+  let fullName = $state(profile.fullName);
+  let businessName = $state(profile.businessName || '');
+  let username = $state(profile.username);
+  let email = $state(profile.email);
+  let phone = $state(profile.phone);
+  let bio = $state(profile.bio || '');
+  let verificationStatus = $state(profile.verificationStatus || 'NOT_VERIFIED');
   
-  let loading = false;
-  let success = '';
-  let error = '';
+  let loading = $state(false);
+  let success = $state('');
+  let error = $state('');
   
   const handleAvatarUpload = (e: Event) => {
     const input = e.target as HTMLInputElement;
@@ -74,11 +85,11 @@
         <label class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl font-medium cursor-pointer hover:bg-primary-hover transition-colors">
           <Icon icon="mdi:camera-outline" class="w-4 h-4" />
           Upload Photo
-          <input type="file" accept="image/*" class="hidden" on:change={handleAvatarUpload} />
+          <input type="file" accept="image/*" class="hidden" onchange={handleAvatarUpload} />
         </label>
         <p class="text-xs text-text-muted mt-2">JPG, PNG up to 5MB</p>
         {#if avatar}
-          <button type="button" class="text-sm text-error hover:underline mt-2" on:click={() => avatar = ''}>
+          <button type="button" class="text-sm text-error hover:underline mt-2" onclick={() => avatar = ''}>
             Remove photo
           </button>
         {/if}
@@ -90,9 +101,17 @@
       <Input
         label="Full Name"
         name="fullName"
-        value={fullName}
+        bind:value={fullName}
         required
       />
+      {#if role === 'vendor'}
+        <Input
+          label="Business Name"
+          name="businessName"
+          bind:value={businessName}
+          required
+        />
+      {/if}
       <Input
         label="Username"
         name="username"
@@ -113,7 +132,7 @@
         label="Phone Number"
         name="phone"
         type="tel"
-        value={phone}
+        bind:value={phone}
         required
       />
       <div class="md:col-span-2">
@@ -126,6 +145,76 @@
         ></textarea>
       </div>
     </div>
+
+    <!-- ID Verification (Vendor Only) -->
+    {#if role === 'vendor'}
+      <div class="pt-6 border-t border-gray-200">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <Icon icon="mdi:badge-account-outline" class="w-5 h-5 text-primary" />
+            <h4 class="font-semibold text-text-main">ID Verification</h4>
+          </div>
+          <div class="flex items-center gap-2">
+            {#if verificationStatus === 'VERIFIED'}
+              <span class="px-2.5 py-1 rounded-full bg-success/10 text-success text-xs font-bold flex items-center gap-1">
+                <Icon icon="mdi:check-decagram" class="w-3.5 h-3.5" />
+                VERIFIED
+              </span>
+            {:else if verificationStatus === 'PENDING'}
+              <span class="px-2.5 py-1 rounded-full bg-warning/10 text-warning text-xs font-bold flex items-center gap-1">
+                <Icon icon="mdi:clock-outline" class="w-3.5 h-3.5" />
+                PENDING REVIEW
+              </span>
+            {:else}
+              <span class="px-2.5 py-1 rounded-full bg-gray-100 text-text-muted text-xs font-bold">
+                NOT VERIFIED
+              </span>
+            {/if}
+          </div>
+        </div>
+
+        <div class="bg-gray-50 rounded-2xl p-6 border border-dashed border-gray-300">
+          {#if verificationStatus === 'NOT_VERIFIED'}
+            <div class="text-center">
+              <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                <Icon icon="mdi:upload-outline" class="w-6 h-6 text-primary" />
+              </div>
+              <h5 class="font-medium text-text-main mb-1">Upload Identity Document</h5>
+              <p class="text-xs text-text-muted mb-4 max-w-sm mx-auto">
+                Please upload a clear photo of your Government Issued ID (National ID, International Passport, or Driver's License)
+              </p>
+              <Button variant="outline" size="sm" onclick={() => verificationStatus = 'PENDING'}>
+                Start Verification
+              </Button>
+            </div>
+          {:else if verificationStatus === 'PENDING'}
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-warning/10 flex items-center justify-center shrink-0">
+                <Icon icon="mdi:file-document-outline" class="w-5 h-5 text-warning" />
+              </div>
+              <div>
+                <h5 class="font-medium text-text-main mb-1">Documents Under Review</h5>
+                <p class="text-xs text-text-muted">
+                  Your identity documents have been submitted and are currently being reviewed by our compliance team. This usually takes 24-48 hours.
+                </p>
+              </div>
+            </div>
+          {:else}
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-success/10 flex items-center justify-center shrink-0">
+                <Icon icon="mdi:shield-check-outline" class="w-5 h-5 text-success" />
+              </div>
+              <div>
+                <h5 class="font-medium text-text-main mb-1">Verification Complete</h5>
+                <p class="text-xs text-text-muted">
+                  Your identity has been successfully verified. You now have full access to all vendor features.
+                </p>
+              </div>
+            </div>
+          {/if}
+        </div>
+      </div>
+    {/if}
     
     <!-- Messages -->
     {#if success}

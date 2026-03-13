@@ -14,7 +14,7 @@
 
 <div class="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto pb-2 scrollbar-none">
   {#each metrics as metric}
-    <div class="min-w-[240px] md:min-w-0">
+    <div class="min-w-65 md:min-w-0">
       <MetricCard {...metric} />
     </div>
   {/each}

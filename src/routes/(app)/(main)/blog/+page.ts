@@ -40,7 +40,9 @@ const mockPosts = [
         ],
         linkedShop: { slug: 'techstoreng', name: 'TechStoreNG' },
         tags: ['tech', 'gadgets', 'pre-order', '2026'],
-        featured: true
+        featured: true,
+        likes: 124,
+        comments: []
     },
     {
         id: 'post-002',
@@ -62,7 +64,9 @@ const mockPosts = [
         linkedProducts: [],
         linkedShop: null,
         tags: ['tips', 'safety', 'pre-order', 'buyer-guide'],
-        featured: false
+        featured: false,
+        likes: 85,
+        comments: []
     },
     {
         id: 'post-003',
@@ -86,7 +90,9 @@ const mockPosts = [
         ],
         linkedShop: { slug: 'amina-fashion', name: 'Amina Fashion' },
         tags: ['fashion', 'sustainable', 'spring', 'ethical'],
-        featured: false
+        featured: false,
+        likes: 64,
+        comments: []
     },
     {
         id: 'post-004',
@@ -108,7 +114,9 @@ const mockPosts = [
         linkedProducts: [],
         linkedShop: null,
         tags: ['trust-score', 'vendor-guide', 'transparency', 'algorithm'],
-        featured: true
+        featured: true,
+        likes: 156,
+        comments: []
     }
 ];
 

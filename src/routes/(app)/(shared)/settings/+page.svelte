@@ -11,22 +11,27 @@
   import BankAccounts from '$lib/components/app/shared/settings/BankAccounts.svelte';
   import PreferencesSettings from '$lib/components/app/shared/settings/PreferencesSettings.svelte';
   import AccountManagement from '$lib/components/app/shared/settings/AccountManagement.svelte';
+  import InviteStaff from '$lib/components/app/shared/settings/InviteStaff.svelte';
   import Icon from '@iconify/svelte';
+  import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
   
   // Role (in real app: from auth store)
-  let role = 'buyer' as 'buyer' | 'vendor';
+  let role = 'vendor' as 'buyer' | 'vendor';
   
-  // Active section
-  let activeSection = 'profile';
+  // Active section based on URL
+  let activeSection = $derived($page.url.searchParams.get('tab') || 'profile');
   
   // Mock data (in real app: fetch from API)
   let profile = {
     avatar: '',
-    fullName: 'John Doe',
-    username: 'johndoe',
+    fullName: 'John Ade',
+    businessName: 'TechHub Store',
+    username: 'johnade',
     email: 'john@example.com',
     phone: '+234 801 234 5678',
-    bio: 'Vendor on VendorHub since 2025'
+    bio: 'Vendor on VendorHub since 2025',
+    verificationStatus: 'VERIFIED' as const
   };
   
   let notificationPrefs = {
@@ -84,7 +89,7 @@
   };
   
   const handleSectionChange = (e: CustomEvent) => {
-    activeSection = e.detail;
+    goto(`?tab=${e.detail}`, { replaceState: true, noScroll: true });
   };
   
   onMount(() => {
@@ -129,7 +134,7 @@
     <main class="space-y-6" in:fade={{ duration: 400, delay: 200 }}>
       
       {#if activeSection === 'profile'}
-        <ProfileSettings profile={profile} />
+        <ProfileSettings profile={profile} role={role} />
       {/if}
       
       {#if activeSection === 'security'}
@@ -150,6 +155,10 @@
       
       {#if activeSection === 'bank-accounts' && role === 'vendor'}
         <BankAccounts accounts={bankAccounts} />
+      {/if}
+
+      {#if activeSection === 'invite-staff' && role === 'vendor'}
+        <InviteStaff />
       {/if}
       
       {#if activeSection === 'preferences'}

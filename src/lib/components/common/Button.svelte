@@ -1,6 +1,6 @@
 <!-- src/lib/components/common/Button.svelte -->
 <script lang="ts">
-    type Props = {
+    interface Props {
         variant?:
             | "primary"
             | "secondary"
@@ -20,7 +20,8 @@
         title?: string;
         onclick?: (e: MouseEvent) => void;
         children?: any;
-    };
+        loading?: boolean;
+    }
 
     let {
         variant = "primary",
@@ -34,6 +35,7 @@
         target = "_self",
         onclick = () => {},
         children,
+        loading = false,
     }: Props = $props();
 
     // Class composition
@@ -73,7 +75,10 @@
         {@render children?.()}
     </a>
 {:else}
-    <button {type} class={classes} {disabled} {title} {onclick}>
+    <button {type} class={classes} disabled={disabled || loading} {title} {onclick}>
+        {#if loading}
+            <span class="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></span>
+        {/if}
         {@render children?.()}
     </button>
 {/if}

@@ -2,18 +2,21 @@
   import Icon from '@iconify/svelte';
   import Badge from '$lib/components/common/Badge.svelte';
   import Button from '$lib/components/common/Button.svelte';
+  import AppTable from '$lib/components/app/common/AppTable.svelte';
   
-  export let orders: Array<{
+  interface OrderItem {
+    id: string;
+    name: string;
+    image: string;
+    quantity: number;
+    price: number;
+  }
+
+  interface Order {
     id: string;
     code: string;
     date: string;
-    items: Array<{
-      id: string;
-      name: string;
-      image: string;
-      quantity: number;
-      price: number;
-    }>;
+    items: OrderItem[];
     total: number;
     status: string;
     deliveryMethod: string;
@@ -26,9 +29,17 @@
     };
     canCancel: boolean;
     canReturn: boolean;
-  }> = [];
-  
-  export let role: 'buyer' | 'vendor' = 'buyer';
+    source?: 'INTERNAL' | 'EXTERNAL';
+    paymentStatus?: 'PAID' | 'PARTIAL' | 'UNPAID';
+    paymentMethod?: string;
+  }
+
+  interface Props {
+    orders?: Order[];
+    role?: 'buyer' | 'vendor';
+  }
+
+  let { orders = [], role = 'buyer' }: Props = $props();
   
   const formatNaira = (amount: number) => {
     return new Intl.NumberFormat('en-NG', {
@@ -71,94 +82,107 @@
   };
 </script>
 
-<div class="overflow-x-auto rounded-lg border border-gray-200">
-  <table class="w-full">
-    <!-- Table Header -->
-    <thead>
-      <tr class="bg-gray-50 border-b border-gray-200">
-        <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Order Code</th>
-        <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Date</th>
-        {#if role === 'vendor'}
-          <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Buyer</th>
-        {/if}
-        <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Items</th>
-        <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Total</th>
-        <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Status</th>
-        <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Delivery</th>
-        <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Actions</th>
-      </tr>
-    </thead>
+<AppTable items={orders}>
+  {#snippet header()}
+    <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Order Code</th>
+    <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Date</th>
+    {#if role === 'vendor'}
+      <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Buyer</th>
+    {/if}
+    <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Items</th>
+    <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Total</th>
+    <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Status</th>
+    {#if role === 'vendor'}
+      <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Payment</th>
+      <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Source</th>
+    {/if}
+    <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Delivery</th>
+    <th class="px-6 py-3 text-left text-sm font-semibold text-text-main">Actions</th>
+  {/snippet}
+
+  {#snippet row(order: Order)}
+    {@const badge = getStatusBadge(order.status)}
+    <!-- Order Code -->
+    <td class="px-6 py-4 text-sm font-medium text-text-main">
+      <a href="/orders/{order.code}" class="hover:text-primary hover:underline">
+        #{order.code}
+      </a>
+    </td>
     
-    <!-- Table Body -->
-    <tbody>
-      {#if orders.length === 0}
-        <tr>
-          <td colspan="8" class="px-6 py-12 text-center text-text-muted">
-            <Icon icon="mdi:inbox-outline" class="w-12 h-12 mx-auto mb-3 opacity-50" />
-            <p class="text-sm">No orders found</p>
-          </td>
-        </tr>
-      {:else}
-        {#each orders as order (order.id)}
-            {@const badge = getStatusBadge(order.status)}
-          <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-            <!-- Order Code -->
-            <td class="px-6 py-4 text-sm font-medium text-text-main">
-              <a href="/orders/{order.code}" class="hover:text-primary hover:underline">
-                #{order.code}
-              </a>
-            </td>
-            
-            <!-- Date -->
-            <td class="px-6 py-4 text-sm text-text-muted">
-              {formatDate(order.date)}
-            </td>
-            
-            <!-- Buyer (vendor only) -->
-            {#if role === 'vendor'}
-              <td class="px-6 py-4 text-sm text-text-main">
-                {order.buyer?.name || 'Unknown'}
-              </td>
+    <!-- Date -->
+    <td class="px-6 py-4 text-sm text-text-muted">
+      {formatDate(order.date)}
+    </td>
+    
+    <!-- Buyer (vendor only) -->
+    {#if role === 'vendor'}
+      <td class="px-6 py-4 text-sm text-text-main">
+        {order.buyer?.name || 'Unknown'}
+      </td>
+    {/if}
+    
+    <!-- Items -->
+    <td class="px-6 py-4 text-sm text-text-muted">
+      {order.items.length} item{order.items.length > 1 ? 's' : ''}
+    </td>
+    
+    <!-- Total -->
+    <td class="px-6 py-4 text-sm font-semibold text-text-main">
+      {formatNaira(order.total)}
+    </td>
+    
+    <!-- Status -->
+    <td class="px-6 py-4 text-sm">
+      <Badge variant={badge.variant} size="sm">{badge.label}</Badge>
+    </td>
+
+    {#if role === 'vendor'}
+      <!-- Payment -->
+      <td class="px-6 py-4 text-sm">
+        {#if order.paymentStatus}
+          <div class="flex flex-col gap-1">
+            <Badge 
+              variant={order.paymentStatus === 'PAID' ? 'success' : order.paymentStatus === 'PARTIAL' ? 'warning' : 'danger'} 
+              size="sm"
+            >
+              {order.paymentStatus}
+            </Badge>
+            {#if order.paymentMethod}
+              <span class="text-[10px] text-text-muted uppercase font-bold">{order.paymentMethod}</span>
             {/if}
-            
-            <!-- Items -->
-            <td class="px-6 py-4 text-sm text-text-muted">
-              {order.items.length} item{order.items.length > 1 ? 's' : ''}
-            </td>
-            
-            <!-- Total -->
-            <td class="px-6 py-4 text-sm font-semibold text-text-main">
-              {formatNaira(order.total)}
-            </td>
-            
-            <!-- Status -->
-            <td class="px-6 py-4 text-sm">
-              <Badge variant={badge.variant} size="sm">{badge.label}</Badge>
-            </td>
-            
-            <!-- Delivery -->
-            <td class="px-6 py-4 text-sm text-text-muted">
-              <div class="flex items-center gap-1">
-                <Icon icon={getDeliveryIcon(order.deliveryMethod)} class="w-4 h-4" />
-                <span class="truncate max-w-[120px]" title={order.deliveryMethod}>
-                  {order.deliveryMethod.includes('Pickup') ? 'Pickup' : 'Drop-off'}
-                </span>
-              </div>
-            </td>
-            
-            <!-- Actions -->
-            <td class="px-6 py-4 text-sm">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                href="/orders/{order.code}"
-              >
-                View
-              </Button>
-            </td>
-          </tr>
-        {/each}
-      {/if}
-    </tbody>
-  </table>
-</div>
+          </div>
+        {:else}
+          <span class="text-text-muted">—</span>
+        {/if}
+      </td>
+      
+      <!-- Source -->
+      <td class="px-6 py-4 text-sm">
+        <Badge variant={order.source === 'EXTERNAL' ? 'info' : 'default'} size="sm">
+          {order.source || 'INTERNAL'}
+        </Badge>
+      </td>
+    {/if}
+    
+    <!-- Delivery -->
+    <td class="px-6 py-4 text-sm text-text-muted">
+      <div class="flex items-center gap-1">
+        <Icon icon={getDeliveryIcon(order.deliveryMethod)} class="w-4 h-4" />
+        <span class="truncate max-w-[120px]" title={order.deliveryMethod}>
+          {order.deliveryMethod.includes('Pickup') ? 'Pickup' : 'Drop-off'}
+        </span>
+      </div>
+    </td>
+    
+    <!-- Actions -->
+    <td class="px-6 py-4 text-sm">
+      <Button 
+        variant="outline" 
+        size="sm" 
+        href="/orders/{order.code}"
+      >
+        View
+      </Button>
+    </td>
+  {/snippet}
+</AppTable>

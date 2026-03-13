@@ -72,7 +72,7 @@
     <div class="flex items-center gap-2">
       <!-- Mobile Search Toggle -->
       <button
-        class="md:hidden p-2 text-text-muted hover:text-primary transition-colors"
+        class="hidden p-2 text-text-muted hover:text-primary transition-colors"
         aria-label="Search"
       >
         <svg

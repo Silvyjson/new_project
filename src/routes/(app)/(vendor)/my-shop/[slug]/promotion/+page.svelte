@@ -8,16 +8,22 @@
   import type { Promotion, PromotionStatus } from '$lib/types';
   import PromotionCard from '$lib/components/app/vendor/promotion/PromotionCard.svelte';
   import PromotionForm from '$lib/components/app/vendor/promotion/PromotionForm.svelte';
-  import PromotionStatusTabs from '$lib/components/app/vendor/promotion/PromotionStatusTabs.svelte';
+  import PromotionTable from '$lib/components/app/vendor/promotion/PromotionTable.svelte';
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
   import MetricRow from '$lib/components/app/grid/MetricRow.svelte';
-  import { formatNaira } from '$lib/utils/format';
+  import AppFilter from '$lib/components/app/common/AppFilter.svelte';
+  import AppPagination from '$lib/components/app/common/AppPagination.svelte';
+  import { formatNaira, formatDate } from '$lib/utils/format';
   
   let shopSlug = $derived($page.params.slug || '');
   
-  // Active tab
+  // Filter and Layout state
   let activeTab = $state('all');
+  let typeFilter = $state('all');
+  let searchQuery = $state('');
+  let layoutView = $state<'grid' | 'table'>('grid');
+  let activeSort = $state('');
   
   // Show create modal
   let showCreateModal = $state(false);
@@ -95,12 +101,30 @@
     { id: 'p_004', name: 'Bluetooth Speaker', image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1', price: 15000, category: 'Electronics', inStock: true }
   ];
   
-  // Filter promotions
-  let filteredPromotions = $derived(
-    activeTab === 'all' 
-      ? promotions 
-      : promotions.filter(p => p.status === activeTab)
-  );
+  // Filter and Sort promotions
+  let filteredPromotions = $derived.by(() => {
+    let result = promotions.filter(p => {
+      const matchesTab = activeTab === 'all' || p.status === activeTab;
+      const matchesType = typeFilter === 'all' || p.type === typeFilter;
+      const matchesSearch = searchQuery === '' || 
+        p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.description.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesTab && matchesType && matchesSearch;
+    });
+
+    if (activeSort) {
+      result = [...result].sort((a, b) => {
+        if (activeSort === 'highest-revenue') return b.revenue - a.revenue;
+        if (activeSort === 'lowest-revenue') return a.revenue - b.revenue;
+        if (activeSort === 'highest-orders') return b.orders - a.orders;
+        if (activeSort === 'lowest-orders') return a.orders - b.orders;
+        return 0;
+      });
+    }
+
+    return result;
+  });
+
   
   // Stats
   let stats = $derived({
@@ -134,6 +158,7 @@
       color: "success"
     }
   ]);
+
   
   // Handlers
   const handleCreate = () => {
@@ -227,7 +252,7 @@
       </div>
       <div>
         <h1 class="text-2xl font-bold text-text-main">Promotions</h1>
-        <p class="text-body text-text-muted">Create discounts, coupons, and sales for your shop</p>
+        <p class="text-sm text-text-muted">Create discounts, coupons, and sales for your shop</p>
       </div>
     </div>
     
@@ -242,10 +267,48 @@
     <MetricRow metrics={kpis.map(kpi => ({...kpi}))} />
   </section>
   
-  <!-- Section 3: Status Tabs -->
-  <section in:fade={{ duration: 400, delay: 200 }}>
-    <PromotionStatusTabs activeTab={activeTab} />
-  </section>
+  <!-- Section 3: Filters & Search -->
+  <AppFilter
+    searchQuery={searchQuery}
+    {layoutView}
+    onSearchInput={(val: string) => searchQuery = val}
+    onLayoutChange={(layout: 'grid' | 'table') => layoutView = layout}
+    placeholder="Search promotions by title or description..."
+  >
+    {#snippet extraFilters()}
+      <select
+        class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+        bind:value={activeTab}
+      >
+        <option value="all">All Status</option>
+        <option value="active">Active</option>
+        <option value="scheduled">Scheduled</option>
+        <option value="expired">Expired</option>
+        <option value="paused">Paused</option>
+      </select>
+
+      <select
+        class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+        bind:value={typeFilter}
+      >
+        <option value="all">All Types</option>
+        <option value="product">Product</option>
+        <option value="shop">Shop</option>
+        <option value="coupon">Coupon</option>
+      </select>
+
+      <select
+        class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+        bind:value={activeSort}
+      >
+        <option value="">Default Sort</option>
+        <option value="highest-revenue">Highest Revenue</option>
+        <option value="lowest-revenue">Lowest Revenue</option>
+        <option value="highest-orders">Highest Orders</option>
+        <option value="lowest-orders">Lowest Orders</option>
+      </select>
+    {/snippet}
+  </AppFilter>
   
   <!-- Section 4: Promotions List -->
   <section in:fade={{ duration: 400, delay: 300 }}>
@@ -262,19 +325,38 @@
         </Button>
       </Card>
     {:else}
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {#each filteredPromotions as promo, i}
-          <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
-            <PromotionCard
-              promotion={promo}
-              onEdit={handleEdit}
-              onPause={handlePause}
-              onDuplicate={handleDuplicate}
-              onDelete={handleDelete}
-            />
-          </div>
-        {/each}
-      </div>
+      {#if layoutView === 'grid'}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {#each filteredPromotions as promo, i}
+            <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
+              <PromotionCard
+                promotion={promo}
+                onEdit={handleEdit}
+                onPause={handlePause}
+                onDuplicate={handleDuplicate}
+                onDelete={handleDelete}
+              />
+            </div>
+          {/each}
+        </div>
+      {:else}
+        <PromotionTable 
+          promotions={filteredPromotions}
+          onEdit={handleEdit}
+          onPause={handlePause}
+          onDuplicate={handleDuplicate}
+          onDelete={handleDelete}
+        />
+      {/if}
+
+      <!-- Pagination Section -->
+      <AppPagination
+        currentPage={1}
+        totalItems={filteredPromotions.length}
+        itemsPerPage={10}
+        onPageChange={(page) => console.log('Page changed:', page)}
+        entityName="promotions"
+      />
     {/if}
   </section>
 </main>

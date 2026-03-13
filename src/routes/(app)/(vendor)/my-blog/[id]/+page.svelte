@@ -3,19 +3,15 @@
   import { page } from '$app/stores';
   import { fade } from 'svelte/transition';
   import Icon from '@iconify/svelte';
-  import BlogHeader from '$lib/components/app/vendor/blog/BlogHeader.svelte';
-  import BlogContent from '$lib/components/app/vendor/blog/BlogContent.svelte';
   import Button from '$lib/components/common/Button.svelte';
   import Badge from '$lib/components/common/Badge.svelte';
+  import BlogComments from '$lib/components/app/vendor/blog/BlogComments.svelte';
   
-  let postId = '';
-  $: if ($page.params.id) {
-    postId = $page.params.id;
-  }
+  let postId = $derived($page.params.id);
   
-  // Mock post data
-  let post = {
-    id: postId,
+  // Mock post data (using $state to make it reactive for likes/comments)
+  let post = $state({
+    id: '1',
     title: 'How to Choose the Best Wireless Headphones',
     excerpt: 'A comprehensive guide to finding the perfect wireless headphones for your needs...',
     content: `
@@ -75,6 +71,38 @@ Consider your primary use case:
     likes: 52,
     tags: ['tech', 'headphones', 'buying-guide', 'audio'],
     slug: 'how-to-choose-wireless-headphones'
+  });
+
+  // Like State
+  let isLiked = $state(false);
+  let likesCount = $derived(post.likes + (isLiked ? 1 : 0));
+
+  // Comments State
+  let comments = $state([
+    {
+      id: '1',
+      author: { name: 'Alex Johnson', avatar: 'https://i.pravatar.cc/150?u=alex' },
+      content: 'This was such a helpful guide! I learned a lot about what to look for in wireless headphones.',
+      publishedAt: '2026-02-15T10:30:00Z',
+      likes: 5,
+      replies: []
+    }
+  ]);
+
+  const toggleLike = () => {
+    isLiked = !isLiked;
+  };
+
+  const handleAddComment = (content: string) => {
+    const newComment = {
+      id: Math.random().toString(36).substr(2, 9),
+      author: { name: 'Vendor Admin (You)', avatar: '' },
+      content,
+      publishedAt: new Date().toISOString(),
+      likes: 0,
+      replies: []
+    };
+    comments = [newComment, ...comments];
   };
   
   const formatDate = (date: string) => {
@@ -101,7 +129,7 @@ Consider your primary use case:
     return badges[status as keyof typeof badges];
   };
 
-  const badge = getStatusBadge(post.status)
+  const badge = $derived(getStatusBadge(post.status));
 </script>
 
 <svelte:head>
@@ -109,7 +137,6 @@ Consider your primary use case:
 </svelte:head>
 
 <main class="max-w-7xl mx-auto px-4 py-8">
-  
   <!-- Back Link -->
   <div class="mb-6" in:fade={{ duration: 400 }}>
     <a href="/my-blog" class="text-sm text-primary font-medium hover:underline flex items-center gap-2">
@@ -118,126 +145,165 @@ Consider your primary use case:
     </a>
   </div>
   
-  <!-- Blog Header -->
   <article in:fade={{ duration: 400, delay: 100 }}>
-    <!-- Cover Image -->
-    <div class="aspect-video md:aspect-auto md:h-100 bg-gray-100 rounded-2xl overflow-hidden mb-8">
-      <img src={post.coverImage} alt={post.title} class="w-full h-full object-cover" />
-    </div>
-    
-    <!-- Header Content -->
-    <div class="mb-8">
-      <div class="flex items-center gap-3 mb-4">
-        <Badge variant={badge.variant}>{badge.label}</Badge>
-        <span class="text-sm text-text-muted">•</span>
-        <span class="text-sm text-text-muted flex items-center gap-1">
-          <Icon icon="mdi:calendar-outline" class="w-4 h-4" />
-          {formatDate(post.publishedAt)}
-        </span>
+    <div class="grid lg:grid-cols-3 gap-8">
+      <!-- Main Content -->
+      <div class="lg:col-span-2 space-y-8">
+        <!-- Cover Image -->
+        <div class="aspect-video bg-gray-100 rounded-2xl overflow-hidden shadow-sm">
+          <img src={post.coverImage} alt={post.title} class="w-full h-full object-cover" />
+        </div>
+
+        <!-- content header -->
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <Badge variant={badge.variant}>{badge.label}</Badge>
+            <span class="text-sm text-text-muted">•</span>
+            <span class="text-sm text-text-muted flex items-center gap-1">
+              <Icon icon="mdi:calendar-outline" class="w-4 h-4" />
+              {formatDate(post.publishedAt)}
+            </span>
+          </div>
+          
+          <h1 class="text-3xl md:text-4xl font-bold text-text-main mb-6">{post.title}</h1>
+          
+          <!-- Blog Content -->
+          <div class="prose prose-slate prose-lg max-w-none border-b border-gray-100 pb-12 mb-12">
+            {@html post.content}
+          </div>
+
+          <!-- Interaction Stats -->
+          <div class="flex items-center gap-6 py-6 border-y border-gray-50 mb-12">
+            <button 
+              class="flex items-center gap-2 text-text-muted hover:text-primary transition-colors"
+              onclick={toggleLike}
+            >
+              <Icon icon={isLiked ? "mdi:heart" : "mdi:heart-outline"} class="w-6 h-6 {isLiked ? 'text-error' : ''}" />
+              <span class="font-medium">{formatNumber(likesCount)} Likes</span>
+            </button>
+            <div class="flex items-center gap-2 text-text-muted">
+              <Icon icon="mdi:eye-outline" class="w-6 h-6" />
+              <span class="font-medium">{formatNumber(post.views)} Views</span>
+            </div>
+            <div class="flex items-center gap-2 text-text-muted">
+              <Icon icon="mdi:comment-outline" class="w-6 h-6" />
+              <span class="font-medium">{comments.length} Comments</span>
+            </div>
+          </div>
+
+          <!-- Comments -->
+          <BlogComments 
+            comments={comments}
+            onAddComment={handleAddComment}
+          />
+        </div>
       </div>
-      
-      <h1 class="text-3xl md:text-4xl font-bold text-text-main mb-4">{post.title}</h1>
-      
-      <p class="text-lg text-text-muted mb-6">{post.excerpt}</p>
-      
-      <!-- Meta -->
-      <div class="flex flex-wrap items-center gap-4 text-sm text-text-muted mb-6">
-        <span class="flex items-center gap-2">
-          <Icon icon="mdi:store-outline" class="w-4 h-4" />
-          {post.shop.name}
-        </span>
-        <span class="flex items-center gap-2">
-          <Icon icon="mdi:eye-outline" class="w-4 h-4" />
-          {formatNumber(post.views)} views
-        </span>
-        <span class="flex items-center gap-2">
-          <Icon icon="mdi:heart-outline" class="w-4 h-4" />
-          {formatNumber(post.likes)} likes
-        </span>
+
+      <!-- Sidebar / Actions -->
+      <div class="lg:col-span-1 space-y-6">
+        <div class="sticky top-24 p-6 rounded-2xl border border-gray-100 bg-surface shadow-sm space-y-6">
+          <h3 class="font-bold text-text-main">Post Management</h3>
+          
+          <div class="space-y-3">
+            <Button variant="primary" className="w-full justify-center" href="/my-blog/{post.id}/edit">
+              <Icon icon="mdi:pencil-outline" class="w-4 h-4 mr-2" />
+              Edit Post
+            </Button>
+            <Button variant="outline" className="w-full justify-center" href="/blog/{post.slug}" target="_blank">
+              <Icon icon="mdi:open-in-new" class="w-4 h-4 mr-2" />
+              View Public
+            </Button>
+            <Button variant="ghost" size="md" class="w-full justify-center text-error hover:bg-error/5">
+              <Icon icon="mdi:delete-outline" class="w-4 h-4 mr-2" />
+              Delete Post
+            </Button>
+          </div>
+
+          <div class="pt-6 border-t border-gray-100">
+            <h4 class="text-sm font-semibold text-text-main mb-3">Tags</h4>
+            <div class="flex flex-wrap gap-2">
+              {#each post.tags as tag}
+                <span class="px-3 py-1 bg-gray-50 text-text-muted text-xs rounded-full border border-gray-100">#{tag}</span>
+              {/each}
+            </div>
+          </div>
+        </div>
       </div>
-      
-      <!-- Tags -->
-      <div class="flex flex-wrap gap-2 mb-8">
-        {#each post.tags as tag}
-          <span class="px-3 py-1 bg-gray-100 text-text-main text-sm rounded-full">#{tag}</span>
-        {/each}
-      </div>
-      
-      <!-- Vendor Actions -->
-      <div class="flex gap-3">
-        <Button variant="outline" size="md" href="/my-blog/{post.id}/edit">
-          <Icon icon="mdi:pencil-outline" class="w-4 h-4 mr-2" />
-          Edit Post
-        </Button>
-        <Button variant="ghost" size="md" class="text-error hover:bg-error/5">
-          <Icon icon="mdi:delete-outline" class="w-4 h-4 mr-2" />
-          Delete
-        </Button>
-        <Button variant="outline" size="md" href="/blog/{post.slug}" target="_blank">
-          <Icon icon="mdi:open-in-new" class="w-4 h-4 mr-2" />
-          View Public
-        </Button>
-      </div>
-    </div>
-    
-    <!-- Blog Content -->
-    <div class="prose prose-slate prose-lg max-w-none">
-      {@html post.content}
     </div>
   </article>
 </main>
 
-<!-- <style>
+<style>
   /* Prose styles for blog content */
   :global(.prose) {
-    @apply text-[16px] text-[#64748B] leading-[1.9];
+    color: var(--color-text-muted);
+    line-height: 1.8;
   }
 
   :global(.prose h2) {
-    @apply text-[40px] font-bold text-[#0F172A] mt-12 mb-4;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
   }
 
   :global(.prose h3) {
-    @apply text-[28px] font-semibold text-[#0F172A] mt-8 mb-3;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
   }
 
   :global(.prose p) {
-    @apply mb-4;
+    margin-bottom: 1rem;
   }
 
   :global(.prose ul) {
-    @apply list-disc list-inside mb-4 pl-4;
+    list-style-type: disc;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
   }
 
   :global(.prose li) {
-    @apply mb-2;
+    margin-bottom: 0.5rem;
   }
 
   :global(.prose a) {
-    @apply text-[#1D4ED8] hover:underline;
+    color: var(--color-primary);
+  }
+
+  :global(.prose a:hover) {
+    text-decoration: underline;
   }
 
   :global(.prose blockquote) {
-    @apply border-l-4 border-[#1D4ED8] pl-4 italic text-[#64748B];
+    border-left: 4px solid var(--color-primary);
+    padding-left: 1rem;
+    font-style: italic;
+    color: var(--color-text-muted);
+    margin: 1.5rem 0;
   }
 
   :global(.prose table) {
-    @apply w-full border-collapse my-6;
+    width: 100%;
+    margin: 1.5rem 0;
+    border-collapse: collapse;
   }
 
   :global(.prose th) {
-    @apply text-left py-2 px-4 bg-[#F1F5F9] font-semibold text-[#0F172A];
+    text-align: left;
+    padding: 0.75rem 1rem;
+    background: #f8fafc;
+    font-weight: 600;
+    font-size: 0.875rem;
   }
 
   :global(.prose td) {
-    @apply py-2 px-4 border-b border-[#E2E8F0];
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.875rem;
   }
-
-  @media (prefers-reduced-motion: reduce) {
-    .animate-fade-in {
-      animation: none !important;
-      opacity: 1 !important;
-      transform: none !important;
-    }
-  }
-</style> -->
+</style>
+ -->

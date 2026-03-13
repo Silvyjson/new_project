@@ -5,7 +5,18 @@
   import Button from '$lib/components/common/Button.svelte';
   import Badge from '$lib/components/common/Badge.svelte';
   
-  export let post: {
+  interface Comment {
+    id: string;
+    author: {
+      name: string;
+      avatar?: string;
+    };
+    content: string;
+    publishedAt: string;
+    likes: number;
+  }
+
+  interface Post {
     id: string;
     title: string;
     excerpt: string;
@@ -17,10 +28,29 @@
     status: 'draft' | 'published' | 'archived';
     views: number;
     likes: number;
+    comments: Comment[];
     publishedAt?: string;
     slug: string;
-  };
+  }
+
+  interface Props {
+    post: Post;
+  }
+
+  let { post }: Props = $props();
   
+  // Like State
+  let isLiked = $state(false);
+  let localLikesDelta = $state(0);
+  let likesCount = $derived(post.likes + localLikesDelta);
+
+  const toggleLike = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    isLiked = !isLiked;
+    localLikesDelta += isLiked ? 1 : -1;
+  };
+
   const formatDate = (date: string) => {
     return new Intl.DateTimeFormat('en-US', {
       month: 'short',
@@ -45,10 +75,10 @@
     return badges[status as keyof typeof badges];
   };
 
-  const badge = getStatusBadge(post.status)
+  const badge = $derived(getStatusBadge(post.status));
 </script>
 
-<a href="/my-blog/{post.id}" class="block group">
+<a href="/my-blog/{post.slug}" class="block group">
   <Card padding="none" className="border border-gray-200 overflow-hidden hover:shadow-card-hover transition-all">
     <!-- Cover Image -->
     <div class="h-40 bg-gray-100 relative">
@@ -60,6 +90,15 @@
       <div class="absolute top-3 right-3">
         <Badge variant={badge.variant} size="sm">{badge.label}</Badge>
       </div>
+      
+      <!-- Overlay Heart for Grid view -->
+      <button 
+        class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center text-text-muted hover:text-primary hover:scale-110 transition-all shadow-sm z-10"
+        onclick={toggleLike}
+        title={isLiked ? "Unlike" : "Like"}
+      >
+        <Icon icon={isLiked ? "mdi:heart" : "mdi:heart-outline"} class="w-5 h-5 {isLiked ? 'text-error' : ''}" />
+      </button>
     </div>
     
     <!-- Content -->
@@ -84,8 +123,12 @@
             {formatNumber(post.views)}
           </span>
           <span class="flex items-center gap-1">
-            <Icon icon="mdi:heart-outline" class="w-4 h-4" />
-            {formatNumber(post.likes)}
+            <Icon icon={isLiked ? "mdi:heart" : "mdi:heart-outline"} class="w-4 h-4 {isLiked ? 'text-error' : ''}" />
+            {formatNumber(likesCount)}
+          </span>
+          <span class="flex items-center gap-1">
+            <Icon icon="mdi:comment-outline" class="w-4 h-4" />
+            {formatNumber(post?.comments?.length || 0)}
           </span>
         </div>
         {#if post.publishedAt}
@@ -93,9 +136,9 @@
         {/if}
       </div>
       
-      <!-- Actions -->
+      <!-- Actions (Vendor Specific) -->
       <div class="flex gap-2 pt-4 border-t border-gray-100">
-        <Button variant="outline" size="sm" href="/blog/{post.slug}" target="_blank">
+        <Button variant="outline" size="sm" href="/my-blog/{post.slug}">
           <Icon icon="mdi:eye-outline" class="w-4 h-4" />
         </Button>
         <Button variant="outline" size="sm" href="/my-blog/{post.id}/edit">

@@ -82,9 +82,9 @@
         Withdraw
       </Button>
     {/if}
-    <Button variant="secondary" size="md" class="text-primary hover:bg-gray-100" href="/wallet/history">
+    <Button variant="secondary" size="md" class="text-primary hover:bg-gray-100" href="/wallet#history">
       <Icon icon="mdi:history" class="w-4 h-4 mr-2" />
-      Transaction History
+      History
     </Button>
   </div>
 </Card>

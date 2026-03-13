@@ -733,28 +733,38 @@
 
     <!-- Section 5: Customer Reviews -->
     <section in:fade={{ duration: 400, delay: 700 }}>
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex flex-col md:flex-row md:items-center gap-2 justify-between mb-6">
             <h2 class="text-xl font-bold text-text-main">Customer Reviews</h2>
             <span class="text-sm text-text-muted">
                 ★ 4.8 Average ({reviews.length} reviews)
             </span>
         </div>
 
-        <div class="flex gap-3 md:gap-6 overflow-x-auto pb-4 snap-x">
-            {#each reviews as review, i}
-                <div
-                    class="flex-shrink-0 w-80 h-full animate-fade-in snap-start"
-                    in:fly={{
-                        y: 20,
-                        duration: 400,
-                        delay: i * 50,
-                        easing: cubicOut,
-                    }}
-                >
-                    <ReviewCard {review} />
-                </div>
-            {/each}
-        </div>
+        {#if reviews.length > 0}
+          <div class="flex gap-3 md:gap-6 overflow-x-auto pb-4 snap-x">
+              {#each reviews as review, i}
+                  <div
+                      class="flex-shrink-0 w-80 h-full animate-fade-in snap-start"
+                      in:fly={{
+                          y: 20,
+                          duration: 400,
+                          delay: i * 50,
+                          easing: cubicOut,
+                      }}
+                  >
+                      <ReviewCard {review} />
+                  </div>
+              {/each}
+          </div>
+        {:else}
+          <Card className="py-10 text-center border border-gray-200">
+            <Icon
+                icon="mdi:star-outline"
+                class="w-10 h-10 mx-auto mb-3 text-gray-400"
+            />
+            <p class="text-sm text-text-muted">No reviews yet</p>
+          </Card>
+        {/if}
     </section>
 </main>
 

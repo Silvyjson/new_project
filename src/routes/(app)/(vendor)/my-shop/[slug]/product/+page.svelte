@@ -12,17 +12,23 @@
     import Input from "$lib/components/common/Input.svelte";
     import BulkUpdateModal from '$lib/components/app/vendor/product/BulkUpdateModal.svelte';
     import StockAlertBanner from '$lib/components/app/vendor/product/StockAlertBanner.svelte';
+    import AppPagination from "$lib/components/app/common/AppPagination.svelte";
+    import AppFilter from "$lib/components/app/common/AppFilter.svelte";
 
 
-    let shopSlug = "";
-    let shopName = "";
-    $: if ($page.params.slug) {
-        shopSlug = $page.params.slug;
-        shopName = shopSlug
-            .split("-")
-            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-            .join(" ");
-    }
+    let shopSlug = $state("");
+    let shopName = $state("");
+    
+    $effect(() => {
+        if ($page.params.slug) {
+            shopSlug = $page.params.slug;
+            shopName = shopSlug
+                .split("-")
+                .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                .join(" ");
+        }
+    });
+
 
     // Mock products
     let products = [
@@ -96,33 +102,142 @@
             lowStockThreshold: 10,
             lastUpdated: '2026-01-05'
         },
+        {
+            id: "p_006",
+            code: "UK-VANS-006",
+            name: "Vans Old Skool Black",
+            image: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77",
+            price: 35000,
+            discountPrice: null,
+            stock: 50,
+            orders: 120,
+            status: "active" as const,
+            category: "Sneakers",
+            lowStockThreshold: 10,
+            lastUpdated: '2026-02-01'
+        },
+        {
+            id: "p_007",
+            code: "UK-DRM-007",
+            name: "Dr. Martens 1460",
+            image: "https://images.unsplash.com/photo-1638247025967-b4e38f787b7a",
+            price: 95000,
+            discountPrice: null,
+            stock: 12,
+            orders: 45,
+            status: "active" as const,
+            category: "Boots",
+            lowStockThreshold: 5,
+            lastUpdated: '2026-02-05'
+        },
+        {
+            id: "p_008",
+            code: "UK-TH-008",
+            name: "Timberland 6-Inch Premium",
+            image: "https://images.unsplash.com/photo-1520639889313-7272a74b1c73",
+            price: 110000,
+            discountPrice: 90000,
+            stock: 4,
+            orders: 89,
+            status: "low-stock" as const,
+            category: "Boots",
+            lowStockThreshold: 10,
+            lastUpdated: '2026-02-10'
+        },
+        {
+            id: "p_009",
+            code: "UK-REE-009",
+            name: "Reebok Classic Leather",
+            image: "https://images.unsplash.com/photo-1539185441755-769473a23570",
+            price: 55000,
+            discountPrice: null,
+            stock: 28,
+            orders: 76,
+            status: "active" as const,
+            category: "Sneakers",
+            lowStockThreshold: 10,
+            lastUpdated: '2026-02-15'
+        },
+        {
+            id: "p_010",
+            code: "UK-PU-010",
+            name: "Puma Suede Classic",
+            image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5",
+            price: 48000,
+            discountPrice: null,
+            stock: 18,
+            orders: 63,
+            status: "active" as const,
+            category: "Sneakers",
+            lowStockThreshold: 10,
+            lastUpdated: '2026-02-20'
+        },
+        {
+            id: "p_011",
+            code: "UK-AS-011",
+            name: "Asics Gel-Lyte III",
+            image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a",
+            price: 82000,
+            discountPrice: null,
+            stock: 9,
+            orders: 34,
+            status: "low-stock" as const,
+            category: "Sneakers",
+            lowStockThreshold: 10,
+            lastUpdated: '2026-02-25'
+        },
+        {
+            id: "p_012",
+            code: "UK-NIK-012",
+            name: "Nike Dunk Low Panda",
+            image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519",
+            price: 130000,
+            discountPrice: null,
+            stock: 0,
+            orders: 200,
+            status: "out-of-stock" as const,
+            category: "Sneakers",
+            lowStockThreshold: 20,
+            lastUpdated: '2026-03-01'
+        }
     ];
 
     // View mode
-    let viewMode: "table" | "grid" = "table";
+    let viewMode = $state<"table" | "grid">("table");
+
+    // Pagination
+    let currentPage = $state(1);
+    let itemsPerPage = 10;
 
     // Filters
-    let searchQuery = "";
-    let categoryFilter = "all";
-    let statusFilter = "all";
-    let sortBy = "newest";
+    let searchQuery = $state("");
+    let categoryFilter = $state("all");
+    let statusFilter = $state("all");
+    let sortBy = $state("newest");
 
     const categories = ["All", "Sneakers", "Boots", "Accessories"];
     const statuses = ["All", "Active", "Draft", "Out of Stock", "Low Stock"];
 
     // Filter products
-    $: filteredProducts = products.filter((product) => {
-        const matchesSearch = product.name
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase());
-        const matchesCategory =
-            categoryFilter === "all" ||
-            product.category.toLowerCase() === categoryFilter.toLowerCase();
-        const matchesStatus =
-            statusFilter === "all" ||
-            product.status === statusFilter.toLowerCase().replace(/\s+/g, "-");
-        return matchesSearch && matchesCategory && matchesStatus;
-    });
+    let filteredProducts = $derived(
+        products.filter((product) => {
+            const matchesSearch = product.name
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase());
+            const matchesCategory =
+                categoryFilter === "all" ||
+                product.category.toLowerCase() === categoryFilter.toLowerCase();
+            const matchesStatus =
+                statusFilter === "all" ||
+                product.status === statusFilter.toLowerCase().replace(/\s+/g, "-");
+            return matchesSearch && matchesCategory && matchesStatus;
+        })
+    );
+
+    // Paginated products
+    let paginatedProducts = $derived(
+        filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+    );
 
     const formattedProducts = products.map((product) => ({
         id: product.id,
@@ -131,15 +246,15 @@
         shop: { name: shopName } // or product.shopName if available
     }));
 
-    $: lowStockItems = formattedProducts.filter(i => i.stockQuantity <= 5 && i.stockQuantity > 0);
+    let lowStockItems = $derived(formattedProducts.filter(i => i.stockQuantity <= 5 && i.stockQuantity > 0));
 
     const handleExportCSV = () => {
     // In real app: generate and download CSV
         alert('Exporting inventory to CSV...');
     };
 
-    let showBulkModal = false;
-    let selectedItems: string[] = [];
+    let showBulkModal = $state(false);
+    let selectedItems = $state<string[]>([]);
     
     const handleBulkUpdate = () => {
         showBulkModal = true;
@@ -209,10 +324,6 @@
                 >
                     <Icon icon="mdi:plus-box-outline" class="w-4 h-4 mr-2" />
                     Add Product
-                </Button>
-                <Button variant="primary" size="sm" onclick={handleBulkUpdate}>
-                    <Icon icon="mdi:update" class="w-4 h-4 mr-2" />
-                    Bulk Update
                 </Button>     
                 <Button variant="outline" size="sm" onclick={handleExportCSV}>
                     <Icon icon="mdi:file-export-outline" class="w-4 h-4 mr-2" />
@@ -232,83 +343,46 @@
 
     <!-- Section 2: Product Toolbar -->
     <section in:fade={{ duration: 400, delay: 200 }}>
-        <Card className="border border-gray-200 p-4">
-            <div
-                class="flex flex-col md:flex-row gap-4 items-center justify-between"
-            >
-                <!-- Search -->
-                <div class="w-full md:w-96">
-                    <Input
-                        label=""
-                        name="search"
-                        placeholder="Search products..."
-                        bind:value={searchQuery}
-                    />
-                </div>
+        <AppFilter
+            bind:searchQuery
+            layoutView={viewMode}
+            onLayoutChange={(newMode) => viewMode = newMode as "table" | "grid"}
+        >
+            {#snippet extraFilters()}
+                <select
+                    class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+                    bind:value={categoryFilter}
+                >
+                    {#each categories as cat}
+                        <option value={cat.toLowerCase()}>{cat}</option>
+                    {/each}
+                </select>
 
-                <!-- Filters -->
-                <div class="flex flex-wrap gap-3 w-full md:w-auto">
-                    <select
-                        class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
-                        bind:value={categoryFilter}
-                    >
-                        {#each categories as cat}
-                            <option value={cat.toLowerCase()}>{cat}</option>
-                        {/each}
-                    </select>
+                <select
+                    class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+                    bind:value={statusFilter}
+                >
+                    {#each statuses as status}
+                        <option value={status.toLowerCase()}>{status}</option>
+                    {/each}
+                </select>
 
-                    <select
-                        class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
-                        bind:value={statusFilter}
-                    >
-                        {#each statuses as status}
-                            <option value={status.toLowerCase()}
-                                >{status}</option
-                            >
-                        {/each}
-                    </select>
+                <select
+                    class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+                    bind:value={sortBy}
+                >
+                    <option value="newest">Newest</option>
+                    <option value="best-selling">Best Selling</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                </select>
 
-                    <select
-                        class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
-                        bind:value={sortBy}
-                    >
-                        <option value="newest">Newest</option>
-                        <option value="best-selling">Best Selling</option>
-                        <option value="price-low">Price: Low to High</option>
-                        <option value="price-high">Price: High to Low</option>
-                    </select>
-
-                    <!-- View Toggle -->
-                    <div
-                        class="flex items-center border border-gray-300 rounded-xl overflow-hidden"
-                    >
-                        <button
-                            on:click={() => (viewMode = "table")}
-                            class="px-3 py-2.5 hover:bg-gray-50 transition-colors {viewMode ===
-                            'table'
-                                ? 'bg-primary/10 text-primary'
-                                : 'text-text-muted'}"
-                            title="Table View"
-                        >
-                            <Icon icon="mdi:view-list" class="w-5 h-5" />
-                        </button>
-                        <button
-                            on:click={() => (viewMode = "grid")}
-                            class="px-3 py-2.5 hover:bg-gray-50 transition-colors {viewMode ===
-                            'grid'
-                                ? 'bg-primary/10 text-primary'
-                                : 'text-text-muted'}"
-                            title="Grid View"
-                        >
-                            <Icon
-                                icon="mdi:view-grid-outline"
-                                class="w-5 h-5"
-                            />
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </Card>
+                <Button variant="primary" size="sm" onclick={handleBulkUpdate}>
+                    <Icon icon="mdi:update" class="w-4 h-4 mr-2" />
+                    Bulk Update
+                </Button>
+            {/snippet}
+        </AppFilter>
     </section>
 
     <!-- Section 3: Product List -->
@@ -344,50 +418,20 @@
                 </div>
             </Card>
         {:else if viewMode === "table"}
-            <ProductTable products={filteredProducts} {shopSlug} />
+            <ProductTable products={paginatedProducts} {shopSlug} />
         {:else}
-            <ProductGrid products={filteredProducts} {shopSlug} />
+            <ProductGrid products={paginatedProducts} {shopSlug} />
         {/if}
     </section>
 
     <!-- Section 4: Pagination -->
-    {#if filteredProducts.length > 0}
-        <section in:fade={{ duration: 400, delay: 400 }}>
-            <div
-                class="flex flex-col md:flex-row items-center justify-between gap-4"
-            >
-                <p class="text-sm text-text-muted">
-                    Showing {filteredProducts.length} of {products.length} products
-                </p>
-                <div class="flex items-center gap-2">
-                    <button
-                        class="w-9 h-9 rounded-lg border border-gray-300 flex items-center justify-center text-text-muted hover:border-primary hover:text-primary transition-colors disabled:opacity-50"
-                        disabled
-                    >
-                        <Icon icon="mdi:chevron-left" class="w-5 h-5" />
-                    </button>
-                    <button
-                        class="w-9 h-9 rounded-lg bg-primary text-white font-medium"
-                        >1</button
-                    >
-                    <button
-                        class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors"
-                        >2</button
-                    >
-                    <button
-                        class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors"
-                        >3</button
-                    >
-                    <span class="text-text-muted">...</span>
-                    <button
-                        class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors"
-                    >
-                        <Icon icon="mdi:chevron-right" class="w-5 h-5" />
-                    </button>
-                </div>
-            </div>
-        </section>
-    {/if}
+    <AppPagination
+        bind:currentPage
+        totalItems={filteredProducts.length}
+        {itemsPerPage}
+        onPageChange={(page) => currentPage = page}
+        entityName="products"
+    />
 </main>
 
 <!-- Bulk Update Modal -->

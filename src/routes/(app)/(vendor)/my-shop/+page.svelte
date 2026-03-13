@@ -3,14 +3,13 @@
     import { fade, fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
     import Icon from "@iconify/svelte";
-
     import ShopCard from "$lib/components/app/vendor/shop/ShopCard.svelte";
     import ShopEmptyState from "$lib/components/app/vendor/shop/ShopEmptyState.svelte";
     import ShopTable from "$lib/components/app/vendor/shop/ShopTable.svelte";
     import Button from "$lib/components/common/Button.svelte";
-    import Input from "$lib/components/common/Input.svelte";
-    import Badge from "$lib/components/common/Badge.svelte";
     import Card from "$lib/components/common/Card.svelte";
+    import AppFilter from "$lib/components/app/common/AppFilter.svelte";
+    import AppPagination from "$lib/components/app/common/AppPagination.svelte";
 
     let shops = [
         {
@@ -124,100 +123,38 @@
         </Button>
     </section>
 
-    <!-- Search, Filters & Layout Toggle -->
     {#if shops.length > 0}
-        <section in:fade={{ duration: 400, delay: 200 }}>
-            <Card className="border border-gray-200 p-4">
-                <div
-                    class="flex flex-col md:flex-row gap-4 items-center justify-between"
-                >
-
-                    <!-- Search Bar -->
-                    <div class="w-full md:w-96">
-                        <Input
-                            label=""
-                            name="search"
-                            placeholder="Search shops by name or description..."
-                            value={searchQuery}
-                            on:input={(e) =>
-                                (searchQuery = (e.target as HTMLInputElement).value)}
-                        />
-                    </div>
-
-                    <!-- Filters & Layout Toggle -->
-                    <div
-                        class="flex flex-col md:flex-row items-stretch md:items-center gap-3 justify-between"
+        <AppFilter
+            searchQuery={searchQuery}
+            layoutView={layoutView}
+            onSearchInput={(val) => searchQuery = val}
+            onLayoutChange={(layout) => layoutView = layout}
+            placeholder="Search shops by name or description..."
+        >
+            {#snippet extraFilters()}
+                <div class="relative">
+                    <select
+                        class="px-4 py-2.5 pr-10 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-white"
+                        bind:value={filterStatus}
                     >
-                        <!-- Filters -->
-                        <div class="flex flex-col sm:flex-row gap-3">
-                            <!-- Status Filter -->
-                            <div class="relative">
-                                <select
-                                    class="appearance-none px-4 py-2.5 pr-10 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-white"
-                                    bind:value={filterStatus}
-                                >
-                                    <option value="all">All Status</option>
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                </select>
-                                <div
-                                    class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                                >
-                                    <Icon
-                                        icon="mdi:chevron-down"
-                                        class="w-4 h-4 text-text-muted"
-                                    />
-                                </div>
-                            </div>
-
-                            <!-- Verified Filter -->
-                            <div class="relative">
-                                <select
-                                    class="appearance-none px-4 py-2.5 pr-10 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-white"
-                                    bind:value={filterVerified}
-                                >
-                                    <option value="all">All Verification</option>
-                                    <option value="verified">Verified</option>
-                                    <option value="unverified">Unverified</option>
-                                </select>
-                                <div
-                                    class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                                >
-                                    <Icon
-                                        icon="mdi:chevron-down"
-                                        class="w-4 h-4 text-text-muted"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Layout Toggle -->
-                        <div class="flex gap-2 border border-gray-300 rounded-lg p-1">
-                            <button
-                                class="px-3 py-2 rounded-md text-sm font-medium transition-all {layoutView ===
-                                'grid'
-                                    ? 'bg-primary text-white'
-                                    : 'text-text-muted hover:text-text-main'}"
-                                onclick={() => (layoutView = "grid")}
-                                title="Grid view"
-                            >
-                                <Icon icon="mdi:view-grid" class="w-4 h-4" />
-                            </button>
-                            <button
-                                class="px-3 py-2 rounded-md text-sm font-medium transition-all {layoutView ===
-                                'table'
-                                    ? 'bg-primary text-white'
-                                    : 'text-text-muted hover:text-text-main'}"
-                                onclick={() => (layoutView = "table")}
-                                title="Table view"
-                            >
-                                <Icon icon="mdi:table" class="w-4 h-4" />
-                            </button>
-                        </div>
-                    </div>
+                        <option value="all">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
                 </div>
-            </Card>
-        </section>
+
+                <div class="relative">
+                    <select
+                        class="appearance-none px-4 py-2.5 pr-10 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-white"
+                        bind:value={filterVerified}
+                    >
+                        <option value="all">All Verification</option>
+                        <option value="verified">Verified</option>
+                        <option value="unverified">Unverified</option>
+                    </select>
+                </div>
+            {/snippet}
+        </AppFilter>
     {/if}
 
     <!-- Shops Display -->
@@ -283,41 +220,13 @@
 
         <!-- Section 4: Pagination -->
         {#if filteredShops.length > 0}
-            <section in:fade={{ duration: 400, delay: 400 }}>
-                <div
-                    class="flex flex-col md:flex-row items-center justify-between gap-4"
-                >
-                    <p class="text-sm text-text-muted">
-                        Showing {filteredShops.length} of {shops.length} products
-                    </p>
-                    <div class="flex items-center gap-2">
-                        <button
-                            class="w-9 h-9 rounded-lg border border-gray-300 flex items-center justify-center text-text-muted hover:border-primary hover:text-primary transition-colors disabled:opacity-50"
-                            disabled
-                        >
-                            <Icon icon="mdi:chevron-left" class="w-5 h-5" />
-                        </button>
-                        <button
-                            class="w-9 h-9 rounded-lg bg-primary text-white font-medium"
-                            >1</button
-                        >
-                        <button
-                            class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors"
-                            >2</button
-                        >
-                        <button
-                            class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors"
-                            >3</button
-                        >
-                        <span class="text-text-muted">...</span>
-                        <button
-                            class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors"
-                        >
-                            <Icon icon="mdi:chevron-right" class="w-5 h-5" />
-                        </button>
-                    </div>
-                </div>
-            </section>
+            <AppPagination
+                currentPage={1}
+                totalItems={filteredShops.length}
+                itemsPerPage={10}
+                onPageChange={(page) => console.log('Page changed to:', page)}
+                entityName="shops"
+            />
         {/if}
     {:else}
         <section in:fade>

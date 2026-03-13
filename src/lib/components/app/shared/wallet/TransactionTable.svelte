@@ -4,17 +4,24 @@
   import Card from '$lib/components/common/Card.svelte';
   import Badge from '$lib/components/common/Badge.svelte';
   
-  export let transactions: Array<{
-    id: string;
-    date: string;
-    type: 'payment' | 'sale' | 'withdrawal' | 'refund';
-    reference: string;
-    amount: number;
-    status: 'completed' | 'pending' | 'processing' | 'failed';
-    icon: string;
-  }>;
-  
-  export let role: 'buyer' | 'vendor' = 'vendor';
+  let { 
+    transactions, 
+    role = 'vendor',
+    selectedShop = ''
+  } = $props<{
+    transactions: Array<{
+      id: string;
+      date: string;
+      type: 'payment' | 'sale' | 'withdrawal' | 'refund';
+      reference: string;
+      amount: number;
+      status: 'completed' | 'pending' | 'processing' | 'failed';
+      icon: string;
+      shopSlug?: string;
+    }>;
+    role?: 'buyer' | 'vendor';
+    selectedShop?: string;
+  }>();
   
   const formatNaira = (amount: number) => {
     return new Intl.NumberFormat('en-NG', {
@@ -53,9 +60,9 @@
   };
   
   // Filter state
-  let activeFilter = 'all';
-  let dateRange = '30days';
-  let searchQuery = '';
+  let activeFilter = $state('all');
+  let dateRange = $state('30days');
+  let searchQuery = $state('');
   
   const filters = [
     { id: 'all', label: 'All' },
@@ -66,12 +73,15 @@
   ];
   
   // Filter transactions
-  $: filteredTransactions = transactions.filter(t => {
-    const matchesFilter = activeFilter === 'all' || t.type === activeFilter;
-    const matchesSearch = searchQuery === '' || 
-      t.reference.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesFilter && matchesSearch;
-  });
+  let filteredTransactions = $derived(
+    transactions.filter((t: any) => {
+      const matchesFilter = activeFilter === 'all' || t.type === activeFilter;
+      const matchesSearch = searchQuery === '' || 
+        t.reference.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesShop = !selectedShop || t.shopSlug === selectedShop;
+      return matchesFilter && matchesSearch && matchesShop;
+    })
+  );
 </script>
 
 <Card className="border border-gray-200 p-6">
@@ -81,55 +91,56 @@
         <Icon icon="mdi:history" class="w-5 h-5 text-primary" />
       </div>
       <div>
-        <h3 class="font-semibold text-text-main">Transaction History</h3>
+        <h3 class="font-semibold text-h4 text-text-main">Transaction History</h3>
         <p class="text-xs text-text-muted">View all your transactions</p>
       </div>
     </div>
     
-    <!-- Filters -->
-    <div class="flex flex-wrap gap-3">
-      <div class="relative">
-        <input
-          type="text"
-          placeholder="Search by reference..."
-          class="pl-10 pr-4 py-2 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm"
-          bind:value={searchQuery}
-        />
-        <Icon icon="mdi:magnify" class="w-4 h-4 text-text-muted absolute left-3 top-1/2 -translate-y-1/2" />
-      </div>
-      
-      <select
-        class="px-4 py-2 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm"
-        bind:value={dateRange}
-      >
-        <option value="today">Today</option>
-        <option value="7days">Last 7 days</option>
-        <option value="30days">Last 30 days</option>
-        <option value="custom">Custom</option>
-      </select>
-    </div>
+    {#if role === 'vendor'}
+      <!-- Filters -->
+      <div class="flex flex-wrap gap-3">
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="Search by reference..."
+            class="pl-10 pr-4 py-2 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm"
+            bind:value={searchQuery}
+          />
+          <Icon icon="mdi:magnify" class="w-4 h-4 text-text-muted absolute left-3 top-1/2 -translate-y-1/2" />
+        </div>
+        
+        <select
+          class="px-4 py-2 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm"
+          bind:value={dateRange}
+        >
+          <option value="today">Today</option>
+          <option value="7days">Last 7 days</option>
+          <option value="30days">Last 30 days</option>
+          <option value="custom">Custom</option>
+        </select>
+        </div>
+    {/if}
   </div>
   
   <!-- Filter Tabs -->
   <div class="flex items-center gap-2 mb-6 overflow-x-auto pb-2">
     {#each filters as filter}
-      {#if role === 'buyer' && filter.id === 'sale' || role === 'vendor' && filter.id === 'payment'}
-        {:else}
-          <button
-            on:click={() => activeFilter = filter.id}
-            class="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors
-                   {activeFilter === filter.id 
-                     ? 'bg-primary text-white' 
-                     : 'bg-gray-100 text-text-muted hover:bg-gray-200'}"
-          >
-            {filter.label}
-          </button>
-        {/if}
+      {#if !(role === 'buyer' && filter.id === 'sale' || role === 'vendor' && filter.id === 'payment')}
+        <button
+          onclick={() => activeFilter = filter.id}
+          class="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors
+                 {activeFilter === filter.id 
+                   ? 'bg-primary text-white' 
+                   : 'bg-gray-100 text-text-muted hover:bg-gray-200'}"
+        >
+          {filter.label}
+        </button>
+      {/if}
     {/each}
   </div>
   
-  <!-- Transaction Table -->
-  <div class="overflow-x-auto">
+  <!-- Transaction Table (Hidden on Mobile) -->
+  <div class="hidden md:block overflow-x-auto">
     <table class="w-full">
       <thead>
         <tr class="border-b border-gray-200">
@@ -165,13 +176,47 @@
       </tbody>
     </table>
   </div>
+
+  <!-- Mobile List View (Visible only on Mobile) -->
+  <div class="md:hidden space-y-4">
+    {#each filteredTransactions as transaction}
+      {@const badge = getStatusBadge(transaction.status)}
+      <div class="p-4 rounded-xl border border-gray-100 bg-gray-50/50 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center">
+              <Icon icon={getTypeIcon(transaction.type)} class="w-5 h-5 text-text-muted" />
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-text-main capitalize">{transaction.type}</p>
+              <p class="text-[10px] text-text-muted">{formatDate(transaction.date)}</p>
+            </div>
+          </div>
+          <Badge variant={badge.variant} size="sm">{badge.label}</Badge>
+        </div>
+        
+        <div class="flex items-center justify-between pt-2 border-t border-gray-100/50">
+          <div>
+            <p class="text-[10px] text-text-muted uppercase tracking-wider">Reference</p>
+            <p class="text-xs font-mono text-text-main">{transaction.reference}</p>
+          </div>
+          <div class="text-right">
+            <p class="text-[10px] text-text-muted uppercase tracking-wider">Amount</p>
+            <p class="text-sm font-bold {transaction.amount > 0 ? 'text-success' : 'text-error'}">
+              {transaction.amount > 0 ? '+' : ''}{formatNaira(transaction.amount)}
+            </p>
+          </div>
+        </div>
+      </div>
+    {/each}
+  </div>
   
   <!-- Pagination -->
-  <div class="flex items-center justify-between mt-6 pt-4 border-t border-gray-200">
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 mt-6 pt-4 border-t border-gray-200">
     <p class="text-sm text-text-muted">
       Showing {filteredTransactions.length} of {transactions.length} transactions
     </p>
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2 justify-end">
       <button class="w-9 h-9 rounded-lg border border-gray-300 flex items-center justify-center text-text-muted hover:border-primary hover:text-primary transition-colors disabled:opacity-50" disabled>
         <Icon icon="mdi:chevron-left" class="w-5 h-5" />
       </button>

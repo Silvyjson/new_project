@@ -66,25 +66,36 @@
           alt=""
           class="w-8 h-8 rounded-full object-cover text-sm"
         />
-        <div class="flex flex-col">
-          <span class="text-xs font-medium text-text-main"
-            >{post.author.name}</span
-          >
+        <div class="flex flex-col flex-1">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-medium text-text-main">{post.author.name}</span>
+            <div class="flex items-center gap-3 text-xs text-text-muted">
+              <span class="flex items-center gap-1">
+                <Icon icon="mdi:heart-outline" class="w-3.5 h-3.5" />
+                {post.likes || 0}
+              </span>
+              <span class="flex items-center gap-1">
+                <Icon icon="mdi:comment-outline" class="w-3.5 h-3.5" />
+                {post.comments?.length || 0}
+              </span>
+            </div>
+          </div>
           <div class="flex items-center gap-1">
             {#if post.publishedAt}
-              <span class="text-xs text-text-muted"
-                >{formatDate(post.publishedAt)}</span
-              >
+              <span class="text-xs text-text-muted">{formatDate(post.publishedAt)}</span>
               <span class="text-xs text-text-muted">•</span>
             {/if}
-            <span class="text-xs text-text-muted">{post.readTime} min Read</span
-            >
+            <span class="text-xs text-text-muted">{post.readTime} min Read</span>
           </div>
         </div>
       </div>
     </div>
   </div>
 </Card>
+
+<script context="module">
+  import Icon from "@iconify/svelte";
+</script>
 
 <style>
   /* component-local styles (if needed) */

@@ -8,12 +8,46 @@
   import OrderFilters from '$lib/components/app/shared/order/OrderFilters.svelte';
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
+  import AppFilter from '$lib/components/app/common/AppFilter.svelte';
+  import AppPagination from '$lib/components/app/common/AppPagination.svelte';
+  import AddSaleModal from '$lib/components/app/vendor/order/AddSaleModal.svelte';
+
+  interface OrderItem {
+    id: string;
+    name: string;
+    image: string;
+    quantity: number;
+    price: number;
+  }
+
+  interface Order {
+    id: string;
+    code: string;
+    date: string;
+    items: OrderItem[];
+    total: number;
+    status: string;
+    deliveryMethod: string;
+    shop?: {
+      name: string;
+      slug: string;
+    };
+    buyer?: {
+      name: string;
+    };
+    canCancel: boolean;
+    canReturn: boolean;
+    source?: 'INTERNAL' | 'EXTERNAL';
+    paymentStatus?: 'PAID' | 'PARTIAL' | 'UNPAID';
+    paymentMethod?: string;
+  }
   
   // Role (in real app: from auth store)
   let role = 'vendor' as 'buyer' | 'vendor';
   
   // View mode for vendor (grid or table)
-  let layoutView: 'grid' | 'table' = 'grid';
+  let layoutView = $state<'grid' | 'table'>('grid');
+  let showAddSaleModal = $state(false);
   
   // Mock shops (vendor only)
   let shops = [
@@ -22,7 +56,7 @@
   ];
   
   // Mock orders
-  let orders = [
+  let orders = $state<Order[]>([
     {
       id: '1',
       code: 'VH-2043',
@@ -69,23 +103,25 @@
       canCancel: false,
       canReturn: true
     }
-  ];
+  ]);
   
   // Filter state
-  let searchQuery = '';
-  let statusFilter = 'all';
-  let dateFilter = '30days';
-  let shopFilter = '';
+  let searchQuery = $state('');
+  let statusFilter = $state('all');
+  let dateFilter = $state('30days');
+  let shopFilter = $state('');
+  let sourceFilter = $state('all');
   
   // Filter orders
-  $: filteredOrders = orders.filter(order => {
+  let filteredOrders = $derived(orders.filter(order => {
     const matchesSearch = searchQuery === '' || 
       order.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      order.items.some(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
+      order.items.some(item => (item.name || '').toLowerCase().includes(searchQuery.toLowerCase()));
     const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
     const matchesShop = shopFilter === '' || order.shop?.slug === shopFilter;
-    return matchesSearch && matchesStatus && matchesShop;
-  });
+    const matchesSource = sourceFilter === 'all' || (order.source || 'INTERNAL') === sourceFilter;
+    return matchesSearch && matchesStatus && matchesShop && matchesSource;
+  }));
 
   const exportData = () => {
     // In real app: generate CSV/PDF export
@@ -114,51 +150,102 @@
     </div>
 
     {#if role === 'vendor'}
-    <div class="flex items-center gap-2">
-      <div class="relative">
-        <select
-          class="appearance-none px-4 py-2.5 pr-10 rounded-xl border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
-          value={shopFilter}
-          on:change={(e) => {
-            shopFilter = (e.target as HTMLSelectElement).value;
-            searchQuery = '';
-          }}
-        >
-          <option value="">All Shops</option>
-          {#each shops as shop}
-            <option value={shop.slug}>
-              {shop.name}
-            </option>
-          {/each}
-        </select>
-        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-          <Icon icon="mdi:chevron-down" class="w-5 h-5 text-text-muted" />
+      <div class="flex items-center gap-2">
+        <div class="relative">
+          <select
+            class="appearance-none px-4 py-2.5 pr-10 rounded-xl border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
+            value={shopFilter}
+            onchange={(e) => {
+              shopFilter = (e.currentTarget as HTMLSelectElement).value;
+              searchQuery = '';
+            }}
+          >
+            <option value="">All Shops</option>
+            {#each shops as shop}
+              <option value={shop.slug}>
+                {shop.name}
+              </option>
+            {/each}
+          </select>
+          <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+            <Icon icon="mdi:chevron-down" class="w-5 h-5 text-text-muted" />
+          </div>
         </div>
-      </div>
+        <!-- <Button variant="primary" size="md" onclick={() => showAddSaleModal = true}>
+          <Icon icon="mdi:plus-circle-outline" class="w-4 h-4 mr-2" />
+          Record Sale
+        </Button> -->
         <Button variant="outline" size="md" onclick={exportData}>
           <Icon icon="mdi:download-outline" class="w-4 h-4 mr-2" />
-          Export Data
+          Export
         </Button>
       </div>
     {/if}
   </section>
   
   <!-- Section 2: Filters -->
-  <section in:fade={{ duration: 400, delay: 100 }}>
-    <OrderFilters
-      role={role}
-      shops={shops}
+  {#if role === 'vendor'}
+    <AppFilter
       searchQuery={searchQuery}
-      statusFilter={statusFilter}
-      dateFilter={dateFilter}
-      shopFilter={shopFilter}
-      bind:layoutView={layoutView}
-      on:search-change={(e) => searchQuery = e.detail}
-      on:status-change={(e) => statusFilter = e.detail}
-      on:date-change={(e) => dateFilter = e.detail}
-      on:shop-change={(e) => shopFilter = e.detail}
-    />
-  </section>
+      layoutView={layoutView}
+      onSearchInput={(val) => searchQuery = val}
+      onLayoutChange={(layout) => layoutView = layout}
+      placeholder="Search order, product, or customer..."
+    >
+      {#snippet extraFilters()}
+        <select
+          class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+          value={statusFilter}
+          onchange={(e) => statusFilter = e.currentTarget.value}
+        >
+          <option value="all">All Status</option>
+          <option value="NEW">New</option>
+          <option value="PROCESSING">Processing</option>
+          <option value="READY_FOR_PICKUP">Ready for Pickup</option>
+          <option value="IN_DELIVERY">In Delivery</option>
+          <option value="DELIVERED">Delivered</option>
+          <option value="CANCELLED">Cancelled</option>
+          <option value="RETURNED">Returned</option>
+        </select>
+
+        <select
+          class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+          value={sourceFilter}
+          onchange={(e) => sourceFilter = e.currentTarget.value}
+        >
+          <option value="all">All Sources</option>
+          <option value="INTERNAL">Internal</option>
+          <option value="EXTERNAL">External</option>
+        </select>
+
+        <select
+          class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+          value={dateFilter}
+          onchange={(e) => dateFilter = e.currentTarget.value}
+        >
+          <option value="today">Today</option>
+          <option value="7days">Last 7 days</option>
+          <option value="30days">Last 30 days</option>
+        </select>
+      {/snippet}
+    </AppFilter>
+  {:else}
+    <section in:fade={{ duration: 400, delay: 100 }}>
+      <OrderFilters
+        role={role}
+        shops={shops}
+        searchQuery={searchQuery}
+        statusFilter={statusFilter}
+        dateFilter={dateFilter}
+        shopFilter={shopFilter}
+        bind:layoutView={layoutView}
+        on:search-change={(e) => searchQuery = e.detail}
+        on:status-change={(e) => statusFilter = e.detail}
+        on:date-change={(e) => dateFilter = e.detail}
+        on:shop-change={(e) => shopFilter = e.detail}
+      />
+    </section>
+  {/if}
   
   <!-- Section 3: Orders List -->
   <section in:fade={{ duration: 400, delay: 200 }}>
@@ -175,23 +262,14 @@
       <div in:fade={{ duration: 300 }}>
         <OrderTable orders={filteredOrders} role={role} />
         
-        <!-- Pagination Info -->
-        <div class="flex items-center justify-between mt-6">
-          <p class="text-sm text-text-muted">
-            Showing {filteredOrders.length} of {orders.length} orders
-          </p>
-          <div class="flex items-center gap-2">
-            <button class="w-9 h-9 rounded-lg border border-gray-300 flex items-center justify-center text-text-muted hover:border-primary hover:text-primary transition-colors disabled:opacity-50" disabled>
-              <Icon icon="mdi:chevron-left" class="w-5 h-5" />
-            </button>
-            <button class="w-9 h-9 rounded-lg bg-primary text-white font-medium">1</button>
-            <button class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors">2</button>
-            <button class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors">3</button>
-            <span class="text-text-muted">...</span>
-            <button class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors">
-              <Icon icon="mdi:chevron-right" class="w-5 h-5" />
-            </button>
-          </div>
+        <div class="mt-6">
+          <AppPagination
+            currentPage={1}
+            totalItems={orders.length}
+            itemsPerPage={10}
+            onPageChange={(page) => console.log('Page changed:', page)}
+            entityName="orders"
+          />
         </div>
       </div>
     {:else}
@@ -205,25 +283,43 @@
       </div>
       
       <!-- Pagination -->
-      <div class="flex items-center justify-between mt-8">
-        <p class="text-sm text-text-muted">
-          Showing {filteredOrders.length} of {orders.length} orders
-        </p>
-        <div class="flex items-center gap-2">
-          <button class="w-9 h-9 rounded-lg border border-gray-300 flex items-center justify-center text-text-muted hover:border-primary hover:text-primary transition-colors disabled:opacity-50" disabled>
-            <Icon icon="mdi:chevron-left" class="w-5 h-5" />
-          </button>
-          <button class="w-9 h-9 rounded-lg bg-primary text-white font-medium">1</button>
-          <button class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors">2</button>
-          <button class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors">3</button>
-          <span class="text-text-muted">...</span>
-          <button class="w-9 h-9 rounded-lg border border-gray-300 text-text-main hover:border-primary transition-colors">
-            <Icon icon="mdi:chevron-right" class="w-5 h-5" />
-          </button>
-        </div>
+      <div class="mt-8">
+        <AppPagination
+          currentPage={1}
+          totalItems={orders.length}
+          itemsPerPage={10}
+          onPageChange={(page) => console.log('Page changed:', page)}
+          entityName="orders"
+        />
       </div>
     {/if}
   </section>
+
+  
+  <AddSaleModal 
+    show={showAddSaleModal} 
+    onClose={() => showAddSaleModal = false} 
+    onSave={(sale: any) => {
+      // In real app: API call
+      const newOrder: any = {
+        id: Math.random().toString(),
+        code: `EXT-${Math.floor(1000 + Math.random() * 9000)}`,
+        date: sale.saleDate,
+        items: [{ id: 'custom', name: sale.productName, image: '', quantity: 1, price: sale.amount }],
+        total: sale.amount,
+        status: 'DELIVERED', // External sales are usually completed
+        deliveryMethod: 'External Sale',
+        shop: shops.find(s => s.slug === shopFilter) || shops[0],
+        buyer: { name: sale.customerName },
+        paymentStatus: sale.paymentStatus,
+        paymentMethod: sale.paymentMethod,
+        source: 'EXTERNAL',
+        canCancel: false,
+        canReturn: false
+      };
+      orders = [newOrder, ...orders];
+    }}
+  />
 </main>
 
 <!-- <style>

@@ -38,9 +38,9 @@
       </div>
     </div>
     
-    <button class="text-sm text-primary font-medium hover:underline">
+    <!-- <button class="text-sm text-primary font-medium hover:underline">
       View All →
-    </button>
+    </button> -->
   </div>
   
   <div class="overflow-x-auto">
