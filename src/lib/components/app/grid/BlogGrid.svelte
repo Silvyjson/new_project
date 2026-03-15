@@ -21,7 +21,7 @@
 <section class="pb-10 bg-soft-background">
   <div class="container max-w-7xl mx-auto px-4">
     {#if posts && posts.length > 0}
-      <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
         {#each posts as post, i}
           <BlogCard {post} />
         {/each}

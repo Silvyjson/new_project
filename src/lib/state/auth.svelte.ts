@@ -11,7 +11,7 @@ export type UserRole = "buyer" | "vendor";
 
 class AuthState {
   role = $state<UserRole>("buyer");
-  isLoggedIn = $state(true);
+  isLoggedIn = $state(false);
   user = $state<User>({
     name: "John Ade",
     email: "john@example.com",
