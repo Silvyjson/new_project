@@ -105,31 +105,26 @@
             </p>
 
             <!-- Metrics -->
-            <div class="flex flex-col justify-between mb-4 gap-2 text-sm">
-                <!-- 5-Star Rating -->
-                <div class="flex items-center gap-2">
-                    <div class="flex items-center">
-                        {#each Array(5) as _, i}
-                            <Icon
-                                icon="mdi:star"
-                                class={`w-4 h-4 ${
-                                    i < Math.round(shop.rating)
-                                        ? "text-yellow-400"
-                                        : "text-gray-300"
-                                }`}
-                            />
-                        {/each}
-                    </div>
-                    <span class="text-xs text-text-muted">
-                        {shop.rating.toFixed(1)}
-                    </span>
+            <div class="grid grid-cols-2 gap-3 mb-4 text-xs text-text-muted">
+
+                <!-- Rating -->
+                <div class="flex items-center gap-1">
+                    <Icon icon="mdi:star" class="w-4 h-4 text-yellow-400" />
+                    <span class="font-medium text-text-main">{shop.rating.toFixed(1)}</span>
                 </div>
 
-                <!-- Followers -->
-                <div class="flex items-center gap-1 text-text-muted text-xs">
+                <!-- Customers -->
+                <div class="flex items-center gap-1">
                     <Icon icon="mdi:account-group-outline" class="w-4 h-4" />
                     <span>{shop?.customers?.toLocaleString()}</span>
                 </div>
+
+                <!-- Products -->
+                <!-- <div class="flex items-center gap-1">
+                    <Icon icon="mdi:package-variant-closed" class="w-4 h-4" />
+                    <span>{shop?.productCount ?? 0}</span>
+                </div> -->
+
             </div>
 
             <!-- CTA -->

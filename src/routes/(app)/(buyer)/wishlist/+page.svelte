@@ -6,54 +6,92 @@
   import ProductCard from '$lib/components/app/card/ProductCard.svelte';
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
+  import AppFilter from '$lib/components/app/common/AppFilter.svelte';
+  import AppPagination from '$lib/components/app/common/AppPagination.svelte';
+  import type { Product } from '$lib/types';
   
   // Mock wishlist items
-  let wishlistItems = [
+  let wishlistItems = $state<Product[]>([
     {
       id: 'p_001',
+      code: 'PROD-001',
+      vendorId: '1',
       name: 'Wireless Headphones Pro',
       price: 24000,
       oldPrice: 30000,
-      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e',
-      shop: { name: 'TechHub', slug: 'techhub' },
+      currency: 'NGN',
+      images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e'],
+      shop: { id: '1', name: 'TechHub', slug: 'techhub', category: 'Electronics', rating: 4.8, reviewCount: 1200, orderCount: 5000, trustScore: 98 },
       rating: 4.8,
-      reviews: 124,
-      inStock: true,
-      addedAt: '2026-01-20'
+      reviewCount: 124,
+      stockStatus: 'in-stock',
+      preorder: false,
+      sale: true,
+      new: false,
+      category: 'Electronics',
+      createdAt: new Date()
     },
     {
       id: 'p_002',
+      code: 'PROD-002',
+      vendorId: '2',
       name: 'Air Jordan Retro High',
       price: 85000,
-      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
-      shop: { name: 'Urban Kicks', slug: 'urban-kicks' },
+      currency: 'NGN',
+      images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff'],
+      shop: { id: '2', name: 'Urban Kicks', slug: 'urban-kicks', category: 'Fashion', rating: 4.9, reviewCount: 850, orderCount: 3200, trustScore: 95 },
       rating: 4.9,
-      reviews: 89,
-      inStock: true,
-      addedAt: '2026-01-18'
+      reviewCount: 89,
+      stockStatus: 'in-stock',
+      preorder: false,
+      sale: false,
+      new: true,
+      category: 'Fashion',
+      createdAt: new Date()
     },
     {
       id: 'p_003',
+      code: 'PROD-003',
+      vendorId: '3',
       name: 'Organic Face Cream',
       price: 12000,
       oldPrice: 15000,
-      image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571',
-      shop: { name: 'Bella Beauty', slug: 'bella-beauty' },
+      currency: 'NGN',
+      images: ['https://images.unsplash.com/photo-1556228578-0d85b1a4d571'],
+      shop: { id: '3', name: 'Bella Beauty', slug: 'bella-beauty', category: 'Beauty', rating: 4.7, reviewCount: 560, orderCount: 2100, trustScore: 88 },
       rating: 4.7,
-      reviews: 56,
-      inStock: false,
-      addedAt: '2026-01-15'
+      reviewCount: 56,
+      stockStatus: 'sold-out',
+      preorder: false,
+      sale: true,
+      new: false,
+      category: 'Beauty',
+      createdAt: new Date()
     }
-  ];
+  ]);
   
   // Filter state
-  let shopFilter = 'all';
+  let searchQuery = $state('');
+  let shopFilter = $state('all');
   let shops = ['all', 'TechHub', 'Urban Kicks', 'Bella Beauty'];
   
+  // Pagination state
+  let currentPage = $state(1);
+  const itemsPerPage = 10;
+  
   // Filter items
-  $: filteredItems = shopFilter === 'all'
-    ? wishlistItems
-    : wishlistItems.filter(item => item.shop.name === shopFilter);
+  let filteredItems = $derived(wishlistItems.filter(item => {
+    const name = item.name || '';
+    const shopName = item.shop?.name || '';
+    const matchesSearch = searchQuery === '' || 
+      name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      shopName.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesShop = shopFilter === 'all' || shopName === shopFilter;
+    return matchesSearch && matchesShop;
+  }));
+
+  // Paginated items
+  let paginatedItems = $derived(filteredItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
   
   // Handlers
   const handleAddToCart = (productId: string) => {
@@ -107,28 +145,26 @@
     </div>
   </section>
   
-  <!-- Section 2: Shop Filter -->
-  <section in:fade={{ duration: 400, delay: 100 }}>
-    <Card className="border border-gray-200 p-4">
-      <div class="flex items-center gap-2 overflow-x-auto">
+  <!-- Section 2: Filters -->
+  <AppFilter
+    bind:searchQuery={searchQuery}
+    placeholder="Search products or shops..."
+  >
+    {#snippet extraFilters()}
+      <select
+        class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+        bind:value={shopFilter}
+      >
         {#each shops as shop}
-          <button
-            on:click={() => shopFilter = shop}
-            class="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors
-                   {shopFilter === shop 
-                     ? 'bg-primary text-white' 
-                     : 'bg-gray-100 text-text-muted hover:bg-gray-200'}"
-          >
-            {shop === 'all' ? 'All Shops' : shop}
-          </button>
+          <option value={shop}>{shop === 'all' ? 'All Shops' : shop}</option>
         {/each}
-      </div>
-    </Card>
-  </section>
+      </select>
+    {/snippet}
+  </AppFilter>
   
   <!-- Section 3: Product Grid -->
   <section in:fade={{ duration: 400, delay: 200 }}>
-    {#if filteredItems.length === 0}
+    {#if paginatedItems.length === 0}
       <Card className="py-16 text-center border border-gray-200">
         <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
           <Icon icon="mdi:heart-off-outline" class="w-8 h-8 text-text-muted" />
@@ -142,21 +178,34 @@
       </Card>
     {:else}
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-        {#each filteredItems as product, i}
+        {#each paginatedItems as product, i}
           <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }} class="relative">
             <!-- Remove Button -->
             <button
-              on:click={() => handleRemove(product.id)}
+              onclick={() => handleRemove(product.id)}
               class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white shadow-card flex items-center justify-center text-error hover:bg-error hover:text-white transition-colors"
               aria-label="Remove from wishlist"
             >
               <Icon icon="mdi:delete-outline" class="w-4 h-4" />
             </button>
             
-            <ProductCard {product} on:add-to-cart={() => handleAddToCart(product.id)} />
+            <ProductCard 
+              {product} 
+              shopSlug={product.shop?.slug || ''}
+              on:addToCart={() => handleAddToCart(product.id)} 
+            />
           </div>
         {/each}
       </div>
+
+      <!-- Pagination -->
+      <AppPagination
+        bind:currentPage={currentPage}
+        totalItems={filteredItems.length}
+        {itemsPerPage}
+        onPageChange={(page) => currentPage = page}
+        entityName="items"
+      />
     {/if}
   </section>
 </div>

@@ -7,9 +7,11 @@
   import Button from '$lib/components/common/Button.svelte';
   import Card from '$lib/components/common/Card.svelte';
   import Badge from '$lib/components/common/Badge.svelte';
+  import AppFilter from '$lib/components/app/common/AppFilter.svelte';
+  import AppPagination from '$lib/components/app/common/AppPagination.svelte';
   
   // Mock followed shops
-  let followedShops = [
+  let followedShops = $state([
     {
       id: '1',
       name: 'TechHub',
@@ -64,24 +66,31 @@
       orderCount: 2100,
       trustScore: 88
     }
-  ];
+  ]);
   
   // Filter state
-  let searchQuery = '';
-  let sortBy = 'recently-followed';
+  let searchQuery = $state('');
+  let sortBy = $state('recently-followed');
+  
+  // Pagination state
+  let currentPage = $state(1);
+  const itemsPerPage = 12;
   
   // Filter shops
-  $: filteredShops = followedShops.filter(shop =>
+  let filteredShops = $derived(followedShops.filter(shop =>
     shop.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  ));
   
   // Sort shops
-  $: sortedShops = [...filteredShops].sort((a, b) => {
+  let sortedShops = $derived([...filteredShops].sort((a, b) => {
     if (sortBy === 'recently-followed') return 0; // In real app: sort by follow date
     if (sortBy === 'most-active') return 0; // In real app: sort by activity
     if (sortBy === 'alphabetical') return a.name.localeCompare(b.name);
     return 0;
-  });
+  }));
+
+  // Paginated shops
+  let paginatedShops = $derived(sortedShops.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
   
   const handleUnfollow = (shopId: string) => {
     if (confirm('Are you sure you want to unfollow this shop?')) {
@@ -117,34 +126,21 @@
   </section>
   
   <!-- Section 2: Search & Filters -->
-  <section in:fade={{ duration: 400, delay: 100 }}>
-    <Card className="border border-gray-200 p-4">
-      <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
-        <!-- Search -->
-        <div class="w-full md:w-80">
-          <div class="relative">
-            <input
-              type="text"
-              placeholder="Search shops..."
-              class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body"
-              bind:value={searchQuery}
-            />
-            <Icon icon="mdi:magnify" class="w-5 h-5 text-text-muted absolute left-3 top-1/2 -translate-y-1/2" />
-          </div>
-        </div>
-        
-        <!-- Sort -->
-        <select
-          class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
-          bind:value={sortBy}
-        >
-          <option value="recently-followed">Recently Followed</option>
-          <option value="most-active">Most Active</option>
-          <option value="alphabetical">Alphabetical</option>
-        </select>
-      </div>
-    </Card>
-  </section>
+  <AppFilter
+    bind:searchQuery={searchQuery}
+    placeholder="Search shops..."
+  >
+    {#snippet extraFilters()}
+      <select
+        class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+        bind:value={sortBy}
+      >
+        <option value="recently-followed">Recently Followed</option>
+        <option value="most-active">Most Active</option>
+        <option value="alphabetical">Alphabetical</option>
+      </select>
+    {/snippet}
+  </AppFilter>
   
   <!-- Section 3: Followed Shops Grid -->
   <section in:fade={{ duration: 400, delay: 200 }}>
@@ -162,12 +158,21 @@
       </Card>
     {:else}
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {#each sortedShops as shop, i}
+        {#each paginatedShops as shop, i}
           <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
             <ShopCard {shop} />
           </div>
         {/each}
       </div>
+
+      <!-- Pagination -->
+      <AppPagination
+        bind:currentPage={currentPage}
+        totalItems={sortedShops.length}
+        {itemsPerPage}
+        onPageChange={(page) => currentPage = page}
+        entityName="shops"
+      />
     {/if}
   </section>
 </div>

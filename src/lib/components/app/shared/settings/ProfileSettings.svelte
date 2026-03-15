@@ -60,7 +60,7 @@
   };
 </script>
 
-<Card className="border border-gray-200 p-6">
+<Card className="border border-gray-200 p-4 md:p-6">
   <div class="flex items-center gap-3 mb-6">
     <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
       <Icon icon="mdi:account-outline" class="w-5 h-5 text-primary" />

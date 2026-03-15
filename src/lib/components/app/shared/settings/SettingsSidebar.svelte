@@ -1,6 +1,7 @@
 <!-- src/lib/components/settings/SettingsSidebar.svelte -->
 <script lang="ts">
   import Icon from '@iconify/svelte';
+  import { fade } from 'svelte/transition';
   
   export let role: 'buyer' | 'vendor' = 'buyer';
   export let activeSection: string;
@@ -25,7 +26,7 @@
   };
 </script>
 
-<nav class="flex lg:flex-col lg:space-y-1 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 scrollbar-hide -mx-4 px-4 lg:mx-0 lg:px-0">
+<nav in:fade={{ duration: 400, delay: 100 }} class="lg:sticky lg:top-24 lg:h-fit flex lg:flex-col lg:space-y-1 overflow-x-auto flex-nowrap lg:flex-wrap gap-1 border-b lg:border-b-0 border-gray-100">
   {#each visibleItems as item}
     <button
       onclick={() => emit('section-change', item.id)}

@@ -8,15 +8,20 @@
   import CartSummary from '$lib/components/app/buyer/CartSummary.svelte';
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
+  import AppFilter from '$lib/components/app/common/AppFilter.svelte';
   
   // Shop filter from URL
-  let shopSlug = '';
-  $: if ($page.url.searchParams.has('shop')) {
-    shopSlug = $page.url.searchParams.get('shop') || '';
-  }
+  let selectedShop = $state('');
+  let searchQuery = $state('');
+  
+  $effect(() => {
+    if ($page.url.searchParams.has('shop')) {
+      selectedShop = $page.url.searchParams.get('shop') || '';
+    }
+  });
   
   // Mock cart items (in real app: fetch from API)
-  let cartItems = [
+  let cartItems = $state([
     {
       id: 'ci_001',
       productId: 'p_001',
@@ -49,27 +54,37 @@
       shop: { id: '2', name: 'Urban Kicks', slug: 'urban-kicks' },
       inStock: true
     }
-  ];
+  ]);
   
-  // Filter by shop if query param exists
-  $: filteredItems = shopSlug 
-    ? cartItems.filter(item => item.shop.slug === shopSlug)
-    : cartItems;
+  // Get unique shops for filter
+  let shops = $derived([
+    ...Array.from(new Map(cartItems.map(item => [item.shop.slug, item.shop])).values())
+      .map(s => ({ name: s.name, slug: s.slug, followers: 0 }))
+  ]);
+  
+  // Filter by shop and search query
+  let filteredItems = $derived(cartItems.filter(item => {
+    const matchesShop = selectedShop === '' || item.shop.slug === selectedShop;
+    const matchesSearch = searchQuery === '' || 
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.shop.name.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesShop && matchesSearch;
+  }));
   
   // Group items by shop
-  $: groupedItems = filteredItems.reduce((groups, item) => {
+  let groupedItems = $derived(filteredItems.reduce((groups, item) => {
     const shopId = item.shop.id;
     if (!groups[shopId]) groups[shopId] = [];
     groups[shopId].push(item);
     return groups;
-  }, {} as Record<string, typeof filteredItems>);
+  }, {} as Record<string, typeof filteredItems>));
   
   // Calculate totals
-  $: subtotal = filteredItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  $: shipping = filteredItems.length > 0 ? 5000 : 0;
-  $: serviceFee = Math.round(subtotal * 0.015); // 1.5%
-  $: discount = 0; // From coupon
-  $: total = subtotal + shipping + serviceFee - discount;
+  let subtotal = $derived(filteredItems.reduce((sum, item) => sum + (item.price * item.quantity), 0));
+  let shipping = $derived(filteredItems.length > 0 ? 5000 : 0);
+  let serviceFee = $derived(Math.round(subtotal * 0.015)); // 1.5%
+  let discount = $state(0); // From coupon
+  let total = $derived(subtotal + shipping + serviceFee - discount);
   
   // Handlers
   const handleUpdateQuantity = (id: string, quantity: number) => {
@@ -91,13 +106,13 @@
   const handleCheckout = () => {
     // Build checkout URL with shop filter if applicable
     const params = new URLSearchParams();
-    if (shopSlug) params.set('shop', shopSlug);
+    if (selectedShop) params.set('shop', selectedShop);
     goto(`/checkout${params.toString() ? '?' + params.toString() : ''}`);
   };
   
-  const shopName = shopSlug 
+  let shopName = $derived(selectedShop 
     ? filteredItems[0]?.shop.name 
-    : undefined;
+    : undefined);
 </script>
 
 <svelte:head>
@@ -126,13 +141,35 @@
         </div>
       </div>
     </div>
-    
-    <Button variant="outline" size="md" href="/shop">
-      <Icon icon="mdi:arrow-left" class="w-4 h-4 mr-2" />
-      Continue Shopping
-    </Button>
+    <div class="flex gap-3 items-center">
+      <Button variant="outline" size="md" href="/shop/{selectedShop}">
+        <Icon icon="mdi:arrow-left" class="w-4 h-4 mr-2" />
+        Continue Shopping
+      </Button>
+
+      <div class="relative">
+        <select
+          class="appearance-none px-4 py-2.5 pr-10 rounded-xl border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
+          value={selectedShop}
+          onchange={(e) => {
+            selectedShop = (e.target as HTMLSelectElement).value;
+            searchQuery = '';
+          }}
+        >
+          <option value="">All Shops</option>
+          {#each shops as shop}
+            <option value={shop.slug}>
+              {shop.name} ({shop.followers})
+            </option>
+          {/each}
+        </select>
+        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+          <Icon icon="mdi:chevron-down" class="w-5 h-5 text-text-muted" />
+        </div>
+    </div>
+    </div>
   </section>
-  
+
   {#if filteredItems.length === 0}
     <!-- Empty Cart State -->
     <section in:fade={{ duration: 400, delay: 100 }}>

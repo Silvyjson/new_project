@@ -218,32 +218,21 @@
     {
       id: 'a_001',
       type: 'new_product' as const,
-      shop: { name: 'TechHub', slug: 'techhub', logoUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=TH', category: 'Electronics', rating: 4.8, reviewCount: 1200, orderCount: 5000, trustScore: 98 },
+      shop: { name: 'TechHub', slug: 'techhub', logo: 'https://api.dicebear.com/7.x/initials/svg?seed=TH' },
       title: 'added a new product',
       description: 'Check out their latest wireless headphones with noise cancellation',
       time: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
       product: {
         id: 'p_001',
-        code: 'PROD-001',
-        vendorId: '1',
         name: 'Wireless Headphones Pro',
         price: 24000,
-        currency: 'NGN',
-        images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e'],
-        rating: 4.8,
-        reviewCount: 124,
-        stockStatus: 'in-stock' as const,
-        category: 'Electronics',
-        preorder: false,
-        sale: false,
-        new: true,
-        createdAt: new Date()
+        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e'
       }
     },
     {
       id: 'a_002',
       type: 'new_blog' as const,
-      shop: { name: 'Urban Kicks', slug: 'urban-kicks', logoUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=UK', category: 'Fashion', rating: 4.9, reviewCount: 850, orderCount: 3200, trustScore: 95 },
+      shop: { name: 'Urban Kicks', slug: 'urban-kicks', logo: 'https://api.dicebear.com/7.x/initials/svg?seed=UK' },
       title: 'posted a new article',
       description: '5 Sneaker Trends for 2026',
       time: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
@@ -256,7 +245,7 @@
     {
       id: 'a_003',
       type: 'promotion' as const,
-      shop: { name: 'Bella Beauty', slug: 'bella-beauty', logoUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=BB', category: 'Beauty', rating: 4.7, reviewCount: 560, orderCount: 2100, trustScore: 88 },
+      shop: { name: 'Bella Beauty', slug: 'bella-beauty', logo: 'https://api.dicebear.com/7.x/initials/svg?seed=BB' },
       title: 'is running a promotion',
       description: 'Get 20% off on all skincare products this week',
       time: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString()
@@ -328,10 +317,10 @@
       </Button> -->
     </div>
       
-      <div class="columns-2 md:columns-3 lg:columns-4 gap-4">
+    <div class="flex gap-4 overflow-x-auto pb-4 hide-scrollbar">
         {#each shopActivities as activity, i}
           <div
-            class="break-inside-avoid mb-4"
+            class="flex-shrink-0 snap-start w-80"
             in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}
           >
             <ShopActivityCard {activity} />

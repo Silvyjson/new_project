@@ -123,12 +123,10 @@
   <div class="grid grid-cols-[260px_1fr] gap-8">
     
     <!-- Sidebar Navigation -->
-    <aside class="sticky top-24 h-fit" in:fade={{ duration: 400, delay: 100 }}>
-      <SettingsSidebar
-        role={role}
-        activeSection={activeSection}
-      />
-    </aside>
+    <SettingsSidebar
+      role={role}
+      activeSection={activeSection}
+    />
     
     <!-- Settings Content -->
     <main class="space-y-6" in:fade={{ duration: 400, delay: 200 }}>
