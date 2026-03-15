@@ -170,6 +170,12 @@ export const load: PageLoad = async ({ url }) => {
         vendors,
         featuredPosts,
         filters: { search, category, vendor, sortBy },
+        pagination: {
+            page: parseInt(url.searchParams.get('page') || '1'),
+            totalPages: Math.ceil(posts.length / 10),
+            totalItems: posts.length,
+            limit: 10
+        },
         meta: {
             title: 'VendorHub Blog | Discover New Releases & Vendor Updates',
             description: 'Read the latest from VendorHub vendors: product launches, tips, trust guides, and exclusive updates.'

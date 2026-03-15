@@ -3,13 +3,12 @@
   import Pagination from "$lib/components/common/Pagination.svelte";
   import Card from "$lib/components/common/Card.svelte";
   import Button from "$lib/components/common/Button.svelte";
+  import { auth } from "$lib/state/auth.svelte";
+  import AppPagination from "../common/AppPagination.svelte";
 
   export let posts: any[] = [];
   export let pagination: any = undefined;
-  // default to a no-op handler so Pagination always receives a function
-  export let handlePageChange: (e: CustomEvent<{ page: number }>) => void = (
-    e,
-  ) => {};
+  export let onPageChange: (p: number) => void = (p) => {};
 
   export let updateFilters: () => void;
   export let searchQuery: string;
@@ -28,12 +27,20 @@
         {/each}
       </div>
 
-      {#if pagination}
+      {#if pagination && auth.isLoggedIn}
+        <AppPagination
+          currentPage={pagination.page}
+          totalItems={pagination.totalItems}
+          itemsPerPage={pagination.limit || 10}
+          {onPageChange}
+          entityName="articles"
+        />
+      {:else if pagination}
         <div class="mt-12 flex justify-center">
           <Pagination
-            currentPage={pagination.page}
-            totalPages={pagination.totalPages}
-            on:pageChange={handlePageChange}
+            currentPage={pagination?.page || 1}
+            totalPages={pagination?.totalPages || 1}
+            on:pageChange={(e) => onPageChange(e.detail.page)}
           />
         </div>
       {/if}

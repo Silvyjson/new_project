@@ -17,7 +17,7 @@
 
     // Data from load function
     export let data: PageData;
-    $: ({ shops, totalShops, categories, filters, trendingShops, meta } = data);
+    $: ({ shops, totalShops, categories, filters, trendingShops, meta, pagination } = data);
 
     // Local filter state
     let searchQuery = data.filters.search;
@@ -139,9 +139,9 @@
         updateFilters();
     };
 
-    const handlePageChange = (e: CustomEvent) => {
+    const handlePageChange = (p: number) => {
         const params = new URLSearchParams($page.url.searchParams);
-        params.set("page", e.detail.page.toString());
+        params.set("page", p.toString());
         goto(`/shop?${params.toString()}`, { replaceState: true });
     };
 </script>
@@ -250,8 +250,8 @@
     <!-- 🔷 SECTION 5: SHOPS GRID -->
     <ShopGrid
         {shops}
-        pagination={data.pagination}
-        {handlePageChange}
+        {pagination}
+        onPageChange={handlePageChange}
         {clearAllFilters}
     />
 

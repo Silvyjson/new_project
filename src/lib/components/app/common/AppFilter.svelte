@@ -19,7 +19,6 @@
     onLayoutChange?: (layout: "grid" | "table") => void;
     placeholder?: string;
     extraFilters?: Snippet;
-    categories?: Snippet;
     activeChips?: FilterChip[];
     onRemoveChip?: (chip: FilterChip) => void;
     onClearAll?: () => void;
@@ -32,7 +31,6 @@
     onLayoutChange,
     placeholder = "Search...",
     extraFilters,
-    categories,
     activeChips = [],
     onRemoveChip,
     onClearAll
@@ -96,14 +94,7 @@
 
       </div>
     </div>
- 
-    <!-- Categories Slot -->
-    {#if categories}
-      <div class="mt-6 border-t border-gray-100 pt-4">
-        {@render categories()}
-      </div>
-    {/if}
- 
+
     <!-- Active Filter Chips -->
     {#if activeChips.length > 0}
       <div class="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-gray-100" in:fade={{ duration: 300 }}>

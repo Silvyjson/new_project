@@ -6,13 +6,13 @@
     import { fly } from "svelte/transition";
     import { cubicOut } from "svelte/easing";
     import Icon from "@iconify/svelte";
+    import AppPagination from "../common/AppPagination.svelte";
+    import { auth } from "$lib/state/auth.svelte";
 
     // Explicit props
     export let shops: any[] = [];
     export let pagination: any = null;
-    export let handlePageChange: (e: CustomEvent<{ page: number }>) => void = (
-        e,
-    ) => {};
+    export let onPageChange: (p: number) => void = (p) => {};
     export let clearAllFilters: () => void = () => {};
 </script>
 
@@ -37,11 +37,21 @@
             </div>
 
             <!-- Pagination -->
-            <Pagination
-                currentPage={pagination?.page || 1}
-                totalPages={pagination?.totalPages || 1}
-                on:pageChange={handlePageChange}
-            />
+             {#if pagination && auth.isLoggedIn}
+                <AppPagination
+                    currentPage={pagination.page}
+                    totalItems={pagination.totalItems}
+                    itemsPerPage={pagination.limit || 10}
+                    {onPageChange}
+                    entityName="shops"
+                />
+            {:else}
+                <Pagination
+                    currentPage={pagination?.page || 1}
+                    totalPages={pagination?.totalPages || 1}
+                    on:pageChange={(e) => onPageChange(e.detail.page)}
+                />
+            {/if}
         {:else}
             <!-- Empty State -->
             <Card className="py-16 text-center">
