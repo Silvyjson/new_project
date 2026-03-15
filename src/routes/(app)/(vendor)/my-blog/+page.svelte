@@ -85,8 +85,8 @@
 
 <main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
   
-  <!-- Section 1: Header -->
-  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4" in:fade={{ duration: 400 }}>
+  <!-- Section 1: Page Header -->
+  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8" in:fade={{ duration: 400 }}>
     <div class="flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
         <Icon icon="mdi:pencil-outline" class="w-6 h-6 text-primary" />
@@ -97,10 +97,12 @@
       </div>
     </div>
     
-    <Button href="/my-blog/create" variant="primary" size="sm">
-      <Icon icon="mdi:plus-circle-outline" class="w-5 h-5 mr-2" />
-      Create Post
-    </Button>
+    <div class="flex gap-3 items-center">
+      <Button href="/my-blog/create" variant="primary" size="md">
+        <Icon icon="mdi:plus-circle-outline" class="w-5 h-5 mr-2" />
+        Create Post
+      </Button>
+    </div>
   </section>
   
   <!-- Section 2: Filters & Controls -->
@@ -113,7 +115,7 @@
   >
     {#snippet extraFilters()}
       <select
-        class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+        class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
         bind:value={statusFilter}
       >
         <option value="all">All Status</option>
@@ -123,7 +125,7 @@
       </select>
       
       <select
-        class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+        class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
         bind:value={sortBy}
       >
         <option value="newest">Newest</option>

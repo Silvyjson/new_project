@@ -11,9 +11,7 @@
   import EmptyNotifications from '$lib/components/app/shared/notifications/EmptyNotifications.svelte';
   import Card from '$lib/components/common/Card.svelte';
   import Button from '$lib/components/common/Button.svelte';
-  
-  // Role (in real app: from auth store)
-  let role = 'buyer' as 'buyer' | 'vendor';
+  import { auth } from '$lib/state/auth.svelte';
   
   // Filter state
   let activeFilter = 'all';
@@ -178,7 +176,7 @@
 <main class="max-w-[1000px] mx-auto px-4 py-8 space-y-8">
   
   <!-- Section 1: Page Header -->
-  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4" in:fade={{ duration: 400 }}>
+  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8" in:fade={{ duration: 400 }}>
     <div class="flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
         <Icon icon="mdi:bell-outline" class="w-6 h-6 text-primary" />
@@ -189,13 +187,13 @@
       </div>
     </div>
     
-    <div class="flex gap-3">
-      <Button variant="outline" size="sm" onclick={markAllAsRead}>
+    <div class="flex flex-wrap items-center gap-3">
+      <Button variant="outline" size="md" onclick={markAllAsRead}>
         <Icon icon="mdi:check-all" class="w-4 h-4 mr-2" />
-        Mark all as read
+        Mark all read
       </Button>
       <Button variant="ghost" size="md" onclick={() => showSettingsModal = true}>
-        <Icon icon="mdi:cog-outline" class="w-5 h-5" />
+        <Icon icon="mdi:cog-outline" class="w-5 h-5 text-gray-500" />
       </Button>
     </div>
   </section>
@@ -205,7 +203,7 @@
     <NotificationFilters
       activeFilter={activeFilter}
       showUnreadOnly={showUnreadOnly}
-      role={role}
+      role={auth.role}
     />
   </section>
   

@@ -11,6 +11,7 @@
   import AppFilter from '$lib/components/app/common/AppFilter.svelte';
   import AppPagination from '$lib/components/app/common/AppPagination.svelte';
   import AddSaleModal from '$lib/components/app/vendor/order/AddSaleModal.svelte';
+  import { auth } from '$lib/state/auth.svelte';
 
   interface OrderItem {
     id: string;
@@ -42,13 +43,10 @@
     paymentMethod?: string;
   }
   
-  // Role (in real app: from auth store)
-  let role = 'buyer' as 'buyer' | 'vendor';
-  
   // View mode for vendor (grid or table)
   let layoutView = $state<'grid' | 'table'>('grid');
   let showAddSaleModal = $state(false);
-  
+
   // Mock shops (vendor only)
   let shops = [
     { id: '1', name: 'Urban Kicks', slug: 'urban-kicks' },
@@ -136,7 +134,7 @@
 <main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
   
   <!-- Section 1: Page Header -->
-  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4" in:fade={{ duration: 400 }}>
+  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8" in:fade={{ duration: 400 }}>
     <div class="flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
         <Icon icon="mdi:package-variant" class="w-6 h-6 text-primary" />
@@ -144,12 +142,12 @@
       <div>
         <h1 class="text-2xl font-bold text-text-main">Orders</h1>
         <p class="text-body text-text-muted">
-          {role === 'vendor' ? 'Track sales, delivery progress and order history' : 'Track purchases, delivery progress and order history'}
+          {auth.role === 'vendor' ? 'Track sales, delivery progress and order history' : 'Track purchases, delivery progress and order history'}
         </p>
       </div>
     </div>
 
-    {#if role === 'vendor'}
+    {#if auth.role === 'vendor'}
       <div class="flex items-center gap-2">
         <div class="relative">
           <select
@@ -171,10 +169,6 @@
             <Icon icon="mdi:chevron-down" class="w-5 h-5 text-text-muted" />
           </div>
         </div>
-        <!-- <Button variant="primary" size="md" onclick={() => showAddSaleModal = true}>
-          <Icon icon="mdi:plus-circle-outline" class="w-4 h-4 mr-2" />
-          Record Sale
-        </Button> -->
         <Button variant="outline" size="md" onclick={exportData}>
           <Icon icon="mdi:download-outline" class="w-4 h-4 mr-2" />
           Export
@@ -184,7 +178,7 @@
   </section>
   
   <!-- Section 2: Filters -->
-  {#if role === 'vendor'}
+  {#if auth.role === 'vendor'}
     <AppFilter
       searchQuery={searchQuery}
       layoutView={layoutView}
@@ -194,9 +188,9 @@
     >
       {#snippet extraFilters()}
         <select
-          class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+          class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
           value={statusFilter}
-          onchange={(e) => statusFilter = e.currentTarget.value}
+          onchange={(e) => statusFilter = (e.currentTarget as HTMLSelectElement).value}
         >
           <option value="all">All Status</option>
           <option value="NEW">New</option>
@@ -209,9 +203,9 @@
         </select>
 
         <select
-          class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+          class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
           value={sourceFilter}
-          onchange={(e) => sourceFilter = e.currentTarget.value}
+          onchange={(e) => sourceFilter = (e.currentTarget as HTMLSelectElement).value}
         >
           <option value="all">All Sources</option>
           <option value="INTERNAL">Internal</option>
@@ -219,9 +213,9 @@
         </select>
 
         <select
-          class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-surface"
+          class="px-4 py-2.5 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
           value={dateFilter}
-          onchange={(e) => dateFilter = e.currentTarget.value}
+          onchange={(e) => dateFilter = (e.currentTarget as HTMLSelectElement).value}
         >
           <option value="today">Today</option>
           <option value="7days">Last 7 days</option>
@@ -232,7 +226,7 @@
   {:else}
     <section in:fade={{ duration: 400, delay: 100 }}>
       <OrderFilters
-        role={role}
+        role={auth.role}
         shops={shops}
         searchQuery={searchQuery}
         statusFilter={statusFilter}
@@ -257,10 +251,10 @@
         <h2 class="text-h2 text-text-main mb-2">No orders found</h2>
         <p class="text-body text-text-muted mb-6">Try adjusting your filters or check back later.</p>
       </Card>
-    {:else if role === 'vendor' && layoutView === 'table'}
+    {:else if auth.role === 'vendor' && layoutView === 'table'}
       <!-- Table View (Vendor) -->
       <div in:fade={{ duration: 300 }}>
-        <OrderTable orders={filteredOrders} role={role} />
+        <OrderTable orders={filteredOrders} role={auth.role} />
         
         <div class="mt-6">
           <AppPagination
@@ -277,7 +271,7 @@
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {#each filteredOrders as order, i}
           <div in:fly={{ y: 20, duration: 400, delay: i * 50, easing: cubicOut }}>
-            <OrderCard {order} {role} />
+            <OrderCard {order} role={auth.role} />
           </div>
         {/each}
       </div>
@@ -295,19 +289,17 @@
     {/if}
   </section>
 
-  
   <AddSaleModal 
     show={showAddSaleModal} 
     onClose={() => showAddSaleModal = false} 
     onSave={(sale: any) => {
-      // In real app: API call
       const newOrder: any = {
         id: Math.random().toString(),
         code: `EXT-${Math.floor(1000 + Math.random() * 9000)}`,
         date: sale.saleDate,
         items: [{ id: 'custom', name: sale.productName, image: '', quantity: 1, price: sale.amount }],
         total: sale.amount,
-        status: 'DELIVERED', // External sales are usually completed
+        status: 'DELIVERED', 
         deliveryMethod: 'External Sale',
         shop: shops.find(s => s.slug === shopFilter) || shops[0],
         buyer: { name: sale.customerName },
@@ -321,15 +313,3 @@
     }}
   />
 </main>
-
-<!-- <style>
-  @media (prefers-reduced-motion: reduce) {
-    .animate-fade-in,
-    [in:fly] {
-      animation: none !important;
-      transition: none !important;
-      opacity: 1 !important;
-      transform: none !important;
-    }
-  }
-</style> -->

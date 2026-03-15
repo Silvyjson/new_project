@@ -228,7 +228,7 @@
 <main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
   
   <!-- Section 1: Page Header -->
-  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4" in:fade={{ duration: 400 }}>
+  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8" in:fade={{ duration: 400 }}>
     <div class="flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
         <Icon icon="mdi:account-group-outline" class="w-6 h-6 text-primary" />
@@ -251,27 +251,27 @@
       </div>
     </div>
     
-    <div class="flex items-center gap-2">
-    <div class="relative">
-      <select
-        class="appearance-none px-4 py-2.5 pr-10 rounded-xl border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
-        value={selectedShop}
-        onchange={(e) => {
-          selectedShop = (e.target as HTMLSelectElement).value;
-          searchQuery = '';
-        }}
-      >
-        <option value="">All Shops</option>
-        {#each shops as shop}
-          <option value={shop.slug}>
-            {shop.name} ({shop.followers})
-          </option>
-        {/each}
-      </select>
-      <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-        <Icon icon="mdi:chevron-down" class="w-5 h-5 text-text-muted" />
+    <div class="flex flex-wrap items-center gap-3">
+      <div class="relative">
+        <select
+          class="appearance-none px-4 py-2.5 pr-10 rounded-xl border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
+          value={selectedShop}
+          onchange={(e) => {
+            selectedShop = (e.target as HTMLSelectElement).value;
+            searchQuery = '';
+          }}
+        >
+          <option value="">All Shops</option>
+          {#each shops as shop}
+            <option value={shop.slug}>
+              {shop.name} ({shop.followers})
+            </option>
+          {/each}
+        </select>
+        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+          <Icon icon="mdi:chevron-down" class="w-5 h-5 text-primary" />
+        </div>
       </div>
-    </div>
       <Button variant="outline" size="md" onclick={exportFollowers}>
         <Icon icon="mdi:download-outline" class="w-4 h-4 mr-2" />
         Export Followers
@@ -416,7 +416,7 @@
   >
     {#snippet extraFilters()}
       <select
-        class="appearance-none px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-white"
+        class="appearance-none px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-white"
         bind:value={sortBy}
       >
         <option value="newest">Newest First</option>
@@ -425,7 +425,7 @@
       </select>
 
       <select
-        class="appearance-none px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-white"
+        class="appearance-none px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-white"
         bind:value={filterEngagement}
       >
         <option value="all">Any Engagement</option>

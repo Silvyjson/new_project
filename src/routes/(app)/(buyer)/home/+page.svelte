@@ -9,9 +9,7 @@
   import ProductCard from '$lib/components/app/card/ProductCard.svelte';
   import Button from '$lib/components/common/Button.svelte';
   import type { Product, Shop } from '$lib/types';
-  
-  // Mock user
-  let user = { name: 'John' };
+  import { auth } from '$lib/state/auth.svelte';
   
   // Mock recent orders
   let recentOrders = [
@@ -270,32 +268,37 @@
   <title>Home | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-7xl mx-auto px-4 py-8 space-y-10">
+<main class="max-w-7xl mx-auto px-4 py-6 space-y-8">
   
   <!-- Section 1: Welcome Header -->
-  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4" in:fade={{ duration: 400 }}>
-    <div>
-      <h1 class="text-3xl font-bold text-text-main mb-2">
-        Welcome back, {user.name} 👋
-      </h1>
-      <p class="text-body text-text-muted">Discover shops and products tailored for you</p>
+  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8" in:fade={{ duration: 400 }}>
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+        <Icon icon="mdi:account-outline" class="w-6 h-6 text-primary" />
+      </div>
+      <div>
+        <h1 class="text-3xl font-bold text-text-main">
+          Welcome back, {auth.user.name} 👋
+        </h1>
+        <p class="text-body text-text-muted">Discover shops and products tailored for you</p>
+      </div>
     </div>
     
-    <div class="flex gap-3">
-      <Button variant="outline" size="sm" href="/orders">
+    <div class="flex flex-wrap items-center gap-3">
+      <Button variant="outline" size="md" href="/orders">
         <Icon icon="mdi:package-variant" class="w-4 h-4 mr-2" />
         My Orders
       </Button>
-      <Button variant="outline" size="sm" href="/wishlist">
+      <Button variant="outline" size="md" href="/wishlist">
         <Icon icon="mdi:heart-outline" class="w-4 h-4 mr-2" />
-        Saved
+        Saved Items
       </Button>
     </div>
   </section>
   
   <!-- Section 2: Categories -->
   <section in:fade={{ duration: 400, delay: 700 }}>
-    <h2 class="text-xl font-bold text-text-main mb-6">Browse Categories</h2>
+    <h2 class="text-lg font-bold text-text-main mb-6">Browse Categories</h2>
     
     <div class="flex gap-3 overflow-x-auto pb-4 snap-x">
       {#each categories as category, i}
@@ -310,7 +313,7 @@
   {#if shopActivities.length > 0}
     <section in:fade={{ duration: 400, delay: 500 }}>
     <div class="flex items-center justify-between mb-6">
-      <h2 class="text-xl font-bold text-text-main">Updates From Shops You Follow</h2>
+      <h2 class="text-lg font-bold text-text-main">Updates From Shops You Follow</h2>
       <!-- <Button variant="ghost" size="sm" href="/blog">
         See All
         <Icon icon="mdi:arrow-right" class="w-4 h-4 ml-1" />
@@ -334,7 +337,7 @@
   {#if followedShops.length > 0}
     <section in:fade={{ duration: 400, delay: 200 }}>
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-xl font-bold text-text-main">Shops You Follow</h2>
+        <h2 class="text-lg font-bold text-text-main">Shops You Follow</h2>
         <Button variant="ghost" size="sm" href="/following">
           See All
           <Icon icon="mdi:arrow-right" class="w-4 h-4 ml-1" />
@@ -355,7 +358,7 @@
   <section in:fade={{ duration: 400, delay: 300 }}>
     <div class="flex items-center justify-between mb-6">
       <div>
-        <h2 class="text-xl font-bold text-text-main">Recommended Shops</h2>
+        <h2 class="text-lg font-bold text-text-main">Recommended Shops</h2>
         <p class="text-sm text-text-muted">Based on your activity and interests</p>
       </div>
       <Button variant="ghost" size="sm" href="/shop">
@@ -377,7 +380,7 @@
   <section in:fade={{ duration: 400, delay: 400 }}>
     <div class="flex items-center justify-between mb-6">
       <div>
-        <h2 class="text-xl font-bold text-text-main">Trending Products</h2>
+        <h2 class="text-lg font-bold text-text-main">Trending Products</h2>
         <p class="text-sm text-text-muted">Popular items this week</p>
       </div>
     </div>
@@ -396,7 +399,7 @@
     <div class="flex items-center justify-between mb-6">
       <div class="flex items-center gap-2">
         <Icon icon="mdi:history" class="w-5 h-5 text-text-muted" />
-        <h2 class="text-xl font-bold text-text-main">Recently Viewed</h2>
+        <h2 class="text-lg font-bold text-text-main">Recently Viewed</h2>
       </div>
     </div>
     
@@ -408,7 +411,7 @@
       {/each}
     </div>
   </section>
-</div>
+</main>
 
 <style>
   .hide-scrollbar::-webkit-scrollbar {

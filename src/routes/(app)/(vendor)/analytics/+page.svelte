@@ -140,7 +140,7 @@
 <main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
   
   <!-- Section 1: Page Header -->
-  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4" in:fade={{ duration: 400 }}>
+  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8" in:fade={{ duration: 400 }}>
     <div class="flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
         <Icon icon="mdi:chart-line" class="w-6 h-6 text-primary" />
@@ -163,11 +163,11 @@
       </div>
     </div>
 
-    <div class="flex items-center gap-2">
+    <div class="flex flex-wrap items-center gap-3">
       <!-- Shop Filter -->
       <div class="relative">
         <select
-          class="appearance-none px-4 py-2.5 pr-10 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
+          class="appearance-none px-4 py-2.5 pr-10 rounded-xl border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
           value={selectedShop}
           on:change={(e) => {
             selectedShop = (e.target as HTMLSelectElement).value;
@@ -181,7 +181,7 @@
           {/each}
         </select>
         <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-          <Icon icon="mdi:chevron-down" class="w-5 h-5 text-text-muted" />
+          <Icon icon="mdi:chevron-down" class="w-5 h-5 text-primary" />
         </div>
       </div>
 
@@ -203,10 +203,11 @@
           <Icon icon="mdi:chevron-down" class="w-5 h-5 text-text-muted" />
         </div>
       </div>
-        <Button variant="outline" size="md" onclick={exportData}>
-          <Icon icon="mdi:download-outline" class="w-4 h-4 mr-2" />
-          Export Data
-        </Button>
+      
+      <Button variant="outline" size="md" onclick={exportData}>
+        <Icon icon="mdi:download-outline" class="w-4 h-4 mr-2" />
+        Export Data
+      </Button>
     </div>
   </section>
   

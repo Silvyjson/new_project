@@ -7,9 +7,8 @@
   import TransactionTable from '$lib/components/app/shared/wallet/TransactionTable.svelte';
   import { formatNaira } from '$lib/utils/format';
   import MetricRow from '$lib/components/app/grid/MetricRow.svelte';
+  import { auth } from '$lib/state/auth.svelte';
   
-  // Role (in real app: from auth store)
-  let role = 'vendor' as 'buyer' | 'vendor';
   let selectedShop = $state('');
   let searchQuery = $state('');
   
@@ -47,7 +46,7 @@
       }
   );
 
-  let kpis = $derived(role === 'vendor' ? [
+  let kpis = $derived(auth.role === 'vendor' ? [
     {
       label: 'Total Earned',
       value: formatNaira(insights.totalEarned || 0),
@@ -102,18 +101,6 @@
     { id: 't_005', date: '2026-01-21', type: 'sale' as const, reference: '#VH-2041', amount: 18000, status: 'pending' as const, icon: 'mdi:store-outline' }
   ]);
   
-  // Mock bank accounts
-  let bankAccounts = [
-    {
-      id: 'b_001',
-      bankName: 'GTBank',
-      accountNumber: '0123456789',
-      accountName: 'Divine Stores',
-      isPrimary: true,
-      verified: true
-    }
-  ];
-
   // Mock shops for filtering
   let shops = $state([
     { id: '1', name: 'Urban Kicks', slug: 'urban-kicks' },
@@ -135,7 +122,7 @@
 
 <main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
   
-  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4" in:fade={{ duration: 400 }}>
+  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8" in:fade={{ duration: 400 }}>
     <div class="flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
         <Icon icon="mdi:wallet-outline" class="w-6 h-6 text-primary" />
@@ -151,7 +138,7 @@
         class="appearance-none px-4 py-2.5 pr-10 rounded-xl border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-surface"
         value={selectedShop}
         onchange={(e) => {
-          selectedShop = (e.target as HTMLSelectElement).value;
+          selectedShop = (e.currentTarget as HTMLSelectElement).value;
           searchQuery = '';
         }}
       >
@@ -170,7 +157,7 @@
 
   <!-- Section 2: Balance Card -->
   <section in:fade={{ duration: 400, delay: 100 }}>
-    <WalletBalanceCard role={role} balance={balance} />
+    <WalletBalanceCard role={auth.role} balance={balance} />
   </section>
   
   <!-- Section 3: Wallet Insights -->
@@ -180,18 +167,6 @@
   
   <!-- Section 4: Transaction History -->
   <section id="history" in:fade={{ duration: 400, delay: 300 }}>
-    <TransactionTable role={role} transactions={transactions} {selectedShop} />
+    <TransactionTable role={auth.role} transactions={transactions} {selectedShop} />
   </section>
 </main>
-
-<!-- <style>
-  @media (prefers-reduced-motion: reduce) {
-    .animate-fade-in,
-    [in:fly] {
-      animation: none !important;
-      transition: none !important;
-      opacity: 1 !important;
-      transform: none !important;
-    }
-  }
-</style> -->

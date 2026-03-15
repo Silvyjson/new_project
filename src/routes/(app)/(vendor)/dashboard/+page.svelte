@@ -9,8 +9,7 @@
     import Button from "$lib/components/common/Button.svelte";
     import MetricRow from "$lib/components/app/grid/MetricRow.svelte";
     import ShopEmptyState from "$lib/components/app/vendor/shop/ShopEmptyState.svelte";
-
-    let user = { name: "Silvia" };
+    import { auth } from "$lib/state/auth.svelte";
 
     const kpis = [
         { label: "Total Revenue", value: "₦2.4M", trendValue: "+12%", trend: "up", icon: "mdi:currency-ngn" },
@@ -19,7 +18,7 @@
         { label: "Followers", value: "1,890", trendValue: "+15%", trend: "up", icon: "mdi:account-group-outline" },
     ] as const;
 
-    let shops = [
+    let shops = $state([
         {
             id: "1",
             slug: "urban-kicks",
@@ -65,7 +64,10 @@
             active: false,
             verified: false,
         },
-    ];
+    ]);
+
+    let shopCount = $derived(shops.length);
+
     let recentOrders = [
         {
             id: "ORD-2026-001",
@@ -107,8 +109,6 @@
             customerName: "Tunde M.",
         },
     ];
-
-    let shopCount = shops.length;
 </script>
 
 <svelte:head>
@@ -116,34 +116,36 @@
 </svelte:head>
 
 <main class="max-w-7xl mx-auto px-4 py-6 space-y-8">
-    <!-- Header -->
-    <section class="flex items-center justify-between flex-wrap gap-4">
-        <div>
-            <h1 class="text-xl md:text-2xl font-bold text-text-main">
-                Good afternoon {user.name} 👋
-            </h1>
-
-            <p class="text-sm text-text-muted">
-                {#if shopCount === 0}
-                    You haven't created a shop yet
-                {:else if shopCount === 1}
-                    You manage 1 shop
-                {:else}
-                    You manage {shopCount} shops
-                {/if}
-            </p>
+    <!-- Section 1: Page Header -->
+    <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8" in:fade={{ duration: 400 }}>
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Icon icon="mdi:view-dashboard-outline" class="w-6 h-6 text-primary" />
+            </div>
+            <div>
+                <h1 class="text-3xl font-bold text-text-main">
+                    Good afternoon, {auth.user.name} 👋
+                </h1>
+                <p class="text-body text-text-muted">
+                    {#if shopCount === 0}
+                        You haven't created a shop yet
+                    {:else if shopCount === 1}
+                        You manage 1 shop
+                    {:else}
+                        You manage {shopCount} shops
+                    {/if} — here's your overview
+                </p>
+            </div>
         </div>
 
-        <!-- Quick Actions -->
-        <div class="flex items-center gap-2">
-            <Button href="/my-shop/create" size="sm" variant="primary">
-                <Icon icon="mdi:store-plus-outline" class="w-4 h-4 mr-1" />
-                Shop
+        <div class="flex flex-wrap items-center gap-3">
+            <Button href="/my-shop/create" variant="primary" size="md">
+                <Icon icon="mdi:store-plus-outline" class="w-5 h-5 mr-2" />
+                Create Shop
             </Button>
-
-            <Button href="/my-blog/create" size="sm" variant="outline">
-                <Icon icon="mdi:pencil-outline" class="w-4 h-4 mr-1" />
-                Blog
+            <Button href="/my-blog/create" variant="outline" size="md">
+                <Icon icon="mdi:pencil-outline" class="w-5 h-5 mr-2" />
+                Write Post
             </Button>
         </div>
     </section>
@@ -177,7 +179,7 @@
                             easing: cubicOut,
                         }}
                     >
-                        <OrderCard {order} view="vendor" />
+                        <OrderCard {order} role={auth.role} />
                     </div>
                 {/each}
             </div>

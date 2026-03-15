@@ -119,7 +119,7 @@
   <title>Shopping Cart | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-7xl mx-auto px-4 py-8">
+<main class="max-w-7xl mx-auto px-4 py-8">
   
   <!-- Section 1: Cart Header -->
   <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8" in:fade={{ duration: 400 }}>
@@ -238,7 +238,7 @@
       </div>
     </div>
   {/if}
-</div>
+</main>
 
 <!-- <style>
   @media (prefers-reduced-motion: reduce) {

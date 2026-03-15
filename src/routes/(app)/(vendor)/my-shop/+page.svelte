@@ -91,36 +91,32 @@
     <title>My Shops | VendorHub</title>
 </svelte:head>
 
-<main class="max-w-7xl mx-auto px-4 py-6 space-y-8">
-    <!-- Page Header -->
-    <section class="flex items-center justify-between flex-wrap gap-4" in:fade>
-        <div class="flex items-center gap-3">
-            <div
-                class="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center"
-            >
-                <Icon
-                    icon="mdi:storefront-outline"
-                    class="w-5 h-5 text-primary"
-                />
+<main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+    <!-- Section 1: Page Header -->
+    <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8" in:fade={{ duration: 400 }}>
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Icon icon="mdi:storefront-outline" class="w-6 h-6 text-primary" />
             </div>
 
             <div>
-                <h1 class="text-xl md:text-2xl font-bold text-text-main">
+                <h1 class="text-2xl font-bold text-text-main">
                     My Shops
                 </h1>
 
-                <p class="text-sm text-text-muted">
+                <p class="text-body text-text-muted">
                     Manage and monitor all your stores
                 </p>
             </div>
         </div>
 
-        <!-- Create Shop Button -->
-
-        <Button href="/my-shop/create" size="sm" variant="primary">
-            <Icon icon="mdi:store-plus-outline" class="w-4 h-4 mr-1" />
-            Create Shop
-        </Button>
+        <!-- Quick Actions -->
+        <div class="flex gap-3 items-center">
+            <Button href="/my-shop/create" size="md" variant="primary">
+                <Icon icon="mdi:store-plus-outline" class="w-4 h-4 mr-2" />
+                Create Shop
+            </Button>
+        </div>
     </section>
 
     {#if shops.length > 0}
@@ -134,7 +130,7 @@
             {#snippet extraFilters()}
                 <div class="relative">
                     <select
-                        class="px-4 py-2.5 pr-10 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-white"
+                        class="px-4 py-2.5 pr-10 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-white"
                         bind:value={filterStatus}
                     >
                         <option value="all">All Status</option>
@@ -145,7 +141,7 @@
 
                 <div class="relative">
                     <select
-                        class="appearance-none px-4 py-2.5 pr-10 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-sm bg-white"
+                        class="appearance-none px-4 py-2.5 pr-10 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-body bg-white"
                         bind:value={filterVerified}
                     >
                         <option value="all">All Verification</option>

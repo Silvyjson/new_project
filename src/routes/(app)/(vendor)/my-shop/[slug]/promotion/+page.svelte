@@ -245,18 +245,18 @@
     </div>
     
   <!-- Section 1: Page Header -->
-  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4" in:fade={{ duration: 400 }}>
+  <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8" in:fade={{ duration: 400 }}>
     <div class="flex items-center gap-4">
       <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
         <Icon icon="mdi:tag-outline" class="w-6 h-6 text-primary" />
       </div>
       <div>
-        <h1 class="text-2xl font-bold text-text-main">Promotions</h1>
-        <p class="text-sm text-text-muted">Create discounts, coupons, and sales for your shop</p>
+        <h1 class="text-2xl font-bold text-text-main">Promotions — {shopSlug}</h1>
+        <p class="text-body text-text-muted">Create discounts, coupons, and sales for your shop</p>
       </div>
     </div>
     
-    <Button variant="primary" size="sm" onclick={handleCreate}>
+    <Button variant="primary" size="md" onclick={handleCreate}>
       <Icon icon="mdi:plus-circle-outline" class="w-5 h-5 mr-2" />
       Create Promotion
     </Button>

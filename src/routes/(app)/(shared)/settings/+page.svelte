@@ -2,6 +2,9 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
   import { onMount } from 'svelte';
+  import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
+  import Icon from '@iconify/svelte';
   import SettingsSidebar from '$lib/components/app/shared/settings/SettingsSidebar.svelte';
   import ProfileSettings from '$lib/components/app/shared/settings/ProfileSettings.svelte';
   import SecuritySettings from '$lib/components/app/shared/settings/SecuritySettings.svelte';
@@ -12,12 +15,7 @@
   import PreferencesSettings from '$lib/components/app/shared/settings/PreferencesSettings.svelte';
   import AccountManagement from '$lib/components/app/shared/settings/AccountManagement.svelte';
   import InviteStaff from '$lib/components/app/shared/settings/InviteStaff.svelte';
-  import Icon from '@iconify/svelte';
-  import { page } from '$app/stores';
-  import { goto } from '$app/navigation';
-  
-  // Role (in real app: from auth store)
-  let role = 'vendor' as 'buyer' | 'vendor';
+  import { auth } from '$lib/state/auth.svelte';
   
   // Active section based on URL
   let activeSection = $derived($page.url.searchParams.get('tab') || 'profile');
@@ -88,7 +86,7 @@
     theme: 'system' as const
   };
   
-  const handleSectionChange = (e: CustomEvent) => {
+  const handleSectionChange = (e: any) => {
     goto(`?tab=${e.detail}`, { replaceState: true, noScroll: true });
   };
   
@@ -120,11 +118,11 @@
   </div>
   
   <!-- Two Column Layout -->
-  <div class="grid grid-cols-[260px_1fr] gap-8">
+  <div class="grid lg:grid-cols-[260px_1fr] gap-8">
     
     <!-- Sidebar Navigation -->
     <SettingsSidebar
-      role={role}
+      role={auth.role}
       activeSection={activeSection}
     />
     
@@ -132,7 +130,7 @@
     <main class="space-y-6" in:fade={{ duration: 400, delay: 200 }}>
       
       {#if activeSection === 'profile'}
-        <ProfileSettings profile={profile} role={role} />
+        <ProfileSettings profile={profile} role={auth.role} />
       {/if}
       
       {#if activeSection === 'security'}
@@ -143,19 +141,19 @@
         <NotificationSettings preferences={notificationPrefs} />
       {/if}
       
-      {#if activeSection === 'addresses' && role === 'buyer'}
+      {#if activeSection === 'addresses' && auth.role === 'buyer'}
         <AddressBook addresses={addresses} />
       {/if}
       
-      {#if activeSection === 'payment-methods' && role === 'buyer'}
+      {#if activeSection === 'payment-methods' && auth.role === 'buyer'}
         <PaymentMethods cards={cards} />
       {/if}
       
-      {#if activeSection === 'bank-accounts' && role === 'vendor'}
+      {#if activeSection === 'bank-accounts' && auth.role === 'vendor'}
         <BankAccounts accounts={bankAccounts} />
       {/if}
-
-      {#if activeSection === 'invite-staff' && role === 'vendor'}
+      
+      {#if activeSection === 'invite-staff' && auth.role === 'vendor'}
         <InviteStaff />
       {/if}
       
@@ -176,16 +174,5 @@
     .grid {
       grid-template-columns: 1fr !important;
     }
-    aside {
-      position: static !important;
-    }
   }
-  
-  /* @media (prefers-reduced-motion: reduce) {
-    .animate-fade-in {
-      animation: none !important;
-      opacity: 1 !important;
-      transform: none !important;
-    }
-  } */
 </style>

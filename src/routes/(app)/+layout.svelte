@@ -8,14 +8,10 @@
   import Nav from "$lib/components/homepage/Nav.svelte";
   import Footer from "$lib/components/homepage/Footer.svelte";
 
-  import { isAuthenticated } from "$lib/stores/auth";
+  import { auth } from "$lib/state/auth.svelte";
   import ProfileDrawer from "$lib/components/app/common/ProfileDrawer.svelte";
 
   let showProfileDrawer = false;
-  let role = "buyer";
-
-  // --- TEMP: simulate logged in state ---
-  let simulateLoggedIn = true; // toggle to true to see AppHeader
 
   const openProfileDrawer = () => {
     showProfileDrawer = true;
@@ -35,9 +31,7 @@
   });
 
   $: currentPath = $page.url.pathname;
-  // override auth store for testing
-  $: loggedIn = simulateLoggedIn ? true : $isAuthenticated;
-
+  
   $: isBlog = currentPath.startsWith("/blog");
   $: isVendor = currentPath.startsWith("/vendor");
   $: isSupport = currentPath === "/support";
@@ -46,27 +40,21 @@
     currentPath.startsWith("/shop/") && currentPath !== "/shop";
 
   $: useHomepageLayout =
-    !loggedIn && (isBlog || isVendor || isSupport || isShopsRoot);
+    !auth.isLoggedIn && (isBlog || isVendor || isSupport || isShopsRoot);
 
   $: hideLayout = isShopsNested;
 </script>
 
 <div class="min-h-screen bg-background flex flex-col">
-  <!-- TEMP: toggle login for testing -->
-  <button
-    class="fixed top-4 right-4 p-2 bg-blue-500 text-white rounded"
-    on:click={() => (simulateLoggedIn = !simulateLoggedIn)}
-  >
-    {simulateLoggedIn ? "Simulate Logout" : "Simulate Login"}
-  </button>
 
   {#if !hideLayout}
     {#if useHomepageLayout}
       <Nav />
-    {:else if role}
-      <AppHeader on:openProfileDrawer={openProfileDrawer} {role} />
+    {:else if auth.isLoggedIn}
+      <AppHeader on:openProfileDrawer={openProfileDrawer} role={auth.role} />
     {/if}
   {/if}
+
 
   <main class="flex-1">
     <slot />
@@ -75,14 +63,14 @@
   {#if !hideLayout}
     {#if useHomepageLayout}
       <Footer />
-    {:else if role}
-      <AppFooter {role} />
+    {:else if auth.isLoggedIn}
+      <AppFooter role={auth.role} />
     {/if}
   {/if}
 
   {#if showProfileDrawer && !useHomepageLayout && !hideLayout}
-    {#if role}
-      <ProfileDrawer {showProfileDrawer} on:close={closeProfileDrawer} {role} />
+    {#if auth.isLoggedIn}
+      <ProfileDrawer {showProfileDrawer} on:close={closeProfileDrawer} role={auth.role} />
     {/if}
   {/if}
 </div>

@@ -111,7 +111,7 @@
   <title>Checkout | VendorHub</title>
 </svelte:head>
 
-<div class="max-w-7xl mx-auto px-4 py-8">
+<main class="max-w-7xl mx-auto px-4 py-8">
   
   <!-- Checkout Steps -->
   <CheckoutSteps currentStep={currentStep} />
@@ -243,7 +243,7 @@
       </div>
     </div>
   </div>
-</div>
+</main>
 
 <!-- <style>
   @media (prefers-reduced-motion: reduce) {

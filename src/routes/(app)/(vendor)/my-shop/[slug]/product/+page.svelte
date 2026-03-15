@@ -273,7 +273,7 @@
 
 <main class="max-w-7xl mx-auto px-4 py-8 space-y-8">
     <!-- Back Link -->
-    <div in:fade={{ duration: 400 }}>
+    <div in:fade={{ duration: 400 }} class="mb-6">
         <a
             href="/my-shop/{shopSlug}"
             class="text-sm text-primary font-medium hover:underline flex items-center gap-2"
@@ -283,53 +283,35 @@
         </a>
     </div>
 
-    <!-- Section 1: Shop Context Header -->
-    <section in:fade={{ duration: 400, delay: 100 }}>
-        <div
-            class="flex flex-col md:flex-row md:items-center justify-between gap-4"
-        >
-            <div class="flex items-center gap-4">
-                <div
-                    class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center"
-                >
-                    <Icon
-                        icon="mdi:cube-outline"
-                        class="w-6 h-6 text-primary"
-                    />
-                </div>
-                <div>
-                    <div class="flex items-center gap-3 mb-1">
-                        <h1 class="text-2xl font-bold text-text-main">
-                            {shopName}
-                        </h1>
-                        <Badge variant="info" size="sm">
-                            <Icon
-                                icon="mdi:shape-outline"
-                                class="w-3 h-3 inline mr-1"
-                            />
-                            Sneakers • Fashion
-                        </Badge>
-                    </div>
-                    <p class="text-body text-text-muted">
-                        {products.length} Products
-                    </p>
-                </div>
+    <!-- Section 1: Page Header -->
+    <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8" in:fade={{ duration: 400 }}>
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Icon icon="mdi:cube-outline" class="w-6 h-6 text-primary" />
             </div>
+            <div>
+                <h1 class="text-2xl font-bold text-text-main">
+                    Inventory — {shopName}
+                </h1>
+                <p class="text-body text-text-muted">
+                    Manage and track stock levels for {products.length} products
+                </p>
+            </div>
+        </div>
 
-            <div class="flex flex-wrap gap-2">
-                <Button
-                    href="/my-shop/{shopSlug}/product/add"
-                    variant="primary"
-                    size="sm"
-                >
-                    <Icon icon="mdi:plus-box-outline" class="w-4 h-4 mr-2" />
-                    Add Product
-                </Button>     
-                <Button variant="outline" size="sm" onclick={handleExportCSV}>
-                    <Icon icon="mdi:file-export-outline" class="w-4 h-4 mr-2" />
-                    Export CSV
-                </Button>
-            </div>
+        <div class="flex flex-wrap items-center gap-3">
+            <Button
+                href="/my-shop/{shopSlug}/product/add"
+                variant="primary"
+                size="md"
+            >
+                <Icon icon="mdi:plus-box-outline" class="w-4 h-4 mr-2" />
+                Add Product
+            </Button>     
+            <Button variant="outline" size="md" onclick={handleExportCSV}>
+                <Icon icon="mdi:file-export-outline" class="w-4 h-4 mr-2" />
+                Export CSV
+            </Button>
         </div>
     </section>
 

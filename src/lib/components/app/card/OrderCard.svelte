@@ -24,7 +24,7 @@
         customerName?: string; // For vendor view
     };
 
-    export let view: "buyer" | "vendor" = "buyer";
+    export let role: "buyer" | "vendor" = "buyer";
 
     const getStatusBadge = (status: string) => {
         const badges = {
@@ -65,7 +65,7 @@
                         {order.productName}
                     </h4>
                     <p class="text-xs text-text-muted mt-0.5">
-                        {#if view === "vendor"}
+                        {#if role === "vendor"}
                             Customer: {order.customerName}
                         {:else}
                             Shop: {order.shopName}
