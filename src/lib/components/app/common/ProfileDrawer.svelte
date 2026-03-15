@@ -107,8 +107,8 @@
     {
       title: "Discover",
       items: [
-        { label: "Blog", path: "/blog", icon: "mdi:file-document-outline" },
         { label: "Shops", path: "/shop", icon: "mdi:storefront-outline" },
+        { label: "Blog", path: "/blog", icon: "mdi:file-document-outline" },
       ],
     },
     {

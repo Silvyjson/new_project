@@ -16,7 +16,7 @@
     export let clearAllFilters: () => void = () => {};
 </script>
 
-<section class="py-16 bg-background-light">
+<section class="bg-soft-background pb-10">
     <div class="container max-w-7xl mx-auto px-4">
         {#if shops.length > 0}
             <div

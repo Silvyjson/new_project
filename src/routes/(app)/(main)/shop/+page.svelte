@@ -10,8 +10,10 @@
 
     // Components
     import Button from "$lib/components/common/Button.svelte";
-    import Filter from "$lib/components/common/Filter.svelte";
+    import AppFilter from "$lib/components/app/common/AppFilter.svelte";
     import ShopGrid from "$lib/components/app/grid/ShopGrid.svelte";
+    import Icon from "@iconify/svelte";
+    import { auth } from "$lib/state/auth.svelte";
 
     // Data from load function
     export let data: PageData;
@@ -152,53 +154,98 @@
     <meta property="og:type" content="website" />
 </svelte:head>
 
-<main class="min-h-screen bg-background-light">
-    <!-- 🔷 SECTION 2: HERO SEARCH SECTION -->
-    <section class="section bg-surface text-center animate-fade-in">
-        <div class="container max-w-4xl mx-auto px-4">
-            <h1
-                class="md:text-h1 text-h3 font-bold text-text-main leading-tight"
-            >
-                Discover <span class="text-primary border-b-4 border-primary/30"
-                    >Trusted</span
-                > Shops on VendorHub
-            </h1>
-            <p
-                class="text-[18px] text-text-muted max-w-[650px] mx-auto leading-relaxed"
-            >
-                Browse verified shops with transparent trust scores and secure
-                checkout protection.
-            </p>
+<main class="min-h-screen  bg-soft-background">
+    <!-- 🔷 HERO & FILTER SECTION -->
+    <section class="bg-surface">
+        <div class="max-w-7xl mx-auto px-4 py-8 md:py-12">
+            {#if auth.isLoggedIn}
+                <!-- Standardized Page Header (Logged-in) -->
+                <div class="flex items-center gap-4 mb-8" in:fade={{ duration: 400 }}>
+                    <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <Icon icon="mdi:store-search-outline" class="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-text-main">Explore Shops</h1>
+                        <p class="text-body text-text-muted">
+                            Browse verified shops with transparent trust scores and secure protection.
+                        </p>
+                    </div>
+                </div>
+            {:else}
+                <!-- Hero Section (Public) -->
+                <div class="text-center mb-10 animate-fade-in">
+                    <h1 class="md:text-h1 text-h3 font-bold text-text-main leading-tight mb-4">
+                        Discover <span class="text-primary border-b-4 border-primary/30">Trusted</span> Shops
+                    </h1>
+                    <p class="text-[18px] text-text-muted max-w-[650px] mx-auto leading-relaxed">
+                        Browse verified shops with transparent trust scores and secure checkout protection.
+                    </p>
+                </div>
+            {/if}
+
+            <div class="mx-auto">
+                <AppFilter
+                    bind:searchQuery
+                    placeholder="Search shops..."
+                    onSearchInput={handleSearch}
+                    {extraFilters}
+                    {activeChips}
+                    onRemoveChip={removeChip}
+                    onClearAll={clearAllFilters}
+                />
+            </div>
         </div>
     </section>
-
-    <!-- 🔷 SECTION 3: STAND IN -->
-    <section
-        class="py-1 bg-background-light border-b border-gray-200 overflow-x-auto"
-    ></section>
 
     <!-- 🔷 SECTION 4: ADVANCED FILTER BAR -->
-    <section
-        class="sticky top-18 z-40 md:top-auto md:static bg-surface border-b border-gray-200 py-4 shadow-sm"
-    >
-        <div class="container max-w-7xl mx-auto px-4">
-            <Filter
-                {searchQuery}
-                {selectedCategory}
-                {categories}
-                {minTrustScore}
-                {minRating}
-                {verifiedOnly}
-                {sortBy}
-                {sortOptions}
-                resultsCount={shops.length}
-                totalCount={totalShops}
-                entityName="shops"
-                on:change={handleFilterChange}
-                on:clear={clearAllFilters}
-            />
+    {#snippet extraFilters()}
+        <div class="flex flex-wrap items-center gap-3">
+            <select
+                class="px-3 py-2 rounded-lg border border-gray-200 bg-white text-sm focus:ring-2 focus:ring-primary/20 outline-none"
+                bind:value={selectedCategory}
+                onchange={updateFilters}
+            >
+                <option value="">All Categories</option>
+                {#each categories as category}
+                    <option value={category}>{category}</option>
+                {/each}
+            </select>
+
+            <select
+                class="px-3 py-2 rounded-lg border border-gray-200 bg-white text-sm focus:ring-2 focus:ring-primary/20 outline-none"
+                bind:value={minTrustScore}
+                onchange={updateFilters}
+            >
+                <option value="">Any Trust</option>
+                <option value="90">90%+ Excellent</option>
+                <option value="80">80%+ Great</option>
+                <option value="70">70%+ Good</option>
+                <option value="60">60%+ Fair</option>
+            </select>
+
+            <select
+                class="px-3 py-2 rounded-lg border border-gray-200 bg-white text-sm focus:ring-2 focus:ring-primary/20 outline-none"
+                bind:value={sortBy}
+                onchange={updateFilters}
+            >
+                {#each sortOptions as option}
+                    <option value={option.value}>{option.label}</option>
+                {/each}
+            </select>
+
+            <label
+                class="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 bg-white text-sm cursor-pointer whitespace-nowrap"
+            >
+                <input
+                    type="checkbox"
+                    bind:checked={verifiedOnly}
+                    onchange={updateFilters}
+                    class="rounded text-primary focus:ring-primary"
+                />
+                <span class="text-text-muted">Verified</span>
+            </label>
         </div>
-    </section>
+    {/snippet}
 
     <!-- 🔷 SECTION 5: SHOPS GRID -->
     <ShopGrid
@@ -208,35 +255,37 @@
         {clearAllFilters}
     />
 
-    <!-- 🔷 SECTION 6: CTA SECTION -->
-    <section
-        class="section bg-gradient-to-r from-primary to-primary-hover text-text-inverse text-center"
-    >
-        <div class="container max-w-3xl mx-auto px-4">
-            <h2 class="md:text-h2 text-h3 mb-6">
-                Want to Launch Your Own Shop?
-            </h2>
-            <p class="text-lg opacity-90 mb-8 max-w-2xl mx-auto">
-                Join thousands of trusted vendors building secure online stores
-                with VendorHub.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button
-                    href="/auth/register"
-                    className="text-primary hover:bg-gray-100 shadow-lg px-8 py-4 text-lg font-semibold"
-                >
-                    Create Your Shop
-                </Button>
-                <Button
-                    href="/#pricing"
-                    variant="ghost"
-                    className="border-2 border-white text-white hover:bg-white/10 px-8 py-4 text-lg font-semibold"
-                >
-                    View Vendor Plans
-                </Button>
+    {#if !auth.isLoggedIn}
+        <!-- 🔷 SECTION 6: CTA SECTION -->
+        <section
+            class="section bg-gradient-to-r from-primary to-primary-hover text-text-inverse text-center"
+        >
+            <div class="container max-w-3xl mx-auto px-4">
+                <h2 class="md:text-h2 text-h3 mb-6">
+                    Want to Launch Your Own Shop?
+                </h2>
+                <p class="text-lg opacity-90 mb-8 max-w-2xl mx-auto">
+                    Join thousands of trusted vendors building secure online stores
+                    with VendorHub.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button
+                        href="/auth/register"
+                        className="text-primary hover:bg-gray-100 shadow-lg px-8 py-4 text-lg font-semibold"
+                    >
+                        Create Your Shop
+                    </Button>
+                    <Button
+                        href="/#pricing"
+                        variant="ghost"
+                        className="border-2 border-white text-white hover:bg-white/10 px-8 py-4 text-lg font-semibold"
+                    >
+                        View Vendor Plans
+                    </Button>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    {/if}
 </main>
 
 <style>

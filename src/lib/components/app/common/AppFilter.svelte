@@ -6,6 +6,12 @@
   import { fade } from "svelte/transition";
   import type { Snippet } from "svelte";
 
+  export interface FilterChip {
+    type: string;
+    value: string;
+    label: string;
+  }
+
   interface Props {
     searchQuery: string;
     layoutView?: "grid" | "table";
@@ -13,6 +19,10 @@
     onLayoutChange?: (layout: "grid" | "table") => void;
     placeholder?: string;
     extraFilters?: Snippet;
+    categories?: Snippet;
+    activeChips?: FilterChip[];
+    onRemoveChip?: (chip: FilterChip) => void;
+    onClearAll?: () => void;
   }
 
   let {
@@ -21,7 +31,11 @@
     onSearchInput,
     onLayoutChange,
     placeholder = "Search...",
-    extraFilters
+    extraFilters,
+    categories,
+    activeChips = [],
+    onRemoveChip,
+    onClearAll
   }: Props = $props();
 </script>
 
@@ -82,5 +96,39 @@
 
       </div>
     </div>
+ 
+    <!-- Categories Slot -->
+    {#if categories}
+      <div class="mt-6 border-t border-gray-100 pt-4">
+        {@render categories()}
+      </div>
+    {/if}
+ 
+    <!-- Active Filter Chips -->
+    {#if activeChips.length > 0}
+      <div class="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-gray-100" in:fade={{ duration: 300 }}>
+        {#each activeChips as chip}
+          <span class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
+            {chip.label}
+            <button 
+              class="hover:text-primary-hover transition-colors" 
+              onclick={() => onRemoveChip?.(chip)}
+              title="Remove filter"
+            >
+              <Icon icon="mdi:close" class="w-3 h-3" />
+            </button>
+          </span>
+        {/each}
+        
+        {#if onClearAll}
+          <button
+            class="text-xs text-text-muted hover:text-primary transition-colors underline font-medium ml-2"
+            onclick={onClearAll}
+          >
+            Clear All
+          </button>
+        {/if}
+      </div>
+    {/if}
   </Card>
 </section>
