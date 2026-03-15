@@ -249,7 +249,7 @@
                 {aside}
             >
                 {#snippet extraFilters()}
-                    <div class="flex w-full lg:flex-col lg:items-center gap-3">
+                    <div class="flex flex-wrap w-full lg:flex-col lg:items-center gap-3">
                         <!-- Vendor Filter -->
                         <select
                             class="lg:w-full px-3 py-2 rounded-lg border border-gray-200 bg-white text-sm focus:ring-2 focus:ring-primary/20 outline-none"
