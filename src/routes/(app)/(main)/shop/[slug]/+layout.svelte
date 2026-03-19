@@ -1,6 +1,6 @@
 <script lang="ts">
     import { page } from "$app/stores";
-    import ThemeLayoutRenderer from "$lib/components/app/shopTheme/ThemeLayoutRenderer.svelte";    
+    import ThemeLayoutRenderer from "$lib/components/templates/ThemeLayoutRenderer.svelte";    
     import type { PageData } from "./$types";
 
     export let data: PageData;

@@ -8,7 +8,7 @@
 
     // Components
     import Card from "$lib/components/common/Card.svelte";
-    import ProductGrid from "$lib/components/app/shopTheme/general/default/components/ProductGrid.svelte";
+    import ProductGrid from "$lib/components/templates/general/default/components/ProductGrid.svelte";
     import Icon from "@iconify/svelte";
     import { formatNaira } from '$lib/utils/format';
 

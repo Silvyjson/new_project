@@ -7,8 +7,8 @@
     import Card from "$lib/components/common/Card.svelte";
     import Badge from "$lib/components/common/Badge.svelte";
     import TrustBadge from "$lib/components/common/TrustBadge.svelte";
-    import ProductCard from "$lib/components/app/shopTheme/general/default/components/ProductCard.svelte";
-    import ReviewCard from "$lib/components/app/shopTheme/general/default/components/ReviewCard.svelte";
+    import ProductCard from "$lib/components/templates/general/default/components/ProductCard.svelte";
+    import ReviewCard from "$lib/components/templates/general/default/components/ReviewCard.svelte";
     import { formatNaira } from "$lib/utils/format";
 
     export let data: any;
