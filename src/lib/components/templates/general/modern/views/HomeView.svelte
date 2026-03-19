@@ -3,7 +3,7 @@
     import { cubicOut } from "svelte/easing";
     import Icon from "@iconify/svelte";
 
-    import ProductCard from "$lib/components/app/shopTheme/general/default/components/ProductCard.svelte";
+    import ProductCard from "$lib/components/templates/general/default/components/ProductCard.svelte";
 
     export let data: any;
     

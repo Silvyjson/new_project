@@ -59,7 +59,7 @@
     ];
 
     // Filter products by active tab
-    $: displayProducts = products.filter((p: any) => {
+    $: displayProducts = products?.filter((p: any) => {
         const tab = navTabs.find((t) => t.id === activeTab);
         return tab ? tab.filter(p) : true;
     });
@@ -186,7 +186,7 @@
                         >
                             {tab.label}
                             {#if tab.id !== "all"}
-                                <span class="ml-1 text-xs text-text-muted">({products.filter(tab.filter).length})</span>
+                                <span class="ml-1 text-xs text-text-muted">({products?.filter(tab.filter).length})</span>
                             {/if}
                         </button>
                     {/each}

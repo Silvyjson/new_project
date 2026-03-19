@@ -1,7 +1,7 @@
 <script lang="ts">
     import { fade, fly } from "svelte/transition";
     import Icon from "@iconify/svelte";
-    import ProductCard from "$lib/components/app/shopTheme/general/default/components/ProductCard.svelte";
+    import ProductCard from "$lib/components/templates/general/default/components/ProductCard.svelte";
 
     export let data: any;
     $: ({ shop, products } = data);

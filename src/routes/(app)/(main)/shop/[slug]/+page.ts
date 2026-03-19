@@ -23,7 +23,11 @@ const mockShop = {
   reviewCount: 320,
   orderCount: 3200,
   followers: 2300,
-  theme: "general/modern",
+  theme: {
+    category: "general",
+    type: "default",
+    template: "default",
+  },
   location: "Lagos, Nigeria",
   joinedAt: new Date("2024-03-15"),
   stats: {
