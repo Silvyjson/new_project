@@ -70,7 +70,7 @@
             <input
               type="checkbox"
               class="w-5 h-5 text-primary rounded border-gray-300"
-              checked={preferences[type.key as keyof typeof preferences][channel as keyof typeof preferences.email]}
+              checked={(preferences as any)[type.key][channel]}
               on:change={(e) => updatePreference(type.key, channel as 'email' | 'push' | 'inApp', (e.target as HTMLInputElement).checked)}
             />
           </label>

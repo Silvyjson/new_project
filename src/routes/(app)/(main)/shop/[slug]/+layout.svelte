@@ -1,7 +1,6 @@
 <script lang="ts">
     import { page } from "$app/stores";
-    import ShopFooter from "$lib/components/app/shopTheme/default/components/ShopFooter.svelte";
-    import ShopHeader from "$lib/components/app/shopTheme/default/components/ShopHeader.svelte";
+    import ThemeLayoutRenderer from "$lib/components/app/shopTheme/ThemeLayoutRenderer.svelte";    
     import type { PageData } from "./$types";
 
     export let data: PageData;
@@ -18,8 +17,6 @@
     $: totalProducts = data?.totalProducts ?? $page.data?.totalProducts ?? 0;
 </script>
 
-<main>
-    <ShopHeader {shop} {totalProducts} {product} />
+<ThemeLayoutRenderer {shop} {totalProducts} {product}>
     <slot />
-    <ShopFooter />
-</main>
+</ThemeLayoutRenderer>

@@ -508,7 +508,7 @@
                             easing: cubicOut,
                         }}
                     >
-                        <OrderCard {order} view="vendor" />
+                        <OrderCard {order} role="vendor" />
                     </div>
                 {/each}
             </div>

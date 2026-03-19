@@ -129,7 +129,7 @@
     <section class="bg-surface px-4 py-8 md:py-12">
         {#if auth.isLoggedIn}
             <!-- Standardized Page Header (Logged-in) -->
-            <div class="flex items-center gap-4 mb-8" in:fade={{ duration: 400 }}>
+            <div class="flex items-center gap-4" in:fade={{ duration: 400 }}>
                 <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                     <Icon icon="mdi:post-outline" class="w-6 h-6 text-primary" />
                 </div>

@@ -21,7 +21,7 @@
     perCustomer?: boolean;
     startDate: string;
     endDate: string;
-  } = {};
+  } = {} as any;
   
   export let products: Array<{
     id: string;
@@ -32,7 +32,7 @@
     inStock: boolean;
   }>;
   
-  export let onSave: ( any) => void;
+  export let onSave: (data: any) => void;
   export let onCancel: () => void;
   
   // Form state

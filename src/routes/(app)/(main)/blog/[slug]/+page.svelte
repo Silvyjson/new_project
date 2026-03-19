@@ -5,7 +5,7 @@
     import Button from "$lib/components/common/Button.svelte";
     import Badge from "$lib/components/common/Badge.svelte";
     import Icon from "@iconify/svelte";
-    import ProductCard from "$lib/components/app/shopTheme/default/components/ProductCard.svelte";
+    import ProductCard from "$lib/components/app/shopTheme/general/default/components/ProductCard.svelte";
     import BlogCard from "$lib/components/app/card/BlogCard.svelte";
     import BlogComments from "$lib/components/app/vendor/blog/BlogComments.svelte";
 
