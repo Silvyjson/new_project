@@ -26,23 +26,3 @@
     <ShopFooter {shop} />
 </div>
 
-<style>
-    :global(body) {
-        background-color: #0f172a;
-    }
-    
-    /* Custom Scrollbar for Modern Feel */
-    :global(::-webkit-scrollbar) {
-        width: 8px;
-    }
-    :global(::-webkit-scrollbar-track) {
-        background: #0f172a;
-    }
-    :global(::-webkit-scrollbar-thumb) {
-        background: #1e293b;
-        border-radius: 10px;
-    }
-    :global(::-webkit-scrollbar-thumb:hover) {
-        background: #334155;
-    }
-</style>

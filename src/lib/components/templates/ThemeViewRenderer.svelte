@@ -7,8 +7,8 @@
 
   // Theme values
   let theme = $derived(data?.shop?.theme?.category || 'general');
-  let type = $derived(data?.shop?.theme?.type || 'default');
-  let template = $derived(data?.shop?.theme?.template || 'default');
+  let type = $derived(data?.shop?.theme?.type || '');
+  let template = $derived(data?.shop?.theme?.template || '');
 
   let ViewComponent = $state<any>(null);
 
@@ -30,7 +30,7 @@
 
     const key = viewMap[viewType];
     
-    console.log(`[ThemeViewRenderer] Loading: ${viewType} | Theme: ${theme}/${template} | Key: ${key}`);
+    // console.log(`[ThemeViewRenderer] Loading: ${viewType} | Theme: ${theme}/${template} | Key: ${key}`);
 
     if (viewModules[key]) {
       try {

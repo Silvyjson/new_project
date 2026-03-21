@@ -30,7 +30,7 @@
   on:mouseleave={() => (isHovered = false)}
 >
   <!-- Image Container -->
-  <a href="/shop/{shopSlug}/product/{product.code}" class="relative aspect-square overflow-hidden block">
+  <a href="/shop/{shopSlug}/product/{product.code}" class="relative h-40 overflow-hidden block">
     <img 
       src={product.images?.[0]} 
       alt={product.name} 

@@ -26,7 +26,7 @@ const mockShop = {
   theme: {
     category: "general",
     type: "default",
-    template: "grid",
+    template: "default",
   },
   location: "Lagos, Nigeria",
   joinedAt: new Date("2024-03-15"),

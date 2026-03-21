@@ -50,7 +50,7 @@
   {#if !hideLayout}
     {#if useHomepageLayout}
       <Nav />
-    {:else if auth.isLoggedIn}
+    {:else}
       <AppHeader on:openProfileDrawer={openProfileDrawer} role={auth.role} />
     {/if}
   {/if}
@@ -63,14 +63,14 @@
   {#if !hideLayout}
     {#if useHomepageLayout}
       <Footer />
-    {:else if auth.isLoggedIn}
+    {:else}
       <AppFooter role={auth.role} />
     {/if}
   {/if}
 
   {#if showProfileDrawer && !useHomepageLayout && !hideLayout}
-    {#if auth.isLoggedIn}
+    <!-- {#if auth.isLoggedIn} -->
       <ProfileDrawer {showProfileDrawer} on:close={closeProfileDrawer} role={auth.role} />
-    {/if}
+    <!-- {/if} -->
   {/if}
 </div>

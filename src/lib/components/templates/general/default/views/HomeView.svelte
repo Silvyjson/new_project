@@ -206,32 +206,6 @@
         </a>
     </div>
 
-    <!-- 🔷 SECTION (NEW): BROWSE CATEGORIES -->
-    {#if categories?.length}
-    <section class="py-16 bg-surface">
-        <div class="container max-w-7xl mx-auto px-4">
-            <div class="flex items-center justify-between mb-10">
-                <h2 class="text-[32px] font-bold text-text-main">Popular Categories</h2>
-                <div class="h-px flex-1 bg-gray-100 mx-8"></div>
-                <Icon icon="mdi:dots-horizontal" class="text-text-muted w-6 h-6" />
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                {#each categories as category}
-                    <a 
-                        href="/shop/{shop?.slug}/product?category={category}"
-                        class="group relative aspect-square rounded-[32px] overflow-hidden bg-background-light border border-gray-100 flex flex-col items-center justify-center p-6 transition-all hover:bg-primary/5 hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5 translate-y-0 hover:-translate-y-1"
-                    >
-                        <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-primary mb-4 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                            <Icon icon="mdi:tag-outline" class="w-7 h-7" />
-                        </div>
-                        <span class="text-sm font-bold text-text-main text-center group-hover:text-primary transition-colors">{category}</span>
-                    </a>
-                {/each}
-            </div>
-        </div>
-    </section>
-    {/if}
-
     <!-- 🔷 SECTION 4: PRODUCT GRID -->
     <section id="products" class="py-16 bg-background-light">
         <div class="container max-w-7xl mx-auto px-4">
@@ -263,6 +237,30 @@
             {/if}
         </div>
     </section>
+
+    <!-- 🔷 SECTION (NEW): BROWSE CATEGORIES -->
+    {#if categories?.length > 1}
+        <section class="py-10 bg-background-light border-t border-primary/20">
+            <div class="container max-w-7xl mx-auto px-4">
+                <div class="flex items-center text-center mb-10">
+                    <h2 class="text-h3 md:text-h2 text-text-main mb-4">Browse Popular Categories</h2>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    {#each categories as category}
+                        <a 
+                            href="/shop/{shop?.slug}/product?category={category}"
+                            class="group relative aspect-square rounded-[32px] overflow-hidden bg-surface border border-gray-100 flex flex-col items-center justify-center p-6 transition-all hover:bg-primary/5 hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5 translate-y-0 hover:-translate-y-1"
+                        >
+                            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-primary mb-4 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                                <Icon icon="mdi:tag-outline" class="w-7 h-7" />
+                            </div>
+                            <span class="text-sm font-bold text-text-main text-center group-hover:text-primary transition-colors">{category}</span>
+                        </a>
+                    {/each}
+                </div>
+            </div>
+        </section>
+    {/if}
 
     <!-- 🔷 SECTION 5: ABOUT + POLICIES -->
     <section id="about" class="py-20 bg-surface">
@@ -349,7 +347,7 @@
 
             <div class="flex gap-3 md:gap-6 overflow-x-auto pb-4 snap-x max-w-6xl mx-auto">
                 {#each reviews as review, i}
-                    <div class="flex-shrink-0 w-80 h-full animate-fade-in snap-start" style="animation-delay: {i * 100}ms">
+                    <div class="flex-shrink-0 w-80 flex-1 animate-fade-in snap-start" style="animation-delay: {i * 100}ms">
                         <ReviewCard {review} />
                     </div>
                 {/each}

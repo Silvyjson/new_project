@@ -55,7 +55,7 @@
   };
 </script>
 
-<div class="bg-[#f8fafc] min-h-screen pt-12 pb-24">
+<div class="bg-[#f8fafc] min-h-screen pt-12">
   <div class="container max-w-7xl mx-auto px-4">
     <!-- Header -->
     <div class="border-4 border-slate-900 bg-white p-12 mb-12 flex flex-col md:flex-row justify-between items-end gap-8 shadow-[12px_12px_0px_0px_rgba(15,23,42,1)]">

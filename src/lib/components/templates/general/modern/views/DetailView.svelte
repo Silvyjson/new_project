@@ -36,7 +36,7 @@
   $: discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0;
 </script>
 
-<div class="pt-32 pb-24">
+<div class="pt-30">
   <div class="container max-w-7xl mx-auto px-4">
     <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-12" in:fly={{ y: 10, duration: 600 }}>
@@ -109,7 +109,7 @@
           <Badge variant="primary" className="bg-primary-500/10 text-primary-400 border border-primary-500/20 px-4 py-1 rounded-full text-[10px] font-black tracking-widest uppercase">
             {product.category}
           </Badge>
-          <h1 class="text-5xl md:text-6xl font-black text-white tracking-tighter leading-[0.9]">
+          <h1 class="text-4xl md:text-5xl font-black text-white tracking-tighter leading-[0.9]">
             {product.name}
           </h1>
           <div class="flex items-center gap-4 pt-2">
@@ -286,9 +286,6 @@
                     <p class="text-slate-500 font-medium">Based on {product.reviewCount} reviews</p>
                 </div>
             </div>
-            <Button variant="outline" className="rounded-2xl border-white/10 text-white font-bold hover:bg-white/5 h-14 px-8">
-                Write a Review
-            </Button>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

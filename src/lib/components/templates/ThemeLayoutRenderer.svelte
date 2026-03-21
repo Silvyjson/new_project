@@ -18,7 +18,8 @@
 
   async function loadLayout() {
     const key = `./${theme}${theme !== 'general' ? '/' + type : ''}/${template}/layout/ThemeLayout.svelte`;
-    console.log(`[ThemeLayoutRenderer] Loading theme layout: ${key}`);
+    
+    // console.log(`[ThemeLayoutRenderer] Loading theme layout: ${key}`);
 
     if (layouts[key]) {
       try {

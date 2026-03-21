@@ -19,7 +19,7 @@
 
 <div class="bg-white border-2 border-slate-900 group relative flex flex-col h-full transform transition-all duration-300 hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(15,23,42,1)]">
   <!-- Asset -->
-  <a href="/shop/{shopSlug}/product/{product.code}" class="relative aspect-square overflow-hidden border-b-2 border-slate-900 block group-hover:bg-slate-50 transition-colors">
+  <a href="/shop/{shopSlug}/product/{product.code}" class="relative h-40 overflow-hidden border-b-2 border-slate-900 block group-hover:bg-slate-50 transition-colors">
     <img 
       src={product.images?.[0]} 
       alt={product.name} 
@@ -38,7 +38,7 @@
   </a>
 
   <!-- Details -->
-  <div class="p-5 flex-1 flex flex-col">
+  <div class="p-4 flex-1 flex flex-col">
     <div class="mb-4">
       <span class="text-[8px] font-black tracking-widest text-slate-400 uppercase">{product.category}</span>
       <h3 class="text-sm font-black text-slate-900 uppercase tracking-tighter line-clamp-2 mt-1">
@@ -46,7 +46,7 @@
       </h3>
     </div>
 
-    <div class="mt-auto space-y-4 pt-4 border-t border-slate-100">
+    <div class="mt-auto space-y-2 pt-2 border-t border-slate-100">
       <div class="flex items-center justify-between">
         <p class="text-lg font-black text-slate-900">{formatNaira(product.price)}</p>
         <div class="flex gap-0.5">

@@ -25,7 +25,7 @@
     export let getStockBadge: (p: Product) => any = () => null;
 </script>
 
-<section class="py-8 bg-soft-background">
+<section class="py-8 bg-background-light">
     <div class="container max-w-7xl mx-auto px-4">
 
         {#if products.length > 0}

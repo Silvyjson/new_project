@@ -8,7 +8,7 @@
   $: ({ shop = {}, products = [], featuredProducts = [], categories = [], reviews = [] } = data || {});
 </script>
 
-<div class="space-y-24 pb-24">
+<div class="space-y-20">
   <!-- HERO -->
   <section class="container max-w-7xl mx-auto px-4 mt-12">
     <div class="grid lg:grid-cols-2 bg-slate-900 border-4 border-slate-900 shadow-[16px_16px_0px_0px_rgba(15,23,42,0.1)] overflow-hidden">
@@ -57,6 +57,27 @@
       {/each}
     </div>
   </section>
+
+  
+  <!-- CATEGORIES -->
+  {#if categories?.length > 1}
+    <section class="bg-slate-100 py-32 border-y-4 border-slate-900">
+      <div class="container max-w-7xl mx-auto px-4">
+        <h2 class="text-center text-4xl font-black uppercase tracking-tighter mb-20">BROWSE CATEGORIES</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 border-2 border-slate-900 bg-slate-900 gap-px">
+          {#each categories as category}
+            <a 
+              href="/shop/{shop?.slug}/product?category={category}" 
+              class="aspect-square bg-white flex flex-col items-center justify-center gap-4 transition-all hover:bg-slate-900 hover:text-white group"
+            >
+              <span class="text-xs font-black uppercase tracking-widest">{category}</span>
+              <Icon icon="lucide:arrow-right-circle" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity" />
+            </a>
+          {/each}
+        </div>
+      </div>
+    </section>
+  {/if}
   
   <!-- ABOUT -->
   <section id="about" class="container max-w-7xl mx-auto px-4">
@@ -95,26 +116,6 @@
       </div>
     </div>
   </section>
-
-  <!-- CATEGORIES -->
-  {#if categories?.length}
-    <section class="bg-slate-100 py-32 border-y-4 border-slate-900">
-      <div class="container max-w-7xl mx-auto px-4">
-        <h2 class="text-center text-4xl font-black uppercase tracking-tighter mb-20">BROWSE CATEGORIES</h2>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 border-2 border-slate-900 bg-slate-900 gap-px">
-          {#each categories as category}
-            <a 
-              href="/shop/{shop?.slug}/product?category={category}" 
-              class="aspect-square bg-white flex flex-col items-center justify-center gap-4 transition-all hover:bg-slate-900 hover:text-white group"
-            >
-              <span class="text-xs font-black uppercase tracking-widest">{category}</span>
-              <Icon icon="lucide:arrow-right-circle" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </a>
-          {/each}
-        </div>
-      </div>
-    </section>
-  {/if}
 
   <!-- REVIEWS -->
   <section id="reviews" class="container max-w-7xl mx-auto px-4">

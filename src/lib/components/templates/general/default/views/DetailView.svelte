@@ -101,7 +101,7 @@
                     <button
                         on:click={toggleWishlist}
                         class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center transition-all
-            {isWishlisted
+                        {isWishlisted
                             ? 'bg-red-50 border-red-500 text-red-500'
                             : 'text-text-muted hover:text-red-500 hover:border-red-300'}"
                         aria-label="Add to wishlist"

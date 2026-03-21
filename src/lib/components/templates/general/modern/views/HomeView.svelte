@@ -33,7 +33,7 @@
     };
 </script>
 
-<div class="space-y-32 pb-32">
+<div class="space-y-20">
     <!-- 🔷 HERO SECTION: Immersive Brand Experience -->
     <section class="relative min-h-[85vh] flex items-center pt-24 overflow-hidden">
         <!-- Modern Background Elements -->
@@ -122,8 +122,8 @@
     </section>
 
     <!-- 🔷 CATEGORIES: Visual Navigation -->
-    {#if categories?.length}
-        <section class="bg-slate-900/50 py-32 border-y border-white/5">
+    {#if categories?.length > 1}
+        <section class="bg-slate-900/50 py-20 border-y border-white/5">
             <div class="container max-w-7xl mx-auto px-4">
                 <h2 class="text-center text-3xl font-black text-white mb-20 tracking-tighter uppercase">Shop by Category</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
@@ -147,32 +147,7 @@
         </section>
     {/if}
 
-    <!-- 🔷 REVIEWS: Social Proof Vertical Layout -->
-    <section id="reviews" class="container max-w-7xl mx-auto px-4">
-        <div class="text-center max-w-2xl mx-auto mb-20 space-y-4">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 text-[10px] font-black tracking-widest uppercase mb-4">
-                <Icon icon="ri:star-fill" /> Real Customer Feedback
-            </div>
-            <h2 class="text-4xl md:text-5xl font-black text-white tracking-tighter">Trusted by Thousands</h2>
-            <p class="text-slate-500 italic">Joining over {shop?.followers?.toLocaleString()} happy customers who trust {shop?.name} for their premium {shop?.category} needs.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {#each reviews.slice(0, 6) as review, i}
-                <div in:fly={{ y: 20, duration: 800, delay: i * 150, easing: cubicOut }}>
-                    <ReviewCard {review} />
-                </div>
-            {/each}
-        </div>
-
-        <!-- Call to action -->
-        <div class="mt-20 text-center">
-            <Button variant="outline" className="rounded-2xl px-12 h-14 border-white/10 text-white font-bold hover:bg-white/5 transition-all">
-                View All Reviews
-            </Button>
-        </div>
-    </section>
-
+    
     <!-- 🔷 ABOUT SECTION: Brand Legacy -->
     <section id="about" class="container max-w-7xl mx-auto px-4">
         <div class="bg-gradient-to-br from-slate-900 to-slate-950 rounded-[48px] border border-white/10 overflow-hidden shadow-2xl">
@@ -216,6 +191,25 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- 🔷 REVIEWS: Social Proof Vertical Layout -->
+    <section id="reviews" class="container max-w-7xl mx-auto px-4">
+        <div class="text-center max-w-2xl mx-auto mb-20 space-y-4">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 text-[10px] font-black tracking-widest uppercase mb-4">
+                <Icon icon="ri:star-fill" /> Real Customer Feedback
+            </div>
+            <h2 class="text-4xl md:text-5xl font-black text-white tracking-tighter">Trusted by Thousands</h2>
+            <p class="text-slate-500 italic">Joining over {shop?.followers?.toLocaleString()} happy customers who trust {shop?.name} for their premium {shop?.category} needs.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {#each reviews.slice(0, 6) as review, i}
+                <div in:fly={{ y: 20, duration: 800, delay: i * 150, easing: cubicOut }}>
+                    <ReviewCard {review} />
+                </div>
+            {/each}
         </div>
     </section>
 </div>

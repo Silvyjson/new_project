@@ -91,7 +91,7 @@
     ];
 </script>
 
-<div class="pt-32 pb-20">
+<div class="pt-30">
     <div class="container max-w-7xl mx-auto px-4">
         <!-- Header -->
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16" in:fly={{ y: 20, duration: 600 }}>
@@ -224,7 +224,7 @@
                         </div>
                         <h2 class="text-2xl font-black text-white mb-4 tracking-tight">No products found</h2>
                         <p class="text-slate-500 max-w-xs mb-8">Try adjusting your filters or search terms to find what you're looking for.</p>
-                        <Button variant="primary" on:click={clearAllFilters} className="rounded-2xl px-10 h-14 font-bold shadow-2xl shadow-primary-500/20">
+                        <Button variant="primary" onclick={clearAllFilters} className="rounded-2xl px-10 h-14 font-bold shadow-2xl shadow-primary-500/20">
                             Clear Filters
                         </Button>
                     </div>
@@ -305,14 +305,14 @@
                 <Button 
                     variant="outline" 
                     className="rounded-2xl h-14 border-white/10 text-white font-black uppercase tracking-widest text-xs"
-                    on:click={clearAllFilters}
+                    onclick={clearAllFilters}
                 >
                     Reset
                 </Button>
                 <Button 
                     variant="primary" 
                     className="rounded-2xl h-14 font-black uppercase tracking-widest text-xs shadow-2xl shadow-primary-500/20"
-                    on:click={() => (showMobileFilters = false)}
+                    onclick={() => (showMobileFilters = false)}
                 >
                     Apply
                 </Button>
