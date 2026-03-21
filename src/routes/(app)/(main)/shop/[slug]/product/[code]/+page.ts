@@ -20,6 +20,11 @@ const mockProduct = {
     </ul>
   `,
     vendorId: 'v_001',
+    theme: {
+        category: 'general',
+        type: 'default',
+        template: 'modern'
+    },
     price: 85000,
     oldPrice: 95000,
     currency: 'NGN',
@@ -50,7 +55,12 @@ const mockProduct = {
         vendorName: 'Kicks NG',
         vendorVerified: true,
         trustScore: 92,
-        rating: 4.8
+        rating: 4.8,
+        theme: {
+            category: 'general',
+            type: 'default',
+            template: 'default'
+        }
     },
     variants: {
         sizes: ['UK 6', 'UK 7', 'UK 8', 'UK 9', 'UK 10', 'UK 11'],
@@ -139,6 +149,7 @@ export const load: PageLoad = async ({ params }) => {
 
     return {
         product,
+        shop: product.shop,
         meta: {
             title: `${product.name} | ${product.shop.name}`,
             description: product.description,

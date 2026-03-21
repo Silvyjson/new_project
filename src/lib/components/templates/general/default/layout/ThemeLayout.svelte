@@ -10,6 +10,6 @@
 <main>
   <ShopHeader {shop} {totalProducts} {product} />
     <slot />
-  <ShopFooter />
+  <ShopFooter {shop} />
 </main>
 

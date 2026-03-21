@@ -42,7 +42,7 @@
 </script>
 
 <header
-    class="sticky top-0 z-50 bg-surface border-b border-gray-100 backdrop-blur-sm"
+    class="sticky top-0 z-50 bg-surface/80 border-b border-gray-100 backdrop-blur-xl transition-all duration-300"
 >
     <div class="max-w-7xl mx-auto px-4 py-4">
         <div
@@ -62,7 +62,7 @@
                 <div class="min-w-0">
                     <div class="flex items-center gap-2 flex-wrap">
                         <h1
-                            class="text-lg md:text-xl font-semibold text-text-main truncate"
+                            class="text-lg md:text-xl font-bold text-text-main tracking-tight group-hover:text-primary transition-colors"
                         >
                             {shop?.name}
                         </h1>
@@ -101,20 +101,27 @@
                 <div
                     class="hidden md:flex flex-wrap gap-6 text-sm font-medium border-t border-gray-100 pt-3 md:border-0 md:pt-0"
                 >
+                <a
+                        href={`/shop/${shop?.slug}`}
+                        class="text-text-main hover:text-primary transition-colors"
+                    >
+                        Home
+                    </a>
+
                     <a
-                        href="#products"
+                        href={`/shop/${shop?.slug}/product`}
                         class="text-text-main hover:text-primary transition-colors"
                     >
                         Products
                     </a>
                     <a
-                        href="#about"
+                        href={`/shop/${shop?.slug}#about`}
                         class="text-text-muted hover:text-primary transition-colors"
                     >
                         About
                     </a>
                     <a
-                        href="#reviews"
+                        href={`/shop/${shop?.slug}#reviews`}
                         class="text-text-muted hover:text-primary transition-colors"
                     >
                         Reviews
@@ -131,10 +138,10 @@
                     <Button variant="primary" size="sm">Message</Button>
                 </div>
 
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2">
                     <!-- Search -->
                     <button
-                        class="text-text-muted hover:text-primary transition-colors"
+                        class="p-2.5 rounded-xl text-text-muted hover:text-primary hover:bg-primary/5 transition-all"
                         on:click={() => {
                             const slug =
                                 shop?.slug ?? (product as any)?.shop?.slug;
@@ -143,7 +150,7 @@
                         }}
                         aria-label="Search products"
                     >
-                        <Icon icon="mdi:magnify" class="w-5 h-5" />
+                        <Icon icon="mdi:magnify" class="w-5.5 h-5.5" />
                     </button>
 
                     <!-- Wishlist -->
@@ -176,17 +183,17 @@
 
                     <!-- Cart -->
                     <button
-                        class="relative text-text-muted hover:text-primary transition-colors"
+                        class="relative p-2.5 rounded-xl text-text-muted hover:text-primary hover:bg-primary/5 transition-all"
                         on:click={() => {
                             activeDrawerTab = "cart";
                             showShopDrawer = true;
                         }}
                         aria-label="View cart"
                     >
-                        <Icon icon="mdi:cart-outline" class="w-5 h-5" />
+                        <Icon icon="mdi:cart-outline" class="w-5.5 h-5.5" />
                         {#if cartItems.length > 0}
                             <span
-                                class="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-xs rounded-full flex items-center justify-center"
+                                class="absolute top-1 right-1 w-5 h-5 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-surface"
                             >
                                 {cartItems.length}
                             </span>

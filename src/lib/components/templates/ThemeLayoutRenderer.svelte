@@ -1,34 +1,47 @@
 <script lang="ts">
   import DefaultLayout from './general/default/layout/ThemeLayout.svelte';
 
-  export let shop: any = null;
-  export let totalProducts: number = 0;
-  export let product: any = undefined;
+  let { shop = null, totalProducts = 0, product = undefined, children } = $props();
 
   // Theme values
-  $: theme = shop?.theme?.category || 'general';
-  $: type = shop?.theme?.type || 'default';
-  $: template = shop?.theme?.template || 'default';
+  let theme = $derived(shop?.theme?.category || 'general');
+  let type = $derived(shop?.theme?.type || 'default');
+  let template = $derived(shop?.theme?.template || 'default');
 
-  let Layout: any = DefaultLayout;
+  let Layout = $state<any>(null);
 
   const layouts = import.meta.glob('./**/layout/ThemeLayout.svelte');
 
-  $: loadLayout();
+  $effect(() => {
+    loadLayout();
+  });
 
   async function loadLayout() {
     const key = `./${theme}${theme !== 'general' ? '/' + type : ''}/${template}/layout/ThemeLayout.svelte`;
+    console.log(`[ThemeLayoutRenderer] Loading theme layout: ${key}`);
 
     if (layouts[key]) {
-      const module = await layouts[key]() as { default: any };
-      Layout = module.default;
+      try {
+        const module = await layouts[key]() as { default: any };
+        Layout = module.default;
+        console.log(`[ThemeLayoutRenderer] Successfully loaded layout: ${key}`);
+      } catch (e) {
+        console.error(`[ThemeLayoutRenderer] Error loading layout ${key}:`, e);
+        Layout = DefaultLayout;
+      }
     } else {
+      console.warn(`[ThemeLayoutRenderer] Layout not found: ${key}. Falling back to default.`);
       Layout = DefaultLayout;
-      console.warn(`Layout not found: ${key}`);
     }
   }
 </script>
 
-<svelte:component this={Layout} {shop} {totalProducts} {product}>
-  <slot />
-</svelte:component>
+{#if Layout}
+  {#key theme + template}
+    <Layout {shop} {totalProducts} {product}>
+      {@render children?.()}
+    </Layout>
+  {/key}
+{:else}
+  {@render children?.()}
+{/if}

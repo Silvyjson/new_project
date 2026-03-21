@@ -82,37 +82,33 @@
         }
     }
 
+    // Event handlers for mobile filter drawer & viewport
+    const onResize = () => handleFocusSearchParam();
+    const onFocus = () => resetInactivityTimer();
+    const onInput = () => resetInactivityTimer();
+    const onBlur = () => closeFilters();
+    const onScroll = () => closeFilters();
+
     onMount(async () => {
         await tick();
         handleFocusSearchParam();
 
-        // Re-check focus param and viewport on window resize
-        const onResize = () => {
-            handleFocusSearchParam();
-        };
         window.addEventListener("resize", onResize);
-
-        // Event listeners for mobile filter drawer
-        const onFocus = () => resetInactivityTimer();
-        const onInput = () => resetInactivityTimer();
-        const onBlur = () => closeFilters();
         searchInput?.addEventListener("focus", onFocus);
         searchInput?.addEventListener("input", onInput);
         searchInput?.addEventListener("blur", onBlur);
-
-        // Close on scroll
-        const onScroll = () => closeFilters();
         window.addEventListener("scroll", onScroll, { passive: true });
+    });
 
-        // cleanup when component destroyed
-        onDestroy(() => {
-            clearInactivityTimer();
+    onDestroy(() => {
+        clearInactivityTimer();
+        if (typeof window !== 'undefined') {
             window.removeEventListener("resize", onResize);
-            searchInput?.removeEventListener("focus", onFocus);
-            searchInput?.removeEventListener("input", onInput);
-            searchInput?.removeEventListener("blur", onBlur);
             window.removeEventListener("scroll", onScroll);
-        });
+        }
+        searchInput?.removeEventListener("focus", onFocus);
+        searchInput?.removeEventListener("input", onInput);
+        searchInput?.removeEventListener("blur", onBlur);
     });
 
     // Debounced search

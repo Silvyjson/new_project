@@ -1,27 +1,27 @@
 <script lang="ts">
-  export let viewType: 'home' | 'products' | 'detail';
-  export let data: any;
-
-  // Theme values
-  $: theme = data?.shop?.theme?.category || 'general';
-  $: type = data?.shop?.theme?.type || 'default';
-  $: template = data?.shop?.theme?.template || 'default';
-
-  // Default fallback views
   import DefaultHome from "./general/default/views/HomeView.svelte";
   import DefaultProducts from "./general/default/views/ProductsView.svelte";
   import DefaultDetail from "./general/default/views/DetailView.svelte";
 
-  let ViewComponent: any = DefaultHome;
+  let { viewType, data } = $props();
+
+  // Theme values
+  let theme = $derived(data?.shop?.theme?.category || 'general');
+  let type = $derived(data?.shop?.theme?.type || 'default');
+  let template = $derived(data?.shop?.theme?.template || 'default');
+
+  let ViewComponent = $state<any>(null);
 
   // Load all views dynamically
   const viewModules = import.meta.glob('./**/views/*View.svelte');
 
-  $: loadView();
+  $effect(() => {
+    loadView();
+  });
 
   async function loadView() {
     const basePath = `./${theme}${theme !== 'general' ? '/' + type : ''}/${template}/views`;
-
+    
     const viewMap: Record<string, string> = {
       home: `${basePath}/HomeView.svelte`,
       products: `${basePath}/ProductsView.svelte`,
@@ -29,14 +29,24 @@
     };
 
     const key = viewMap[viewType];
+    
+    console.log(`[ThemeViewRenderer] Loading: ${viewType} | Theme: ${theme}/${template} | Key: ${key}`);
 
     if (viewModules[key]) {
-      const module = await viewModules[key]() as { default: any };
-      ViewComponent = module.default;
+      try {
+        const module = await viewModules[key]() as { default: any };
+        ViewComponent = module.default;
+        console.log(`[ThemeViewRenderer] Successfully loaded: ${key}`);
+      } catch (e) {
+        console.error(`[ThemeViewRenderer] Error loading view ${key}:`, e);
+        fallback();
+      }
     } else {
-      // fallback to default views
-      console.warn(`View not found: ${key}, using default`);
+      console.warn(`[ThemeViewRenderer] View not found: ${key}. Falling back.`);
+      fallback();
+    }
 
+    function fallback() {
       if (viewType === 'home') ViewComponent = DefaultHome;
       else if (viewType === 'products') ViewComponent = DefaultProducts;
       else ViewComponent = DefaultDetail;
@@ -44,4 +54,12 @@
   }
 </script>
 
-<svelte:component this={ViewComponent} {data} />
+{#if ViewComponent}
+  {#key theme + template}
+    <ViewComponent {data} />
+  {/key}
+{:else}
+  <div class="h-screen flex items-center justify-center bg-slate-950">
+    <div class="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+{/if}

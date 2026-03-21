@@ -1,72 +1,145 @@
 <script lang="ts">
-    import { fade, fly } from "svelte/transition";
-    import Icon from "@iconify/svelte";
-    import ProductCard from "$lib/components/templates/general/default/components/ProductCard.svelte";
+  import Icon from "@iconify/svelte";
+  import Button from "$lib/components/common/Button.svelte";
+  import ProductCard from "../components/ProductCard.svelte";
+  import ReviewCard from "../components/ReviewCard.svelte";
 
-    export let data: any;
-    $: ({ shop, products } = data);
-    let isFollowing = false;
+  export let data: any;
+  $: ({ shop = {}, products = [], featuredProducts = [], categories = [], reviews = [] } = data || {});
 </script>
 
-<main class="min-h-screen bg-slate-950 text-slate-50 p-4 md:p-8 font-sans selection:bg-purple-500 selection:text-white pb-32">
-    <!-- Bento Grid Hero -->
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6 mb-16 opacity-0 animate-fade-in">
-        
-        <!-- Main Banner Block (Spans 8 cols) -->
-        <div class="md:col-span-8 relative rounded-[32px] overflow-hidden min-h-[400px] border border-slate-800 shadow-2xl">
-            <img src={shop.bannerUrl} class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay" alt="" />
-            <div class="absolute inset-0 bg-gradient-to-br from-purple-900/40 to-slate-950/80"></div>
-            
-            <div class="absolute bottom-0 left-0 p-8 md:p-12">
-                <div class="inline-block px-4 py-2 rounded-full bg-slate-900/50 backdrop-blur-md border border-slate-700 text-purple-300 font-bold mb-6 truncate uppercase tracking-widest text-xs">
-                    {shop.category}
-                </div>
-                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
-                    {shop.name}
-                </h1>
-                <p class="text-slate-300 text-xl font-medium max-w-xl">{shop.tagline}</p>
-            </div>
-        </div>
-
-        <!-- Identity Block (Spans 4 cols) -->
-        <div class="md:col-span-4 flex flex-col gap-6">
-            <!-- Logo & Follow -->
-            <div class="bg-slate-900 border border-slate-800 rounded-[32px] p-8 flex-1 flex flex-col items-center justify-center text-center shadow-xl hover:border-purple-500/50 transition-colors">
-                <img src={shop.logoUrl} class="w-32 h-32 rounded-full mb-6 border-4 border-slate-800 object-cover" alt="Logo" />
-                <button on:click={() => isFollowing = !isFollowing} class="w-full py-4 rounded-full font-bold text-lg transition-all {isFollowing ? 'bg-slate-800 text-slate-300' : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:scale-105 active:scale-95'}">
-                    {isFollowing ? 'Following' : 'Follow Shop'}
-                </button>
-            </div>
-            <!-- Trust Score Bento -->
-            <div class="bg-gradient-to-br from-indigo-900 to-slate-900 border border-indigo-500/30 rounded-[32px] p-8 flex items-center justify-between shadow-xl">
-                <div>
-                    <div class="text-slate-400 font-bold uppercase tracking-widest text-xs mb-1">Trust Score</div>
-                    <div class="text-4xl font-black text-indigo-300">{shop.trustScore}%</div>
-                </div>
-                <div class="h-16 w-16 rounded-full bg-indigo-500/20 flex items-center justify-center border border-indigo-400/30">
-                    <Icon icon="mdi:shield-check" class="text-3xl text-indigo-400" />
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bold Products Grid -->
-    <div class="max-w-7xl mx-auto">
-        <div class="flex items-center justify-between mb-10">
-            <h2 class="text-3xl font-black tracking-tight text-slate-100">The Drop Zone</h2>
-            <div class="text-purple-400 font-bold hover:text-purple-300 cursor-pointer">Explore All →</div>
+<div class="space-y-24 pb-24">
+  <!-- HERO -->
+  <section class="container max-w-7xl mx-auto px-4 mt-12">
+    <div class="grid lg:grid-cols-2 bg-slate-900 border-4 border-slate-900 shadow-[16px_16px_0px_0px_rgba(15,23,42,0.1)] overflow-hidden">
+      <!-- Image Part -->
+      <div class="relative h-[400px] lg:h-auto overflow-hidden">
+        <img src={shop?.bannerUrl} alt="" class="w-full h-full object-cover grayscale brightness-125 transition-transform duration-1000 hover:scale-105" />
+        <div class="absolute inset-0 bg-slate-900/10 active:bg-transparent"></div>
+      </div>
+      
+      <!-- Text Part -->
+      <div class="bg-white p-12 md:p-20 flex flex-col justify-center gap-8">
+        <div class="space-y-6">
+          <h1 class="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter leading-[0.85] uppercase">
+            {shop?.name}
+            <span class="inline-block bg-slate-900 text-white px-4 py-1 text-[10px] font-black uppercase tracking-widest">{shop?.category}</span>
+          </h1>
+          <p class="text-lg font-bold text-slate-500 uppercase tracking-tight leading-relaxed max-w-lg">
+            {shop?.tagline || `Quality first. Est. 2024. Providing the finest ${shop?.category} selection.`}
+          </p>
         </div>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {#each products as product, i}
-                <div class="group transform transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(168,85,247,0.4)] bg-slate-900 rounded-[24px] border border-slate-800 overflow-hidden">
-                    <ProductCard {product} shopSlug={shop.slug} />
-                </div>
-            {/each}
+        <div class="flex gap-4">
+          <Button href="/shop/{shop?.slug}/product" variant="primary" className="bg-slate-900 text-white border-2 border-slate-900 rounded-none h-16 px-10 font-black text-sm tracking-widest uppercase hover:bg-white hover:text-slate-900 transition-all">
+            SHOP NOW
+          </Button>
+          <Button variant="outline" className="border-2 border-slate-900 rounded-none h-16 px-10 font-black text-sm tracking-widest uppercase hover:bg-slate-900 hover:text-white transition-all">
+            CONTACT
+          </Button>
         </div>
+      </div>
     </div>
-</main>
-<style>
-    .animate-fade-in { animation: fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    @keyframes fade-in { from { opacity: 0; transform: translateY(40px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-</style>
+  </section>
+
+  <!-- FEATURED -->
+  <section class="container max-w-7xl mx-auto px-4">
+    <div class="flex items-center justify-between mb-12 border-b-4 border-slate-900 pb-4">
+      <h2 class="text-3xl font-black uppercase tracking-tighter">NEW DROPS</h2>
+      <a href="/shop/{shop?.slug}/product" class="text-xs inline-flex items-center gap-2 font-black uppercase tracking-widest hover:text-slate-500 transition-colors">VIEW COLLECTION  <Icon icon="mdi:arrow-right" class="w-4 h-4" /></a>
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-slate-900 border-2 border-slate-900">
+      {#each featuredProducts.length > 0 ? featuredProducts : products.slice(0, 4) as product}
+        <div class="bg-white">
+          <ProductCard {product} shopSlug={shop?.slug} />
+        </div>
+      {/each}
+    </div>
+  </section>
+  
+  <!-- ABOUT -->
+  <section id="about" class="container max-w-7xl mx-auto px-4">
+    <div class="grid lg:grid-cols-2 bg-white border-4 border-slate-900">
+      <div class="p-12 md:p-20 border-b-4 lg:border-b-0 lg:border-r-4 border-slate-900">
+        <h2 class="text-4xl font-black uppercase tracking-tighter mb-8 italic">OUR STORY /</h2>
+        <div class="space-y-6 text-sm font-bold uppercase tracking-tight leading-relaxed text-slate-500 italic">
+          <p>
+            {shop?.description || `${shop?.name} was founded on the principles of quality, authenticity, and unparalleled style.`}
+          </p>
+          <p>
+            Located in {shop?.location || 'Lagos, Nigeria'}, it reflects our passion for excellence and commitment to the {shop?.category || 'premium'} market.
+          </p>
+        </div>
+      </div>
+      <div class="p-12 md:p-20 bg-slate-900 text-white flex flex-col justify-center">
+        <h2 class="text-4xl font-black uppercase tracking-tighter mb-8 italic">THE MISSION /</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          <div class="space-y-2">
+            <span class="text-[9px] font-black uppercase tracking-widest text-slate-400">Response Time</span>
+            <p class="text-lg font-black italic">{shop?.stats?.responseTime || '< 2 HOURS'}</p>
+          </div>
+          <div class="space-y-2">
+            <span class="text-[9px] font-black uppercase tracking-widest text-slate-400">Processing Time</span>
+            <p class="text-lg font-black italic">{shop?.stats?.processingTime || '1-2 DAYS'}</p>
+          </div>
+          <div class="space-y-2">
+            <span class="text-[9px] font-black uppercase tracking-widest text-slate-400">Followers</span>
+            <p class="text-lg font-black italic">{shop?.followers?.toLocaleString() || '2.3K+'}</p>
+          </div>
+          <div class="space-y-2">
+            <span class="text-[9px] font-black uppercase tracking-widest text-slate-400">Verified</span>
+            <p class="text-lg font-black italic">{shop?.vendorVerified ? 'YES' : 'PENDING'}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  {#if categories?.length}
+    <section class="bg-slate-100 py-32 border-y-4 border-slate-900">
+      <div class="container max-w-7xl mx-auto px-4">
+        <h2 class="text-center text-4xl font-black uppercase tracking-tighter mb-20">BROWSE CATEGORIES</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 border-2 border-slate-900 bg-slate-900 gap-px">
+          {#each categories as category}
+            <a 
+              href="/shop/{shop?.slug}/product?category={category}" 
+              class="aspect-square bg-white flex flex-col items-center justify-center gap-4 transition-all hover:bg-slate-900 hover:text-white group"
+            >
+              <span class="text-xs font-black uppercase tracking-widest">{category}</span>
+              <Icon icon="lucide:arrow-right-circle" class="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity" />
+            </a>
+          {/each}
+        </div>
+      </div>
+    </section>
+  {/if}
+
+  <!-- REVIEWS -->
+  <section id="reviews" class="container max-w-7xl mx-auto px-4">
+    <div class="flex flex-col gap-10">
+      <div class="flex flex-col items-center justify-center gap-4">
+        <h2 class="text-4xl font-black uppercase tracking-tighter leading-none italic">TRUSTED VOICES</h2>
+        <p class="text-sm font-bold text-slate-500 uppercase tracking-widest leading-relaxed">
+           Read what our {shop?.followers?.toLocaleString()} members have to say about the {shop?.name} experience.
+        </p>
+        <div class="flex items-center gap-6">
+           <div class="text-center">
+              <p class="text-4xl font-black leading-none">{shop?.rating}</p>
+              <p class="text-[9px] font-black uppercase text-slate-400 mt-1 tracking-widest">RATING</p>
+           </div>
+           <div class="text-center">
+              <p class="text-4xl font-black leading-none">{shop?.reviewCount}</p>
+              <p class="text-[9px] font-black uppercase text-slate-400 mt-1 tracking-widest">REVIEWS</p>
+           </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        {#each reviews.slice(0, 4) as review}
+          <ReviewCard {review} />
+        {/each}
+      </div>
+    </div>
+  </section>
+</div>
